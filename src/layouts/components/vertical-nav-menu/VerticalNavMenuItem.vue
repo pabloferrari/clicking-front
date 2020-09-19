@@ -10,7 +10,7 @@
 
 <template>
   <div
-    class="vs-sidebar--item menu-item"
+    class="vs-sidebar--item menu-item mb-3"
     :class="[
       {'vs-sidebar-item-active'            : activeLink},
       {'disabled-item pointer-events-none' : isDisabled}
