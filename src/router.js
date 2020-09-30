@@ -41,6 +41,11 @@ const router = new Router({
                 name: 'page-2',
                 component: () => import('./views/Page2.vue')
               },
+              {
+                path:'/countries',
+                name:'Pais',
+                component: () => import('./views/countries/Countries.vue')
+              }
             ],
         },
     // =============================================================================

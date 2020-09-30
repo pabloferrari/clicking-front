@@ -1,9 +1,16 @@
 // axios
 import axios from 'axios'
 
-const baseURL = ''
+const baseURL = 'http://back.clicking.com/api'
+
+// replace future for localStorage
+const token = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzIiwianRpIjoiYWIyMThlZGJiODQxY2FhYjAxZWFiZDE1ZmQ1NzVkZGRjNzMzZTkxOTIzYmVjYmNiODVjZTg0NTJiYWQwZGYwMGQ0YjE3Nzk4YzcwY2Y1ZjQiLCJpYXQiOjE2MDE0NzAxNDQsIm5iZiI6MTYwMTQ3MDE0NCwiZXhwIjoxNjE3MTA4NTQ0LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.Fr2moSIZrUXZhI16xgcR_ISBdPwIg89ZJd8Yi_yaG6CtLg85xmoQ3KwartsPb00OYd2orZH_sFEaZxq_ZwzYLq6dKyjk5lkqiKdH_Qd-SE3VPE34He8SJdfjnIaAGtxqGGACGX8m5Q0Y6DbUxXNQ7zJfgXReMK2-tO5ua6uzwrN-nw6tR109Pin_eAHdb6oYCAgB4VKawTBoixAMVhYw-tDNE_HsNOR-h5g9hsMKYfFllWn4b-MSg2vt5A51y5KZsK2QVtd1LJiQ5_4O2fIzYfmHwJRszfl0b_7xVdSAHjBVcPUUAZSVahDgoajMx7YKJBd3YRNUlgynOpzQ0mdBZPXi8G1usegRKyO8CIPwV7eCwK7gMmad1MTHWCK3EX50L4Z2Ch-0oXS735OvszIRNLpYAI3VE_3sMbMrkU7FAY5DZzYtKSRPVrhCpPpKKlyezWmTCPIiZBz3jc02fMu9uqIu5t83uFYurr_Vaj1i5ApVYtzEbGR1eXe1lODAnBh9DHRqqXaOiBVNNy20QmCQF5d-3CTTh-0MpJIrzP80uaM5x2uN0rePL0Svz8wAHwQL1X47A6DC4-C7zw9zUpZD8FjOS35QVsx85hLvSIZLrPq10e2uGt95etReNQ4MQknpeQguZcQOki3VYlsj8Zz6CmZghePUFUcaFj_rpkqJdyM'
 
 export default axios.create({
-  baseURL
+  baseURL,
+  headers: {
+      Authorization: token,
+      'Content-Type': 'application/json',
+  }
   // You can add your headers here
 })
