@@ -55,13 +55,12 @@
                 ref="agGridTable"
                 :gridOptions="gridOptions"
                 class="ag-theme-material w-100 my-4 ag-grid-table"
-                :columnDefs="columnDefs"
-                :defaultColDef="defaultColDef"
+               
                 :rowData="rowData"
                 rowSelection="multiple"
                 colResizeDefault="shift"
                 :animateRows="true"
-                :pagination="true"
+                 :pagination="true"
                 :paginationAutoPageSize="true"
                 :suppressPaginationPanel="true"
             
@@ -81,94 +80,116 @@ import { AgGridVue } from "ag-grid-vue";
 
 import ButtonRight from "../components/ButtonRight.vue";
 import InputSearch from "../components/InputSearch.vue";
-// import ModalDialogs from "../components/ModalDialogs.vue";
 import CountriesCreate from "./CountriesCreate.vue";
 
 
 import CountryService from '../../services/Countries'
-
 import {mapGetters} from 'vuex'
+
+ 
+import ButtonEdit from '../components/cellRenderButtons/ButtonEdit.vue'
+
+const columnDefss = () => {
+  return [
+    {
+      headerName: 'Acción',
+      field: 'id',
+      cellRenderer: 'ButtonEdit',
+      
+      editable: false,
+      minWidth: 80,
+    },
+    {
+      headerName: "Pais",
+      field: "name",
+      width:400,
+    },
+
+    {
+      headerName: "Codigo",
+      field: "code",
+        width:450,
+    },
+   
+  ]
+}
+
+const componentGrid = () => {
+  return  {
+    
+      ButtonEdit:ButtonEdit
+    }
+  
+}
+
+const defaultColDef = () => {
+  return  {   
+    sortable: true,
+    resizable: true,
+  }
+}
+
+function showModal(){
+  this.activePrompt = true
+}
+
+function accept() { 
+ return  this.$refs.countrycreate.save();
+}
+
+function getCountries()  {
+  return this.$store.dispatch('country/getCountries')
+}
+
+
+
 export default {
   name: "countries",
-
   components: {
-      ButtonRight,
-      InputSearch,
-      AgGridVue,
-      CountriesCreate
+    ButtonRight,
+    InputSearch,
+    AgGridVue,
+    CountriesCreate,
+    ButtonEdit
   },
 
   data() {
      
     return {
-
-        val:"",
-        close:false,
-        acceptAlert:false,
-        activePrompt: false,
-
-        rowData:[],
-        gridApi: null,
-        close: false,
-        val: "",
-        gridOptions: {
-           pagination: true,
-
-            // sets 10 rows per page (default is 100)
-            paginationPageSize: 5,
-        },
-      columnDefs: [
-    
-        {
-          headerName: "Pais",
-          field: "name",
-          width:400,
-          //  cellRenderer: 'btnlist',
-         
-        },
-
-        {
-          headerName: "Codigo",
-          field: "code",
-            width:450,
-        },
-        
-      ],
-      defaultColDef: {
-       
-        sortable: true,
-        resizable: true,
+      val:"",
+      close:false,
+      acceptAlert:false,
+      activePrompt: false,
+      rowData:[],
+      gridApi: null,
+      close: false,
+      gridOptions: {},
       
-      },
-
-      // tframeworkComponents:{
-      //   btnlist:ButtonRight
-      // }
-    };
-  
+    }
   },
-
   methods: {
-      showModal() {
-          this.activePrompt = true
- 
-      },
-      accept() { 
-         this.$refs.countrycreate.save();
-       
-      },
-
-      getCountries() {
-        this.$store.dispatch('country/getCountries')
-      }
+    columnDefss,
+    defaultColDef,
+    componentGrid,
+    showModal, 
+    accept , 
+    getCountries 
+  },
+  
+  created() {
+    this.gridOptions               = {  pagination: true,  paginationPageSize: 5};
+    this.gridOptions.columnDefs    = this.columnDefss()
+    this.gridOptions.frameworkComponents     = this.componentGrid()
+    this.gridOptions.defaultColDef = this.defaultColDef()
   },
 
-
-  
   mounted() {
     this.getCountries()
-    this.gridApi = this.gridOptions.api;
+
+    this.gridApi       = this.gridOptions.api;
     this.gridColumnApi = this.gridOptions.columnApi;
+
+    // console.log(this.gridOptions  )
     /* =================================================================
       NOTE:
       Header is not aligned properly in RTL version of agGrid table.
