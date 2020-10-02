@@ -20,6 +20,9 @@ module.exports = {
         chunks: 'all'
       }
     }
+  },
+  devServer: {
+    disableHostCheck: true
   }
   // devServer: {
   //   overlay: {

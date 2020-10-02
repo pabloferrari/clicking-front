@@ -54,6 +54,11 @@ import store from './store/store'
 import { VueHammer } from 'vue2-hammer'
 Vue.use(VueHammer)
 
+import VeeValidate, { Validator }  from 'vee-validate'
+import es from 'vee-validate/dist/locale/es'
+
+Vue.use(VeeValidate)
+Validator.localize('es', es)
 
 // PrismJS
 import 'prismjs'

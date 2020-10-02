@@ -1,30 +1,35 @@
 <template>
 <div class="vx-row">
   <div class="vx-col w-full">
-    <p class="primary">Hola, {{ activeUserInfo.displayName }}!</p>
+    <p class="primary">Hola, {{ activeUserInfo.name }}!</p>
   </div>
-  <div class="vx-col w-1/2 md:w-1/3 xl:w-1/6">
-    <statistics-card-line
-        hideChart
-        class="mb-base"
-        icon="EyeIcon"
-        statistic="36.9k"
-        statisticTitle="Views" />
-  </div>
+        <vs-button
+        @click="notification()"
+        color="success"
+        type="flat">Notification Success</vs-button>
 </div>
 </template>
 
 <script>
-import StatisticsCardLine from '@/layouts/components/statistics-cards/StatisticsCardLine.vue';
 
 export default {
   name: 'home',
-  components: {
-    StatisticsCardLine
+  data () {
+    return {
+    }
   },
   computed: {
     activeUserInfo () {
-      return this.$store.state.AppActiveUser
+      return this.$store.state.auth.authUser
+    }
+  },
+  methods: {
+    notification () {
+      Promise.all([
+        this.$store.dispatch('notification/success', {title: 'Guardado exitoso....', text: 'se a creado una institucion'}),
+        this.$store.dispatch('notification/danger', {title: 'Lorem ipsum dolor sit amet consectetur', text: 'Lorem ipsum dolor sit amet consectetur'}),
+        this.$store.dispatch('notification/warning', {title: 'Alerta', text: 'Lorem ipsum dolor sit amet consectetur'})
+      ])
     }
   }
 }

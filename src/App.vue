@@ -16,6 +16,7 @@
 
 <script>
 import themeConfig from '@/../themeConfig.js'
+import { mapGetters } from 'vuex'
 
 export default {
   data () {
@@ -23,7 +24,15 @@ export default {
       vueAppClasses: []
     }
   },
+  computed: {
+    ...mapGetters({
+      notifications: 'notification/getNotifications'
+    })
+  },
   watch: {
+    notifications (newValue) {
+      if (newValue.length > 0) this.showNotifications(newValue)
+    },
     '$store.state.theme' (val) {
       this.toggleClassInBody(val)
     },
@@ -32,6 +41,19 @@ export default {
     }
   },
   methods: {
+    showNotifications (newValue) {
+      newValue.forEach(element => {
+        this.$vs.notify({
+          title: element.title,
+          text: element.text,
+          color: element.color,
+          iconPack: element.iconPack,
+          icon: element.icon,
+          position: element.position
+        })
+      })
+      this.$store.commit('notification/deleteNotification')
+    },
     toggleClassInBody (className) {
       if (className === 'dark') {
         if (document.body.className.match('theme-semi-dark')) document.body.classList.remove('theme-semi-dark')
@@ -49,7 +71,6 @@ export default {
     },
     handleWindowResize () {
       this.$store.commit('UPDATE_WINDOW_WIDTH', window.innerWidth)
-
       // Set --vh property
       document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`)
     },
@@ -60,7 +81,6 @@ export default {
   mounted () {
     this.toggleClassInBody(themeConfig.theme)
     this.$store.commit('UPDATE_WINDOW_WIDTH', window.innerWidth)
-
     const vh = window.innerHeight * 0.01
     // Then we set the value in the --vh custom property to the root of the document
     document.documentElement.style.setProperty('--vh', `${vh}px`)
@@ -68,7 +88,6 @@ export default {
   async created () {
     const dir = this.$vs.rtl ? 'rtl' : 'ltr'
     document.documentElement.setAttribute('dir', dir)
-
     window.addEventListener('resize', this.handleWindowResize)
     window.addEventListener('scroll', this.handleScroll)
   },
