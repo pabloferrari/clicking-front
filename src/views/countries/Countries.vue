@@ -18,7 +18,7 @@
                 cancel="Cancelar"
                 :active.sync="activePrompt">
                 <div class="con-exemple-prompt">
-                    <CountriesCreate />
+                    <CountriesCreate ref="countrycreate" :isCreate="true" />
                 </div>
             </vs-prompt>
         <!-- Modal -->
@@ -87,7 +87,7 @@ import CountriesCreate from "./CountriesCreate.vue";
 
 import CountryService from '../../services/Countries'
 
-
+import {mapGetters} from 'vuex'
 export default {
   name: "countries",
 
@@ -123,6 +123,7 @@ export default {
           headerName: "Pais",
           field: "name",
           width:400,
+          //  cellRenderer: 'btnlist',
          
         },
 
@@ -139,6 +140,10 @@ export default {
         resizable: true,
       
       },
+
+      // tframeworkComponents:{
+      //   btnlist:ButtonRight
+      // }
     };
   
   },
@@ -149,28 +154,46 @@ export default {
  
       },
       accept() { 
-         
-        console.log('si')
+         this.$refs.countrycreate.save();
+       
+      },
+
+      getCountries() {
+        this.$store.dispatch('country/getCountries')
       }
   },
 
-  async beforeMount() {
-       let countriesData = []
-      try {
-          countriesData = await CountryService.getAll();  
-      } catch (error) {
-          console.log(error)
-      }
-    this.rowData = countriesData.data.data
-  },
 
+  
   mounted() {
-    this.gridApi       = this.gridOptions.api;
+    this.getCountries()
+    this.gridApi = this.gridOptions.api;
     this.gridColumnApi = this.gridOptions.columnApi;
+    /* =================================================================
+      NOTE:
+      Header is not aligned properly in RTL version of agGrid table.
+      However, we given fix to this issue. If you want more robust solution please contact them at gitHub
+    ================================================================= */
+    if (this.$vs.rtl) {
+      const header = this.$refs.agGridTable.$el.querySelector(
+        ".ag-header-container"
+      );
+      header.style.left = `-${String(
+        Number(header.style.transform.slice(11, -3)) + 9
+      )}px`;
+    }
   },
+  watch:{
+    countries(data){
+      this.rowData = data
+    }
+  },  
+
+
   computed: {
-
-
+    
+    ...mapGetters({countries: 'country/getCountries'}),
+     
     totalPages() {
       if (this.gridApi) return this.gridApi.paginationGetTotalPages();
       else return 0;
@@ -186,23 +209,6 @@ export default {
     },
   },
 
-  mounted() {
-    this.gridApi = this.gridOptions.api;
-
-    /* =================================================================
-      NOTE:
-      Header is not aligned properly in RTL version of agGrid table.
-      However, we given fix to this issue. If you want more robust solution please contact them at gitHub
-    ================================================================= */
-    if (this.$vs.rtl) {
-      const header = this.$refs.agGridTable.$el.querySelector(
-        ".ag-header-container"
-      );
-      header.style.left = `-${String(
-        Number(header.style.transform.slice(11, -3)) + 9
-      )}px`;
-    }
-  },
 
 
 

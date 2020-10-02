@@ -16,9 +16,14 @@ import getters from "./getters"
 import mutations from "./mutations"
 import actions from "./actions"
 
+import country from './modules/country'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+    modules: {
+      country
+    },
     getters,
     mutations,
     state,
