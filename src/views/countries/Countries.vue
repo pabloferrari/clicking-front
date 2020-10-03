@@ -18,7 +18,7 @@
                 cancel="Cancelar"
                 :active.sync="activePrompt">
                 <div class="con-exemple-prompt">
-                    <CountriesCreate ref="countrycreate" :isCreate="true" />
+                    <CountriesCreate ref="CountriesCreate" :isCreate="this.iscreated" :id="this.id"/>
                 </div>
             </vs-prompt>
         <!-- Modal -->
@@ -40,7 +40,7 @@
                         <div class="flex justify-end">
                         <ButtonRight
                             buttonTitle="Añadir Paises"
-                            @handler-click="showModal"
+                            @handler-click="showModal(true)"
                         />
                         </div>
                     </div>
@@ -55,12 +55,13 @@
                 ref="agGridTable"
                 :gridOptions="gridOptions"
                 class="ag-theme-material w-100 my-4 ag-grid-table"
-               
+                :columnDefs="columnDefs"
+                :defaultColDef="defaultColDef"
                 :rowData="rowData"
                 rowSelection="multiple"
                 colResizeDefault="shift"
                 :animateRows="true"
-                 :pagination="true"
+                :pagination="true"
                 :paginationAutoPageSize="true"
                 :suppressPaginationPanel="true"
             
@@ -75,145 +76,149 @@
 
 
 <script>
+import Vue from 'vue'
+
 import "@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss";
 import { AgGridVue } from "ag-grid-vue";
 
 import ButtonRight from "../components/ButtonRight.vue";
 import InputSearch from "../components/InputSearch.vue";
+
+import ButtonEdit from "../components/cellRenderButtons/ButtonEdit.vue"
+
 import CountriesCreate from "./CountriesCreate.vue";
-
-
 import CountryService from '../../services/Countries'
+
 import {mapGetters} from 'vuex'
-
- 
-import ButtonEdit from '../components/cellRenderButtons/ButtonEdit.vue'
-
-const columnDefss = () => {
-  return [
-    {
-      headerName: 'Acción',
-      field: 'id',
-      cellRenderer: 'ButtonEdit',
-      
-      editable: false,
-      minWidth: 80,
-    },
-    {
-      headerName: "Pais",
-      field: "name",
-      width:400,
-    },
-
-    {
-      headerName: "Codigo",
-      field: "code",
-        width:450,
-    },
-   
-  ]
-}
-
-const componentGrid = () => {
-  return  {
-    
-      ButtonEdit:ButtonEdit
-    }
-  
-}
-
-const defaultColDef = () => {
-  return  {   
-    sortable: true,
-    resizable: true,
-  }
-}
-
-function showModal(){
-  this.activePrompt = true
-}
-
-function accept() { 
- return  this.$refs.countrycreate.save();
-}
-
-function getCountries()  {
-  return this.$store.dispatch('country/getCountries')
-}
-
-
 
 export default {
   name: "countries",
+
   components: {
-    ButtonRight,
-    InputSearch,
-    AgGridVue,
-    CountriesCreate,
-    ButtonEdit
+      ButtonRight,
+      InputSearch,
+      AgGridVue,
+      CountriesCreate,
+      ButtonEdit
   },
 
   data() {
      
     return {
-      val:"",
-      close:false,
-      acceptAlert:false,
-      activePrompt: false,
-      rowData:[],
-      gridApi: null,
-      close: false,
-      gridOptions: {},
+
+        val:"",
+        close:false,
+        acceptAlert:false,
+        activePrompt: false,
+        iscreated: null,
+        id  : null,
+        rowData:[],
+       
+        gridApi: null,
+        close: false,
+        val: "",
+        gridOptions: {
+           pagination: true,
+
+            // sets 10 rows per page (default is 100)
+            paginationPageSize: 5,
+        },
+      columnDefs: [
+        {
+          headerName: "Accion",
+          field: "id",
+          width:120,
+           cellRendererFramework: Vue.extend(ButtonEdit),
+           cellRendererParams: {
+             edit:(id) =>{
+              this.getData(id)
+              this.showModal(false)
+              
+             }
+           }
+        },
+        {
+          headerName: "Pais",
+          field: "name",
+          width:400,
+          
+         
+        },
+
+        {
+          headerName: "Codigo",
+          field: "code",
+            width:450,
+        },
+        
+      ],
+      defaultColDef: {
+        
+        sortable: true,
+        resizable: true,
       
-    }
-  },
-  methods: {
-    columnDefss,
-    defaultColDef,
-    componentGrid,
-    showModal, 
-    accept , 
-    getCountries 
-  },
+      },
+
+      components:{
+        ButtonEdit
+      },
+      // tframeworkComponents:{
+      //   btnlist:ButtonRight
+      // }
+    };
   
-  created() {
-    this.gridOptions               = {  pagination: true,  paginationPageSize: 5};
-    this.gridOptions.columnDefs    = this.columnDefss()
-    this.gridOptions.frameworkComponents     = this.componentGrid()
-    this.gridOptions.defaultColDef = this.defaultColDef()
   },
 
+  methods: {
+      showModal(iscreated) {
+          this.iscreated = iscreated
+          this.activePrompt = true
+          //  this.country = {name:'Arg',code:'AR',id:2}
+          // this.$refs.CountriesCreate.getCountryz()
+ 
+      },
+      getData(id) {
+       return this.id = id
+      },
+      accept() { 
+         this.$refs.CountriesCreate.save();
+       
+      },
+
+      getCountries() {
+        this.$store.dispatch('country/getCountries')
+      },
+      
+  },
+
+
+  
   mounted() {
     this.getCountries()
-
-    this.gridApi       = this.gridOptions.api;
-    this.gridColumnApi = this.gridOptions.columnApi;
-
-    // console.log(this.gridOptions  )
+    this.gridApi = this.gridOptions.api;
+    // this.gridColumnApi = this.gridOptions.columnApi;
     /* =================================================================
       NOTE:
       Header is not aligned properly in RTL version of agGrid table.
       However, we given fix to this issue. If you want more robust solution please contact them at gitHub
     ================================================================= */
-    if (this.$vs.rtl) {
-      const header = this.$refs.agGridTable.$el.querySelector(
-        ".ag-header-container"
-      );
-      header.style.left = `-${String(
-        Number(header.style.transform.slice(11, -3)) + 9
-      )}px`;
+   if (this.$vs.rtl) {
+      const header = this.$refs.agGridTable.$el.querySelector('.ag-header-container')
+      header.style.left = `-${  String(Number(header.style.transform.slice(11, -3)) + 9)  }px`
     }
   },
   watch:{
     countries(data){
       this.rowData = data
-    }
+    },
+   
   },  
 
 
   computed: {
     
     ...mapGetters({countries: 'country/getCountries'}),
+    // ...mapGetters({countries: 'country/getCountries'}),
      
     totalPages() {
       if (this.gridApi) return this.gridApi.paginationGetTotalPages();
