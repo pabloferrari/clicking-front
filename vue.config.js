@@ -7,13 +7,9 @@
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
 
-
 module.exports = {
   publicPath: '/',
-  transpileDependencies: [
-    'vue-echarts',
-    'resize-detector'
-  ],
+  transpileDependencies: ['vue-echarts', 'resize-detector'],
   configureWebpack: {
     optimization: {
       splitChunks: {
@@ -24,11 +20,4 @@ module.exports = {
   devServer: {
     disableHostCheck: true
   }
-  // devServer: {
-  //   overlay: {
-  //     warnings: true,
-  //     errors: true
-  //   }
-  // }
 }
-

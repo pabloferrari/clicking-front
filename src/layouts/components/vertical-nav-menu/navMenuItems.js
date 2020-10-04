@@ -14,5 +14,11 @@ export default [
     name: 'Home',
     slug: 'home',
     icon: 'HomeIcon'
+  },
+  {
+    url: '/countries',
+    name: 'Pais',
+    slug: 'countries',
+    icon: 'MapIcon'
   }
 ]

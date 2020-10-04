@@ -19,12 +19,15 @@ import actions from './actions'
 import auth from './modules/auth'
 import notification from './modules/notification'
 
+import country from './modules/country'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
     auth,
-    notification
+    notification,
+    country
   },
   getters,
   mutations,

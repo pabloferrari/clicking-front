@@ -14,7 +14,6 @@ const authInterceptor = (config) => {
   return config
 }
 
-
 const errorInterceptor = error => {
   switch (error.response.status) {
   case 400:
@@ -42,7 +41,6 @@ const responseInterceptor = response => {
   default:
     return response
   }
-  
 }
 
 service.interceptors.request.use(authInterceptor, responseInterceptor, errorInterceptor)

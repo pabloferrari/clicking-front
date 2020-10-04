@@ -14,5 +14,10 @@ export default [
     path: '/page2',
     name: 'page-2',
     component: () => Page2
+  },
+  {
+    path:'/countries',
+    name:'Pais',
+    component: () => import('../views/countries/Countries.vue')
   }
 ]
