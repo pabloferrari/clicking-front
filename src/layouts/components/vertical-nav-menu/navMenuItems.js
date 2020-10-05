@@ -20,5 +20,11 @@ export default [
     name: 'Pais',
     slug: 'countries',
     icon: 'MapIcon'
+  },
+  {
+    url: '/institutions',
+    name: 'Institución',
+    slug: 'institutions',
+    icon: 'BookOpenIcon'
   }
 ]

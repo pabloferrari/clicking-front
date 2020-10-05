@@ -19,5 +19,10 @@ export default [
     path:'/countries',
     name:'Pais',
     component: () => import('../views/countries/Countries.vue')
+  },
+  {
+    path:'/institutions',
+    name:'Institucion',
+    component: () => import('../views/institutions/Institutions.vue')
   }
 ]
