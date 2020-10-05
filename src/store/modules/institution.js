@@ -39,25 +39,25 @@ const actions = {
   async createInstitution ({commit, state, dispatch}, institution) {
 
     try {
-        const newInstution = {
-            name: institution.name,
-            email: institution.email,
-            phone: institution.phone,
-            cuit: institution.cuit,
-            plan_id: institution.dataPlans,
-            city_id: institution.dataCities,
-            image:'',
-            active:1
-        }
-        const institutionCreate  = await InstitutionService.create(newInstution)
-        const intitutions = Object.assign([], state.institutions)
+      const newInstution = {
+        name: institution.name,
+        email: institution.email,
+        phone: institution.phone,
+        cuit: institution.cuit,
+        plan_id: institution.dataPlans,
+        city_id: institution.dataCities,
+        image:'',
+        active:1
+      }
+      const institutionCreate  = await InstitutionService.create(newInstution)
+      const intitutions = Object.assign([], state.institutions)
 
-        intitutions.push(institutionCreate.data.data)
+      intitutions.push(institutionCreate.data)
 
-        commit('setInstitutions', intitutions)
-        dispatch('notification/success', {title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.'}, { root: true })
+      commit('setInstitutions', intitutions)
+      dispatch('notification/success', {title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.'}, { root: true })
     } catch (error) {
-        console.log(error)
+      console.log(error)
     }
   },
 
@@ -72,12 +72,12 @@ const actions = {
         plan_id: institution.dataPlans,
         city_id: institution.dataCities,
         image: null,
-        active: (institution.active) ? true : false
+        active: !!(institution.active)
       }
       const institutionEdit = await InstitutionService.update(institution.id, editInstution)
       const newValue = state.institutions.map((value) => {
-        if (value.id === institutionEdit.data.data.id) {
-          value = Object.assign({}, institutionEdit.data.data)
+        if (value.id === institutionEdit.data.id) {
+          value = Object.assign({}, institutionEdit.data)
         }
         return value
       })
@@ -101,8 +101,8 @@ const actions = {
   },
   async getInstitutions ({commit}) {
     try {
-        const intitutionsData = await InstitutionService.getAll()
-        commit('setInstitutions', intitutionsData.data.data)
+      const intitutionsData = await InstitutionService.getAll()
+      commit('setInstitutions', intitutionsData.data)
     } catch (error) {
       console.log(error)
     }

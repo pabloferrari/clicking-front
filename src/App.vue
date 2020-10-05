@@ -49,7 +49,8 @@ export default {
           color: element.color,
           iconPack: element.iconPack,
           icon: element.icon,
-          position: element.position
+          position: element.position,
+          time: element.time
         })
       })
       this.$store.commit('notification/deleteNotification')

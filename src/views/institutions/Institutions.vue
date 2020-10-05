@@ -156,7 +156,7 @@ export default {
         {
           headerName: 'Pais',
           field: 'country'
-        },
+        }
       ],
       defaultColDef: {
         sortable: true,
@@ -194,16 +194,16 @@ export default {
       this.idDeleted = null
     },
     getInstitutions () {
-        this.$store.dispatch('institution/getInstitutions')
+      this.$store.dispatch('institution/getInstitutions')
     },
-    getPlans() {
-        this.$store.dispatch('plan/getPlans')
+    getPlans () {
+      this.$store.dispatch('plan/getPlans')
     },
-    getCities() {
-        this.$store.dispatch('city/getCities')
+    getCities () {
+      this.$store.dispatch('city/getCities')
     },
-    getCountries() {
-        this.$store.dispatch('country/getCountries')
+    getCountries () {
+      this.$store.dispatch('country/getCountries')
     },
     onFirstDataRendered (params) {
       params.api.sizeColumnsToFit()
@@ -228,30 +228,30 @@ export default {
     }
   },
   watch: {
-    institutions(data) {
-        let rows = []
-        data.map((value) => {
-            rows.push({
-                id: value.id,
-                name: value.name,
-                email: value.email,
-                students: 0,
-                teachers: 0,
-                course: 0,
-                country: value.city.province.country.name
-            })
+    institutions (data) {
+      const rows = []
+      data.map((value) => {
+        rows.push({
+          id: value.id,
+          name: value.name,
+          email: value.email,
+          students: 0,
+          teachers: 0,
+          course: 0,
+          country: value.city.province.country.name
         })
+      })
       this.rowData = rows
     },
-    storeCountries(data){
-        this.countries = data
+    storeCountries (data) {
+      this.countries = data
     },
-    storePlans(data){
-        this.plans = data
+    storePlans (data) {
+      this.plans = data
     }
   },
   computed: {
-    ...mapGetters({ institutions: 'institution/getInstitutions',storeCountries:'country/getCountries',storePlans:'plan/getPlans' }),
+    ...mapGetters({ institutions: 'institution/getInstitutions', storeCountries:'country/getCountries', storePlans:'plan/getPlans' }),
     paginationPageSize () {
       if (this.gridApi) return this.gridApi.paginationGetPageSize()
       else return 50

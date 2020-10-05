@@ -14,27 +14,41 @@ const authInterceptor = (config) => {
   return config
 }
 
-const errorInterceptor = error => {
-  switch (error.response.status) {
-  case 400:
-    console.error(error.response.status, error.message)
-    store.dispatch('notification/danger', {title: 'Nothing to display', text: 'Data Not Found'})
-    break
+const errorInterceptor = async (error) => {
+  if (error.response) {
+    switch (error.response.status) {
+    case 400:
+      console.error(error.response.status, error.message)
+      store.dispatch('notification/danger', {title: 'Nothing to display', text: 'Data Not Found'})
+      break
+  
+    case 401:
+      store.dispatch('notification/danger', {title: 'Por favor inicie sesion nuvamente', text: 'ha expirado la sesion'})
+      localStorage.removeItem('token')
+      localStorage.removeItem('userAuth')
+      router.push('/pages/login')
+      break
+  
+    // eslint-disable-next-line no-case-declarations
+    case 422:
+      const title = 'Unprocessable Entity'
+      let text = ''
+      const values = Object.values(error.response.data.error)
+      values.forEach(element => {
+        console.log(element)
+        text += `${element} <br>`
+      })
+      store.dispatch('notification/danger', {title, text})
+      break
 
-  case 401:
-    store.dispatch('notification/danger', {title: 'Por favor inicie sesion nuvamente', text: 'ha expirado la sesion'})
-    localStorage.removeItem('token')
-    localStorage.removeItem('userAuth')
-    router.push('/pages/login')
-    break
-
-  default:
-    store.dispatch('notification/danger',  {title: `${error.response.status}`, text: error.message})
+    default:
+      store.dispatch('notification/danger',  {title: `${error.response.status}`, text: error.message})
+    }
+    return Promise.reject(error)
   }
-  return Promise.reject(error)
 }
 
-const responseInterceptor = response => {
+const responseInterceptor = (response) => {
   switch (response.status) {
   case 200: 
     return response.data
@@ -43,6 +57,7 @@ const responseInterceptor = response => {
   }
 }
 
-service.interceptors.request.use(authInterceptor, responseInterceptor, errorInterceptor)
+service.interceptors.request.use(authInterceptor)
+service.interceptors.response.use(responseInterceptor, errorInterceptor)
 
 export default service

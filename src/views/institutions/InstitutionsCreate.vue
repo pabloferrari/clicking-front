@@ -76,90 +76,90 @@
 
 <script>
 export default {
-    name: 'InstitutionsCreate',
-    props: {
-        isCreate: Boolean,
-        institution: {},
-        plansList: null,
-        cities: null,
-        countriesList: null,
-        idEdit: null
-    },
-    data() {
-        return {
-            form: {
-                id: null,
-                dataPlans: '',
-                dataCities: '',
-                dataProvinces: '',
-                dataCountries: '',
-                name: '',
-                phone: '',
-                cuit: '',
-                active: true,
-            },
-            provinceList: null,
-            citiesList: null
-        }
-    },
-    mounted() {
-        this.setData()
-    },
-    methods: {
-        setData() {
-            if (this.institution) {
-                if (this.idEdit) {
-                    const institution = Object.assign({}, this.$store.state.institution.institutions.find(x => x.id === this.idEdit))
-                    if (institution) {
-                        this.form.id = institution.id
-                        this.form.name = institution.name
-                        this.form.email = institution.email
-                        this.form.phone = institution.phone
-                        this.form.cuit = institution.cuit
-                        this.form.dataPlans = institution.plan.id
-                        this.form.dataCountries = institution.city.province.country.id
-                        this.form.dataProvinces = institution.city.province.id
-                        this.form.dataCities = institution.city.id
-                        this.form.active = (institution.active) ? true : false
-                    }
-                } else {
-                    this.form = Object.assign({}, this.institution)
-                }
-            }
-        },
-        save() {
-            if (!this.isCreate) {
-                this.update()
-            } else {
-                this.create()
-            }
-        },
-        create() {
-            this.$validator.validateAll().then(result => {
-                if (result) {
-                    const payload = this.form
-                    this.$store.dispatch('institution/createInstitution', payload)
-                    this.$emit('close-modal')
-                }
-            })
-        },
-        update() {
-          this.$validator.validateAll().then(result => {
-            if (result) {
-              const payload = this.form
-              this.$store.dispatch('institution/updateInstitution', payload)
-              this.$emit('close-modal')
-            }
-          })
-        },
-        changeCountry(id) {
-            const country = this.countriesList.find(x => x.id === id)
-            this.provinceList = country.provinces
-        },
-        changeProvince(id) {
-            const provinces = this.provinceList.find(x => x.id === id)
-            this.citiesList = provinces.cities
-        }
+  name: 'InstitutionsCreate',
+  props: {
+    isCreate: Boolean,
+    institution: {},
+    plansList: null,
+    cities: null,
+    countriesList: null,
+    idEdit: null
+  },
+  data () {
+    return {
+      form: {
+        id: null,
+        dataPlans: '',
+        dataCities: '',
+        dataProvinces: '',
+        dataCountries: '',
+        name: '',
+        phone: '',
+        cuit: '',
+        active: true
+      },
+      provinceList: null,
+      citiesList: null
     }
+  },
+  mounted () {
+    this.setData()
+  },
+  methods: {
+    setData () {
+      if (this.institution) {
+        if (this.idEdit) {
+          const institution = Object.assign({}, this.$store.state.institution.institutions.find(x => x.id === this.idEdit))
+          if (institution) {
+            this.form.id = institution.id
+            this.form.name = institution.name
+            this.form.email = institution.email
+            this.form.phone = institution.phone
+            this.form.cuit = institution.cuit
+            this.form.dataPlans = institution.plan.id
+            this.form.dataCountries = institution.city.province.country.id
+            this.form.dataProvinces = institution.city.province.id
+            this.form.dataCities = institution.city.id
+            this.form.active = !!(institution.active)
+          }
+        } else {
+          this.form = Object.assign({}, this.institution)
+        }
+      }
+    },
+    save () {
+      if (!this.isCreate) {
+        this.update()
+      } else {
+        this.create()
+      }
+    },
+    create () {
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          const payload = this.form
+          this.$store.dispatch('institution/createInstitution', payload)
+          this.$emit('close-modal')
+        }
+      })
+    },
+    update () {
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          const payload = this.form
+          this.$store.dispatch('institution/updateInstitution', payload)
+          this.$emit('close-modal')
+        }
+      })
+    },
+    changeCountry (id) {
+      const country = this.countriesList.find(x => x.id === id)
+      this.provinceList = country.provinces
+    },
+    changeProvince (id) {
+      const provinces = this.provinceList.find(x => x.id === id)
+      this.citiesList = provinces.cities
+    }
+  }
 }
 </script>

@@ -75,8 +75,8 @@ const actions = {
   },
   async getCountries ({commit}) {
     try {
-      const countriesData = await CountryService.getAll() 
-      commit('setCountries', countriesData.data.data)
+      const countriesData = await CountryService.getAll()
+      commit('setCountries', countriesData.data)
     } catch (error) {
       console.log(error)
     }

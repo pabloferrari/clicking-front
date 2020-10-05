@@ -7,7 +7,8 @@ const state = {
     color: '',
     iconPack: 'feather',
     icon: '',
-    position: 'top-right'
+    position: 'top-right',
+    time: 4000
   },
   notifications: [],
   notification: {}
