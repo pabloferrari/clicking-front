@@ -11,7 +11,7 @@
     <!-- Modal -->
     <vs-prompt @cancel="val = ''" @accept="accept" :title="`${actionModal} Pais`" accept-text="Guardar" cancel-text="Cancelar" :active.sync="activePrompt" >
         <div class="con-exemple-prompt">
-            <CountriesCreate ref="CountriesCreate" :isCreate="true" :country="this.country" @close-modal="closeModal()"/>
+            <CountriesCreate ref="CountriesCreate" :isCreate="this.iscreated" :country="this.country" @close-modal="closeModal()"/>
         </div>
     </vs-prompt>
     <!-- Modal -->
@@ -125,7 +125,6 @@ export default {
               this.showModal(false)
             },
             delete: (id) => {
-              console.log(id)
               this.idDeleted = id
               this.showModalConfirm()
             }
@@ -151,6 +150,7 @@ export default {
   },
   methods: {
     showModal (iscreated) {
+      this.country = (!iscreated) ? this.country : null
       this.actionModal = (iscreated) ? 'Añadir' : 'Editar'
       this.iscreated = iscreated
       this.activePrompt = true

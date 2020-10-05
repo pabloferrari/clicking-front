@@ -9,9 +9,9 @@
     </div>
 
     <!-- Modal -->
-    <vs-prompt @cancel="val = ''" @accept="accept" :title="`${actionModal} Institución`" accept-text="Guardar" cancel-text="Cancelar" :active.sync="activePrompt" >
+    <vs-prompt @cancel="closeModal()" @close="closeModal()" @accept="accept"  :title="`${actionModal} Institución`" accept-text="Guardar" cancel-text="Cancelar" :active.sync="activePrompt" >
         <div class="con-exemple-prompt">
-            <InstitutionsCreate ref="InstitutionsCreate" :isCreate="true" :plansList="this.plans" :countriesList="this.countries" :institution="this.institution" @close-modal="closeModal()"/>
+            <InstitutionsCreate ref="InstitutionsCreate" :isCreate="this.iscreated" :plansList="this.plans" :countriesList="this.countries" :institution="this.institution" :idEdit="this.idEdit" @close-modal="closeModal()"/>
         </div>
     </vs-prompt>
     <!-- Modal -->
@@ -112,6 +112,7 @@ export default {
       rowData: [],
       gridApi: null,
       gridColumnApi: null,
+      idEdit: null,
       gridOptions: {
         pagination: true,
         paginationPageSize: 5
@@ -127,7 +128,6 @@ export default {
               this.showModal(false)
             },
             delete: (id) => {
-              console.log(id)
               this.idDeleted = id
               this.showModalConfirm()
             }
@@ -160,7 +160,7 @@ export default {
       ],
       defaultColDef: {
         sortable: true,
-        resizable: false
+        resizable: true
       },
       components: {
         ButtonEdit
@@ -169,9 +169,11 @@ export default {
   },
   methods: {
     showModal (iscreated) {
+      this.institution = (!iscreated) ? this.institution : null
       this.actionModal = (iscreated) ? 'Añadir' : 'Editar'
       this.iscreated = iscreated
       this.activePrompt = true
+      this.idEdit = (!iscreated) ? this.idEdit : null
     },
     showModalConfirm () {
       this.activePromptDelete = true
@@ -180,9 +182,8 @@ export default {
       this.gridApi.setQuickFilter(val)
     },
     getData (id) {
+      this.idEdit = id
       this.institution = Object.assign({}, this.$store.state.institution.institutions.find(x => x.id === id))
-      
-
     },
     accept () {
       this.activePrompt = true
@@ -208,7 +209,9 @@ export default {
       params.api.sizeColumnsToFit()
     },
     closeModal () {
+      this.iscreated = false
       this.activePrompt = false
+      this.idEdit = null
     }
   },
   mounted () {
@@ -242,17 +245,13 @@ export default {
     },
     storeCountries(data){
         this.countries = data
-        console.log(data)
     },
     storePlans(data){
         this.plans = data
-        console.log(data)
     }
   },
   computed: {
     ...mapGetters({ institutions: 'institution/getInstitutions',storeCountries:'country/getCountries',storePlans:'plan/getPlans' }),
-
-
     paginationPageSize () {
       if (this.gridApi) return this.gridApi.paginationGetPageSize()
       else return 50

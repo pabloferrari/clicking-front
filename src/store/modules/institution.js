@@ -62,20 +62,30 @@ const actions = {
   },
 
   async updateInstitution ({ state, commit, dispatch }, institution) {
-    //   console.log(institution)
-    // try {
-    //   const institutionEdit = await InstitutionService.update(institution.id, institution)
-    //   const newValue = state.intitutions.map((value) => {
-    //     if (value.id === institutionEdit.data.id) {
-    //       value = Object.assign({}, institutionEdit.data)
-    //     }
-    //     return value
-    //   })
-    //   commit('setInstitutions', newValue)
-    //   dispatch('notification/success', {title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.'}, { root: true })
-    // } catch (error) {
-    //   console.log(error)
-    // }
+    try {
+      const editInstution = {
+        id: institution.id,
+        name: institution.name,
+        email: institution.email,
+        phone: institution.phone,
+        cuit: institution.cuit,
+        plan_id: institution.dataPlans,
+        city_id: institution.dataCities,
+        image: null,
+        active: (institution.active) ? true : false
+      }
+      const institutionEdit = await InstitutionService.update(institution.id, editInstution)
+      const newValue = state.institutions.map((value) => {
+        if (value.id === institutionEdit.data.data.id) {
+          value = Object.assign({}, institutionEdit.data.data)
+        }
+        return value
+      })
+      commit('setInstitutions', newValue)
+      dispatch('notification/success', {title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.'}, { root: true })
+    } catch (error) {
+      console.log(error)
+    }
   },
   async deleteInstitution ({ state, commit, dispatch }, id) {
     try {
