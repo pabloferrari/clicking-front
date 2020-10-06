@@ -15,13 +15,13 @@ export default {
   },
   methods: {
     searchAction () {
-      this.params.actionSearch()
+      this.params.actionSearch(this.params.value)
     },
     editAction () {
-      this.params.actionEdit()
+      this.params.actionEdit(this.params.value)
     },
     deleteAction () {
-      this.params.actionDelete()
+      this.params.actionDelete(this.params.value)
     }
   }
 }
