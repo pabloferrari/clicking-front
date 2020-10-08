@@ -7,24 +7,29 @@
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
 
-
 export default [
   {
-    url: '/',
-    name: 'Home',
-    slug: 'home',
-    icon: 'HomeIcon'
+    url: "/",
+    name: "Home",
+    slug: "home",
+    icon: "HomeIcon",
   },
   {
-    url: '/countries',
-    name: 'Pais',
-    slug: 'countries',
-    icon: 'MapIcon'
+    url: "/countries",
+    name: "Pais",
+    slug: "countries",
+    icon: "MapIcon",
   },
   {
-    url: '/institutions',
-    name: 'Institución',
-    slug: 'institutions',
-    icon: 'BookOpenIcon'
-  }
-]
+    url: "/institutions",
+    name: "Institución",
+    slug: "institutions",
+    icon: "BookOpenIcon",
+  },
+  {
+    url: "/plans",
+    name: "Planes",
+    slug: "plans",
+    icon: "BookOpenIcon",
+  },
+];
