@@ -100,7 +100,7 @@ export default {
           field: "name",
         },
         {
-          headerName: "Activo",
+          headerName: "Estatus",
           field: "activeText",
         },
       ],
