@@ -3,7 +3,7 @@
     <div id="form-model" class="grid-layout-container alignment-block">
       <div class="vx-row">
         <div class="vx-col w-full">
-          <p class="primary">Planes</p>
+          <p class="primary">Ciudades</p>
         </div>
       </div>
     </div>
@@ -11,16 +11,17 @@
     <!-- Modal -->
     <vs-prompt
       @accept="accept"
-      :title="`${actionModal} Plan`"
+      :title="`${actionModal} Ciudad`"
       accept-text="Guardar"
       cancel-text="Cancelar"
       :active.sync="activePrompt"
     >
       <div class="con-exemple-prompt">
-        <PlansCreate
-          ref="PlansCreate"
+        <CitiesCreate
+          ref="CitiesCreate"
           :isCreate="this.iscreated"
-          :plan="this.plan"
+          :city="this.city"
+          :countriesList="this.countries"
           @close-modal="closeModal()"
         />
       </div>
@@ -30,7 +31,7 @@
     <!-- Modal -->
     <vs-prompt
       @accept="acceptDelete"
-      title="Elminar Plan"
+      title="Elminar Ciudad"
       text="esta seguro de eliminar?"
       accept-text="Guardar"
       cancel-text="Cancelar"
@@ -42,7 +43,7 @@
     <DataTable
       :rowList="rowData"
       :btnCreateShow="true"
-      :btnCreateTitle="'Añadir Plan'"
+      :btnCreateTitle="'Añadir Ciudad'"
       :btnCreateIcon="'icon-plus'"
       :btnCreateIconPack="'feather'"
       @create-action="showModal(true)"
@@ -55,26 +56,28 @@
 
 <script>
 import "@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss";
-import PlansCreate from "./PlansCreate.vue";
+import CitiesCreate from "./CitiesCreate.vue";
 import { mapGetters } from "vuex";
 import DataTable from "../components/DataTable";
 
 export default {
-  name: "plans",
+  name: "cities",
   components: {
-    PlansCreate,
+    CitiesCreate,
     DataTable,
   },
   data() {
     return {
       rowData: [],
-      plansList: [],
+      citiesList: [],
       activePrompt: false,
       activePromptDelete: false,
       actionModal: "",
       idDeleted: null,
       iscreated: null,
-      plan: null,
+      city: null,
+      countries: null,
+      provinces: null,
       columnDefs: [
         {
           headerName: "Acciones",
@@ -100,15 +103,23 @@ export default {
           field: "name",
         },
         {
-          headerName: "Estatus",
-          field: "activeText",
+          headerName: "Código Postal",
+          field: "zip_code",
+        },
+        {
+          headerName: "Provincia",
+          field: "province",
+        },
+        {
+          headerName: "País",
+          field: "country",
         },
       ],
     };
   },
   methods: {
     showModal(iscreated) {
-      this.plan = !iscreated ? this.plan : null;
+      this.city = !iscreated ? this.city : null;
       this.actionModal = iscreated ? "Añadir" : "Editar";
       this.iscreated = iscreated;
       this.activePrompt = true;
@@ -117,21 +128,27 @@ export default {
       this.activePromptDelete = true;
     },
     getData(id) {
-      this.plan = Object.assign(
+      this.city = Object.assign(
         {},
-        this.$store.state.plan.plans.find((x) => x.id === id)
+        this.$store.state.city.cities.find((x) => x.id === id)
       );
     },
     accept() {
       this.activePrompt = true;
-      this.$refs.PlansCreate.save();
+      this.$refs.CitiesCreate.save();
     },
     acceptDelete() {
-      this.$store.dispatch("plan/deletePlan", this.idDeleted);
+      this.$store.dispatch("city/deleteCity", this.idDeleted);
       this.idDeleted = null;
     },
-    getPlans() {
-      this.$store.dispatch("plan/getPlans");
+    getCities() {
+      this.$store.dispatch("city/getCities");
+    },
+    getCountries () {
+      this.$store.dispatch('country/getCountries')
+    },
+    getProvinces () {
+      this.$store.dispatch('province/getProvinces')
     },
     onFirstDataRendered(params) {
       params.api.sizeColumnsToFit();
@@ -141,15 +158,33 @@ export default {
     },
   },
   mounted() {
-    this.getPlans();
+    this.getCities();
+    this.getCountries()
+    this.getProvinces()
   },
   watch: {
-    plans(data) {
-      this.rowData = data;
+    cities(data) {
+      const rows = []
+      data.map((value) => {
+        rows.push({
+          id: value.id,
+          name: value.name,
+          zip_code: value.zip_code,
+          province: value.province.name,
+          country: value.province.country.name
+        })
+      })
+      this.rowData = rows
+    },
+    storeCountries (data) {
+      this.countries = data
+    },
+    storeProvinces (data) {
+      this.provinces = data
     },
   },
   computed: {
-    ...mapGetters({ plans: "plan/getPlans" }),
+    ...mapGetters({ cities: "city/getCities", storeCountries:'country/getCountries', storeProvinces:'province/getProvinces' }),
   },
 };
 </script>

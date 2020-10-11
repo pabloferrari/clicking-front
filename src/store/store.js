@@ -23,6 +23,7 @@ import country from './modules/country'
 import institution from './modules/institution'
 import city from './modules/city'
 import plan from './modules/plan'
+import province from './modules/province'
 
 Vue.use(Vuex)
 
@@ -33,7 +34,8 @@ export default new Vuex.Store({
     country,
     institution,
     notification,
-    plan
+    plan,
+    province
   },
   getters,
   mutations,

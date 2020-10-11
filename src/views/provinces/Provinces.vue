@@ -3,7 +3,7 @@
     <div id="form-model" class="grid-layout-container alignment-block">
       <div class="vx-row">
         <div class="vx-col w-full">
-          <p class="primary">Planes</p>
+          <p class="primary">Provincias</p>
         </div>
       </div>
     </div>
@@ -11,16 +11,17 @@
     <!-- Modal -->
     <vs-prompt
       @accept="accept"
-      :title="`${actionModal} Plan`"
+      :title="`${actionModal} Provincia`"
       accept-text="Guardar"
       cancel-text="Cancelar"
       :active.sync="activePrompt"
     >
       <div class="con-exemple-prompt">
-        <PlansCreate
-          ref="PlansCreate"
+        <ProvincesCreate
+          ref="ProvincesCreate"
           :isCreate="this.iscreated"
-          :plan="this.plan"
+          :province="this.province"
+          :countriesList="this.countries"
           @close-modal="closeModal()"
         />
       </div>
@@ -30,7 +31,7 @@
     <!-- Modal -->
     <vs-prompt
       @accept="acceptDelete"
-      title="Elminar Plan"
+      title="Elminar Provincia"
       text="esta seguro de eliminar?"
       accept-text="Guardar"
       cancel-text="Cancelar"
@@ -42,7 +43,7 @@
     <DataTable
       :rowList="rowData"
       :btnCreateShow="true"
-      :btnCreateTitle="'Añadir Plan'"
+      :btnCreateTitle="'Añadir Provincia'"
       :btnCreateIcon="'icon-plus'"
       :btnCreateIconPack="'feather'"
       @create-action="showModal(true)"
@@ -55,26 +56,27 @@
 
 <script>
 import "@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss";
-import PlansCreate from "./PlansCreate.vue";
+import ProvincesCreate from "./ProvincesCreate.vue";
 import { mapGetters } from "vuex";
 import DataTable from "../components/DataTable";
 
 export default {
-  name: "plans",
+  name: "provinces",
   components: {
-    PlansCreate,
+    ProvincesCreate,
     DataTable,
   },
   data() {
     return {
       rowData: [],
-      plansList: [],
+      provincesList: [],
       activePrompt: false,
       activePromptDelete: false,
       actionModal: "",
       idDeleted: null,
       iscreated: null,
-      plan: null,
+      province: null,
+      countries: null,
       columnDefs: [
         {
           headerName: "Acciones",
@@ -100,15 +102,19 @@ export default {
           field: "name",
         },
         {
-          headerName: "Estatus",
-          field: "activeText",
+          headerName: "ISO 31662",
+          field: "iso31662",
+        },
+        {
+          headerName: "País",
+          field: "country",
         },
       ],
     };
   },
   methods: {
     showModal(iscreated) {
-      this.plan = !iscreated ? this.plan : null;
+      this.province = !iscreated ? this.province : null;
       this.actionModal = iscreated ? "Añadir" : "Editar";
       this.iscreated = iscreated;
       this.activePrompt = true;
@@ -117,21 +123,24 @@ export default {
       this.activePromptDelete = true;
     },
     getData(id) {
-      this.plan = Object.assign(
+      this.province = Object.assign(
         {},
-        this.$store.state.plan.plans.find((x) => x.id === id)
+        this.$store.state.province.provinces.find((x) => x.id === id)
       );
     },
     accept() {
       this.activePrompt = true;
-      this.$refs.PlansCreate.save();
+      this.$refs.ProvincesCreate.save();
     },
     acceptDelete() {
-      this.$store.dispatch("plan/deletePlan", this.idDeleted);
+      this.$store.dispatch("province/deleteProvince", this.idDeleted);
       this.idDeleted = null;
     },
-    getPlans() {
-      this.$store.dispatch("plan/getPlans");
+    getProvinces() {
+      this.$store.dispatch("province/getProvinces");
+    },
+    getCountries () {
+      this.$store.dispatch('country/getCountries')
     },
     onFirstDataRendered(params) {
       params.api.sizeColumnsToFit();
@@ -141,15 +150,28 @@ export default {
     },
   },
   mounted() {
-    this.getPlans();
+    this.getProvinces();
+    this.getCountries()
   },
   watch: {
-    plans(data) {
-      this.rowData = data;
+    provinces(data) {
+      const rows = []
+      data.map((value) => {
+        rows.push({
+          id: value.id,
+          name: value.name,
+          iso31662: value.iso31662,
+          country: value.country.name
+        })
+      })
+      this.rowData = rows
+    },
+    storeCountries (data) {
+      this.countries = data
     },
   },
   computed: {
-    ...mapGetters({ plans: "plan/getPlans" }),
+    ...mapGetters({ provinces: "province/getProvinces", storeCountries:'country/getCountries' }),
   },
 };
 </script>

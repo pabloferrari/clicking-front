@@ -69,7 +69,7 @@ export default {
         if (result) {
           const  payload = this.form
           this.$store.dispatch('country/createCountry', payload)
-          this.$emit('close-modal')
+          //this.$emit('close-modal')
         }
       })
     },
@@ -77,7 +77,7 @@ export default {
     update () {
       const  payload = this.form
       this.$store.dispatch('country/updateCountry', payload)
-      this.$emit('close-modal')
+      //this.$emit('close-modal')
     }
   }
 }

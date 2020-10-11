@@ -65,7 +65,7 @@ export default {
         if (result) {
           const payload = this.form;
           this.$store.dispatch("plan/createPlan", payload);
-          this.$emit("close-modal");
+          //this.$emit("close-modal");
         }
       });
     },
@@ -73,7 +73,7 @@ export default {
     update() {
       const payload = this.form;
       this.$store.dispatch("plan/updatePlan", payload);
-      this.$emit("close-modal");
+      //this.$emit("close-modal");
     },
   },
 };
