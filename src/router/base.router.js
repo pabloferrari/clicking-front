@@ -30,4 +30,14 @@ export default [
     name: "Planes",
     component: () => import("../views/plans/Plans.vue"),
   },
+  {
+    path: "/teachers",
+    name: "Docente",
+    component: () => import("../views/teachers/Teachers.vue"),
+  },
+  {
+    path: "/students",
+    name: "Alumno",
+    component: () => import("../views/students/Students.vue"),
+  },
 ];

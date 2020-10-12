@@ -32,4 +32,16 @@ export default [
     slug: "plans",
     icon: "BookOpenIcon",
   },
+  {
+    url: "/teachers",
+    name: "Docentes",
+    slug: "teachers",
+    icon: "ArchiveIcon",
+  },
+  {
+    url: "/students",
+    name: "Alumno",
+    slug: "students",
+    icon: "UserIcon",
+  },
 ];

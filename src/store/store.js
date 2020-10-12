@@ -23,6 +23,8 @@ import country from './modules/country'
 import institution from './modules/institution'
 import city from './modules/city'
 import plan from './modules/plan'
+import teacher from './modules/teacher'
+import student from './modules/student'
 
 Vue.use(Vuex)
 
@@ -32,6 +34,8 @@ export default new Vuex.Store({
     city,
     country,
     institution,
+    teacher,
+    student,
     notification,
     plan
   },
