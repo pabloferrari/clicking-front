@@ -36,7 +36,7 @@
 
       <div class="vx-row mb-2">
           <div class="vx-col w-full">
-              <vs-select v-model="form.dataCountries" @change="changeCountry($event)" label="País" class="mt-5 w-full" name="País" v-validate="'required'">
+              <vs-select v-model="form.country_id" label="País" class="mt-5 w-full" name="País" v-validate="'required'">
                   <vs-select-item key="" value="" selected text="seleccione país" />
                   <vs-select-item :key="item.id" :value="item.id" :text="item.name" v-for="item in countriesList" />
               </vs-select>
@@ -65,8 +65,6 @@ export default {
         id: null,
         name: "",
         iso31662: "",
-        dataCountries: "",
-        country_id: "",
         active: 1,
       },
       citiesList: null
@@ -80,11 +78,7 @@ export default {
       if (this.province) {
         const province = Object.assign({}, this.province);
         this.form = province;
-
-        this.form.dataCountries = province.country.id
-        //console.log(province.country.id);
-
-        //this.form.dataCountries = institution.city.province.country.id
+        this.form.country_id = province.country.id
       }
     },
     save() {
@@ -98,8 +92,7 @@ export default {
       this.$validator.validateAll().then((result) => {
         if (result) {
           const payload = this.form;
-          console.log(this.$store.dispatch("province/createProvince", payload));
-
+          this.$store.dispatch("province/createProvince", payload)
           //this.$emit("close-modal");
         }
       });
@@ -108,14 +101,6 @@ export default {
       const payload = this.form;
       this.$store.dispatch("province/updateProvince", payload);
       //this.$emit("close-modal");
-    },
-    changeCountry (id) {
-     // console.log('Entró.pi');
-      this.form.country_id = id ? id : 0
-
-      //const country = this.countriesList.find(x => x.id === id)
-      //console.log(country);
-       //this.dataCountries = country.id
     },
   },
 };
