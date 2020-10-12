@@ -21,6 +21,16 @@ export default [
     component: () => import("../views/countries/Countries.vue"),
   },
   {
+    path: "/provinces",
+    name: "Provincias",
+    component: () => import("../views/provinces/Provinces.vue"),
+  },
+  {
+    path: "/cities",
+    name: "Ciudades",
+    component: () => import("../views/cities/Cities.vue"),
+  },
+  {
     path: "/institutions",
     name: "Institucion",
     component: () => import("../views/institutions/Institutions.vue"),

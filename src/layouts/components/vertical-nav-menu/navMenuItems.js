@@ -21,6 +21,18 @@ export default [
     icon: "MapIcon",
   },
   {
+    url: "/provinces",
+    name: "Provincias",
+    slug: "provinces",
+    icon: "MapPinIcon",
+  },
+  {
+    url: "/cities",
+    name: "Ciudades",
+    slug: "cities",
+    icon: "MapPinIcon",
+  },
+  {
     url: "/institutions",
     name: "Institución",
     slug: "institutions",
@@ -30,7 +42,7 @@ export default [
     url: "/plans",
     name: "Planes",
     slug: "plans",
-    icon: "BookOpenIcon",
+    icon: "FileTextIcon",
   },
   {
     url: "/teachers",

@@ -25,6 +25,7 @@ import city from './modules/city'
 import plan from './modules/plan'
 import teacher from './modules/teacher'
 import student from './modules/student'
+import province from './modules/province'
 
 Vue.use(Vuex)
 
@@ -37,7 +38,8 @@ export default new Vuex.Store({
     teacher,
     student,
     notification,
-    plan
+    plan,
+    province
   },
   getters,
   mutations,
