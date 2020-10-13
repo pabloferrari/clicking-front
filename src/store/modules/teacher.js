@@ -4,15 +4,17 @@ import TeacherService from '../../services/teachers'
 const state = {
   teacher: {},
   teachers: [],
+  error:false
 }
 
 
 const getters = {
   getTeacher: state => { return state.teacher },
   getTeachers: state => { return state.teachers },
+  getError: state => {return state.error},
   getTeacherId: state => id => {
     return state.teachers.find(
-      teachers => teachers.id === id 
+      teachers => teachers.id === id
     )
   }
 }
@@ -29,6 +31,9 @@ const mutations = {
 
   setTeacher (state, teacher) {
     state.teacher = teacher
+  },
+  setError(state,error) {
+    state.error = error
   }
 
 }
@@ -41,24 +46,28 @@ const actions = {
         name: teacher.name,
         email: teacher.email,
         phone: teacher.phone,
-        // turn_id: teacher.dataTurns,
         active:teacher.active,
-        // comission_id: teacher.dataComissions,
+        user_id:'',
+        turns: teacher.dataTurns,
+        commissions: teacher.dataCommissions,
       }
       const teacherCreate  = await TeacherService.create(newTeacher)
       const teachers = Object.assign([], state.teachers)
 
-      teachers.push(teacherCreate.data.ops)
+      teachers.push(teacherCreate.data)
 
+      commit('setError',true);
       commit('setTeachers', teachers)
-      console.log(teachers)
       dispatch(
-          'notification/success', 
-          {title: 'Guardado exitoso....', 
-          text: 'se ha actualizado correctamente.'}, 
+          'notification/success',
+          {title: 'Guardado exitoso....',
+          text: 'se ha actualizado correctamente.'},
           { root: true }
         )
+
     } catch (error) {
+
+      // commit('setError',false);
       console.log(error)
     }
   },
@@ -66,26 +75,32 @@ const actions = {
   async updateTeacher ({ state, commit, dispatch }, teacher) {
     try {
         const editTeacher = {
-            id: teacher.id,
-            name: teacher.name,
-            email: teacher.email,
-            phone: teacher.phone,
-            // turn_id: teacher.dataTurns,
-            active:teacher.active,
-            // comission_id: teacher.dataComissions,
+          id: teacher.id,
+          name: teacher.name,
+          email: teacher.email,
+          phone: teacher.phone,
+          active:teacher.active,
+          user_id:'',
+          turns: teacher.dataTurns,
+          commissions: teacher.dataCommissions,
         }
-        // console.log(editTeacher)
-      const teacherEdit = await TeacherService.update(teacher.id, editTeacher)
-     
-      const newValue = state.teachers.map((value) => {
-        if (value.id === teacherEdit.data.id) {
-          value = Object.assign({}, teacherEdit.data)
+        const teacherEdit = await TeacherService.update(teacher.id, editTeacher)
+
+        const newValue = state.teachers.map((value) => {
+          if (value.id === teacherEdit.data.id) {
+            value = Object.assign({}, teacherEdit.data)
+          }
+          return value
+        })
+        if(teacherEdit.data) {
+
+          commit('setError',true);
         }
-        return value
-      })
-      commit('setTeachers', newValue)
+        commit('setTeachers', newValue)
       dispatch('notification/success', {title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.'}, { root: true })
+
     } catch (error) {
+      // commit('setError',false);
       console.log(error)
     }
   },
@@ -112,7 +127,7 @@ const actions = {
 }
 
 
-export default { 
+export default {
   namespaced: true,
   state,
   getters,

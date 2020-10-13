@@ -22,7 +22,8 @@
           :isCreate="this.iscreated"
           :teachers="this.teacher"
           :turnList="this.turns"
-          :comissionList="this.comission"
+          :commissionListData="this.commissions"
+          :idEdit="this.idEdit"
           @close-modal="closeModal()"
         />
       </div>
@@ -72,10 +73,11 @@ export default {
       rowData: [],
       teachersList: [],
       turns: null,
-      comission: null,
+      commissions: null,
       activePrompt: false,
       activePromptDelete: false,
       actionModal: "",
+      idEdit: null,
       idDeleted: null,
       iscreated: null,
       teacher: null,
@@ -89,12 +91,12 @@ export default {
             // actionSearch: (id) => { /** action **/ },
             buttonEdit: true,
             actionEdit: (id) => {
-             
               this.getData(id);
               this.showModal(false);
             },
             buttonDelete: true,
             actionDelete: (id) => {
+
               this.idDeleted = id;
               this.showModalConfirm();
             },
@@ -134,11 +136,12 @@ export default {
       this.activePromptDelete = true;
     },
     getData(id) {
+      this.idEdit = id;
+
       this.teacher = Object.assign(
         {},
         this.$store.state.teacher.teachers.find((x) => x.id === id)
       );
-      
     },
     accept() {
       this.activePrompt = true;
@@ -152,49 +155,71 @@ export default {
       this.$store.dispatch("teacher/getTeachers");
     },
     getTurns() {
-        return [
-            {
-                id:1,
-                name:'Mañana'
-            },
-            {
-                id:2,
-                name:'Noche'
-            }
-        ]
+      this.$store.dispatch("turn/getTurns");
     },
     getComission() {
-        return [
-            {
-                id:1,
-                name:'A'
-            },
-            {
-                id:2,
-                name:'B'
-            }
-        ]
+      this.$store.dispatch("commission/getCommissions");
     },
     onFirstDataRendered(params) {
       params.api.sizeColumnsToFit();
     },
     closeModal() {
+      this.idEdit = null;
       this.activePrompt = false;
     },
   },
   mounted() {
     this.getteachers();
-    this.turns = this.getTurns()
-    this.comission = this.getComission()
+    this.getTurns();
+    this.getComission();
   },
   watch: {
     teachers(data) {
-      // console.log(data)
-      this.rowData = data;
+      const teachersData = [];
+      let cont = 0;
+      const defaults = {
+        turno: ''
+      }
+      data.map((elements,index) => {
+        let turns
+        let commissions
+        elements.turns.forEach((t) => { turns = Object.assign({},t) })
+        elements.commissions.forEach((c) => { commissions = Object.assign({},c) })
+
+
+        teachersData.push({
+          id:elements.id,
+          name: elements.name,
+          email: elements.email,
+          phone: elements.phone,
+          turn: turns.name,
+          year: "",
+          commission: commissions.name,
+        });
+
+        cont++;
+      });
+
+      this.rowData = teachersData;
+    },
+
+    storeTurns(data) {
+      const institution_id = 1; // debe venir por props
+      const turnInstitution = data.filter(
+        (t) => t.institution.id === institution_id
+      );
+      this.turns = turnInstitution;
+    },
+    storeCommissions(data) {
+      this.commissions = data;
     },
   },
   computed: {
-    ...mapGetters({ teachers: "teacher/getTeachers" }),
+    ...mapGetters({
+      teachers: "teacher/getTeachers",
+      storeTurns: "turn/getTurns",
+      storeCommissions: "commission/getCommissions",
+    }),
   },
 };
 </script>
