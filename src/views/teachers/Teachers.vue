@@ -3,7 +3,7 @@
     <div id="form-model" class="grid-layout-container alignment-block">
       <div class="vx-row">
         <div class="vx-col w-full">
-          <p class="primary">Planes</p>
+          <p class="primary">Docentes</p>
         </div>
       </div>
     </div>
@@ -11,16 +11,19 @@
     <!-- Modal -->
     <vs-prompt
       @accept="accept"
-      :title="`${actionModal} Plan`"
+      :title="`${actionModal} Docente`"
       accept-text="Guardar"
       cancel-text="Cancelar"
       :active.sync="activePrompt"
     >
       <div class="con-exemple-prompt">
-        <PlansCreate
-          ref="PlansCreate"
+        <TeachersCreate
+          ref="TeachersCreate"
           :isCreate="this.iscreated"
-          :plan="this.plan"
+          :teachers="this.teacher"
+          :turnList="this.turns"
+          :commissionListData="this.commissions"
+          :idEdit="this.idEdit"
           @close-modal="closeModal()"
         />
       </div>
@@ -30,7 +33,7 @@
     <!-- Modal -->
     <vs-prompt
       @accept="acceptDelete"
-      title="Elminar Plan"
+      title="Elminar Docente"
       text="esta seguro de eliminar?"
       accept-text="Guardar"
       cancel-text="Cancelar"
@@ -42,7 +45,7 @@
     <DataTable
       :rowList="rowData"
       :btnCreateShow="true"
-      :btnCreateTitle="'Añadir Plan'"
+      :btnCreateTitle="'Añadir Docente'"
       :btnCreateIcon="'icon-plus'"
       :btnCreateIconPack="'feather'"
       @create-action="showModal(true)"
@@ -55,26 +58,29 @@
 
 <script>
 import "@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss";
-import PlansCreate from "./PlansCreate.vue";
+import TeachersCreate from "./TeachersCreate.vue";
 import { mapGetters } from "vuex";
 import DataTable from "../components/DataTable";
 
 export default {
-  name: "plans",
+  name: "teachers",
   components: {
-    PlansCreate,
+    TeachersCreate,
     DataTable,
   },
   data() {
     return {
       rowData: [],
-      plansList: [],
+      teachersList: [],
+      turns: null,
+      commissions: null,
       activePrompt: false,
       activePromptDelete: false,
       actionModal: "",
+      idEdit: null,
       idDeleted: null,
       iscreated: null,
-      plan: null,
+      teacher: null,
       columnDefs: [
         {
           headerName: "Acciones",
@@ -90,25 +96,38 @@ export default {
             },
             buttonDelete: true,
             actionDelete: (id) => {
+
               this.idDeleted = id;
               this.showModalConfirm();
             },
           },
         },
         {
-          headerName: "Nombre",
+          headerName: "Nombre Completo",
           field: "name",
         },
         {
-          headerName: "Estatus",
-          field: "activeText",
+          headerName: "Email",
+          field: "email",
+        },
+        {
+          headerName: "Turno",
+          field: "turn",
+        },
+        {
+          headerName: "Año",
+          field: "year",
+        },
+        {
+          headerName: "Comisión",
+          field: "commission",
         },
       ],
     };
   },
   methods: {
     showModal(iscreated) {
-      this.plan = !iscreated ? this.plan : null;
+      this.teacher = !iscreated ? this.teacher : null;
       this.actionModal = iscreated ? "Añadir" : "Editar";
       this.iscreated = iscreated;
       this.activePrompt = true;
@@ -117,39 +136,90 @@ export default {
       this.activePromptDelete = true;
     },
     getData(id) {
-      this.plan = Object.assign(
+      this.idEdit = id;
+
+      this.teacher = Object.assign(
         {},
-        this.$store.state.plan.plans.find((x) => x.id === id)
+        this.$store.state.teacher.teachers.find((x) => x.id === id)
       );
     },
     accept() {
       this.activePrompt = true;
-      this.$refs.PlansCreate.save();
+      this.$refs.TeachersCreate.save();
     },
     acceptDelete() {
-      this.$store.dispatch("plan/deletePlan", this.idDeleted);
+      this.$store.dispatch("teacher/deleteTeacher", this.idDeleted);
       this.idDeleted = null;
     },
-    getPlans() {
-      this.$store.dispatch("plan/getPlans");
+    getteachers() {
+      this.$store.dispatch("teacher/getTeachers");
+    },
+    getTurns() {
+      this.$store.dispatch("turn/getTurns");
+    },
+    getComission() {
+      this.$store.dispatch("commission/getCommissions");
     },
     onFirstDataRendered(params) {
       params.api.sizeColumnsToFit();
     },
     closeModal() {
+      this.idEdit = null;
       this.activePrompt = false;
     },
   },
   mounted() {
-    this.getPlans();
+    this.getteachers();
+    this.getTurns();
+    this.getComission();
   },
   watch: {
-    plans(data) {
-      this.rowData = data;
+    teachers(data) {
+      const teachersData = [];
+      let cont = 0;
+      const defaults = {
+        turno: ''
+      }
+      data.map((elements,index) => {
+        let turns
+        let commissions
+        elements.turns.forEach((t) => { turns = Object.assign({},t) })
+        elements.commissions.forEach((c) => { commissions = Object.assign({},c) })
+
+
+        teachersData.push({
+          id:elements.id,
+          name: elements.name,
+          email: elements.email,
+          phone: elements.phone,
+          turn: turns.name,
+          year: "",
+          commission: commissions.name,
+        });
+
+        cont++;
+      });
+
+      this.rowData = teachersData;
+    },
+
+    storeTurns(data) {
+      const institution_id = 1; // debe venir por props
+      const turnInstitution = data.filter(
+        (t) => t.institution.id === institution_id
+      );
+      this.turns = turnInstitution;
+    },
+    storeCommissions(data) {
+      this.commissions = data;
     },
   },
   computed: {
-    ...mapGetters({ plans: "plan/getPlans" }),
+    ...mapGetters({
+      teachers: "teacher/getTeachers",
+      storeTurns: "turn/getTurns",
+      storeCommissions: "commission/getCommissions",
+    }),
   },
 };
 </script>

@@ -1,8 +1,7 @@
 import service from "./service";
 
-class ProvinceService {
-  entity = "provinces";
-
+class TurnService {
+  entity = "turns";
   getAll() {
     return service.get(`/${this.entity}`);
   }
@@ -20,4 +19,4 @@ class ProvinceService {
   }
 }
 
-export default new ProvinceService();
+export default new TurnService();

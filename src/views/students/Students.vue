@@ -3,7 +3,7 @@
     <div id="form-model" class="grid-layout-container alignment-block">
       <div class="vx-row">
         <div class="vx-col w-full">
-          <p class="primary">Planes</p>
+          <p class="primary">Alumno</p>
         </div>
       </div>
     </div>
@@ -11,16 +11,18 @@
     <!-- Modal -->
     <vs-prompt
       @accept="accept"
-      :title="`${actionModal} Plan`"
+      :title="`${actionModal} Alumno`"
       accept-text="Guardar"
       cancel-text="Cancelar"
       :active.sync="activePrompt"
     >
       <div class="con-exemple-prompt">
-        <PlansCreate
-          ref="PlansCreate"
+        <StudentsCreate
+          ref="StudentsCreate"
           :isCreate="this.iscreated"
-          :plan="this.plan"
+          :student="this.student"
+          :turnList="this.turns"
+          :comissionList="this.comission"
           @close-modal="closeModal()"
         />
       </div>
@@ -30,7 +32,7 @@
     <!-- Modal -->
     <vs-prompt
       @accept="acceptDelete"
-      title="Elminar Plan"
+      title="Elminar Alumno"
       text="esta seguro de eliminar?"
       accept-text="Guardar"
       cancel-text="Cancelar"
@@ -42,7 +44,7 @@
     <DataTable
       :rowList="rowData"
       :btnCreateShow="true"
-      :btnCreateTitle="'Añadir Plan'"
+      :btnCreateTitle="'Añadir Alumno'"
       :btnCreateIcon="'icon-plus'"
       :btnCreateIconPack="'feather'"
       @create-action="showModal(true)"
@@ -55,26 +57,28 @@
 
 <script>
 import "@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss";
-import PlansCreate from "./PlansCreate.vue";
+import StudentsCreate from "./StudentsCreate.vue";
 import { mapGetters } from "vuex";
 import DataTable from "../components/DataTable";
 
 export default {
-  name: "plans",
+  name: "students",
   components: {
-    PlansCreate,
+    StudentsCreate,
     DataTable,
   },
   data() {
     return {
       rowData: [],
-      plansList: [],
+      teachersList: [],
+      turns: null,
+      comission: null,
       activePrompt: false,
       activePromptDelete: false,
       actionModal: "",
       idDeleted: null,
       iscreated: null,
-      plan: null,
+      student: null,
       columnDefs: [
         {
           headerName: "Acciones",
@@ -85,6 +89,7 @@ export default {
             // actionSearch: (id) => { /** action **/ },
             buttonEdit: true,
             actionEdit: (id) => {
+             
               this.getData(id);
               this.showModal(false);
             },
@@ -96,19 +101,31 @@ export default {
           },
         },
         {
-          headerName: "Nombre",
+          headerName: "Nombre Completo",
           field: "name",
         },
         {
-          headerName: "Estatus",
-          field: "activeText",
+          headerName: "Email",
+          field: "email",
+        },
+        {
+          headerName: "Turno",
+          field: "turn",
+        },
+        {
+          headerName: "Año",
+          field: "year",
+        },
+        {
+          headerName: "Comisión",
+          field: "commission",
         },
       ],
     };
   },
   methods: {
     showModal(iscreated) {
-      this.plan = !iscreated ? this.plan : null;
+      this.student = !iscreated ? this.student : null;
       this.actionModal = iscreated ? "Añadir" : "Editar";
       this.iscreated = iscreated;
       this.activePrompt = true;
@@ -117,21 +134,46 @@ export default {
       this.activePromptDelete = true;
     },
     getData(id) {
-      this.plan = Object.assign(
+      this.student = Object.assign(
         {},
-        this.$store.state.plan.plans.find((x) => x.id === id)
+        this.$store.state.student.students.find((x) => x.id === id)
       );
+      
     },
     accept() {
       this.activePrompt = true;
-      this.$refs.PlansCreate.save();
+      this.$refs.StudentsCreate.save();
     },
     acceptDelete() {
-      this.$store.dispatch("plan/deletePlan", this.idDeleted);
+      this.$store.dispatch("student/deleteStudent", this.idDeleted);
       this.idDeleted = null;
     },
-    getPlans() {
-      this.$store.dispatch("plan/getPlans");
+    getStudents() {
+      this.$store.dispatch("student/getStudents");
+    },
+    getTurns() {
+        return [
+            {
+                id:1,
+                name:'Mañana'
+            },
+            {
+                id:2,
+                name:'Noche'
+            }
+        ]
+    },
+    getComission() {
+        return [
+            {
+                id:1,
+                name:'A'
+            },
+            {
+                id:2,
+                name:'B'
+            }
+        ]
     },
     onFirstDataRendered(params) {
       params.api.sizeColumnsToFit();
@@ -141,15 +183,18 @@ export default {
     },
   },
   mounted() {
-    this.getPlans();
+    this.getStudents();
+    this.turns = this.getTurns()
+    this.comission = this.getComission()
   },
   watch: {
-    plans(data) {
+    students(data) {
+      // console.log(data)
       this.rowData = data;
     },
   },
   computed: {
-    ...mapGetters({ plans: "plan/getPlans" }),
+    ...mapGetters({ students: "student/getStudents" }),
   },
 };
 </script>

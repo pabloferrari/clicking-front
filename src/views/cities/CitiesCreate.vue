@@ -36,7 +36,7 @@
 
       <div class="vx-row mb-2">
         <div class="vx-col w-full">
-          <vs-select v-model="form.dataCountries" @change="changeCountry($event)" label="País" class="mt-5 w-full" name="País" v-validate="'required'">
+          <vs-select v-model="form.country_id" @change="changeCountry($event)" label="País" class="mt-5 w-full" name="País" v-validate="'required'">
               <vs-select-item key="" value="" selected text="seleccione país" />
               <vs-select-item :key="item.id" :value="item.id" :text="item.name" v-for="item in countriesList" />
           </vs-select>
@@ -46,7 +46,7 @@
 
       <div class="vx-row mb-2">
         <div class="vx-col w-full">
-          <vs-select v-model="form.dataProvinces" @change="changeProvince($event)" label="Provincia" class="mt-5 w-full" name="Provincia" v-validate="'required'">
+          <vs-select v-model="form.province_id"  label="Provincia" class="mt-5 w-full" name="Provincia" v-validate="'required'">
               <vs-select-item key="" value="" selected text="seleccione pronvincia" />
               <vs-select-item :key="item.id" :value="item.id" :text="item.name" v-for="item in provinceList" />
           </vs-select>
@@ -75,10 +75,10 @@ export default {
         id: null,
         name: "",
         zip_code: "",
-        dataCountries: "",
-        dataProvinces: '',
-        country_id: "",
-        province_id: "",
+        // dataCountries: "",
+        // dataProvinces: '',
+        // country_id: "",
+        // province_id: "",
         active: 1,
       },
       provinceList: null
@@ -93,8 +93,8 @@ export default {
         const city = Object.assign({}, this.city);
         this.form = city;
 
-        this.form.dataCountries = city.province.country.id
-        this.form.dataProvinces = city.province.id
+        this.form.country_id = city.province.country.id
+        this.form.province_id = city.province.id
         //console.log(city.country.id);
 
         //this.form.dataCountries = institution.city.city.country.id
@@ -124,11 +124,11 @@ export default {
     changeCountry (id) {
       const country = this.countriesList.find(x => x.id === id)
       this.provinceList = country.provinces
-      this.form.country_id = id ? id : 0
-    },
-    changeProvince (id) {
-      this.form.province_id = id ? id : 0
+     // this.form.country_id = id ? id : 0
     }
+    // changeProvince (id) {
+    //   this.form.province_id = id ? id : 0
+    // }
   },
 };
 </script>
