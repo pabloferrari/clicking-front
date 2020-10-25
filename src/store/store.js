@@ -21,8 +21,12 @@ import notification from './modules/notification'
 
 import country from './modules/country'
 import institution from './modules/institution'
+import turn from './modules/turn'
+import commission from './modules/commission'
 import city from './modules/city'
 import plan from './modules/plan'
+import teacher from './modules/teacher'
+import student from './modules/student'
 import province from './modules/province'
 
 Vue.use(Vuex)
@@ -33,6 +37,10 @@ export default new Vuex.Store({
     city,
     country,
     institution,
+    turn,
+    commission,
+    teacher,
+    student,
     notification,
     plan,
     province

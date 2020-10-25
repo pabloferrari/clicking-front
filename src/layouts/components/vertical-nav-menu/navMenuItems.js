@@ -44,4 +44,16 @@ export default [
     slug: "plans",
     icon: "FileTextIcon",
   },
+  {
+    url: "/teachers",
+    name: "Docentes",
+    slug: "teachers",
+    icon: "ArchiveIcon",
+  },
+  {
+    url: "/students",
+    name: "Alumno",
+    slug: "students",
+    icon: "UserIcon",
+  },
 ];
