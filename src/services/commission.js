@@ -1,22 +1,22 @@
-import service from "./service";
+import service from './service'
 
 class CommissionService {
-  entity = "commissions";
-  getAll() {
-    return service.get(`/${this.entity}`);
+  entity = 'commissions';
+  getAll () {
+    return service.get(`/${this.entity}`)
   }
-  get(id) {
-    return service.get(`/${this.entity}/${id}`);
+  get (id) {
+    return service.get(`/${this.entity}/${id}`)
   }
-  create(data) {
-    return service.post(`/${this.entity}`, data);
+  create (data) {
+    return service.post(`/${this.entity}`, data)
   }
-  update(id, data) {
-    return service.put(`/${this.entity}/${id}`, data);
+  update (id, data) {
+    return service.put(`/${this.entity}/${id}`, data)
   }
-  delete(id) {
-    return service.delete(`/${this.entity}/${id}`);
+  delete (id) {
+    return service.delete(`/${this.entity}/${id}`)
   }
 }
 
-export default new CommissionService();
+export default new CommissionService()

@@ -9,51 +9,51 @@
 
 export default [
   {
-    url: "/",
-    name: "Home",
-    slug: "home",
-    icon: "HomeIcon",
+    url: '/',
+    name: 'Home',
+    slug: 'home',
+    icon: 'HomeIcon'
   },
   {
-    url: "/countries",
-    name: "Pais",
-    slug: "countries",
-    icon: "MapIcon",
+    url: '/countries',
+    name: 'Pais',
+    slug: 'countries',
+    icon: 'MapIcon'
   },
   {
-    url: "/provinces",
-    name: "Provincias",
-    slug: "provinces",
-    icon: "MapPinIcon",
+    url: '/provinces',
+    name: 'Provincias',
+    slug: 'provinces',
+    icon: 'MapPinIcon'
   },
   {
-    url: "/cities",
-    name: "Ciudades",
-    slug: "cities",
-    icon: "MapPinIcon",
+    url: '/cities',
+    name: 'Ciudades',
+    slug: 'cities',
+    icon: 'MapPinIcon'
   },
   {
-    url: "/institutions",
-    name: "Institución",
-    slug: "institutions",
-    icon: "BookOpenIcon",
+    url: '/institutions',
+    name: 'Institución',
+    slug: 'institutions',
+    icon: 'BookOpenIcon'
   },
   {
-    url: "/plans",
-    name: "Planes",
-    slug: "plans",
-    icon: "FileTextIcon",
+    url: '/plans',
+    name: 'Planes',
+    slug: 'plans',
+    icon: 'FileTextIcon'
   },
   {
-    url: "/teachers",
-    name: "Docentes",
-    slug: "teachers",
-    icon: "ArchiveIcon",
+    url: '/teachers',
+    name: 'Docentes',
+    slug: 'teachers',
+    icon: 'ArchiveIcon'
   },
   {
-    url: "/students",
-    name: "Alumno",
-    slug: "students",
-    icon: "UserIcon",
-  },
-];
+    url: '/students',
+    name: 'Alumno',
+    slug: 'students',
+    icon: 'UserIcon'
+  }
+]

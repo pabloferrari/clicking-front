@@ -55,106 +55,106 @@
 </template>
 
 <script>
-import "@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss";
-import ProvincesCreate from "./ProvincesCreate.vue";
-import { mapGetters } from "vuex";
-import DataTable from "../components/DataTable";
+import '@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss'
+import ProvincesCreate from './ProvincesCreate.vue'
+import { mapGetters } from 'vuex'
+import DataTable from '../components/DataTable'
 
 export default {
-  name: "provinces",
+  name: 'provinces',
   components: {
     ProvincesCreate,
-    DataTable,
+    DataTable
   },
-  data() {
+  data () {
     return {
       rowData: [],
       provincesList: [],
       activePrompt: false,
       activePromptDelete: false,
-      actionModal: "",
+      actionModal: '',
       idDeleted: null,
       iscreated: null,
       province: null,
       countries: null,
       columnDefs: [
         {
-          headerName: "Acciones",
-          field: "id",
-          type: "actionColumn",
+          headerName: 'Acciones',
+          field: 'id',
+          type: 'actionColumn',
           cellRendererParams: {
             buttonSearch: false,
             // actionSearch: (id) => { /** action **/ },
             buttonEdit: true,
             actionEdit: (id) => {
-              this.getData(id);
-              this.showModal(false);
+              this.getData(id)
+              this.showModal(false)
             },
             buttonDelete: true,
             actionDelete: (id) => {
-              this.idDeleted = id;
-              this.showModalConfirm();
-            },
-          },
+              this.idDeleted = id
+              this.showModalConfirm()
+            }
+          }
         },
         {
-          headerName: "Nombre",
-          field: "name",
+          headerName: 'Nombre',
+          field: 'name'
         },
         {
-          headerName: "ISO 31662",
-          field: "iso31662",
+          headerName: 'ISO 31662',
+          field: 'iso31662'
         },
         {
-          headerName: "País",
-          field: "country",
-        },
-      ],
-    };
+          headerName: 'País',
+          field: 'country'
+        }
+      ]
+    }
   },
   methods: {
-    showModal(iscreated) {
-      this.province = !iscreated ? this.province : null;
-      this.actionModal = iscreated ? "Añadir" : "Editar";
-      this.iscreated = iscreated;
-      this.activePrompt = true;
+    showModal (iscreated) {
+      this.province = !iscreated ? this.province : null
+      this.actionModal = iscreated ? 'Añadir' : 'Editar'
+      this.iscreated = iscreated
+      this.activePrompt = true
     },
-    showModalConfirm() {
-      this.activePromptDelete = true;
+    showModalConfirm () {
+      this.activePromptDelete = true
     },
-    getData(id) {
+    getData (id) {
       this.province = Object.assign(
         {},
         this.$store.state.province.provinces.find((x) => x.id === id)
-      );
+      )
     },
-    accept() {
-      this.activePrompt = true;
-      this.$refs.ProvincesCreate.save();
+    accept () {
+      this.activePrompt = true
+      this.$refs.ProvincesCreate.save()
     },
-    acceptDelete() {
-      this.$store.dispatch("province/deleteProvince", this.idDeleted);
-      this.idDeleted = null;
+    acceptDelete () {
+      this.$store.dispatch('province/deleteProvince', this.idDeleted)
+      this.idDeleted = null
     },
-    getProvinces() {
-      this.$store.dispatch("province/getProvinces");
+    getProvinces () {
+      this.$store.dispatch('province/getProvinces')
     },
     getCountries () {
       this.$store.dispatch('country/getCountries')
     },
-    onFirstDataRendered(params) {
-      params.api.sizeColumnsToFit();
+    onFirstDataRendered (params) {
+      params.api.sizeColumnsToFit()
     },
-    closeModal() {
-      this.activePrompt = false;
-    },
+    closeModal () {
+      this.activePrompt = false
+    }
   },
-  mounted() {
-    this.getProvinces();
+  mounted () {
+    this.getProvinces()
     this.getCountries()
   },
   watch: {
-    provinces(data) {
+    provinces (data) {
       const rows = []
       data.map((value) => {
         rows.push({
@@ -168,12 +168,12 @@ export default {
     },
     storeCountries (data) {
       this.countries = data
-    },
+    }
   },
   computed: {
-    ...mapGetters({ provinces: "province/getProvinces", storeCountries:'country/getCountries' }),
-  },
-};
+    ...mapGetters({ provinces: 'province/getProvinces', storeCountries:'country/getCountries' })
+  }
+}
 </script>
 
 <style lang="scss" scoped>

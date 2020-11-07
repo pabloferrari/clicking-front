@@ -52,56 +52,56 @@
 <script>
 // import { mapGetters } from 'vuex'
 export default {
-  name: "ProvincesCreate",
+  name: 'ProvincesCreate',
   props: {
     isCreate: Boolean,
     province: {},
-    countriesList: null,
+    countriesList: null
   },
 
-  data() {
+  data () {
     return {
       form: {
         id: null,
-        name: "",
-        iso31662: "",
-        active: 1,
+        name: '',
+        iso31662: '',
+        active: 1
       },
       citiesList: null
-    };
+    }
   },
-  mounted() {
-    this.setData();
+  mounted () {
+    this.setData()
   },
   methods: {
-    setData() {
+    setData () {
       if (this.province) {
-        const province = Object.assign({}, this.province);
-        this.form = province;
+        const province = Object.assign({}, this.province)
+        this.form = province
         this.form.country_id = province.country.id
       }
     },
-    save() {
+    save () {
       if (!this.isCreate) {
-        this.update();
+        this.update()
       } else {
-        this.create();
+        this.create()
       }
     },
-    create() {
+    create () {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          const payload = this.form;
-          this.$store.dispatch("province/createProvince", payload)
+          const payload = this.form
+          this.$store.dispatch('province/createProvince', payload)
           //this.$emit("close-modal");
         }
-      });
+      })
     },
-    update() {
-      const payload = this.form;
-      this.$store.dispatch("province/updateProvince", payload);
+    update () {
+      const payload = this.form
+      this.$store.dispatch('province/updateProvince', payload)
       //this.$emit("close-modal");
-    },
-  },
-};
+    }
+  }
+}
 </script>

@@ -3,7 +3,7 @@ import TurnService from '../../services/turns'
 
 const state = {
   turn: {},
-  turns: [],
+  turns: []
 }
 
 
@@ -49,11 +49,11 @@ const actions = {
       commit('setTurns', turns)
 
       dispatch(
-          'notification/success',
-          {title: 'Guardado exitoso....',
+        'notification/success',
+        {title: 'Guardado exitoso....',
           text: 'se ha actualizado correctamente.'},
-          { root: true }
-        )
+        { root: true }
+      )
     } catch (error) {
       console.log(error)
     }
@@ -84,7 +84,7 @@ const actions = {
       await TurnService.delete(id)
       const index = state.turns.findIndex(x => x.id === id)
       const turns =  [... state.turns]
-      teachers.splice(index, 1)
+      turns.splice(index, 1)
       commit('setTurns', turns)
       dispatch('notification/success', {title: 'Eliminado exitoso....', text: 'se ha eliminado correctamente.'}, { root: true })
     } catch (error) {

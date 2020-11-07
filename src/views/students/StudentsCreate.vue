@@ -33,7 +33,7 @@
           }}</span>
         </div>
       </div>
-      
+
       <div class="vx-row mb-2">
         <div class="vx-col w-full">
           <vs-input
@@ -61,67 +61,67 @@
 
 <script>
 export default {
-  name: "StudentsCreate",
+  name: 'StudentsCreate',
   props: {
     isCreate: Boolean,
     student: {},
-   
-    idEdit: false,
-   
+
+    idEdit: false
+
   },
-  data() {
+  data () {
     return {
       form: {
         id: null,
-        name: "",
-        email: "",
-        active: 1,
-      },
-    };
+        name: '',
+        email: '',
+        active: 1
+      }
+    }
   },
-  mounted() {
-    this.setData();
+  mounted () {
+    this.setData()
   },
   methods: {
-    setData() {
+    setData () {
       if (this.student) {
-        const student = this.student;
+        const student = this.student
 
-        this.form.id = student.id;
-        this.form.name = student.name;
-        this.form.email = student.user.email;
-        this.form.active = student.active;
+        this.form.id = student.id
+        this.form.name = student.name
+        this.form.email = student.user.email
+        this.form.active = student.active
       } else {
-        const ObjectEmpty = Object.assign(this.form, this.student);
-        this.form = ObjectEmpty;
+        const ObjectEmpty = Object.assign(this.form, this.student)
+        this.form = ObjectEmpty
       }
     },
-    save() {
+    save () {
       if (!this.isCreate) {
-        this.update();
+        this.update()
       } else {
-        this.create();
+        this.create()
       }
     },
-    create() {
+    create () {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          const payload = this.form;
-          this.$store.dispatch("student/createStudent", payload);
-          this.$emit("close-modal");
+          const payload = this.form
+          this.$store.dispatch('student/createStudent', payload)
+          this.$emit('close-modal')
         }
-      });
+      })
     },
-    update() {
+    update () {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          const payload = this.form;
-          console.log(payload);
-          this.$store.dispatch("student/updateStudent", payload);
-          this.$emit("close-modal");
+          const payload = this.form
+          console.log(payload)
+          this.$store.dispatch('student/updateStudent', payload)
+          this.$emit('close-modal')
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
