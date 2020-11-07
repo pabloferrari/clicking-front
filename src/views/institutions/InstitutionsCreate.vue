@@ -110,6 +110,7 @@ export default {
       if (this.institution) {
         if (this.idEdit) {
           const institution = Object.assign({}, this.$store.state.institution.institutions.find(x => x.id === this.idEdit))
+          console.log(this.idEdit)
           if (institution) {
             this.form.id = institution.id
             this.form.name = institution.name
@@ -121,9 +122,11 @@ export default {
             this.form.dataProvinces = institution.city.province.id
             this.form.dataCities = institution.city.id
             this.form.active = !!(institution.active)
+           
           }
         } else {
           this.form = Object.assign({}, this.institution)
+           
         }
       }
     },
@@ -154,6 +157,7 @@ export default {
     },
     changeCountry (id) {
       const country = this.countriesList.find(x => x.id === id)
+ 
       this.provinceList = country.provinces
     },
     changeProvince (id) {

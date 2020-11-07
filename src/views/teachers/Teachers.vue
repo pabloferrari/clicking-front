@@ -21,8 +21,6 @@
           ref="TeachersCreate"
           :isCreate="this.iscreated"
           :teachers="this.teacher"
-          :turnList="this.turns"
-          :commissionListData="this.commissions"
           :idEdit="this.idEdit"
           @close-modal="closeModal()"
         />
@@ -72,8 +70,6 @@ export default {
     return {
       rowData: [],
       teachersList: [],
-      turns: null,
-      commissions: null,
       activePrompt: false,
       activePromptDelete: false,
       actionModal: "",
@@ -96,7 +92,6 @@ export default {
             },
             buttonDelete: true,
             actionDelete: (id) => {
-
               this.idDeleted = id;
               this.showModalConfirm();
             },
@@ -110,17 +105,10 @@ export default {
           headerName: "Email",
           field: "email",
         },
-        {
-          headerName: "Turno",
-          field: "turn",
-        },
+
         {
           headerName: "Año",
           field: "year",
-        },
-        {
-          headerName: "Comisión",
-          field: "commission",
         },
       ],
     };
@@ -154,12 +142,7 @@ export default {
     getteachers() {
       this.$store.dispatch("teacher/getTeachers");
     },
-    getTurns() {
-      this.$store.dispatch("turn/getTurns");
-    },
-    getComission() {
-      this.$store.dispatch("commission/getCommissions");
-    },
+
     onFirstDataRendered(params) {
       params.api.sizeColumnsToFit();
     },
@@ -170,55 +153,15 @@ export default {
   },
   mounted() {
     this.getteachers();
-    this.getTurns();
-    this.getComission();
   },
   watch: {
     teachers(data) {
-      const teachersData = [];
-      let cont = 0;
-      const defaults = {
-        turno: ''
-      }
-      data.map((elements,index) => {
-        let turns
-        let commissions
-        elements.turns.forEach((t) => { turns = Object.assign({},t) })
-        elements.commissions.forEach((c) => { commissions = Object.assign({},c) })
-
-
-        teachersData.push({
-          id:elements.id,
-          name: elements.name,
-          email: elements.email,
-          phone: elements.phone,
-          turn: turns.name,
-          year: "",
-          commission: commissions.name,
-        });
-
-        cont++;
-      });
-
-      this.rowData = teachersData;
-    },
-
-    storeTurns(data) {
-      const institution_id = 1; // debe venir por props
-      const turnInstitution = data.filter(
-        (t) => t.institution.id === institution_id
-      );
-      this.turns = turnInstitution;
-    },
-    storeCommissions(data) {
-      this.commissions = data;
+      this.rowData = data;
     },
   },
   computed: {
     ...mapGetters({
       teachers: "teacher/getTeachers",
-      storeTurns: "turn/getTurns",
-      storeCommissions: "commission/getCommissions",
     }),
   },
 };

@@ -21,8 +21,6 @@
           ref="StudentsCreate"
           :isCreate="this.iscreated"
           :student="this.student"
-          :turnList="this.turns"
-          :comissionList="this.comission"
           @close-modal="closeModal()"
         />
       </div>
@@ -71,8 +69,6 @@ export default {
     return {
       rowData: [],
       teachersList: [],
-      turns: null,
-      comission: null,
       activePrompt: false,
       activePromptDelete: false,
       actionModal: "",
@@ -112,10 +108,7 @@ export default {
           headerName: "Turno",
           field: "turn",
         },
-        {
-          headerName: "Año",
-          field: "year",
-        },
+       
         {
           headerName: "Comisión",
           field: "commission",
@@ -134,11 +127,12 @@ export default {
       this.activePromptDelete = true;
     },
     getData(id) {
+      
       this.student = Object.assign(
         {},
         this.$store.state.student.students.find((x) => x.id === id)
       );
-      
+      console.log(this.student)
     },
     accept() {
       this.activePrompt = true;
@@ -151,30 +145,7 @@ export default {
     getStudents() {
       this.$store.dispatch("student/getStudents");
     },
-    getTurns() {
-        return [
-            {
-                id:1,
-                name:'Mañana'
-            },
-            {
-                id:2,
-                name:'Noche'
-            }
-        ]
-    },
-    getComission() {
-        return [
-            {
-                id:1,
-                name:'A'
-            },
-            {
-                id:2,
-                name:'B'
-            }
-        ]
-    },
+   
     onFirstDataRendered(params) {
       params.api.sizeColumnsToFit();
     },
@@ -184,13 +155,19 @@ export default {
   },
   mounted() {
     this.getStudents();
-    this.turns = this.getTurns()
-    this.comission = this.getComission()
   },
   watch: {
     students(data) {
-      // console.log(data)
-      this.rowData = data;
+      const studentData = [];
+      data.map((e) => {
+        studentData.push({
+          id:e.id,
+          name:e.name,
+          active:e.active,
+          email:(e.user) ? e.user.email : ''
+        });
+      });
+      this.rowData = studentData;
     },
   },
   computed: {

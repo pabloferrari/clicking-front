@@ -46,10 +46,10 @@ const actions = {
         name: teacher.name,
         email: teacher.email,
         phone: teacher.phone,
+        description:'Teacher user',
+        password:teacher.password,
         active:teacher.active,
-        user_id:'',
-        turns: teacher.dataTurns,
-        commissions: teacher.dataCommissions,
+
       }
       const teacherCreate  = await TeacherService.create(newTeacher)
       const teachers = Object.assign([], state.teachers)
@@ -80,9 +80,6 @@ const actions = {
           email: teacher.email,
           phone: teacher.phone,
           active:teacher.active,
-          user_id:'',
-          turns: teacher.dataTurns,
-          commissions: teacher.dataCommissions,
         }
         const teacherEdit = await TeacherService.update(teacher.id, editTeacher)
 
