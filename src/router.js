@@ -52,6 +52,11 @@ const router = new Router({
           component: () => import('@/views/pages/Login.vue')
         },
         {
+          path: '/pages/not-authorized',
+          name: 'page-not-authorized',
+          component: () => import('@/views/pages/NotAuthorized.vue')
+        },
+        {
           path: '/pages/error-404',
           name: 'page-error-404',
           component: () => import('@/views/pages/Error404.vue')
@@ -66,15 +71,44 @@ const router = new Router({
   ]
 })
 
+function checkRoutePermissions (permission) {
+  let exist = false
+  const roles = store.getters['auth/getUserRoles']
+  if (permission && permission instanceof Array) {
+    if (permission.length > 0) {
+      const permissionRoles = permission
+      console.log('permissionRoles', permissionRoles, roles)
+      const hasPermission = roles.some(role => {
+        return permissionRoles.includes(role)
+      })
+
+      if (hasPermission) {
+        exist = true
+      }
+    }
+  } else {
+    throw new Error('need roles! Like v-permission="[\'admin\',\'editor\']"')
+  }
+  return exist
+}
+
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!localStorage.getItem('userAuth') || !localStorage.getItem('token')) {
       next('/pages/login')
     }
   }
-  // store.commit('auth/setAuthUser', JSON.parse(localStorage.getItem('userAuth')))
+  store.commit('auth/setAuthUser', JSON.parse(localStorage.getItem('userAuth')))
   store.commit('auth/setAccessToken', localStorage.getItem('token'))
-  next()
+  if (to.meta.permissions && to.meta.permissions.length > 0) {
+    if (checkRoutePermissions(to.meta.permissions)) {
+      next()
+    } else {
+      next('/pages/not-authorized')
+    }
+  } else {
+    next()
+  }
 })
 
 router.afterEach(() => {

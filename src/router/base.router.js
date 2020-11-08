@@ -1,5 +1,4 @@
 import Home from '../views/home/Home.vue'
-import Page2 from '../views/Page2.vue'
 
 export default [
   // =============================================================================
@@ -11,43 +10,59 @@ export default [
     component: Home
   },
   {
-    path: '/page2',
-    name: 'page-2',
-    component: () => Page2
-  },
-  {
     path: '/countries',
-    name: 'Pais',
-    component: () => import('../views/countries/Countries.vue')
+    name: 'Paises',
+    component: () => import('../views/countries/Countries.vue'),
+    meta: {
+      permissions: ['admin']
+    }
   },
   {
     path: '/provinces',
     name: 'Provincias',
-    component: () => import('../views/provinces/Provinces.vue')
+    component: () => import('../views/provinces/Provinces.vue'),
+    meta: {
+      permissions: ['admin']
+    }
   },
   {
     path: '/cities',
     name: 'Ciudades',
-    component: () => import('../views/cities/Cities.vue')
+    component: () => import('../views/cities/Cities.vue'),
+    meta: {
+      permissions: ['admin']
+    }
   },
   {
     path: '/institutions',
-    name: 'Institucion',
-    component: () => import('../views/institutions/Institutions.vue')
+    name: 'Instituciones',
+    component: () => import('../views/institutions/Institutions.vue'),
+    meta: {
+      permissions: ['admin']
+    }
   },
   {
     path: '/plans',
     name: 'Planes',
-    component: () => import('../views/plans/Plans.vue')
+    component: () => import('../views/plans/Plans.vue'),
+    meta: {
+      permissions: ['admin']
+    }
   },
   {
     path: '/teachers',
-    name: 'Docente',
-    component: () => import('../views/teachers/Teachers.vue')
+    name: 'Docentes',
+    component: () => import('../views/teachers/Teachers.vue'),
+    meta: {
+      permissions: ['institution']
+    }
   },
   {
     path: '/students',
-    name: 'Alumno',
-    component: () => import('../views/students/Students.vue')
+    name: 'Alumnos',
+    component: () => import('../views/students/Students.vue'),
+    meta: {
+      permissions: ['institution']
+    }
   }
 ]

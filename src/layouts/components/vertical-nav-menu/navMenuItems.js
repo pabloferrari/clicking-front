@@ -12,48 +12,62 @@ export default [
     url: '/',
     name: 'Home',
     slug: 'home',
-    icon: 'HomeIcon'
+    icon: 'HomeIcon',
+    permissions: []
   },
   {
-    url: '/countries',
-    name: 'Pais',
-    slug: 'countries',
-    icon: 'MapIcon'
-  },
-  {
-    url: '/provinces',
-    name: 'Provincias',
-    slug: 'provinces',
-    icon: 'MapPinIcon'
-  },
-  {
-    url: '/cities',
-    name: 'Ciudades',
-    slug: 'cities',
-    icon: 'MapPinIcon'
+    url: null,
+    name: 'Configuración',
+    slug: 'settings',
+    icon: 'SettingsIcon',
+    submenu: [
+      {
+        url: '/countries',
+        name: 'Paises',
+        slug: 'countries',
+        permissions: []
+      },
+      {
+        url: '/provinces',
+        name: 'Provincias',
+        slug: 'provinces',
+        permissions: []
+      },
+      {
+        url: '/cities',
+        name: 'Ciudades',
+        slug: 'cities',
+        permissions: []
+      }
+    ],
+    permissions: ['admin']
   },
   {
     url: '/institutions',
-    name: 'Institución',
+    name: 'Instituciones',
     slug: 'institutions',
-    icon: 'BookOpenIcon'
+    icon: 'BookOpenIcon',
+    permissions: ['admin']
   },
   {
     url: '/plans',
     name: 'Planes',
     slug: 'plans',
-    icon: 'FileTextIcon'
+    icon: 'FileTextIcon',
+    permissions: ['admin']
   },
   {
     url: '/teachers',
     name: 'Docentes',
     slug: 'teachers',
-    icon: 'ArchiveIcon'
+    icon: 'ArchiveIcon',
+    permissions: ['institution']
   },
   {
     url: '/students',
     name: 'Alumno',
     slug: 'students',
-    icon: 'UserIcon'
+    icon: 'UserIcon',
+    permissions: ['institution']
   }
 ]
