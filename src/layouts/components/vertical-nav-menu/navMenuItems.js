@@ -56,4 +56,10 @@ export default [
     slug: "students",
     icon: "UserIcon",
   },
+  {
+    url: "/courses",
+    name: "Mis Cursos",
+    slug: "courses",
+    icon: "UserIcon",
+  },
 ];

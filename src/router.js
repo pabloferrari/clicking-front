@@ -72,7 +72,7 @@ router.beforeEach((to, from, next) => {
       next('/pages/login')
     }
   }
-  // store.commit('auth/setAuthUser', JSON.parse(localStorage.getItem('userAuth')))
+  store.commit('auth/setAuthUser', JSON.parse(localStorage.getItem('userAuth')))
   store.commit('auth/setAccessToken', localStorage.getItem('token'))
   next()
 })

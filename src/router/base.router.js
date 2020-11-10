@@ -50,4 +50,15 @@ export default [
     name: "Alumno",
     component: () => import("../views/students/Students.vue"),
   },
+  {
+    path: "/courses",
+    name: "Mis Cursos",
+    component: () => import("../views/courses/Courses.vue"),
+  },
+  {
+    path: "/courses/:subject",
+    name: "Curso Materia",
+    component: () => import("../views/courses/Subject.vue"),
+    props:true
+  },
 ];
