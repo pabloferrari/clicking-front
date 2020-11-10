@@ -12,8 +12,10 @@
             <h1>{{ card.count }}</h1>
           </div>
         </div>
-        <div class="flex justify-between flex-wrap">
-          <p class="subpixel-antialiased">{{ card.title }}</p>
+        <div class="flex justify-between">
+          <div class="flex items-end p-1">
+            <p class="subpixel-antialiased text-right">{{ card.title }}</p>
+          </div>
         </div>
       </vs-card>
     </div>
