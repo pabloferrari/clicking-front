@@ -73,88 +73,88 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 export default {
-  name: "TeachersCreate",
+  name: 'TeachersCreate',
   props: {
     isCreate: Boolean,
     teachers: {},
-    idEdit: null,
+    idEdit: null
   },
-  data() {
+  data () {
     return {
       form: {
         id: null,
-        name: "",
-        phone: "",
-        email: "",
-        password: "",
-        active: 1,
-      },
-    };
+        name: '',
+        phone: '',
+        email: '',
+        password: '',
+        active: 1
+      }
+    }
   },
-  mounted() {
-    this.setData();
+  mounted () {
+    this.setData()
   },
 
   computed: {
-    ...mapGetters({ error: "teacher/getError" }),
+    ...mapGetters({ error: 'teacher/getError' })
   },
 
   methods: {
-    setData() {
+    setData () {
       // console.log(this.idEdit)
       if (this.teachers) {
         if (this.idEdit) {
           const teacher = Object.assign(
             {},
             this.$store.state.teacher.teachers.find((x) => x.id === this.idEdit)
-          );
+          )
           if (teacher) {
-            this.form.id = this.idEdit;
-            this.form.name = teacher.name;
-            this.form.email = teacher.email;
-            this.form.phone = teacher.phone;
-            this.form.active = teacher.active;
+            this.form.id = this.idEdit
+            this.form.name = teacher.name
+            this.form.email = teacher.email
+            this.form.phone = teacher.phone
+            this.form.active = teacher.active
           }
         }
       } else {
-        const ObjectEmpty = Object.assign(this.form, this.teachers);
-        this.form = ObjectEmpty;
+        const ObjectEmpty = Object.assign(this.form, this.teachers)
+        this.form = ObjectEmpty
       }
     },
 
-    save() {
+    save () {
       if (!this.isCreate) {
-        this.update();
+        this.update()
       } else {
-        this.create();
+        this.create()
       }
     },
-    create() {
+    create () {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          const payload = this.form;
+          const payload = this.form
 
-          this.$store.dispatch("teacher/createTeacher", payload);
+          this.$store.dispatch('teacher/createTeacher', payload)
           // if(this.error ) {
-          this.$emit("close-modal");
+          this.$emit('close-modal')
           // }
         }
-      });
+      })
     },
-    update() {
-      console.log(this.error);
+    update () {
+      console.log(this.error)
       this.$validator.validateAll().then((result) => {
         if (result) {
-          const payload = this.form;
-          this.$store.dispatch("teacher/updateTeacher", payload);
+          const payload = this.form
+          this.$store.dispatch('teacher/updateTeacher', payload)
           // if(this.error) {
-          this.$emit("close-modal");
+          this.$emit('close-modal')
           // }
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>

@@ -13,6 +13,11 @@ const getters = {
   getUserAuth: state => {
     return state.authUser
   },
+  getUserRoles: state => {
+    return state.authUser.roles.map((x) => {
+      return x.slug
+    })
+  },
   getAccessToken: state => {
     return state.AccessToken
   },

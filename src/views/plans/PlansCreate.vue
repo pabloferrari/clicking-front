@@ -29,52 +29,52 @@
 <script>
 // import { mapGetters } from 'vuex'
 export default {
-  name: "PlansCreate",
+  name: 'PlansCreate',
   props: {
     isCreate: Boolean,
-    plan: {},
+    plan: {}
   },
 
-  data() {
+  data () {
     return {
       form: {
         id: null,
-        name: "",
-        active: 1,
-      },
-    };
+        name: '',
+        active: 1
+      }
+    }
   },
-  mounted() {
-    this.setData();
+  mounted () {
+    this.setData()
   },
   methods: {
-    setData() {
+    setData () {
       if (this.plan) {
-        this.form = Object.assign({}, this.plan);
+        this.form = Object.assign({}, this.plan)
       }
     },
-    save() {
+    save () {
       if (!this.isCreate) {
-        this.update();
+        this.update()
       } else {
-        this.create();
+        this.create()
       }
     },
-    create() {
+    create () {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          const payload = this.form;
-          this.$store.dispatch("plan/createPlan", payload);
+          const payload = this.form
+          this.$store.dispatch('plan/createPlan', payload)
           //this.$emit("close-modal");
         }
-      });
+      })
     },
 
-    update() {
-      const payload = this.form;
-      this.$store.dispatch("plan/updatePlan", payload);
+    update () {
+      const payload = this.form
+      this.$store.dispatch('plan/updatePlan', payload)
       //this.$emit("close-modal");
-    },
-  },
-};
+    }
+  }
+}
 </script>

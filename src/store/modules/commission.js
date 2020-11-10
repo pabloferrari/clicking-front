@@ -3,7 +3,7 @@ import CommissionService from '../../services/commission'
 
 const state = {
   commission: {},
-  commissions: [],
+  commissions: []
 }
 
 
@@ -50,11 +50,11 @@ const actions = {
       commit('setCommissions', commissions)
 
       dispatch(
-          'notification/success',
-          {title: 'Guardado exitoso....',
+        'notification/success',
+        {title: 'Guardado exitoso....',
           text: 'se ha actualizado correctamente.'},
-          { root: true }
-        )
+        { root: true }
+      )
     } catch (error) {
       console.log(error)
     }
