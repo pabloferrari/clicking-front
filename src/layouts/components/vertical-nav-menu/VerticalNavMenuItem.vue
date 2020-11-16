@@ -19,6 +19,7 @@
       <router-link
         tabindex="-1"
         v-if="to"
+        v-permission="permissions"
         exact
         :class="[{'router-link-active': activeLink}]"
         :to="to"
@@ -49,7 +50,8 @@ export default {
     index       : { type: [String, Number],       default: null             },
     featherIcon : { type: Boolean,                default: true             },
     target      : { type: String,                 default: '_self'          },
-    isDisabled  : { type: Boolean,                default: false            }
+    isDisabled  : { type: Boolean,                default: false            },
+    permissions : { type: Array[String],          default: []               }
   },
   computed: {
     activeLink () {

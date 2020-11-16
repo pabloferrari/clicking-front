@@ -1,128 +1,128 @@
-import PlanService from "../../services/plans";
+import PlanService from '../../services/plans'
 
 const state = {
   plan: {},
   plans: [],
-  activePrompt: false,
-};
+  activePrompt: false
+}
 
 const getters = {
   getPlan: (state) => {
-    return state.plan;
+    return state.plan
   },
   getPlans: (state) => {
-    return state.plans;
+    return state.plans
   },
   getPlanId: (state) => (id) => {
-    return state.plans.find((plans) => plans.id === id);
-  },
-};
+    return state.plans.find((plans) => plans.id === id)
+  }
+}
 
 const mutations = {
-  updatedPlan(state, plan) {
-    state.plan = plan;
+  updatedPlan (state, plan) {
+    state.plan = plan
   },
 
-  setPlans(state, plans) {
-    state.plans = plans;
+  setPlans (state, plans) {
+    state.plans = plans
   },
 
-  setPlan(state, plan) {
-    state.plan = plan;
-  },
-};
+  setPlan (state, plan) {
+    state.plan = plan
+  }
+}
 
 const actions = {
-  createPlan({ commit, state, dispatch }, plan) {
+  createPlan ({ commit, state, dispatch }, plan) {
     PlanService.create(plan)
       .then((response) => {
-        const plans = Object.assign([], state.plans);
-        plans.push(response.data);
+        const plans = Object.assign([], state.plans)
+        plans.push(response.data)
 
-        console.log(plans);
+        console.log(plans)
 
         plans.map(function (data) {
-          data.activeText = data.active == 1 ? "Activo" : "Inactivo";
-        });
+          data.activeText = data.active === 1 ? 'Activo' : 'Inactivo'
+        })
 
-        commit("setPlans", plans);
+        commit('setPlans', plans)
         dispatch(
-          "notification/success",
+          'notification/success',
           {
-            title: "Guardado exitoso....",
-            text: "se ha actualizado correctamente.",
+            title: 'Guardado exitoso....',
+            text: 'se ha actualizado correctamente.'
           },
           { root: true }
-        );
+        )
       })
       .catch((err) => {
-        console.log(err);
-      });
+        console.log(err)
+      })
   },
 
-  async updatePlan({ state, commit, dispatch }, plan) {
+  async updatePlan ({ state, commit, dispatch }, plan) {
     try {
-      const planEdit = await PlanService.update(plan.id, plan);
+      const planEdit = await PlanService.update(plan.id, plan)
       const newValue = state.plans.map((value) => {
         if (value.id === planEdit.data.id) {
-          value = Object.assign({}, planEdit.data);
+          value = Object.assign({}, planEdit.data)
         }
-        return value;
-      });
+        return value
+      })
 
       newValue.map(function (data) {
-        data.activeText = data.active == 1 ? "Activo" : "Inactivo";
-      });
+        data.activeText = data.active === 1 ? 'Activo' : 'Inactivo'
+      })
 
-      commit("setPlans", newValue);
+      commit('setPlans', newValue)
       dispatch(
-        "notification/success",
+        'notification/success',
         {
-          title: "Guardado exitoso....",
-          text: "se ha actualizado correctamente.",
+          title: 'Guardado exitoso....',
+          text: 'se ha actualizado correctamente.'
         },
         { root: true }
-      );
+      )
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   },
-  async deletePlan({ state, commit, dispatch }, id) {
+  async deletePlan ({ state, commit, dispatch }, id) {
     try {
-      await PlanService.delete(id);
-      const index = state.plans.findIndex((x) => x.id === id);
-      const plans = [...state.plans];
-      plans.splice(index, 1);
-      commit("setPlans", plans);
+      await PlanService.delete(id)
+      const index = state.plans.findIndex((x) => x.id === id)
+      const plans = [...state.plans]
+      plans.splice(index, 1)
+      commit('setPlans', plans)
       dispatch(
-        "notification/success",
+        'notification/success',
         {
-          title: "Eliminado exitoso....",
-          text: "se ha eliminado correctamente.",
+          title: 'Eliminado exitoso....',
+          text: 'se ha eliminado correctamente.'
         },
         { root: true }
-      );
+      )
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   },
-  async getPlans({ commit }) {
+  async getPlans ({ commit }) {
     try {
-      const plansData = await PlanService.getAll();
+      const plansData = await PlanService.getAll()
       plansData.data.map(function (data) {
-        data.activeText = data.active == 1 ? "Activo" : "Inactivo";
-      });
-      commit("setPlans", plansData.data);
+        data.activeText = data.active === 1 ? 'Activo' : 'Inactivo'
+      })
+      commit('setPlans', plansData.data)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  },
-};
+  }
+}
 
 export default {
   namespaced: true,
   state,
   getters,
   actions,
-  mutations,
-};
+  mutations
+}

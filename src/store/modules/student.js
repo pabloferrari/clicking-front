@@ -1,22 +1,21 @@
-
 import StudentService from '../../services/students'
 
 const state = {
   student: {},
-  students: [],
+  students: []
 }
-
 
 const getters = {
-  getStudent: state => { return state.student },
-  getStudents: state => { return state.students },
-  getStudentId: state => id => {
-    return state.students.find(
-      students => students.id === id 
-    )
+  getStudent: (state) => {
+    return state.student
+  },
+  getStudents: (state) => {
+    return state.students
+  },
+  getStudentId: (state) => (id) => {
+    return state.students.find((students) => students.id === id)
   }
 }
-
 
 const mutations = {
   updatedStudent (state, student) {
@@ -30,34 +29,33 @@ const mutations = {
   setStudent (state, student) {
     state.student = student
   }
-
 }
 
 const actions = {
-  async createStudent ({commit, state, dispatch}, student) {
-
+  async createStudent ({ commit, state, dispatch }, student) {
     try {
       const newStudent = {
         name: student.name,
         email: student.email,
-        phone: student.phone,
-        turn_id: student.dataTurns,
-        active:student.active,
-        comission_id: student.dataComissions,
+        description: student.name,
+        password: student.password,
+        active: student.active
       }
-      const studentCreate  = await StudentService.create(newStudent)
+      const studentCreate = await StudentService.create(newStudent)
       const students = Object.assign([], state.students)
 
-      students.push(studentCreate.data.ops)
+      students.push(studentCreate.data)
 
       commit('setStudents', students)
- 
+
       dispatch(
-          'notification/success', 
-          {title: 'Guardado exitoso....', 
-          text: 'se ha actualizado correctamente.'}, 
-          { root: true }
-        )
+        'notification/success',
+        {
+          title: 'Guardado exitoso....',
+          text: 'se ha actualizado correctamente.'
+        },
+        { root: true }
+      )
     } catch (error) {
       console.log(error)
     }
@@ -65,18 +63,15 @@ const actions = {
 
   async updateStudent ({ state, commit, dispatch }, student) {
     try {
-        const editstudent = {
-            id: student.id,
-            name: student.name,
-            email: student.email,
-            phone: student.phone,
-            turn_id: student.dataTurns,
-            active:student.active,
-            comission_id: student.dataComissions,
-        }
-    
+      const editstudent = {
+        id: student.id,
+        name: student.name,
+        email: student.email,
+        active: student.active
+      }
+
       const studentEdit = await StudentService.update(student.id, editstudent)
-     
+
       const newValue = state.students.map((value) => {
         if (value.id === studentEdit.data.id) {
           value = Object.assign({}, studentEdit.data)
@@ -84,7 +79,14 @@ const actions = {
         return value
       })
       commit('setStudents', newValue)
-      dispatch('notification/success', {title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.'}, { root: true })
+      dispatch(
+        'notification/success',
+        {
+          title: 'Guardado exitoso....',
+          text: 'se ha actualizado correctamente.'
+        },
+        { root: true }
+      )
     } catch (error) {
       console.log(error)
     }
@@ -92,16 +94,23 @@ const actions = {
   async deleteStudent ({ state, commit, dispatch }, id) {
     try {
       await StudentService.delete(id)
-      const index = state.students.findIndex(x => x.id === id)
-      const students =  [... state.students]
+      const index = state.students.findIndex((x) => x.id === id)
+      const students = [...state.students]
       students.splice(index, 1)
       commit('setStudents', students)
-      dispatch('notification/success', {title: 'Eliminado exitoso....', text: 'se ha eliminado correctamente.'}, { root: true })
+      dispatch(
+        'notification/success',
+        {
+          title: 'Eliminado exitoso....',
+          text: 'se ha eliminado correctamente.'
+        },
+        { root: true }
+      )
     } catch (error) {
       console.log(error)
     }
   },
-  async getStudents ({commit}) {
+  async getStudents ({ commit }) {
     try {
       const studentsData = await StudentService.getAll()
       commit('setStudents', studentsData.data)
@@ -111,12 +120,10 @@ const actions = {
   }
 }
 
-
-export default { 
+export default {
   namespaced: true,
   state,
   getters,
   actions,
   mutations
 }
-

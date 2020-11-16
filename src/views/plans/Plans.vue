@@ -54,104 +54,104 @@
 </template>
 
 <script>
-import "@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss";
-import PlansCreate from "./PlansCreate.vue";
-import { mapGetters } from "vuex";
-import DataTable from "../components/DataTable";
+import '@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss'
+import PlansCreate from './PlansCreate.vue'
+import { mapGetters } from 'vuex'
+import DataTable from '../components/DataTable'
 
 export default {
-  name: "plans",
+  name: 'plans',
   components: {
     PlansCreate,
-    DataTable,
+    DataTable
   },
-  data() {
+  data () {
     return {
       rowData: [],
       plansList: [],
       activePrompt: false,
       activePromptDelete: false,
-      actionModal: "",
+      actionModal: '',
       idDeleted: null,
       iscreated: null,
       plan: null,
       columnDefs: [
         {
-          headerName: "Acciones",
-          field: "id",
-          type: "actionColumn",
+          headerName: 'Acciones',
+          field: 'id',
+          type: 'actionColumn',
           cellRendererParams: {
             buttonSearch: false,
             // actionSearch: (id) => { /** action **/ },
             buttonEdit: true,
             actionEdit: (id) => {
-              this.getData(id);
-              this.showModal(false);
+              this.getData(id)
+              this.showModal(false)
             },
             buttonDelete: true,
             actionDelete: (id) => {
-              this.idDeleted = id;
-              this.showModalConfirm();
-            },
-          },
+              this.idDeleted = id
+              this.showModalConfirm()
+            }
+          }
         },
         {
-          headerName: "Nombre",
-          field: "name",
+          headerName: 'Nombre',
+          field: 'name'
         },
         {
-          headerName: "Estatus",
-          field: "activeText",
-        },
-      ],
-    };
+          headerName: 'Estatus',
+          field: 'activeText'
+        }
+      ]
+    }
   },
   methods: {
-    showModal(iscreated) {
-      this.plan = !iscreated ? this.plan : null;
-      this.actionModal = iscreated ? "Añadir" : "Editar";
-      this.iscreated = iscreated;
-      this.activePrompt = true;
+    showModal (iscreated) {
+      this.plan = !iscreated ? this.plan : null
+      this.actionModal = iscreated ? 'Añadir' : 'Editar'
+      this.iscreated = iscreated
+      this.activePrompt = true
     },
-    showModalConfirm() {
-      this.activePromptDelete = true;
+    showModalConfirm () {
+      this.activePromptDelete = true
     },
-    getData(id) {
+    getData (id) {
       this.plan = Object.assign(
         {},
         this.$store.state.plan.plans.find((x) => x.id === id)
-      );
+      )
     },
-    accept() {
-      this.activePrompt = true;
-      this.$refs.PlansCreate.save();
+    accept () {
+      this.activePrompt = true
+      this.$refs.PlansCreate.save()
     },
-    acceptDelete() {
-      this.$store.dispatch("plan/deletePlan", this.idDeleted);
-      this.idDeleted = null;
+    acceptDelete () {
+      this.$store.dispatch('plan/deletePlan', this.idDeleted)
+      this.idDeleted = null
     },
-    getPlans() {
-      this.$store.dispatch("plan/getPlans");
+    getPlans () {
+      this.$store.dispatch('plan/getPlans')
     },
-    onFirstDataRendered(params) {
-      params.api.sizeColumnsToFit();
+    onFirstDataRendered (params) {
+      params.api.sizeColumnsToFit()
     },
-    closeModal() {
-      this.activePrompt = false;
-    },
+    closeModal () {
+      this.activePrompt = false
+    }
   },
-  mounted() {
-    this.getPlans();
+  mounted () {
+    this.getPlans()
   },
   watch: {
-    plans(data) {
-      this.rowData = data;
-    },
+    plans (data) {
+      this.rowData = data
+    }
   },
   computed: {
-    ...mapGetters({ plans: "plan/getPlans" }),
-  },
-};
+    ...mapGetters({ plans: 'plan/getPlans' })
+  }
+}
 </script>
 
 <style lang="scss" scoped>

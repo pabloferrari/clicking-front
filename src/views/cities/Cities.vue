@@ -55,24 +55,24 @@
 </template>
 
 <script>
-import "@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss";
-import CitiesCreate from "./CitiesCreate.vue";
-import { mapGetters } from "vuex";
-import DataTable from "../components/DataTable";
+import '@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss'
+import CitiesCreate from './CitiesCreate.vue'
+import { mapGetters } from 'vuex'
+import DataTable from '../components/DataTable'
 
 export default {
-  name: "cities",
+  name: 'cities',
   components: {
     CitiesCreate,
-    DataTable,
+    DataTable
   },
-  data() {
+  data () {
     return {
       rowData: [],
       citiesList: [],
       activePrompt: false,
       activePromptDelete: false,
-      actionModal: "",
+      actionModal: '',
       idDeleted: null,
       iscreated: null,
       city: null,
@@ -80,69 +80,69 @@ export default {
       provinces: null,
       columnDefs: [
         {
-          headerName: "Acciones",
-          field: "id",
-          type: "actionColumn",
+          headerName: 'Acciones',
+          field: 'id',
+          type: 'actionColumn',
           cellRendererParams: {
             buttonSearch: false,
             // actionSearch: (id) => { /** action **/ },
             buttonEdit: true,
             actionEdit: (id) => {
-              this.getData(id);
-              this.showModal(false);
+              this.getData(id)
+              this.showModal(false)
             },
             buttonDelete: true,
             actionDelete: (id) => {
-              this.idDeleted = id;
-              this.showModalConfirm();
-            },
-          },
+              this.idDeleted = id
+              this.showModalConfirm()
+            }
+          }
         },
         {
-          headerName: "Nombre",
-          field: "name",
+          headerName: 'Nombre',
+          field: 'name'
         },
         {
-          headerName: "Código Postal",
-          field: "zip_code",
+          headerName: 'Código Postal',
+          field: 'zip_code'
         },
         {
-          headerName: "Provincia",
-          field: "province",
+          headerName: 'Provincia',
+          field: 'province'
         },
         {
-          headerName: "País",
-          field: "country",
-        },
-      ],
-    };
+          headerName: 'País',
+          field: 'country'
+        }
+      ]
+    }
   },
   methods: {
-    showModal(iscreated) {
-      this.city = !iscreated ? this.city : null;
-      this.actionModal = iscreated ? "Añadir" : "Editar";
-      this.iscreated = iscreated;
-      this.activePrompt = true;
+    showModal (iscreated) {
+      this.city = !iscreated ? this.city : null
+      this.actionModal = iscreated ? 'Añadir' : 'Editar'
+      this.iscreated = iscreated
+      this.activePrompt = true
     },
-    showModalConfirm() {
-      this.activePromptDelete = true;
+    showModalConfirm () {
+      this.activePromptDelete = true
     },
-    getData(id) {
+    getData (id) {
       this.city = Object.assign(
         {},
         this.$store.state.city.cities.find((x) => x.id === id)
-      );
+      )
     },
-    accept() {
-      this.activePrompt = true;
-      this.$refs.CitiesCreate.save();
+    accept () {
+      this.activePrompt = true
+      this.$refs.CitiesCreate.save()
     },
-    acceptDelete() {
-      this.$store.dispatch("city/deleteCity", this.idDeleted);
-      this.idDeleted = null;
+    acceptDelete () {
+      this.$store.dispatch('city/deleteCity', this.idDeleted)
+      this.idDeleted = null
     },
-    getCities() {
-      this.$store.dispatch("city/getCities");
+    getCities () {
+      this.$store.dispatch('city/getCities')
     },
     getCountries () {
       this.$store.dispatch('country/getCountries')
@@ -150,20 +150,20 @@ export default {
     getProvinces () {
       this.$store.dispatch('province/getProvinces')
     },
-    onFirstDataRendered(params) {
-      params.api.sizeColumnsToFit();
+    onFirstDataRendered (params) {
+      params.api.sizeColumnsToFit()
     },
-    closeModal() {
-      this.activePrompt = false;
-    },
+    closeModal () {
+      this.activePrompt = false
+    }
   },
-  mounted() {
-    this.getCities();
+  mounted () {
+    this.getCities()
     this.getCountries()
     this.getProvinces()
   },
   watch: {
-    cities(data) {
+    cities (data) {
       const rows = []
       data.map((value) => {
         rows.push({
@@ -181,12 +181,12 @@ export default {
     },
     storeProvinces (data) {
       this.provinces = data
-    },
+    }
   },
   computed: {
-    ...mapGetters({ cities: "city/getCities", storeCountries:'country/getCountries', storeProvinces:'province/getProvinces' }),
-  },
-};
+    ...mapGetters({ cities: 'city/getCities', storeCountries:'country/getCountries', storeProvinces:'province/getProvinces' })
+  }
+}
 </script>
 
 <style lang="scss" scoped>

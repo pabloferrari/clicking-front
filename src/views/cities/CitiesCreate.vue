@@ -62,36 +62,36 @@
 <script>
 // import { mapGetters } from 'vuex'
 export default {
-  name: "CitiesCreate",
+  name: 'CitiesCreate',
   props: {
     isCreate: Boolean,
     city: {},
-    countriesList: null,
+    countriesList: null
   },
 
-  data() {
+  data () {
     return {
       form: {
         id: null,
-        name: "",
-        zip_code: "",
+        name: '',
+        zip_code: '',
         // dataCountries: "",
         // dataProvinces: '',
         // country_id: "",
         // province_id: "",
-        active: 1,
+        active: 1
       },
       provinceList: null
-    };
+    }
   },
-  mounted() {
-    this.setData();
+  mounted () {
+    this.setData()
   },
   methods: {
-    setData() {
+    setData () {
       if (this.city) {
-        const city = Object.assign({}, this.city);
-        this.form = city;
+        const city = Object.assign({}, this.city)
+        this.form = city
 
         this.form.country_id = city.province.country.id
         this.form.province_id = city.province.id
@@ -100,35 +100,35 @@ export default {
         //this.form.dataCountries = institution.city.city.country.id
       }
     },
-    save() {
+    save () {
       if (!this.isCreate) {
-        this.update();
+        this.update()
       } else {
-        this.create();
+        this.create()
       }
     },
-    create() {
+    create () {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          const payload = this.form;
-          this.$store.dispatch("city/createCity", payload);
+          const payload = this.form
+          this.$store.dispatch('city/createCity', payload)
           //this.$emit("close-modal");
         }
-      });
+      })
     },
-    update() {
-      const payload = this.form;
-      this.$store.dispatch("city/updateCity", payload);
+    update () {
+      const payload = this.form
+      this.$store.dispatch('city/updateCity', payload)
       //this.$emit("close-modal");
     },
     changeCountry (id) {
       const country = this.countriesList.find(x => x.id === id)
       this.provinceList = country.provinces
-     // this.form.country_id = id ? id : 0
+      // this.form.country_id = id ? id : 0
     }
     // changeProvince (id) {
     //   this.form.province_id = id ? id : 0
     // }
-  },
-};
+  }
+}
 </script>

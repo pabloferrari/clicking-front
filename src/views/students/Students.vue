@@ -21,8 +21,6 @@
           ref="StudentsCreate"
           :isCreate="this.iscreated"
           :student="this.student"
-          :turnList="this.turns"
-          :comissionList="this.comission"
           @close-modal="closeModal()"
         />
       </div>
@@ -56,147 +54,126 @@
 </template>
 
 <script>
-import "@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss";
-import StudentsCreate from "./StudentsCreate.vue";
-import { mapGetters } from "vuex";
-import DataTable from "../components/DataTable";
+import '@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss'
+import StudentsCreate from './StudentsCreate.vue'
+import { mapGetters } from 'vuex'
+import DataTable from '../components/DataTable'
 
 export default {
-  name: "students",
+  name: 'students',
   components: {
     StudentsCreate,
-    DataTable,
+    DataTable
   },
-  data() {
+  data () {
     return {
       rowData: [],
       teachersList: [],
-      turns: null,
-      comission: null,
       activePrompt: false,
       activePromptDelete: false,
-      actionModal: "",
+      actionModal: '',
       idDeleted: null,
       iscreated: null,
       student: null,
       columnDefs: [
         {
-          headerName: "Acciones",
-          field: "id",
-          type: "actionColumn",
+          headerName: 'Acciones',
+          field: 'id',
+          type: 'actionColumn',
           cellRendererParams: {
             buttonSearch: false,
             // actionSearch: (id) => { /** action **/ },
             buttonEdit: true,
             actionEdit: (id) => {
-             
-              this.getData(id);
-              this.showModal(false);
+
+              this.getData(id)
+              this.showModal(false)
             },
             buttonDelete: true,
             actionDelete: (id) => {
-              this.idDeleted = id;
-              this.showModalConfirm();
-            },
-          },
+              this.idDeleted = id
+              this.showModalConfirm()
+            }
+          }
         },
         {
-          headerName: "Nombre Completo",
-          field: "name",
+          headerName: 'Nombre Completo',
+          field: 'name'
         },
         {
-          headerName: "Email",
-          field: "email",
+          headerName: 'Email',
+          field: 'email'
         },
         {
-          headerName: "Turno",
-          field: "turn",
+          headerName: 'Turno',
+          field: 'turn'
         },
+
         {
-          headerName: "Año",
-          field: "year",
-        },
-        {
-          headerName: "Comisión",
-          field: "commission",
-        },
-      ],
-    };
+          headerName: 'Comisión',
+          field: 'commission'
+        }
+      ]
+    }
   },
   methods: {
-    showModal(iscreated) {
-      this.student = !iscreated ? this.student : null;
-      this.actionModal = iscreated ? "Añadir" : "Editar";
-      this.iscreated = iscreated;
-      this.activePrompt = true;
+    showModal (iscreated) {
+      this.student = !iscreated ? this.student : null
+      this.actionModal = iscreated ? 'Añadir' : 'Editar'
+      this.iscreated = iscreated
+      this.activePrompt = true
     },
-    showModalConfirm() {
-      this.activePromptDelete = true;
+    showModalConfirm () {
+      this.activePromptDelete = true
     },
-    getData(id) {
+    getData (id) {
+
       this.student = Object.assign(
         {},
         this.$store.state.student.students.find((x) => x.id === id)
-      );
-      
+      )
+      console.log(this.student)
     },
-    accept() {
-      this.activePrompt = true;
-      this.$refs.StudentsCreate.save();
+    accept () {
+      this.activePrompt = true
+      this.$refs.StudentsCreate.save()
     },
-    acceptDelete() {
-      this.$store.dispatch("student/deleteStudent", this.idDeleted);
-      this.idDeleted = null;
+    acceptDelete () {
+      this.$store.dispatch('student/deleteStudent', this.idDeleted)
+      this.idDeleted = null
     },
-    getStudents() {
-      this.$store.dispatch("student/getStudents");
+    getStudents () {
+      this.$store.dispatch('student/getStudents')
     },
-    getTurns() {
-        return [
-            {
-                id:1,
-                name:'Mañana'
-            },
-            {
-                id:2,
-                name:'Noche'
-            }
-        ]
+
+    onFirstDataRendered (params) {
+      params.api.sizeColumnsToFit()
     },
-    getComission() {
-        return [
-            {
-                id:1,
-                name:'A'
-            },
-            {
-                id:2,
-                name:'B'
-            }
-        ]
-    },
-    onFirstDataRendered(params) {
-      params.api.sizeColumnsToFit();
-    },
-    closeModal() {
-      this.activePrompt = false;
-    },
+    closeModal () {
+      this.activePrompt = false
+    }
   },
-  mounted() {
-    this.getStudents();
-    this.turns = this.getTurns()
-    this.comission = this.getComission()
+  mounted () {
+    this.getStudents()
   },
   watch: {
-    students(data) {
-      // console.log(data)
-      this.rowData = data;
-    },
+    students (data) {
+      const studentData = []
+      data.map((e) => {
+        studentData.push({
+          id:e.id,
+          name:e.name,
+          active:e.active,
+          email:(e.user) ? e.user.email : ''
+        })
+      })
+      this.rowData = studentData
+    }
   },
   computed: {
-    ...mapGetters({ students: "student/getStudents" }),
-  },
-};
+    ...mapGetters({ students: 'student/getStudents' })
+  }
+}
 </script>
 
 <style lang="scss" scoped>

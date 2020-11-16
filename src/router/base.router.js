@@ -1,53 +1,85 @@
-import Home from "../views/home/Home.vue";
-import Page2 from "../views/Page2.vue";
+import Home from '../views/home/Home.vue'
 
 export default [
   // =============================================================================
   // Theme Routes
   // =============================================================================
   {
-    path: "/",
-    name: "home",
-    component: Home,
+    path: '/',
+    name: 'home',
+    component: Home
   },
   {
-    path: "/page2",
-    name: "page-2",
-    component: () => Page2,
+    path: '/countries',
+    name: 'Paises',
+    component: () => import('../views/countries/Countries.vue'),
+    meta: {
+      permissions: ['admin']
+    }
   },
   {
-    path: "/countries",
-    name: "Pais",
-    component: () => import("../views/countries/Countries.vue"),
+    path: '/provinces',
+    name: 'Provincias',
+    component: () => import('../views/provinces/Provinces.vue'),
+    meta: {
+      permissions: ['admin']
+    }
   },
   {
-    path: "/provinces",
-    name: "Provincias",
-    component: () => import("../views/provinces/Provinces.vue"),
+    path: '/cities',
+    name: 'Ciudades',
+    component: () => import('../views/cities/Cities.vue'),
+    meta: {
+      permissions: ['admin']
+    }
   },
   {
-    path: "/cities",
-    name: "Ciudades",
-    component: () => import("../views/cities/Cities.vue"),
+    path: '/institutions',
+    name: 'Instituciones',
+    component: () => import('../views/institutions/Institutions.vue'),
+    meta: {
+      permissions: ['admin']
+    }
   },
   {
-    path: "/institutions",
-    name: "Institucion",
-    component: () => import("../views/institutions/Institutions.vue"),
+    path: '/plans',
+    name: 'Planes',
+    component: () => import('../views/plans/Plans.vue'),
+    meta: {
+      permissions: ['admin']
+    }
   },
   {
-    path: "/plans",
-    name: "Planes",
-    component: () => import("../views/plans/Plans.vue"),
+    path: '/teachers',
+    name: 'Docentes',
+    component: () => import('../views/teachers/Teachers.vue'),
+    meta: {
+      permissions: ['institution']
+    }
   },
   {
-    path: "/teachers",
-    name: "Docente",
-    component: () => import("../views/teachers/Teachers.vue"),
+    path: '/students',
+    name: 'Alumnos',
+    component: () => import('../views/students/Students.vue'),
+    meta: {
+      permissions: ['institution']
+    }
   },
   {
-    path: "/students",
-    name: "Alumno",
-    component: () => import("../views/students/Students.vue"),
+    path: "/courses",
+    name: "Mis Cursos",
+    component: () => import("../views/courses/Courses.vue"),
+    meta: {
+      permissions: ['admin']
+    }
   },
-];
+  {
+    path: "/courses/:subject",
+    name: "Curso Materia",
+    component: () => import("../views/courses/Subject.vue"),
+    meta: {
+      permissions: ['admin']
+    },
+    props:true
+  },
+]

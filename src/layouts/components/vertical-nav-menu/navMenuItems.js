@@ -9,51 +9,72 @@
 
 export default [
   {
-    url: "/",
-    name: "Home",
-    slug: "home",
-    icon: "HomeIcon",
+    url: '/',
+    name: 'Home',
+    slug: 'home',
+    icon: 'HomeIcon',
+    permissions: []
   },
   {
-    url: "/countries",
-    name: "Pais",
-    slug: "countries",
-    icon: "MapIcon",
+    url: null,
+    name: 'Configuración',
+    slug: 'settings',
+    icon: 'SettingsIcon',
+    submenu: [
+      {
+        url: '/countries',
+        name: 'Paises',
+        slug: 'countries',
+        permissions: []
+      },
+      {
+        url: '/provinces',
+        name: 'Provincias',
+        slug: 'provinces',
+        permissions: []
+      },
+      {
+        url: '/cities',
+        name: 'Ciudades',
+        slug: 'cities',
+        permissions: []
+      }
+    ],
+    permissions: ['admin']
   },
   {
-    url: "/provinces",
-    name: "Provincias",
-    slug: "provinces",
-    icon: "MapPinIcon",
+    url: '/institutions',
+    name: 'Instituciones',
+    slug: 'institutions',
+    icon: 'BookOpenIcon',
+    permissions: ['admin']
   },
   {
-    url: "/cities",
-    name: "Ciudades",
-    slug: "cities",
-    icon: "MapPinIcon",
+    url: '/plans',
+    name: 'Planes',
+    slug: 'plans',
+    icon: 'FileTextIcon',
+    permissions: ['admin']
   },
   {
-    url: "/institutions",
-    name: "Institución",
-    slug: "institutions",
-    icon: "BookOpenIcon",
+    url: '/teachers',
+    name: 'Docentes',
+    slug: 'teachers',
+    icon: 'ArchiveIcon',
+    permissions: ['institution']
   },
   {
-    url: "/plans",
-    name: "Planes",
-    slug: "plans",
-    icon: "FileTextIcon",
+    url: '/students',
+    name: 'Alumno',
+    slug: 'students',
+    icon: 'UserIcon',
+    permissions: ['institution']
   },
   {
-    url: "/teachers",
-    name: "Docentes",
-    slug: "teachers",
-    icon: "ArchiveIcon",
-  },
-  {
-    url: "/students",
-    name: "Alumno",
-    slug: "students",
+    url: "/courses",
+    name: "Mis Cursos",
+    slug: "courses",
     icon: "UserIcon",
+    permissions: ['admin']
   },
-];
+]

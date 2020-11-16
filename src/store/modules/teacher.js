@@ -11,7 +11,7 @@ const state = {
 const getters = {
   getTeacher: state => { return state.teacher },
   getTeachers: state => { return state.teachers },
-  getError: state => {return state.error},
+  getError: state => { return state.error },
   getTeacherId: state => id => {
     return state.teachers.find(
       teachers => teachers.id === id
@@ -32,7 +32,7 @@ const mutations = {
   setTeacher (state, teacher) {
     state.teacher = teacher
   },
-  setError(state,error) {
+  setError (state, error) {
     state.error = error
   }
 
@@ -46,24 +46,24 @@ const actions = {
         name: teacher.name,
         email: teacher.email,
         phone: teacher.phone,
-        active:teacher.active,
-        user_id:'',
-        turns: teacher.dataTurns,
-        commissions: teacher.dataCommissions,
+        description:'Teacher user',
+        password:teacher.password,
+        active:teacher.active
+
       }
       const teacherCreate  = await TeacherService.create(newTeacher)
       const teachers = Object.assign([], state.teachers)
 
       teachers.push(teacherCreate.data)
 
-      commit('setError',true);
+      commit('setError', true)
       commit('setTeachers', teachers)
       dispatch(
-          'notification/success',
-          {title: 'Guardado exitoso....',
+        'notification/success',
+        {title: 'Guardado exitoso....',
           text: 'se ha actualizado correctamente.'},
-          { root: true }
-        )
+        { root: true }
+      )
 
     } catch (error) {
 
@@ -74,29 +74,26 @@ const actions = {
 
   async updateTeacher ({ state, commit, dispatch }, teacher) {
     try {
-        const editTeacher = {
-          id: teacher.id,
-          name: teacher.name,
-          email: teacher.email,
-          phone: teacher.phone,
-          active:teacher.active,
-          user_id:'',
-          turns: teacher.dataTurns,
-          commissions: teacher.dataCommissions,
-        }
-        const teacherEdit = await TeacherService.update(teacher.id, editTeacher)
+      const editTeacher = {
+        id: teacher.id,
+        name: teacher.name,
+        email: teacher.email,
+        phone: teacher.phone,
+        active:teacher.active
+      }
+      const teacherEdit = await TeacherService.update(teacher.id, editTeacher)
 
-        const newValue = state.teachers.map((value) => {
-          if (value.id === teacherEdit.data.id) {
-            value = Object.assign({}, teacherEdit.data)
-          }
-          return value
-        })
-        if(teacherEdit.data) {
-
-          commit('setError',true);
+      const newValue = state.teachers.map((value) => {
+        if (value.id === teacherEdit.data.id) {
+          value = Object.assign({}, teacherEdit.data)
         }
-        commit('setTeachers', newValue)
+        return value
+      })
+      if (teacherEdit.data) {
+
+        commit('setError', true)
+      }
+      commit('setTeachers', newValue)
       dispatch('notification/success', {title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.'}, { root: true })
 
     } catch (error) {
