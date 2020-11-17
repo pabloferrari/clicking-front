@@ -3,18 +3,17 @@
     <div
       v-for="card in cardsWelcome"
       :key="card.title"
-      class="vx-col w-full sm:w-1/4 md:w-1/6 lg:w-1/6 xl:w-1/9"
+      class="vx-col sm:w-1/2 md:w-1/6 lg:w-1/6 xl:w-1/6"
+      @click="handlerRoute(card.path)"
     >
-      <vs-card>
-        <div class="flex justify-between">
-          <div :is="card.icon"></div>
-          <div class="py-1 m-1">
-            <h1>{{ card.count }}</h1>
+      <vs-card class="active">
+        <div class="vx-row">
+          <div class="vx-col w-1/3">
+            <div :is="card.icon" class="m-1"></div>
           </div>
-        </div>
-        <div class="flex justify-between">
-          <div class="flex items-end p-1">
-            <p class="subpixel-antialiased text-right">{{ card.title }}</p>
+          <div class="vx-col w-2/3">
+            <h1 class="text-center font-bold">{{ card.count }}</h1>
+            <p class="subpixel-antialiased text-center">{{ card.title }}</p>
           </div>
         </div>
       </vs-card>
@@ -29,5 +28,19 @@ export default {
   props: {
     cardsWelcome: null,
   },
+  methods: {
+    handlerRoute(path) {
+      if (path) {
+        this.$router.push(path);
+      }
+    },
+  },
 };
 </script>
+<style>
+.active:hover {
+  outline: solid 1px #567df4;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+</style>
