@@ -8,15 +8,16 @@
               <div class="text-center px-4 py-2 m-2">
                 <div class="px-6 py-2">
                   <div
-                    class="text-xl mb-1 text-title font-semibold"
+                    class=" "
                     @click="showContent(index)"
                   >
                     <feather-icon
                       icon="CheckIcon"
-                      svgClasses="h-5 w-5"
-                      color="success"
+                      svgClasses="h-6 w-8 text-success"
+
                     />
-                    {{ classes.subject.name }}
+                    <span class="text-xl text-title font-semibold"> {{ classes.subject.name }}</span>
+
                   </div>
                 </div>
               </div>
@@ -30,16 +31,16 @@
           </div>
         </div>
       </div>
-      <div class="w-full backgroud-internal mx-8 mt-3" v-if="display === index">
+      <div class="w-full backgroud-internal mx-10 my-3 mt-3" v-if="display">
         <div class="grid grid-cols-3 divide-x divide-gray-400">
           <div class="">
             <div class="flex content-between">
-              <div class="m-4 p-2">
+              <div class="m-4 p-2 rounded-full bg-white">
                 <ListIcon></ListIcon>
               </div>
               <div class="w-2/3 p-2">
                 <p>{{ classes.subject.content[0].type }}</p>
-                <h4 class="text-title">
+                <h4 class="text-title font-bold">
                   {{ classes.subject.content[0].title }}
                 </h4>
               </div>
@@ -94,7 +95,8 @@ export default {
   },
   methods: {
     showContent(index) {
-      this.display = index;
+      console.log(this.display)
+      //this[index].display = !this.display;
     },
   },
 };
@@ -108,5 +110,8 @@ export default {
 }
 .text-title {
   color: #22215b;
+}
+.success{
+  color:green;
 }
 </style>

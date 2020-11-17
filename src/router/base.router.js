@@ -90,4 +90,13 @@ export default [
       permissions: ['admin']
     }
   },
+  {
+    path: "/classroom/:commission",
+    name: "Salones Detalle",
+    component: () => import("../views/classroom/ClassroomDetail.vue"),
+    meta: {
+      permissions: ['admin']
+    },
+    props:true
+  },
 ]

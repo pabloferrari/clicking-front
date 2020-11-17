@@ -3,7 +3,7 @@
     <vx-card>
       <div class="w-full backgroud-internal mt-3">
         <div class="">
-          <p class="ml-2 p-3">11.30 PM</p>
+          <p class="ml-2 p-3">11:30 PM</p>
           <p class="p-3 ml-2 font-bold text-title">Comentario</p>
           <p class="p-3 ml-2">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro
@@ -26,29 +26,28 @@
             </li>
           </ul>
         </div>
-        <div class="flex flex-wrap mb-3">
-          <div class="w-full px-3">
-            <div class="w-1/4">
-              <!-- <div class="mr-3 ml-2"><vs-avatar class="m-0" size="30px" /></div> -->
-            </div>
-            <div class="">
+        <div class="flex mb-3">
+          <div class="w-full ml-2">
+            <div class="chat__input flex p-4">
+              <div class="">
+                <div class="mr-3 ml-2">
+                  <vs-avatar class="m-0" size="30px" />
+                </div>
+              </div>
               <vs-input
+                class="flex-1"
                 icon-pack="feather"
                 icon="icon-send"
-                icon-after
-                vs-icon-after="true"
-                placeholder="Añadir Comentario"
-                v-model="commentResponse"
                 icon-no-border
-                class="px- py-2"
+                icon-after
+                placeholder="Type Your Message"
+                v-model="commentResponse"
               />
             </div>
+
           </div>
         </div>
 
-        <!-- <div class="vx-col mb-2 ml-2 w-full">
-          <
-        </div> -->
       </div>
     </vx-card>
   </div>

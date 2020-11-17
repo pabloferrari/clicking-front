@@ -1,32 +1,23 @@
 <template>
   <div class="vx-row">
     <vx-card
-      class="vx-col mx-2 w-full sm:w-1/8 md:w-1/4 lg:w-1/4 xl:w-1/4"
+      class="vx-col mx-2 w-full sm:w-1/8 md:w-1/4 lg:w-1/3 xl:w-1/5 title-card active-card my-1"
       v-for="card in cards"
       :key="card.title"
       :title="card.title"
       :subtitle="card.subtitle"
     >
-      <div class="flex justify-between">
+      <div class="flex justify-between mt-2">
         <div class="flex items-start">
-          <ul class="user-comments-list">
-            <li class="commented-user flex items-center mb-4">
-              <div class="mr-3">
-                <vs-avatar class="m-0" size="30px" />
-                <vs-avatar class="m-0" size="30px" />
-                <vs-avatar class="m-0" size="30px" />
-              </div>
-              <div class="leading-tight">
-                <p class="font-medium">Alumnos</p>
-                <span class="text-xs">+ 12</span>
-              </div>
-            </li>
-          </ul>
+          <div v-for="(post, index) in userPosts" :key="index">
+            <!-- Avatar More User -->
+            <AvatarList :post="post" :description="description"></AvatarList>
+          </div>
         </div>
       </div>
-      <div class="">
-        <div class="flex justify-between">
-          <vs-button class="mr-8" :to="{ path: card.href }" size="small">{{
+      <div class="mt-4">
+        <div class="flex justify-end">
+          <vs-button class="" :to="{ path: card.href }" size="small">{{
             card.buttonTitle
           }}</vs-button>
         </div>
@@ -36,10 +27,39 @@
 </template>
 
 <script>
+import AvatarList from "../components/AvatarList";
+
 export default {
   name: "Card",
+  components: {
+    AvatarList,
+  },
   props: {
     cards: Array,
+    description: String,
+  },
+  data() {
+    return {
+      userPosts: [
+        {
+          likes: 100,
+          usersLiked: [
+            {
+              name: "Trina Lynes",
+              img: require("@/assets/images/portrait/small/avatar-s-1.jpg"),
+            },
+            {
+              name: "Lilian Nenez",
+              img: require("@/assets/images/portrait/small/avatar-s-2.jpg"),
+            },
+            {
+              name: "Alberto Glotzbach",
+              img: require("@/assets/images/portrait/small/avatar-s-3.jpg"),
+            },
+          ],
+        },
+      ],
+    };
   },
 };
 </script>
@@ -52,5 +72,20 @@ export default {
 }
 .text-title {
   color: #22215b;
+}
+.title-card h4 {
+  font-weight: 600;
+  font-size: 20px;
+  color: #22215b;
+}
+.active-card {
+  border: solid 2px #fff;
+  border-radius: 30px !important;
+  box-sizing: border-box;
+}
+.active-card:hover {
+  border: solid 2px #567df4;
+  outline: none;
+  cursor: pointer;
 }
 </style>

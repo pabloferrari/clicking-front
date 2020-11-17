@@ -5,17 +5,23 @@
         <p class="primary">{{ subject }}</p>
       </div>
     </div>
+
+
+
+
     <CardWelcome :cardsWelcome="this.cardsWelcome"></CardWelcome>
-    <div class="flex justify-end">
+    <div class="flex flex-wrap  justify-end mt-1">
       <ButtonDropDownVue
+      class="btn-right button-dropdown"
+        v-show="dropdown"
         title="Crear"
         itemOne="Crear Clase"
         :items="this.items"
       ></ButtonDropDownVue>
     </div>
     <div class="mt-0">
-      <vs-tabs v-model="tab.value">
-        <vs-tab label="Muro">
+      <vs-tabs v-model="tab.value" >
+        <vs-tab label="Muro" v-on="clickTag(tab.value)">
           <div class="tab-content-wall">
             <Wall></Wall>
             <WallComment></WallComment>
@@ -51,10 +57,16 @@ export default {
   props: {
     subject: String,
   },
+  methods:{
+    clickTag(e) {
+      this.dropdown = (e === 0) ? false : true;
 
+    }
+  },
   data() {
     return {
       console,
+      dropdown:true,
       items: [
         {
           id: 1,
@@ -130,4 +142,10 @@ export default {
   align-items: center;
   color: #567df4;
 }
+
+.btn-right {
+    position: absolute;
+    right: 1rem;
+    z-index: 999;
+  }
 </style>

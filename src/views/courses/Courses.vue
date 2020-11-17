@@ -12,14 +12,14 @@
         <vs-tab label="Cursos">
           <div class="tab-content-courses">
             <div>
-              <Card :cards="this.course"> </Card>
+              <Card :cards="this.course" description=' Alumnos cursando'> </Card>
             </div>
           </div>
         </vs-tab>
         <vs-tab label="Talleres">
           <div class="tab-content-workshop">
             <div>
-              <Card :cards="this.workshop"> </Card>
+              <Card :cards="this.workshop" description=' Alumnos cursando'> </Card>
             </div>
           </div>
         </vs-tab>
@@ -52,37 +52,37 @@ export default {
         {
           icon: CourseLogo,
           title: "Cursos",
-          count: 3,
+          count: 2,
           component: Card,
           path: "",
         },
         {
           icon: DocumentLogo,
-          title: "Estudiantes",
-          count: 12,
+          title: "Tareas",
+          count: 3,
           path: "",
         },
         {
           icon: PencilLogo,
-          title: "Tareas",
+          title: "Trabajos Prácticos",
           count: 1,
         },
         {
           icon: CheckLogo,
-          title: "Examenes",
-          count: 1,
+          title: "Exámenes",
+          count: 2,
         },
       ],
       course: [
         {
           title: "Matematica",
-          subtitle: "Comision A - Turno Mañana",
+          subtitle: "Comision A -Turno Mañana",
           buttonTitle: "Ir a curso",
           href: "/courses/Matematica",
         },
         {
           title: "Lenguaje",
-          subtitle: "Comision A - Turno Tarde",
+          subtitle: "Comision A -Turno Tarde",
           buttonTitle: "Ir a curso",
           href: "/courses/Lenguaje",
         },
