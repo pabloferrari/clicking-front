@@ -29,10 +29,10 @@
 </template>
 <script>
 import CardWelcome from "../components/CardWelcome";
-import CourseLogo from "../../assets/icons/CourseLogo";
-import PencilLogo from "../../assets/icons/PencilLogo";
-import CheckLogo from "../../assets/icons/CheckLogo";
-import DocumentLogo from "../../assets/icons/DocumentLogo";
+import CourseLogo from "../components/icons/CourseLogo";
+import PencilLogo from "../components/icons/PencilLogo";
+import CheckLogo from "../components/icons/CheckLogo";
+import DocumentLogo from "../components/icons/DocumentLogo";
 import Card from "../components/Card";
 import Tabs from "../components/Tabs";
 import StatisticsCardLine from "@/components/statistics-cards/StatisticsCardLine.vue";
@@ -54,11 +54,13 @@ export default {
           title: "Cursos",
           count: 3,
           component: Card,
+          path: "",
         },
         {
           icon: DocumentLogo,
           title: "Estudiantes",
           count: 12,
+          path: "",
         },
         {
           icon: PencilLogo,
