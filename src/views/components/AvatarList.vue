@@ -15,11 +15,11 @@
 </template>
 
 <script>
-  export default {
-    name: "AvatarList",
-    props: {
-      post: null,
-      description: String
-    },
-  };
+export default {
+  name: 'AvatarList',
+  props: {
+    post: null,
+    description: String
+  }
+}
 </script>

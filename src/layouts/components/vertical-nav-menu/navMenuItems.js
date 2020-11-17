@@ -71,17 +71,17 @@ export default [
     permissions: ['institution']
   },
   {
-    url: "/courses",
-    name: "Mis Cursos",
-    slug: "courses",
-    icon: "UserIcon",
+    url: '/courses',
+    name: 'Mis Cursos',
+    slug: 'courses',
+    icon: 'UserIcon',
     permissions: ['admin']
   },
   {
-    url: "/classroom",
-    name: "Salones",
-    slug: "classroom",
-    icon: "HomeIcon",
+    url: '/classroom',
+    name: 'Salones',
+    slug: 'classroom',
+    icon: 'HomeIcon',
     permissions: ['admin']
-  },
+  }
 ]

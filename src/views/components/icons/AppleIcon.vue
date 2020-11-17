@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  name: "AppleIcon",
-};
+  name: 'AppleIcon'
+}
 </script>

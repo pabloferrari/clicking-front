@@ -23,19 +23,19 @@
 
 <script>
 export default {
-  name: "CardWelcome",
+  name: 'CardWelcome',
   components: {},
   props: {
-    cardsWelcome: null,
+    cardsWelcome: null
   },
   methods: {
-    handlerRoute(path) {
+    handlerRoute (path) {
       if (path) {
-        this.$router.push(path);
+        this.$router.push(path)
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 <style>
 .active-card-welcome{

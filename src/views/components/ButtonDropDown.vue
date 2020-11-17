@@ -29,13 +29,13 @@
 
 <script>
 export default {
-  name: "ButtonDropDown",
+  name: 'ButtonDropDown',
   props: {
     title: String,
     itemOne: String,
-    items: Array,
-  },
-};
+    items: Array
+  }
+}
 </script>
 
 <style lang="scss">

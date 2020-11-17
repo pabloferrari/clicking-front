@@ -14,9 +14,9 @@
 
 <script>
 export default {
-  name: "ButtonRight",
+  name: 'ButtonRight',
   props: {
-    buttonTitle: String,
-  },
-};
+    buttonTitle: String
+  }
+}
 </script>

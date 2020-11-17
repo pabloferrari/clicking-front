@@ -6,7 +6,7 @@
 
 
 <script>
-  export default {
-    name: "SchoolIcon",
-  };
+export default {
+  name: 'SchoolIcon'
+}
 </script>

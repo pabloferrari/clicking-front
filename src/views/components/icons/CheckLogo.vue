@@ -18,6 +18,6 @@
 </template>
 <script>
 export default {
-  name: "CheckLogo",
-};
+  name: 'CheckLogo'
+}
 </script>

@@ -27,41 +27,41 @@
 </template>
 
 <script>
-import AvatarList from "../components/AvatarList";
+import AvatarList from '../components/AvatarList'
 
 export default {
-  name: "Card",
+  name: 'Card',
   components: {
-    AvatarList,
+    AvatarList
   },
   props: {
     cards: Array,
-    description: String,
+    description: String
   },
-  data() {
+  data () {
     return {
       userPosts: [
         {
           likes: 100,
           usersLiked: [
             {
-              name: "Trina Lynes",
-              img: require("@/assets/images/portrait/small/avatar-s-1.jpg"),
+              name: 'Trina Lynes',
+              img: require('@/assets/images/portrait/small/avatar-s-1.jpg')
             },
             {
-              name: "Lilian Nenez",
-              img: require("@/assets/images/portrait/small/avatar-s-2.jpg"),
+              name: 'Lilian Nenez',
+              img: require('@/assets/images/portrait/small/avatar-s-2.jpg')
             },
             {
-              name: "Alberto Glotzbach",
-              img: require("@/assets/images/portrait/small/avatar-s-3.jpg"),
-            },
-          ],
-        },
-      ],
-    };
-  },
-};
+              name: 'Alberto Glotzbach',
+              img: require('@/assets/images/portrait/small/avatar-s-3.jpg')
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
 </script>
 <style>
 .backgroud-internal {

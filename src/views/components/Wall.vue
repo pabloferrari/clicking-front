@@ -22,12 +22,12 @@
 
 <script>
 export default {
-  name: "Wall",
+  name: 'Wall',
 
-  data() {
+  data () {
     return {
-      textarea: "",
-    };
-  },
-};
+      textarea: ''
+    }
+  }
+}
 </script>

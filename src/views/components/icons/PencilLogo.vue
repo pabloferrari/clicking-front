@@ -22,6 +22,6 @@
 
 <script>
 export default {
-  name: "PencilLogo",
-};
+  name: 'PencilLogo'
+}
 </script>
