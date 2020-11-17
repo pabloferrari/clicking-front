@@ -82,4 +82,12 @@ export default [
     },
     props:true
   },
+  {
+    path: "/classroom",
+    name: "Salones",
+    component: () => import("../views/classroom/Classroom.vue"),
+    meta: {
+      permissions: ['admin']
+    }
+  },
 ]

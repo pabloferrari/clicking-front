@@ -77,4 +77,11 @@ export default [
     icon: "UserIcon",
     permissions: ['admin']
   },
+  {
+    url: "/classroom",
+    name: "Salones",
+    slug: "classroom",
+    icon: "HomeIcon",
+    permissions: ['admin']
+  },
 ]
