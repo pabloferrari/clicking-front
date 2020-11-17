@@ -245,20 +245,20 @@
   </div>
 </template>
 <script>
-import CardWelcome from "../components/CardWelcome";
-import CourseLogo from "../components/icons/CourseLogo";
-import PencilLogo from "../components/icons/PencilLogo";
-import CheckLogo from "../components/icons/CheckLogo";
-import DocumentLogo from "../components/icons/DocumentLogo";
-import SchoolIcon from "../components/icons/SchoolIcon";
-import AppleIcon from "../components/icons/AppleIcon";
-import Card from "../components/Card";
-import Tabs from "../components/Tabs";
-import StatisticsCardLine from "@/components/statistics-cards/StatisticsCardLine.vue";
-import AvatarList from "../components/AvatarList";
-import vSelect from "vue-select";
+import CardWelcome from '../components/CardWelcome'
+import CourseLogo from '../components/icons/CourseLogo'
+import PencilLogo from '../components/icons/PencilLogo'
+import CheckLogo from '../components/icons/CheckLogo'
+import DocumentLogo from '../components/icons/DocumentLogo'
+import SchoolIcon from '../components/icons/SchoolIcon'
+import AppleIcon from '../components/icons/AppleIcon'
+import Card from '../components/Card'
+import Tabs from '../components/Tabs'
+import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
+import AvatarList from '../components/AvatarList'
+import vSelect from 'vue-select'
 export default {
-  name: "classroom",
+  name: 'classroom',
   components: {
     StatisticsCardLine,
     CardWelcome,
@@ -268,48 +268,48 @@ export default {
     SchoolIcon,
     AppleIcon,
     AvatarList,
-    "v-select": vSelect,
+    'v-select': vSelect
   },
   props: {
     shiftsList: null,
-    institutionsList: null,
+    institutionsList: null
   },
-  data() {
+  data () {
     return {
-      description: "Cursando",
+      description: 'Cursando',
       users: [
         {
           id: 1,
-          name: "Curso",
-          username: "Bret",
-          email: "Matemática",
-          website: "Laura Perez",
+          name: 'Curso',
+          username: 'Bret',
+          email: 'Matemática',
+          website: 'Laura Perez'
         },
         {
           id: 2,
-          name: "Examén",
-          username: "Antonette",
-          email: "Ingles",
-          website: "Claudia Colmenarez",
+          name: 'Examén',
+          username: 'Antonette',
+          email: 'Ingles',
+          website: 'Claudia Colmenarez'
         },
         {
           id: 3,
-          name: "Taller",
-          username: "Samantha",
-          email: "Ciencias",
-          website: "Berta Gomez",
-        },
+          name: 'Taller',
+          username: 'Samantha',
+          email: 'Ciencias',
+          website: 'Berta Gomez'
+        }
       ],
       selected: [],
-      options: ["Daniel", "Nestor", "Oscar", "Gregorio", "Pablo"],
+      options: ['Daniel', 'Nestor', 'Oscar', 'Gregorio', 'Pablo'],
       form: {
         id: null,
-        dataShifts: "",
-        dataInstitutions: "",
+        dataShifts: '',
+        dataInstitutions: ''
       },
-      value1: "",
-      value2: "",
-      value3: "",
+      value1: '',
+      value2: '',
+      value3: '',
       popupActive2: false,
       popupActive3: false,
       userPosts: [
@@ -317,57 +317,57 @@ export default {
           likes: 100,
           usersLiked: [
             {
-              name: "Trina Lynes",
-              img: require("@/assets/images/portrait/small/avatar-s-1.jpg"),
+              name: 'Trina Lynes',
+              img: require('@/assets/images/portrait/small/avatar-s-1.jpg')
             },
             {
-              name: "Lilian Nenez",
-              img: require("@/assets/images/portrait/small/avatar-s-2.jpg"),
+              name: 'Lilian Nenez',
+              img: require('@/assets/images/portrait/small/avatar-s-2.jpg')
             },
             {
-              name: "Alberto Glotzbach",
-              img: require("@/assets/images/portrait/small/avatar-s-3.jpg"),
-            },
-          ],
-        },
+              name: 'Alberto Glotzbach',
+              img: require('@/assets/images/portrait/small/avatar-s-3.jpg')
+            }
+          ]
+        }
       ],
       cardsWelcome: [
         {
           icon: CourseLogo,
-          title: "Salones",
+          title: 'Salones',
           count: 10,
-          component: Card,
+          component: Card
         },
         {
           icon: SchoolIcon,
-          title: "Alumnos",
-          count: 106,
+          title: 'Alumnos',
+          count: 106
         },
         {
           icon: AppleIcon,
-          title: "Docentes",
-          count: 11,
-        },
+          title: 'Docentes',
+          count: 11
+        }
       ],
       course: [
         {
-          title: "4A-Comisión A",
-          subtitle: "2 Cursos - Turno Mañana",
-          buttonTitle: "Ir al salón",
-          href: "/classroom/4A-Comisión-A",
+          title: '4A-Comisión A',
+          subtitle: '2 Cursos - Turno Mañana',
+          buttonTitle: 'Ir al salón',
+          href: '/classroom/4A-Comisión-A'
         },
         {
-          title: "4B-Comisión B",
-          subtitle: "5 Cursos - Turno Tarde",
-          buttonTitle: "Ir al salón",
-          href: "/classroom/4B-Comisión-B",
+          title: '4B-Comisión B',
+          subtitle: '5 Cursos - Turno Tarde',
+          buttonTitle: 'Ir al salón',
+          href: '/classroom/4B-Comisión-B'
         },
         {
-          title: "4C-Comisión C",
-          subtitle: "1 Cursos - Turno Mañana",
-          buttonTitle: "Ir al salón",
-          href: "/classroom/4C-Comisión-C",
-        },
+          title: '4C-Comisión C',
+          subtitle: '1 Cursos - Turno Mañana',
+          buttonTitle: 'Ir al salón',
+          href: '/classroom/4C-Comisión-C'
+        }
         /*{
           title: "4B-Comisión B",
           subtitle: "5 Cursos - Turno Tarde",
@@ -401,27 +401,27 @@ export default {
       ],
       workshop: [
         {
-          title: "4A-Comisión A",
-          subtitle: "2 Talleres - Turno Mañana",
-          buttonTitle: "Ir a taller",
+          title: '4A-Comisión A',
+          subtitle: '2 Talleres - Turno Mañana',
+          buttonTitle: 'Ir a taller'
         },
         {
-          title: "4B-Comisión B",
-          subtitle: "4 Talleres - Turno Tarde",
-          buttonTitle: "Ir a taller",
-        },
+          title: '4B-Comisión B',
+          subtitle: '4 Talleres - Turno Tarde',
+          buttonTitle: 'Ir a taller'
+        }
       ],
       tabs: [
         {
-          title: "Salones",
+          title: 'Salones'
         },
         {
-          title: "Talleres",
-        },
-      ],
-    };
-  },
-};
+          title: 'Talleres'
+        }
+      ]
+    }
+  }
+}
 </script>
 
 <style lang="css">

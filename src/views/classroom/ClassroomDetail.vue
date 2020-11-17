@@ -89,19 +89,19 @@
 </template>
 
 <script>
-import Card from "../components/Card";
-import CardWelcome from "../components/CardWelcome";
-import CourseLogo from "../components/icons/CourseLogo";
-import PencilLogo from "../components/icons/PencilLogo";
-import CheckLogo from "../components/icons/CheckLogo";
-import DocumentLogo from "../components/icons/DocumentLogo";
-import SchoolIcon from "../components/icons/SchoolIcon";
-import AppleIcon from "../components/icons/AppleIcon";
-import vSelect from "vue-select";
+import Card from '../components/Card'
+import CardWelcome from '../components/CardWelcome'
+import CourseLogo from '../components/icons/CourseLogo'
+import PencilLogo from '../components/icons/PencilLogo'
+import CheckLogo from '../components/icons/CheckLogo'
+import DocumentLogo from '../components/icons/DocumentLogo'
+import SchoolIcon from '../components/icons/SchoolIcon'
+import AppleIcon from '../components/icons/AppleIcon'
+import vSelect from 'vue-select'
 export default {
-  name: "ClassroomDetail",
+  name: 'ClassroomDetail',
   props: {
-    commission: String,
+    commission: String
   },
   components: {
     CardWelcome,
@@ -110,61 +110,61 @@ export default {
     CheckLogo,
     DocumentLogo,
     SchoolIcon,
-    Card,
+    Card
   },
 
-  data() {
+  data () {
     return {
-      coursesName: "",
-      teachers: "",
+      coursesName: '',
+      teachers: '',
       popupActive3: false,
       cardsWelcome: [
         {
           icon: CourseLogo,
-          title: "Cursos",
-          count: 2,
+          title: 'Cursos',
+          count: 2
         },
         {
           icon: SchoolIcon,
-          title: "Alumnos",
-          count: 40,
+          title: 'Alumnos',
+          count: 40
         },
         {
           icon: AppleIcon,
-          title: "Docentes",
-          count: 2,
-        },
+          title: 'Docentes',
+          count: 2
+        }
       ],
 
       course: [
         {
-          title: "Matematica",
-          subtitle: "4A-Comisión A - Turno Mañana",
-          buttonTitle: "Ir al curso",
-          href: "/courses/Matematica",
+          title: 'Matematica',
+          subtitle: '4A-Comisión A - Turno Mañana',
+          buttonTitle: 'Ir al curso',
+          href: '/courses/Matematica'
         },
         {
-          title: "Programacion",
-          subtitle: "4A-Comisión A - Turno Tarde",
-          buttonTitle: "Ir al curso",
-          href: "/courses/Programacion",
-        },
+          title: 'Programacion',
+          subtitle: '4A-Comisión A - Turno Tarde',
+          buttonTitle: 'Ir al curso',
+          href: '/courses/Programacion'
+        }
       ],
       workshop: [
         {
-          title: "Matematica",
-          subtitle: "2 Talleres - Turno Mañana",
-          buttonTitle: "Ir a taller",
+          title: 'Matematica',
+          subtitle: '2 Talleres - Turno Mañana',
+          buttonTitle: 'Ir a taller'
         },
         {
-          title: "Programacion II",
-          subtitle: "4 Talleres - Turno Tarde",
-          buttonTitle: "Ir a taller",
-        },
-      ],
-    };
-  },
-};
+          title: 'Programacion II',
+          subtitle: '4 Talleres - Turno Tarde',
+          buttonTitle: 'Ir a taller'
+        }
+      ]
+    }
+  }
+}
 </script>
 
 <style lang="css">

@@ -75,30 +75,30 @@
 </template>
 
 <script>
-import ListIcon from "../components/icons/ListIcon";
-import Toolbars from "./Toolbars";
+import ListIcon from '../components/icons/ListIcon'
+import Toolbars from './Toolbars'
 export default {
-  name: "Collapse",
+  name: 'Collapse',
   components: {
     ListIcon,
-    Toolbars,
+    Toolbars
   },
   props: {
-    classesList: Array,
+    classesList: Array
   },
-  data() {
+  data () {
     return {
       console,
-      display: true,
-    };
+      display: true
+    }
   },
   methods: {
     showContent(index) {
       console.log(this.display);
       //this[index].display = !this.display;
-    },
-  },
-};
+    }
+  }
+}
 </script>
 <style>
 .backgroud-internal {

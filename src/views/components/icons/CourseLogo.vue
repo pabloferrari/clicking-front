@@ -19,6 +19,6 @@
 
 <script>
 export default {
-  name: "CourseLogo",
-};
+  name: 'CourseLogo'
+}
 </script>

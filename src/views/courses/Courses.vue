@@ -12,14 +12,14 @@
         <vs-tab label="Cursos">
           <div class="tab-content-courses">
             <div>
-              <Card :cards="this.course" description=' Alumnos cursando'> </Card>
+              <Card :cards="this.course" description=" Alumnos cursando"> </Card>
             </div>
           </div>
         </vs-tab>
         <vs-tab label="Talleres">
           <div class="tab-content-workshop">
             <div>
-              <Card :cards="this.workshop" description=' Alumnos cursando'> </Card>
+              <Card :cards="this.workshop" description=" Alumnos cursando"> </Card>
             </div>
           </div>
         </vs-tab>
@@ -28,88 +28,88 @@
   </div>
 </template>
 <script>
-import CardWelcome from "../components/CardWelcome";
-import CourseLogo from "../components/icons/CourseLogo";
-import PencilLogo from "../components/icons/PencilLogo";
-import CheckLogo from "../components/icons/CheckLogo";
-import DocumentLogo from "../components/icons/DocumentLogo";
-import Card from "../components/Card";
-import Tabs from "../components/Tabs";
-import StatisticsCardLine from "@/components/statistics-cards/StatisticsCardLine.vue";
+import CardWelcome from '../components/CardWelcome'
+import CourseLogo from '../components/icons/CourseLogo'
+import PencilLogo from '../components/icons/PencilLogo'
+import CheckLogo from '../components/icons/CheckLogo'
+import DocumentLogo from '../components/icons/DocumentLogo'
+import Card from '../components/Card'
+import Tabs from '../components/Tabs'
+import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
 export default {
-  name: "courses",
+  name: 'courses',
   components: {
     StatisticsCardLine,
     CardWelcome,
     CourseLogo,
     Card,
-    Tabs,
+    Tabs
   },
 
-  data() {
+  data () {
     return {
       cardsWelcome: [
         {
           icon: CourseLogo,
-          title: "Cursos",
+          title: 'Cursos',
           count: 2,
           component: Card,
-          path: "",
+          path: ''
         },
         {
           icon: DocumentLogo,
-          title: "Tareas",
+          title: 'Tareas',
           count: 3,
-          path: "",
+          path: ''
         },
         {
           icon: PencilLogo,
-          title: "Trabajos Prácticos",
-          count: 1,
+          title: 'Trabajos Prácticos',
+          count: 1
         },
         {
           icon: CheckLogo,
-          title: "Exámenes",
-          count: 2,
-        },
+          title: 'Exámenes',
+          count: 2
+        }
       ],
       course: [
         {
-          title: "Matematica",
-          subtitle: "Comision A -Turno Mañana",
-          buttonTitle: "Ir a curso",
-          href: "/courses/Matematica",
+          title: 'Matematica',
+          subtitle: 'Comision A -Turno Mañana',
+          buttonTitle: 'Ir a curso',
+          href: '/courses/Matematica'
         },
         {
-          title: "Lenguaje",
-          subtitle: "Comision A -Turno Tarde",
-          buttonTitle: "Ir a curso",
-          href: "/courses/Lenguaje",
-        },
+          title: 'Lenguaje',
+          subtitle: 'Comision A -Turno Tarde',
+          buttonTitle: 'Ir a curso',
+          href: '/courses/Lenguaje'
+        }
       ],
       workshop: [
         {
-          title: "Programacion",
-          subtitle: "Comision A - Turno Mañana",
-          buttonTitle: "Ir a taller",
+          title: 'Programacion',
+          subtitle: 'Comision A - Turno Mañana',
+          buttonTitle: 'Ir a taller'
         },
         {
-          title: "Lenguaje",
-          subtitle: "Comision A - Turno Tarde",
-          buttonTitle: "Ir a taller",
-        },
+          title: 'Lenguaje',
+          subtitle: 'Comision A - Turno Tarde',
+          buttonTitle: 'Ir a taller'
+        }
       ],
       tabs: [
         {
-          title: "Cursos",
+          title: 'Cursos'
         },
         {
-          title: "Talleres",
-        },
-      ],
-    };
-  },
-};
+          title: 'Talleres'
+        }
+      ]
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

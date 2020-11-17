@@ -55,14 +55,14 @@
 
 <script>
 export default {
-  name: "WallComment",
+  name: 'WallComment',
 
-  data() {
+  data () {
     return {
-      commentResponse: null,
-    };
-  },
-};
+      commentResponse: null
+    }
+  }
+}
 </script>
 <style>
 .backgroud-internal {

@@ -38,6 +38,6 @@
 </template>
 <script>
 export default {
-  name: "DocumentLogo",
-};
+  name: 'DocumentLogo'
+}
 </script>
