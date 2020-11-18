@@ -6,11 +6,10 @@
       </div>
     </div>
 
-
     <CardWelcome :cardsWelcome="this.cardsWelcome"></CardWelcome>
-    <div class="flex flex-wrap  justify-end mt-1">
+    <div class="flex flex-wrap justify-end mt-1">
       <ButtonDropDownVue
-      class="btn-right button-dropdown"
+        class="btn-right button-dropdown"
         v-show="dropdown"
         title="Crear"
         itemOne="Crear Clase"
@@ -18,7 +17,7 @@
       ></ButtonDropDownVue>
     </div>
     <div class="mt-0">
-      <vs-tabs v-model="tab.value" >
+      <vs-tabs v-model="tab.value">
         <vs-tab label="Muro" v-on="clickTag(tab.value)">
           <div class="tab-content-wall">
             <Wall></Wall>
@@ -38,95 +37,96 @@
 </template>
 
 <script>
-import Wall from '../components/Wall'
-import WallComment from '../components/WallComment'
-import Collapse from '../components/Collapse'
-import CardWelcome from '../components/CardWelcome'
-import ButtonDropDownVue from '../components/ButtonDropDown.vue'
+import Wall from "../components/Wall";
+import WallComment from "../components/WallComment";
+import Collapse from "../components/Collapse";
+import CardWelcome from "../components/CardWelcome";
+import ButtonDropDownVue from "../components/ButtonDropDown.vue";
 export default {
-  name: 'Subject',
+  name: "Subject",
   components: {
     Wall,
     WallComment,
     CardWelcome,
     Collapse,
-    ButtonDropDownVue
+    ButtonDropDownVue,
   },
   props: {
-    subject: String
+    subject: String,
   },
-  methods:{
-    clickTag (e) {
-      this.dropdown = e !== 0
-
-    }
+  methods: {
+    clickTag(e) {
+      this.dropdown = e !== 0;
+    },
   },
-  data () {
+  data() {
     return {
       console,
-      dropdown:true,
+      dropdown: true,
       items: [
         {
           id: 1,
-          title: 'Crear Tarea Practica'
+          title: "Crear Tarea Practica",
         },
         {
           id: 2,
-          title: 'Crear Examen'
-        }
+          title: "Crear Examen",
+        },
       ],
 
       tab: {
-        value: 1
+        value: 1,
       },
       cardsWelcome: [
         {
-          icon: '',
-          title: 'Asistencia',
-          count: 3
+          icon: "",
+          title: "Asistencia",
+          count: 3,
         },
         {
-          icon: '',
-          title: 'Tareas',
-          count: 1
-        }
+          icon: "",
+          title: "Tareas",
+          count: 1,
+        },
       ],
 
       classesList: [
         {
           subject: {
-            name: '1. Números Reales',
+            id: 1,
+            name: "1. Números Reales",
             content: [
               {
                 id: 1,
-                type: 'Tarea',
-                title: 'Estructura de los numeros reales',
-                dateend: 'Vence 10/11/2020 11:00 PM',
-                status: 'Pendiente',
-                icon: 'ClockIcon'
-              }
-            ]
-          }
+                type: "Tarea",
+                title: "Estructura de los numeros reales",
+                dateend: "Vence 10/11/2020 11:00 PM",
+                status: "Pendiente",
+                icon: "ClockIcon",
+              },
+            ],
+          },
         },
         {
           subject: {
-            name: '2. Números Primos',
+            id: 2,
+            name: "2. Números Primos",
             content: [
               {
                 id: 2,
-                type: 'Examen',
-                title: 'Estructura de los numeros Primos',
-                dateend: 'Vence 19/11/2020 11:00 PM',
-                status: 'Pendiente',
-                icon: 'ClockIcon'
-              }
-            ]
-          }
-        }
-      ]
-    }
-  }
-}
+                type: "Examen",
+                title: "Estructura de los numeros Primos",
+                dateend: "Vence 19/11/2020 11:00 PM",
+                status: "Pendiente",
+                icon: "ClockIcon",
+              },
+            ],
+          },
+        },
+      ],
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -142,8 +142,8 @@ export default {
 }
 
 .btn-right {
-    position: absolute;
-    right: 1rem;
-    z-index: 999;
-  }
+  position: absolute;
+  right: 1rem;
+  z-index: 999;
+}
 </style>

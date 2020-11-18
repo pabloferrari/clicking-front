@@ -1,13 +1,17 @@
 <template>
   <div class="collapse">
-    <div class="vx-row" v-for="(classes, index) in classesList" :key="index">
-      <div class="w-full">
+    <div
+      class="vx-row my-2"
+      v-for="(classes, index) in classesList"
+      :key="index"
+    >
+      <div class="w-full p-1">
         <div class="flex justify-between">
           <div class="w-full bg-white rounded-full">
             <div class="flex justify-between">
               <div class="text-center px-4 py-2 m-2">
                 <div class="px-6 py-2">
-                  <div class=" " @click="showContent(index)">
+                  <div class=" " @click="showContent(classes.subject)">
                     <feather-icon
                       icon="CheckIcon"
                       svgClasses="h-8 w-8 text-success "
@@ -28,8 +32,11 @@
           </div>
         </div>
       </div>
-      <div class="w-full backgroud-internal-content mx-10">
-        <div class="w-full backgroud-internal mx-10 my-3 mt-3" v-if="display">
+      <div
+        class="w-full backgroud-internal-content mx-10"
+        v-show="classes.subject.showDetails"
+      >
+        <div class="w-full backgroud-internal mx-10 my-3 mt-3">
           <div class="grid grid-cols-3 divide-x divide-gray-400">
             <div class="">
               <div class="flex content-between">
@@ -75,30 +82,29 @@
 </template>
 
 <script>
-import ListIcon from '../components/icons/ListIcon'
-import Toolbars from './Toolbars'
+import ListIcon from "../components/icons/ListIcon";
+import Toolbars from "./Toolbars";
 export default {
-  name: 'Collapse',
+  name: "Collapse",
   components: {
     ListIcon,
-    Toolbars
+    Toolbars,
   },
   props: {
-    classesList: Array
+    classesList: Array,
   },
-  data () {
+  data() {
     return {
       console,
-      display: true
-    }
+      showDetails: true,
+    };
   },
   methods: {
-    showContent(index) {
-      console.log(this.display);
-      //this[index].display = !this.display;
-    }
-  }
-}
+    showContent(data) {
+      this.$set(data, "showDetails", !data.showDetails);
+    },
+  },
+};
 </script>
 <style>
 .backgroud-internal {
@@ -115,5 +121,8 @@ export default {
 }
 .backgroud-internal-content {
   border-left: 2px solid;
+}
+.show {
+  display: none;
 }
 </style>
