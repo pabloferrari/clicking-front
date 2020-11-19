@@ -9,9 +9,12 @@
         <div class="flex justify-between">
           <div class="w-full bg-white rounded-full">
             <div class="flex justify-between">
-              <div class="text-center px-4 py-2 m-2">
+              <div
+                class="text-center px-4 py-2 m-2 cursor-pointer"
+                @click="showContent(classes.subject)"
+              >
                 <div class="px-6 py-2">
-                  <div class=" " @click="showContent(classes.subject)">
+                  <div class=" ">
                     <feather-icon
                       icon="CheckIcon"
                       svgClasses="h-8 w-8 text-success "

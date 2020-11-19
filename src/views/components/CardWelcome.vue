@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  name: "CardWelcome",
+  name: 'CardWelcome',
   components: {},
   props: {
     cardsWelcome: null,

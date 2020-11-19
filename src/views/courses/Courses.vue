@@ -12,14 +12,16 @@
         <vs-tab label="Cursos">
           <div class="tab-content-courses">
             <div>
-              <Card :cards="this.course" description=" Alumnos cursando"> </Card>
+              <CardList :cardData="this.course" description="cursando">
+              </CardList>
             </div>
           </div>
         </vs-tab>
         <vs-tab label="Talleres">
           <div class="tab-content-workshop">
             <div>
-              <Card :cards="this.workshop" description=" Alumnos cursando"> </Card>
+              <CardList :cardData="this.workshop" description="cursando">
+              </CardList>
             </div>
           </div>
         </vs-tab>
@@ -28,21 +30,22 @@
   </div>
 </template>
 <script>
+import AvatarList from '../components/AvatarList'
 import CardWelcome from '../components/CardWelcome'
 import CourseLogo from '../components/icons/CourseLogo'
 import PencilLogo from '../components/icons/PencilLogo'
 import CheckLogo from '../components/icons/CheckLogo'
 import DocumentLogo from '../components/icons/DocumentLogo'
-import Card from '../components/Card'
+import CardList from '../components/CardList'
 import Tabs from '../components/Tabs'
-import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
+
 export default {
   name: 'courses',
   components: {
-    StatisticsCardLine,
+    AvatarList,
     CardWelcome,
     CourseLogo,
-    Card,
+    CardList,
     Tabs
   },
 
@@ -53,7 +56,7 @@ export default {
           icon: CourseLogo,
           title: 'Cursos',
           count: 2,
-          component: Card,
+       
           path: ''
         },
         {
@@ -78,13 +81,13 @@ export default {
           title: 'Matematica',
           subtitle: 'Comision A -Turno Mañana',
           buttonTitle: 'Ir a curso',
-          href: '/courses/Matematica'
+          path: '/courses/Matematica'
         },
         {
           title: 'Lenguaje',
           subtitle: 'Comision A -Turno Tarde',
           buttonTitle: 'Ir a curso',
-          href: '/courses/Lenguaje'
+          path: '/courses/Lenguaje'
         }
       ],
       workshop: [

@@ -1,25 +1,25 @@
 <template>
-  <div class="vx-row">
+  <div class="">
     <vx-card
-      class="vx-col mx-2 w-full sm:w-1/8 md:w-1/4 lg:w-1/3 xl:w-1/5 title-card active-card my-1"
-      v-for="card in cards"
-      :key="card.title"
-      :title="card.title"
-      :subtitle="card.subtitle"
+      class="title-card active-card my-1"
+      :title="title"
+      :subtitle="subtitle"
     >
       <div class="flex justify-between mt-2">
         <div class="flex items-start">
           <div v-for="(post, index) in userPosts" :key="index">
-            <!-- Avatar More User -->
             <AvatarList :post="post" :description="description"></AvatarList>
           </div>
         </div>
       </div>
+
       <div class="mt-4">
         <div class="flex justify-end">
-          <vs-button class="" :to="{ path: card.href }" size="small">{{
-            card.buttonTitle
-          }}</vs-button>
+          <ButtonPath
+            size="small"
+            :path="path"
+            :buttonTitle="buttonTitle"
+          ></ButtonPath>
         </div>
       </div>
     </vx-card>
@@ -27,16 +27,22 @@
 </template>
 
 <script>
-import AvatarList from '../components/AvatarList'
 
+import AvatarList from './AvatarList';
+import ButtonPath from './ButtonPath'
 export default {
   name: 'Card',
   components: {
-    AvatarList
+    AvatarList,
+    ButtonPath
   },
   props: {
-    cards: Array,
-    description: String
+    title: String,
+    buttonTitle:String,
+    path:String,
+    subtitle: String,
+    buttonComponent: Object,
+    description:String
   },
   data () {
     return {

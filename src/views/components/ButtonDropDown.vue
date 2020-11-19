@@ -34,8 +34,8 @@ export default {
     title: String,
     itemOne: String,
     items: Array
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss">

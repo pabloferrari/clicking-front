@@ -227,16 +227,19 @@
         <vs-tab label="Salones">
           <div class="tab-content-courses">
             <div>
-              <Card :cards="this.course" description=" Alumnos cursando">
-              </Card>
+              <CardList :cardData="this.course" description=" Alumnos cursando">
+              </CardList>
             </div>
           </div>
         </vs-tab>
         <vs-tab label="Talleres">
           <div class="tab-content-workshop">
             <div>
-              <Card :cards="this.workshop" description=" Alumnos cursando">
-              </Card>
+              <CardList
+                :cardData="this.workshop"
+                description=" Alumnos cursando"
+              >
+              </CardList>
             </div>
           </div>
         </vs-tab>
@@ -246,13 +249,14 @@
 </template>
 <script>
 import CardWelcome from '../components/CardWelcome'
+import CardList from '../components/CardList'
 import CourseLogo from '../components/icons/CourseLogo'
 import PencilLogo from '../components/icons/PencilLogo'
 import CheckLogo from '../components/icons/CheckLogo'
 import DocumentLogo from '../components/icons/DocumentLogo'
 import SchoolIcon from '../components/icons/SchoolIcon'
 import AppleIcon from '../components/icons/AppleIcon'
-import Card from '../components/Card'
+
 import Tabs from '../components/Tabs'
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
 import AvatarList from '../components/AvatarList'
@@ -263,7 +267,7 @@ export default {
     StatisticsCardLine,
     CardWelcome,
     CourseLogo,
-    Card,
+    CardList,
     Tabs,
     SchoolIcon,
     AppleIcon,
@@ -336,7 +340,7 @@ export default {
           icon: CourseLogo,
           title: 'Salones',
           count: 10,
-          component: Card
+      
         },
         {
           icon: SchoolIcon,
@@ -354,19 +358,19 @@ export default {
           title: '4A-Comisión A',
           subtitle: '2 Cursos - Turno Mañana',
           buttonTitle: 'Ir al salón',
-          href: '/classroom/4A-Comisión-A'
+          path: '/classroom/4A-Comisión-A'
         },
         {
           title: '4B-Comisión B',
           subtitle: '5 Cursos - Turno Tarde',
           buttonTitle: 'Ir al salón',
-          href: '/classroom/4B-Comisión-B'
+          path: '/classroom/4B-Comisión-B'
         },
         {
           title: '4C-Comisión C',
           subtitle: '1 Cursos - Turno Mañana',
           buttonTitle: 'Ir al salón',
-          href: '/classroom/4C-Comisión-C'
+          path: '/classroom/4C-Comisión-C'
         }
         /*{
           title: "4B-Comisión B",
