@@ -66,20 +66,37 @@ export default [
     }
   },
   {
-    path: "/courses",
-    name: "Mis Cursos",
-    component: () => import("../views/courses/Courses.vue"),
+    path: '/courses',
+    name: 'Mis Cursos',
+    component: () => import('../views/courses/Courses.vue'),
     meta: {
       permissions: ['admin']
     }
   },
   {
-    path: "/courses/:subject",
-    name: "Curso Materia",
-    component: () => import("../views/courses/Subject.vue"),
+    path: '/courses/:subject',
+    name: 'Curso Materia',
+    component: () => import('../views/courses/Subject.vue'),
     meta: {
       permissions: ['admin']
     },
     props:true
   },
+  {
+    path: '/classroom',
+    name: 'Salones',
+    component: () => import('../views/classroom/Classroom.vue'),
+    meta: {
+      permissions: ['admin']
+    }
+  },
+  {
+    path: '/classroom/:commission',
+    name: 'Salones Detalle',
+    component: () => import('../views/classroom/ClassroomDetail.vue'),
+    meta: {
+      permissions: ['admin']
+    },
+    props:true
+  }
 ]

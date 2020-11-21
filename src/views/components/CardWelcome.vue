@@ -3,18 +3,22 @@
     <div
       v-for="card in cardsWelcome"
       :key="card.title"
-      class="vx-col w-full sm:w-1/4 md:w-1/6 lg:w-1/6 xl:w-1/9"
+      class="vx-col sm:w-1/2 md:w-1/6 lg:w-1/6 xl:w-1/6"
+      @click="handlerRoute(card.path)"
     >
-      <vs-card>
-        <div class="flex justify-between">
-          <div :is="card.icon"></div>
-          <div class="py-1 m-1">
-            <h1>{{ card.count }}</h1>
+      <vs-card class="active-card-welcome">
+        <div class="vx-row">
+          <div class="vx-col w-1/3" v-if="card.icon">
+            <div :is="card.icon" class="m-1"></div>
           </div>
-        </div>
-        <div class="flex justify-between">
-          <div class="flex items-end p-1">
-            <p class="subpixel-antialiased text-right">{{ card.title }}</p>
+
+          <div class="vx-col w-4/3 text-center" v-else>
+            <p>Ver {{ card.title }}</p>
+          </div>
+          <div class="vx-col w-2/3">
+            <h1 class="text-center font-bold">{{ card.count }}</h1>
+
+            <p class="subpixel-antialiased text-center">{{ card.title }}</p>
           </div>
         </div>
       </vs-card>
@@ -24,10 +28,29 @@
 
 <script>
 export default {
-  name: "CardWelcome",
+  name: 'CardWelcome',
   components: {},
   props: {
     cardsWelcome: null,
   },
+  methods: {
+    handlerRoute(path) {
+      if (path) {
+        this.$router.push(path);
+      }
+    },
+  },
 };
 </script>
+<style>
+.active-card-welcome {
+  border: solid 2px #fff;
+  border-radius: 30px !important;
+  box-sizing: border-box;
+}
+.active-card-welcome:hover {
+  border: solid 2px #567df4;
+  outline: none;
+  cursor: pointer;
+}
+</style>

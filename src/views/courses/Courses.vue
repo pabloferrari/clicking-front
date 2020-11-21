@@ -12,14 +12,16 @@
         <vs-tab label="Cursos">
           <div class="tab-content-courses">
             <div>
-              <Card :cards="this.course"> </Card>
+              <CardList :cardData="this.course" description="cursando">
+              </CardList>
             </div>
           </div>
         </vs-tab>
         <vs-tab label="Talleres">
           <div class="tab-content-workshop">
             <div>
-              <Card :cards="this.workshop"> </Card>
+              <CardList :cardData="this.workshop" description="cursando">
+              </CardList>
             </div>
           </div>
         </vs-tab>
@@ -28,86 +30,89 @@
   </div>
 </template>
 <script>
-import CardWelcome from "../components/CardWelcome";
-import CourseLogo from "../../assets/icons/CourseLogo";
-import PencilLogo from "../../assets/icons/PencilLogo";
-import CheckLogo from "../../assets/icons/CheckLogo";
-import DocumentLogo from "../../assets/icons/DocumentLogo";
-import Card from "../components/Card";
-import Tabs from "../components/Tabs";
-import StatisticsCardLine from "@/components/statistics-cards/StatisticsCardLine.vue";
+import AvatarList from '../components/AvatarList'
+import CardWelcome from '../components/CardWelcome'
+import CourseLogo from '../components/icons/CourseLogo'
+import PencilLogo from '../components/icons/PencilLogo'
+import CheckLogo from '../components/icons/CheckLogo'
+import DocumentLogo from '../components/icons/DocumentLogo'
+import CardList from '../components/CardList'
+import Tabs from '../components/Tabs'
+
 export default {
-  name: "courses",
+  name: 'courses',
   components: {
-    StatisticsCardLine,
+    AvatarList,
     CardWelcome,
     CourseLogo,
-    Card,
-    Tabs,
+    CardList,
+    Tabs
   },
 
-  data() {
+  data () {
     return {
       cardsWelcome: [
         {
           icon: CourseLogo,
-          title: "Cursos",
-          count: 3,
-          component: Card,
+          title: 'Cursos',
+          count: 2,
+       
+          path: ''
         },
         {
           icon: DocumentLogo,
-          title: "Estudiantes",
-          count: 12,
+          title: 'Tareas',
+          count: 3,
+          path: ''
         },
         {
           icon: PencilLogo,
-          title: "Tareas",
-          count: 1,
+          title: 'Trabajos Prácticos',
+          count: 1
         },
         {
           icon: CheckLogo,
-          title: "Examenes",
-          count: 1,
-        },
+          title: 'Exámenes',
+          count: 2
+        }
       ],
       course: [
         {
-          title: "Matematica",
-          subtitle: "Comision A - Turno Mañana",
-          buttonTitle: "Ir a curso",
-          href: "/courses/Matematica",
+          title: 'Matematica',
+          subtitle: 'Comision A -Turno Mañana',
+          buttonTitle: 'Ir a curso',
+          path: '/courses/Matematica'
         },
         {
-          title: "Lenguaje",
-          subtitle: "Comision A - Turno Tarde",
-          buttonTitle: "Ir a curso",
-          href: "/courses/Lenguaje",
-        },
+          title: 'Lenguaje',
+          subtitle: 'Comision A -Turno Tarde',
+          buttonTitle: 'Ir a curso',
+          path: '/courses/Lenguaje'
+        }
       ],
       workshop: [
         {
-          title: "Programacion",
-          subtitle: "Comision A - Turno Mañana",
-          buttonTitle: "Ir a taller",
+          title: 'Programacion',
+          subtitle: 'Comision A - Turno Mañana',
+          buttonTitle: 'Ir a taller'
         },
         {
-          title: "Lenguaje",
-          subtitle: "Comision A - Turno Tarde",
-          buttonTitle: "Ir a taller",
-        },
+          title: 'Lenguaje',
+          subtitle: 'Comision A - Turno Tarde',
+          buttonTitle: 'Ir a taller'
+        }
       ],
       tabs: [
         {
-          title: "Cursos",
+          title: 'Cursos'
         },
         {
-          title: "Talleres",
-        },
-      ],
-    };
-  },
-};
+          title: 'Talleres'
+        }
+      ]
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
