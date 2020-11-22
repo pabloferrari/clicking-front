@@ -7,9 +7,12 @@
     >
       <div class="flex justify-between mt-2">
         <div class="flex items-start">
-          <div v-for="(post, index) in userPosts" :key="index">
-            <AvatarList :post="post" :description="description"></AvatarList>
-          </div>
+          <!-- <div v-for="(student, index) in dataAvatar" :key="index"> -->
+          <AvatarList
+            :dataAvatarList="dataAvatar"
+            :description="description"
+          ></AvatarList>
+          <!-- </div> -->
         </div>
       </div>
 
@@ -27,47 +30,51 @@
 </template>
 
 <script>
-
-import AvatarList from './AvatarList';
-import ButtonPath from './ButtonPath'
+import AvatarList from "./AvatarList";
+import ButtonPath from "./ButtonPath";
 export default {
-  name: 'Card',
+  name: "Card",
   components: {
     AvatarList,
-    ButtonPath
+    ButtonPath,
   },
   props: {
     title: String,
-    buttonTitle:String,
-    path:String,
+    buttonTitle: String,
+    path: String,
     subtitle: String,
     buttonComponent: Object,
-    description:String
+    description: String,
+    dataAvatar: Array,
   },
-  data () {
+  mounted() {
+    // console.log(this.dataAvatar);
+  },
+  data() {
     return {
+      console,
       userPosts: [
         {
           likes: 100,
           usersLiked: [
             {
-              name: 'Trina Lynes',
-              img: require('@/assets/images/portrait/small/avatar-s-1.jpg')
+              name: "Trina Lynes",
+              img: require("@/assets/images/portrait/small/avatar-s-1.jpg"),
             },
             {
-              name: 'Lilian Nenez',
-              img: require('@/assets/images/portrait/small/avatar-s-2.jpg')
+              name: "Lilian Nenez",
+              img: require("@/assets/images/portrait/small/avatar-s-2.jpg"),
             },
             {
-              name: 'Alberto Glotzbach',
-              img: require('@/assets/images/portrait/small/avatar-s-3.jpg')
-            }
-          ]
-        }
-      ]
-    }
-  }
-}
+              name: "Alberto Glotzbach",
+              img: require("@/assets/images/portrait/small/avatar-s-3.jpg"),
+            },
+          ],
+        },
+      ],
+    };
+  },
+};
 </script>
 <style>
 .backgroud-internal {

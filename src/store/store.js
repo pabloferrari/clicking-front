@@ -28,6 +28,10 @@ import plan from './modules/plan'
 import teacher from './modules/teacher'
 import student from './modules/student'
 import province from './modules/province'
+import classroomStudent from './modules/classroomStudent'
+import classroom from './modules/classroom'
+import course from './modules/course'
+import courseClass from './modules/courseClass'
 
 Vue.use(Vuex)
 
@@ -43,7 +47,12 @@ export default new Vuex.Store({
     student,
     notification,
     plan,
-    province
+    province,
+    classroom,
+    classroomStudent,
+    course,
+    courseClass
+
   },
   getters,
   mutations,

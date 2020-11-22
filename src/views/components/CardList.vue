@@ -9,6 +9,7 @@
       :buttonTitle="card.buttonTitle"
       :path="card.path"
       :description="description"
+      :dataAvatar="card.avatarData"
     >
     </Card>
   </div>
@@ -25,7 +26,8 @@ export default {
   },
   props: {
     cardData: Array,
-    description:String
+    description:String,
+    dataAvatar:Array
   },
 };
 </script>

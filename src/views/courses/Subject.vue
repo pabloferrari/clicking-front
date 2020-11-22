@@ -42,6 +42,7 @@ import WallComment from "../components/WallComment";
 import Collapse from "../components/Collapse";
 import CardWelcome from "../components/CardWelcome";
 import ButtonDropDownVue from "../components/ButtonDropDown.vue";
+import { mapGetters } from "vuex";
 export default {
   name: "Subject",
   components: {
@@ -58,7 +59,36 @@ export default {
     clickTag(e) {
       this.dropdown = e !== 0;
     },
+
+    getCourseClass() {
+      this.$store.dispatch("courseClass/getCourseClassesData");
+    },
   },
+
+  mounted() {
+    this.getCourseClass();
+  },
+
+  computed: {
+    ...mapGetters({ storeCoursesClass: "courseClass/getCourseClasses" }),
+  },
+
+  watch: {
+    storeCoursesClass(data) {
+      const courseClassData = [];
+      data.map((element) => {
+        courseClassData.push({
+          id: element.id,
+          title: element.title,
+          description: element.description,
+          assignments: element.assignments,
+        });
+      });
+      this.classesList = courseClassData;
+      // console.log(courseClassData);
+    },
+  },
+
   data() {
     return {
       console,
@@ -89,41 +119,41 @@ export default {
           count: 1,
         },
       ],
-
-      classesList: [
-        {
-          subject: {
-            id: 1,
-            name: "1. Números Reales",
-            content: [
-              {
-                id: 1,
-                type: "Tarea",
-                title: "Estructura de los numeros reales",
-                dateend: "Vence 10/11/2020 11:00 PM",
-                status: "Pendiente",
-                icon: "ClockIcon",
-              },
-            ],
-          },
-        },
-        {
-          subject: {
-            id: 2,
-            name: "2. Números Primos",
-            content: [
-              {
-                id: 2,
-                type: "Examen",
-                title: "Estructura de los numeros Primos",
-                dateend: "Vence 19/11/2020 11:00 PM",
-                status: "Pendiente",
-                icon: "ClockIcon",
-              },
-            ],
-          },
-        },
-      ],
+      classesList: null,
+      // classesList: [
+      //   {
+      //     subject: {
+      //       id: 1,
+      //       name: "1. Números Reales",
+      //       content: [
+      //         {
+      //           id: 1,
+      //           type: "Tarea",
+      //           title: "Estructura de los numeros reales",
+      //           dateend: "Vence 10/11/2020 11:00 PM",
+      //           status: "Pendiente",
+      //           icon: "ClockIcon",
+      //         },
+      //       ],
+      //     },
+      //   },
+      //   {
+      //     subject: {
+      //       id: 2,
+      //       name: "2. Números Primos",
+      //       content: [
+      //         {
+      //           id: 2,
+      //           type: "Examen",
+      //           title: "Estructura de los numeros Primos",
+      //           dateend: "Vence 19/11/2020 11:00 PM",
+      //           status: "Pendiente",
+      //           icon: "ClockIcon",
+      //         },
+      //       ],
+      //     },
+      //   },
+      // ],
     };
   },
 };
