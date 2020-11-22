@@ -11,7 +11,7 @@
             <div class="flex justify-between">
               <div
                 class="text-center px-4 py-2 m-2 cursor-pointer"
-                @click="showContent(classes.subject)"
+                @click="showContent(classes.assignments)"
               >
                 <div class="px-6 py-2">
                   <div class=" ">
@@ -20,7 +20,7 @@
                       svgClasses="h-8 w-8 text-success "
                     />
                     <span class="text-xl text-title font-semibold text-justify">
-                      {{ classes.subject.name }}
+                      {{ index + 1 }}. {{ classes.title }}
                     </span>
                   </div>
                 </div>
@@ -37,47 +37,14 @@
       </div>
       <div
         class="w-full backgroud-internal-content mx-10"
-        v-show="classes.subject.showDetails"
+        v-show="!classes.assignments.showDetails"
       >
-        <div class="w-full backgroud-internal mx-10 my-3 mt-3">
-          <div class="grid grid-cols-3 divide-x divide-gray-400">
-            <div class="">
-              <div class="flex content-between">
-                <div class="m-4 p-2 rounded-full bg-white">
-                  <ListIcon></ListIcon>
-                </div>
-                <div class="w-2/3 p-2">
-                  <p>{{ classes.subject.content[0].type }}</p>
-                  <h4 class="text-title font-bold">
-                    {{ classes.subject.content[0].title }}
-                  </h4>
-                </div>
-              </div>
-            </div>
-            <div class="grid justify-items-center">
-              <div class="w-2/3 p-6">
-                <p class="text-center">
-                  {{ classes.subject.content[0].dateend }}
-                </p>
-              </div>
-            </div>
-            <div class="grid justify-items-end">
-              <div class="w-2/6 p-4">
-                <div class="rounded-full h-10 p-2">
-                  <vs-chip class="bg-white">
-                    <feather-icon
-                      :icon="classes.subject.content[0].icon"
-                      svgClasses="h-5 w-8 text-red"
-                    >
-                    </feather-icon>
-                    <p class="text-center text-red font-semibold">
-                      {{ classes.subject.content[0].status }}
-                    </p>
-                  </vs-chip>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div
+          class=""
+          v-for="(assignments, index) in classes.assignments"
+          :key="index"
+        >
+          <CollapseBody :dataCollapseBody="assignments"></CollapseBody>
         </div>
       </div>
     </div>
@@ -85,13 +52,15 @@
 </template>
 
 <script>
-import ListIcon from "../components/icons/ListIcon";
+// import ListIcon from "../components/icons/ListIcon";
 import Toolbars from "./Toolbars";
+import CollapseBody from "./CollapseBody";
 export default {
   name: "Collapse",
   components: {
-    ListIcon,
+    // ListIcon,
     Toolbars,
+    CollapseBody,
   },
   props: {
     classesList: Array,
@@ -99,12 +68,15 @@ export default {
   data() {
     return {
       console,
-      showDetails: true,
+      showDetails: false,
+      collapseBodyProp: null,
     };
   },
   methods: {
     showContent(data) {
+      // console.log(data);
       this.$set(data, "showDetails", !data.showDetails);
+      // this.collapseBodyProp = data;
     },
   },
 };
