@@ -11,7 +11,7 @@
     <vs-dropdown>
       <vs-button class="btn-drop" type="filled" icon="expand_more"></vs-button>
       <vs-dropdown-menu>
-        <vs-dropdown-item class="py-2 text-xl color-text-menu font-semibold">
+        <vs-dropdown-item class="py-2 text-xl color-text-menu font-semibold" @click="popupCreateActive = 'itemOne'" v-model="popupCreateActive">
           {{ itemOne }}
         </vs-dropdown-item>
         <vs-divider />
@@ -19,6 +19,7 @@
           class="py-2 text-xl color-text-menu font-semibold"
           v-for="item in items"
           :key="item.id"
+          @click="popupCreateActive = item.action" v-model="popupCreateActive"
         >
           {{ item.title }}
         </vs-dropdown-item>
@@ -30,11 +31,31 @@
 <script>
 export default {
   name: 'ButtonDropDown',
-  props: {
+  props:
+    {
     title: String,
     itemOne: String,
-    items: Array
+    items: Array,
+    value: false
   },
+  computed: {
+    popupCreateActive: {
+      get() {
+        return this.value
+      },
+      set(value){
+        this.$emit("input", value);
+      }
+    },
+    popupCreateTaskActive: {
+      get() {
+        return this.value
+      },
+      set(value){
+        this.$emit("input", value);
+      }
+    }
+  }
 };
 </script>
 

@@ -14,8 +14,24 @@
         title="Crear"
         itemOne="Crear Clase"
         :items="this.items"
+        v-model="popupCreate"
       ></ButtonDropDownVue>
     </div>
+
+    <!-- START MODAL -->
+    <vs-popup title="Crear Clase" :active.sync="itemOne" >
+
+    </vs-popup>
+
+    <vs-popup title="Crear Tarea Práctica" :active.sync="itemTwo">
+
+    </vs-popup>
+
+     <vs-popup title="Crear Éxamen" :active.sync="itemThree">
+
+    </vs-popup>
+    <!-- END MODAL -->
+
     <div class="mt-0">
       <vs-tabs v-model="tab.value">
         <vs-tab label="Muro" v-on="clickTag(tab.value)">
@@ -34,6 +50,7 @@
       </vs-tabs>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -53,24 +70,43 @@ export default {
   },
   props: {
     subject: String,
+    value: false
   },
   methods: {
     clickTag(e) {
       this.dropdown = e !== 0;
     },
   },
+  watch: {
+    popupCreate: function() {
+      if( this.popupCreate == 'itemOne' ) {
+        this.itemOne = !this.itemOne
+      }else if(this.popupCreate == 'itemTwo'){
+        this.itemTwo = !this.itemTwo
+      }else if(this.popupCreate == 'itemThree'){
+        this.itemThree = !this.itemThree
+      }
+      console.log('Actualizado')
+    },
+  },
   data() {
     return {
       console,
       dropdown: true,
+      popupCreate: false,
+      itemOne: false,
+      itemTwo: false,
+      itemThree: false,
       items: [
         {
           id: 1,
           title: "Crear Tarea Practica",
+          action: "itemTwo",
         },
         {
           id: 2,
           title: "Crear Examen",
+          action: "itemThree",
         },
       ],
 

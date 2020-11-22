@@ -30,7 +30,7 @@
 
     <vs-popup title="" :active.sync="popupActive">
 
-      <ClassroomForm></ClassroomForm>
+      <ClassroomForm title="Crear Salón"></ClassroomForm>
 
     </vs-popup>
 
