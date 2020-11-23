@@ -2,24 +2,35 @@
   <div id="courses">
     <div class="vx-row">
       <div class="vx-col w-full">
-        <p class="primary">Mis Cursos</p>
+        <p class="primary">{{ title.split("-").join(" ") }}</p>
       </div>
     </div>
     <CardWelcome :cardsWelcome="this.cardsWelcome"></CardWelcome>
 
     <div class="mt-0">
       <vs-tabs>
-        <vs-tab label="Cursos">
+        <vs-tab label="Cursos" @click="getCourses()">
           <div class="tab-content-courses">
             <div>
-              <Card :cards="this.course"> </Card>
+              <CardList :cardData="this.courses" description="cursando">
+              </CardList>
             </div>
           </div>
         </vs-tab>
         <vs-tab label="Talleres">
           <div class="tab-content-workshop">
             <div>
-              <Card :cards="this.workshop"></Card>
+              <CardList
+                v-if="this.workshop.length > 0"
+                :cardData="this.workshop"
+                description="cursando"
+              >
+              </CardList>
+              <div v-else>
+                <p class="font-semibold text-center">
+                  No se encontraron resultados
+                </p>
+              </div>
             </div>
           </div>
         </vs-tab>
@@ -28,75 +39,106 @@
   </div>
 </template>
 <script>
+import AvatarList from '../components/AvatarList'
 import CardWelcome from '../components/CardWelcome'
-import CourseLogo from '../../assets/icons/CourseLogo'
-import PencilLogo from '../../assets/icons/PencilLogo'
-import CheckLogo from '../../assets/icons/CheckLogo'
-import DocumentLogo from '../../assets/icons/DocumentLogo'
-import Card from '../components/Card'
+import CourseLogo from '../components/icons/CourseLogo'
+import PencilLogo from '../components/icons/PencilLogo'
+import CheckLogo from '../components/icons/CheckLogo'
+import DocumentLogo from '../components/icons/DocumentLogo'
+import CardList from '../components/CardList'
 import Tabs from '../components/Tabs'
-import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
+import { mapGetters } from 'vuex'
 export default {
   name: 'courses',
   components: {
-    StatisticsCardLine,
+    AvatarList,
     CardWelcome,
     CourseLogo,
-    Card,
+    CardList,
     Tabs
   },
+  props: {
+    title: String,
+    id: String
+  },
 
+  mounted () {
+    this.getCourses()
+  },
+
+  computed: {
+    ...mapGetters({ storeCourses: 'course/getCourses' })
+  },
+  methods: {
+    getCourses () {
+      this.$store.dispatch('course/getCoursesClassroomData', this.id)
+    }
+  },
+  watch: {
+    storeCourses (data) {
+      // console.log(data);
+      const courseData = []
+      data.map((element) => {
+        courseData.push({
+          title: element.subject.name,
+          subtitle:
+            `${element.classroom.name} - ${  element.classroom.shift.name}`,
+          buttonTitle: 'Ir a curso',
+          path:
+            `/courses/${
+              element.subject.name.split(' ').join('-')
+            }/${
+              element.subject.id}`,
+          avatarData: element.classroom.classroom_students
+        })
+      })
+      console.log(courseData)
+      this.courses = courseData
+    }
+  },
   data () {
     return {
       cardsWelcome: [
         {
           icon: CourseLogo,
           title: 'Cursos',
-          count: 3,
-          component: Card
+          count: 2,
+
+          path: ''
         },
         {
           icon: DocumentLogo,
-          title: 'Estudiantes',
-          count: 12
+          title: 'Tareas',
+          count: 3,
+          path: ''
         },
         {
           icon: PencilLogo,
-          title: 'Tareas',
+          title: 'Trabajos Prácticos',
           count: 1
         },
         {
           icon: CheckLogo,
-          title: 'Examenes',
-          count: 1
+          title: 'Exámenes',
+          count: 2
         }
       ],
-      course: [
-        {
-          title: 'Matematica',
-          subtitle: 'Comision A - Turno Mañana',
-          buttonTitle: 'Ir a curso',
-          href: '/courses/Matematica'
-        },
-        {
-          title: 'Lenguaje',
-          subtitle: 'Comision A - Turno Tarde',
-          buttonTitle: 'Ir a curso',
-          href: '/courses/Lenguaje'
-        }
-      ],
-      workshop: [
-        {
-          title: 'Programacion',
-          subtitle: 'Comision A - Turno Mañana',
-          buttonTitle: 'Ir a taller'
-        },
-        {
-          title: 'Lenguaje',
-          subtitle: 'Comision A - Turno Tarde',
-          buttonTitle: 'Ir a taller'
-        }
-      ],
+      courses: [],
+      // course: [
+      //   {
+      //     title: "Matematica",
+      //     subtitle: "Comision A -Turno Mañana",
+      //     buttonTitle: "Ir a curso",
+      //     path: "/courses/Matematica",
+      //   },
+      //   {
+      //     title: "Lenguaje",
+      //     subtitle: "Comision A -Turno Tarde",
+      //     buttonTitle: "Ir a curso",
+      //     path: "/courses/Lenguaje",
+      //   },
+      // ],
+      workshop: [],
       tabs: [
         {
           title: 'Cursos'

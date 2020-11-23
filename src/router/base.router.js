@@ -74,12 +74,47 @@ export default [
     }
   },
   {
-    path: '/courses/:subject',
-    name: 'Curso Materia',
+    path: '/courses/:subject/:subjectId',
+    name: 'Curso Materia Asignaciones',
     component: () => import('../views/courses/Subject.vue'),
     meta: {
-      permissions: ['admin']
+      permissions: ['admin','institution']
+    },
+    props:true
+  },
+  {
+    path: '/classrooms',
+    name: 'Salones',
+    component: () => import('../views/classroom/Classroom.vue'),
+    meta: {
+      permissions: ['institution']
+    }
+  },
+  {
+    path: '/classrooms/:title/',
+    name: 'Salones Curso',
+    component: () => import('../views/courses/Courses.vue'),
+    meta: {
+      permissions: ['teacher'],
+      props:true
+    }
+  },
+  {
+    path: '/classrooms/:title/:id',
+    name: 'Salones Curso',
+    component: () => import('../views/courses/Courses.vue'),
+    meta: {
+      permissions: ['institution']
     },
     props:true
   }
+  // {
+  //   path: '/classrooms/:course/:subject',
+  //   name: 'Curso Materia',
+  //   component: () => import('../views/courses/Subject.vue'),
+  //   meta: {
+  //     permissions: ['institution']
+  //   },
+  //   props:true
+  // }
 ]

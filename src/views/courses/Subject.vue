@@ -5,18 +5,32 @@
         <p class="primary">{{ subject }}</p>
       </div>
     </div>
-    <CardWelcome :cardsWelcome="this.cardsWelcome"></CardWelcome>
+    <CardCount :cardCount="this.cardCount"></CardCount>
+
+    <div class="flex flex-wrap justify-end mt-1">
+      <ButtonRight class="btn-right" buttonTitle="Crear Clase"></ButtonRight>
+    </div>
     <div class="mt-0">
       <vs-tabs v-model="tab.value">
-        <vs-tab label="Muro">
+        <vs-tab label="Muro" v-on="clickTag(tab.value)">
           <div class="tab-content-wall">
-            <div></div>
+            <Wall></Wall>
+            <WallComment></WallComment>
           </div>
         </vs-tab>
         <vs-tab label="Clases">
           <div class="tab-content-classes">
             <div>
-              <Collapse :items="this.items"></Collapse>
+              <Collapse
+                v-if="this.classesList.length > 0"
+                :DropDownList="this.DropDownList"
+                :classesList="this.classesList"
+              ></Collapse>
+              <div v-else>
+                <p class="font-semibold text-center">
+                  No se encontraron resultados
+                </p>
+              </div>
             </div>
           </div>
         </vs-tab>
@@ -26,45 +40,136 @@
 </template>
 
 <script>
+import Wall from '../components/Wall'
+import WallComment from '../components/WallComment'
 import Collapse from '../components/Collapse'
-import CardWelcome from '../components/CardWelcome'
+// import CardWelcome from "../components/CardWelcome";
+import CardCount from '../components/CardCount'
+import ButtonRight from '../components/ButtonRight'
+// import ButtonDropDownVue from "../components/ButtonDropDown.vue";
+import { mapGetters } from 'vuex'
 export default {
   name: 'Subject',
   components: {
-    CardWelcome,
-    Collapse
+    Wall,
+    WallComment,
+    // CardWelcome,
+    CardCount,
+    Collapse,
+    ButtonRight
   },
   props: {
-    subject: String
+    subject: String,
+    subjectId: String
+  },
+  methods: {
+    clickTag (e) {
+      this.dropdown = e !== 0
+    },
+
+    getCourseClass () {
+      this.$store.dispatch(
+        'courseClass/getCourseClassesSubjectData',
+        this.subjectId
+      )
+    }
+  },
+
+  mounted () {
+    this.getCourseClass()
+  },
+
+  computed: {
+    ...mapGetters({ storeCoursesClass: 'courseClass/getCourseClasses' })
+  },
+
+  watch: {
+    storeCoursesClass (data) {
+      const courseClassData = []
+      data.map((element) => {
+        courseClassData.push({
+          id: element.id,
+          title: element.title,
+          description: element.description,
+          assignments: element.assignments
+        })
+      })
+      this.classesList = courseClassData
+      // console.log(courseClassData);
+    }
   },
 
   data () {
     return {
+      console,
+      dropdown: true,
+      DropDownList: [
+        {
+          id: 1,
+          title: 'Crear Tarea'
+        },
+        {
+          id: 2,
+          title: 'Crear Examen'
+        },
+        {
+          id: 3,
+          title: 'Crear Trabajo Practico'
+        }
+      ],
+
       tab: {
         value: 1
       },
-      cardsWelcome: [
+      cardCount: [
         {
-          icon: '',
           title: 'Asistencia',
           count: 3
         },
         {
-          icon: '',
           title: 'Tareas',
+          count: 1
+        },
+        {
+          title: 'Evaluaciones',
           count: 1
         }
       ],
-      items: [
-        {
-          id: 1,
-          title: '1. Numeros Reales'
-        },
-        {
-          id: 2,
-          title: '2. Numeros Primos'
-        }
-      ]
+      classesList: []
+      // classesList: [
+      //   {
+      //     subject: {
+      //       id: 1,
+      //       name: "1. Números Reales",
+      //       content: [
+      //         {
+      //           id: 1,
+      //           type: "Tarea",
+      //           title: "Estructura de los numeros reales",
+      //           dateend: "Vence 10/11/2020 11:00 PM",
+      //           status: "Pendiente",
+      //           icon: "ClockIcon",
+      //         },
+      //       ],
+      //     },
+      //   },
+      //   {
+      //     subject: {
+      //       id: 2,
+      //       name: "2. Números Primos",
+      //       content: [
+      //         {
+      //           id: 2,
+      //           type: "Examen",
+      //           title: "Estructura de los numeros Primos",
+      //           dateend: "Vence 19/11/2020 11:00 PM",
+      //           status: "Pendiente",
+      //           icon: "ClockIcon",
+      //         },
+      //       ],
+      //     },
+      //   },
+      // ],
     }
   }
 }
@@ -80,5 +185,11 @@ export default {
   display: flex;
   align-items: center;
   color: #567df4;
+}
+
+.btn-right {
+  position: absolute;
+  right: 1rem;
+  z-index: 999;
 }
 </style>

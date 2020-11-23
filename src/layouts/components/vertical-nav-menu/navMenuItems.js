@@ -76,5 +76,12 @@ export default [
     slug: 'courses',
     icon: 'UserIcon',
     permissions: ['admin']
+  },
+  {
+    url: '/classrooms',
+    name: 'Salones',
+    slug: 'classroom',
+    icon: 'HomeIcon',
+    permissions: ['institution']
   }
 ]
