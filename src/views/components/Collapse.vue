@@ -19,16 +19,16 @@
 
 <script>
 export default {
-  name: "Collapse",
+  name: 'Collapse',
   props: {
-    items: Array,
+    items: Array
   },
-  data() {
+  data () {
     return {
-      type: "margin",
-    };
-  },
-};
+      type: 'margin'
+    }
+  }
+}
 </script>
 <style>
 .backgroud-internal {

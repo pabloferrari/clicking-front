@@ -19,7 +19,7 @@
         <vs-tab label="Talleres">
           <div class="tab-content-workshop">
             <div>
-              <Card :cards="this.workshop"> </Card>
+              <Card :cards="this.workshop"></Card>
             </div>
           </div>
         </vs-tab>
@@ -28,86 +28,86 @@
   </div>
 </template>
 <script>
-import CardWelcome from "../components/CardWelcome";
-import CourseLogo from "../../assets/icons/CourseLogo";
-import PencilLogo from "../../assets/icons/PencilLogo";
-import CheckLogo from "../../assets/icons/CheckLogo";
-import DocumentLogo from "../../assets/icons/DocumentLogo";
-import Card from "../components/Card";
-import Tabs from "../components/Tabs";
-import StatisticsCardLine from "@/components/statistics-cards/StatisticsCardLine.vue";
+import CardWelcome from '../components/CardWelcome'
+import CourseLogo from '../../assets/icons/CourseLogo'
+import PencilLogo from '../../assets/icons/PencilLogo'
+import CheckLogo from '../../assets/icons/CheckLogo'
+import DocumentLogo from '../../assets/icons/DocumentLogo'
+import Card from '../components/Card'
+import Tabs from '../components/Tabs'
+import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
 export default {
-  name: "courses",
+  name: 'courses',
   components: {
     StatisticsCardLine,
     CardWelcome,
     CourseLogo,
     Card,
-    Tabs,
+    Tabs
   },
 
-  data() {
+  data () {
     return {
       cardsWelcome: [
         {
           icon: CourseLogo,
-          title: "Cursos",
+          title: 'Cursos',
           count: 3,
-          component: Card,
+          component: Card
         },
         {
           icon: DocumentLogo,
-          title: "Estudiantes",
-          count: 12,
+          title: 'Estudiantes',
+          count: 12
         },
         {
           icon: PencilLogo,
-          title: "Tareas",
-          count: 1,
+          title: 'Tareas',
+          count: 1
         },
         {
           icon: CheckLogo,
-          title: "Examenes",
-          count: 1,
-        },
+          title: 'Examenes',
+          count: 1
+        }
       ],
       course: [
         {
-          title: "Matematica",
-          subtitle: "Comision A - Turno Mañana",
-          buttonTitle: "Ir a curso",
-          href: "/courses/Matematica",
+          title: 'Matematica',
+          subtitle: 'Comision A - Turno Mañana',
+          buttonTitle: 'Ir a curso',
+          href: '/courses/Matematica'
         },
         {
-          title: "Lenguaje",
-          subtitle: "Comision A - Turno Tarde",
-          buttonTitle: "Ir a curso",
-          href: "/courses/Lenguaje",
-        },
+          title: 'Lenguaje',
+          subtitle: 'Comision A - Turno Tarde',
+          buttonTitle: 'Ir a curso',
+          href: '/courses/Lenguaje'
+        }
       ],
       workshop: [
         {
-          title: "Programacion",
-          subtitle: "Comision A - Turno Mañana",
-          buttonTitle: "Ir a taller",
+          title: 'Programacion',
+          subtitle: 'Comision A - Turno Mañana',
+          buttonTitle: 'Ir a taller'
         },
         {
-          title: "Lenguaje",
-          subtitle: "Comision A - Turno Tarde",
-          buttonTitle: "Ir a taller",
-        },
+          title: 'Lenguaje',
+          subtitle: 'Comision A - Turno Tarde',
+          buttonTitle: 'Ir a taller'
+        }
       ],
       tabs: [
         {
-          title: "Cursos",
+          title: 'Cursos'
         },
         {
-          title: "Talleres",
-        },
-      ],
-    };
-  },
-};
+          title: 'Talleres'
+        }
+      ]
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -26,48 +26,48 @@
 </template>
 
 <script>
-import Collapse from "../components/Collapse";
-import CardWelcome from "../components/CardWelcome";
+import Collapse from '../components/Collapse'
+import CardWelcome from '../components/CardWelcome'
 export default {
-  name: "Subject",
+  name: 'Subject',
   components: {
     CardWelcome,
-    Collapse,
+    Collapse
   },
   props: {
-    subject: String,
+    subject: String
   },
 
-  data() {
+  data () {
     return {
       tab: {
-        value: 1,
+        value: 1
       },
       cardsWelcome: [
         {
-          icon: "",
-          title: "Asistencia",
-          count: 3,
+          icon: '',
+          title: 'Asistencia',
+          count: 3
         },
         {
-          icon: "",
-          title: "Tareas",
-          count: 1,
-        },
+          icon: '',
+          title: 'Tareas',
+          count: 1
+        }
       ],
       items: [
         {
           id: 1,
-          title: "1. Numeros Reales",
+          title: '1. Numeros Reales'
         },
         {
           id: 2,
-          title: "2. Numeros Primos",
-        },
-      ],
-    };
-  },
-};
+          title: '2. Numeros Primos'
+        }
+      ]
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

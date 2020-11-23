@@ -20,9 +20,9 @@
 
 <script>
 export default {
-  name: "Card",
+  name: 'Card',
   props: {
-    cards: Array,
-  },
-};
+    cards: Array
+  }
+}
 </script>

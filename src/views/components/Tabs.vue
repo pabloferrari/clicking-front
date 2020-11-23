@@ -11,10 +11,10 @@
 </template>
 <script>
 export default {
-  name: "Tabs",
+  name: 'Tabs',
   props: {
     tabs: Array,
-    component: null,
-  },
-};
+    component: null
+  }
+}
 </script>
