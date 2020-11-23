@@ -1,25 +1,27 @@
 <template>
-  <div class="vx-row">
+  <div class="flex">
     <div
       v-for="card in cardsWelcome"
       :key="card.title"
-      class="vx-col sm:w-1/2 md:w-1/6 lg:w-1/6 xl:w-1/6"
+      class="vx-col mx-2 sm:w-4/3 md:w-4/3 lg:w-4/3 xl:w-4/3"
       @click="handlerRoute(card.path)"
     >
       <vs-card class="active-card-welcome">
-        <div class="vx-row">
-          <div class="vx-col w-1/3" v-if="card.icon">
+        <div class="flex mt-4">
+          <!-- <div class=""> -->
+          <div class="vx-col" v-if="card.icon">
             <div :is="card.icon" class="m-1"></div>
           </div>
 
-          <div class="vx-col w-4/3 text-center" v-else>
+          <div class="vx-col text-center" v-else>
             <p>Ver {{ card.title }}</p>
           </div>
-          <div class="vx-col w-2/3">
+          <div class="vx-col">
             <h1 class="text-center font-bold">{{ card.count }}</h1>
 
             <p class="subpixel-antialiased text-center">{{ card.title }}</p>
           </div>
+          <!-- </div> -->
         </div>
       </vs-card>
     </div>
@@ -28,7 +30,7 @@
 
 <script>
 export default {
-  name: 'CardWelcome',
+  name: "CardWelcome",
   components: {},
   props: {
     cardsWelcome: null,

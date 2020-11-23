@@ -54,7 +54,7 @@ export default {
     dataCollapseBody: Object,
   },
   mounted() {
-    console.log(this.dataCollapseBody);
+    // console.log(this.dataCollapseBody);
   },
 };
 </script>

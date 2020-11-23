@@ -28,7 +28,33 @@
 
               <div class="text-center px-2 py-2 m-2">
                 <div class="items-end">
-                  <Toolbars />
+                  <div class="flex space-x-4">
+                    <vs-button
+                      icon-pack="feather"
+                      icon="icon-play"
+                      color="primary"
+                      type="border"
+                    >
+                      <span class="font-semibold">
+                        {{ titleButton }}
+                      </span></vs-button
+                    >
+
+                    <vs-button
+                      color="primary"
+                      type="border"
+                      icon-pack="feather"
+                      icon="icon-folder"
+                    ></vs-button>
+
+                    <ButtonDropDown
+                      ref="ButtonDropDown"
+                      v-on:action-dropdown-item="
+                        showModalClass(classes, $event)
+                      "
+                      :items="DropDownList"
+                    ></ButtonDropDown>
+                  </div>
                 </div>
               </div>
             </div>
@@ -53,26 +79,36 @@
 
 <script>
 // import ListIcon from "../components/icons/ListIcon";
-import Toolbars from "./Toolbars";
+import ButtonDropDown from "./ButtonDropDown";
+// import Toolbars from "./Toolbars";
 import CollapseBody from "./CollapseBody";
 export default {
   name: "Collapse",
   components: {
     // ListIcon,
-    Toolbars,
+    ButtonDropDown,
+    // Toolbars,
     CollapseBody,
   },
   props: {
     classesList: Array,
+    DropDownList: Array,
   },
   data() {
     return {
       console,
+      titleButton: "clase grabada",
       showDetails: false,
       collapseBodyProp: null,
     };
   },
   methods: {
+    showModalClass(object, event) {
+      const classId = object.id;
+      const assignmentId = event.id;
+      console.log(classId, assignmentId);
+    },
+
     showContent(data) {
       // console.log(data);
       this.$set(data, "showDetails", !data.showDetails);

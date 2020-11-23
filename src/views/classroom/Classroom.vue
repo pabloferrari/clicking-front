@@ -229,20 +229,29 @@
             <div>
               <CardList
                 :cardData="this.classroom"
-                description=" Alumnos cursando"
+                v-if="this.classroom.length > 0"
+                description="cursando"
               >
               </CardList>
+              <div v-else>
+                <p class="font-semibold text-center">
+                  No se encontraron resultados
+                </p>
+              </div>
             </div>
           </div>
         </vs-tab>
         <vs-tab label="Talleres">
           <div class="tab-content-workshop">
             <div>
-              <CardList
+              <p class="font-semibold text-center">
+                No se encontraron resultados
+              </p>
+              <!-- <CardList
                 :cardData="this.workshop"
                 description=" Alumnos cursando"
               >
-              </CardList>
+              </CardList> -->
             </div>
           </div>
         </vs-tab>
@@ -283,23 +292,23 @@ export default {
 
   methods: {
     getClassrooms() {
-      const userAuth = localStorage.userAuth;
-      const parseJson = JSON.parse(userAuth);
-      this.$store.dispatch(
-        "classroom/getClassroomsData",
-        parseJson.institution_id
-      );
+      this.$store.dispatch("classroom/getClassroomsData");
     },
   },
   watch: {
     classrooms(data) {
       const classroomsData = [];
       data.map((element, index) => {
+        const count = element.courses_count ? element.courses_count : 0;
         classroomsData.push({
           title: element.name,
-          subtitle: `${element.courses_count} Cursos - ` + element.shift.name,
+          subtitle: `${count} Cursos - ` + element.shift.name,
           buttonTitle: "Ir a salon",
-          path: "/classroom/" + element.name.split(" ").join("-"),
+          path:
+            "/classrooms/" +
+            element.name.split(" ").join("-") +
+            "/" +
+            element.id,
           avatarData: element.classroom_students,
         });
       });
@@ -377,19 +386,22 @@ export default {
           icon: CourseLogo,
           title: "Salones",
           count: 10,
+          path: "/classrooms",
         },
         {
           icon: SchoolIcon,
           title: "Alumnos",
           count: 106,
+          path: "/students",
         },
         {
           icon: AppleIcon,
           title: "Docentes",
           count: 11,
+          path: "/teachers",
         },
       ],
-      classroom: null,
+      classroom: [],
       course: [
         {
           title: "4A-Comisión A",
@@ -440,18 +452,7 @@ export default {
           href: "/courses/Lenguaje",
         },*/
       ],
-      workshop: [
-        {
-          title: "4A-Comisión A",
-          subtitle: "2 Talleres - Turno Mañana",
-          buttonTitle: "Ir a taller",
-        },
-        {
-          title: "4B-Comisión B",
-          subtitle: "4 Talleres - Turno Tarde",
-          buttonTitle: "Ir a taller",
-        },
-      ],
+      workshop: [],
       tabs: [
         {
           title: "Salones",

@@ -1,24 +1,16 @@
 <template>
   <div class="dropdown-button-container">
-    <vs-button
-      class="btnx"
-      icon-pack="feather"
-      icon="icon-plus"
-      type="filled"
-      >{{ title }}</vs-button
-    >
-
-    <vs-dropdown>
-      <vs-button class="btn-drop" type="filled" icon="expand_more"></vs-button>
+    <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">
+      <feather-icon
+        icon="MoreVerticalIcon"
+        svgClasses="h-5 w-5 cursor-pointer"
+      />
       <vs-dropdown-menu>
-        <vs-dropdown-item class="py-2 text-xl color-text-menu font-semibold">
-          {{ itemOne }}
-        </vs-dropdown-item>
-        <vs-divider />
         <vs-dropdown-item
-          class="py-2 text-xl color-text-menu font-semibold"
+          class="color-text-menu font-semibold"
           v-for="item in items"
           :key="item.id"
+          @click="actionDropdown(item)"
         >
           {{ item.title }}
         </vs-dropdown-item>
@@ -29,11 +21,15 @@
 
 <script>
 export default {
-  name: 'ButtonDropDown',
+  name: "ButtonDropDown",
   props: {
-    title: String,
-    itemOne: String,
-    items: Array
+    items: Array,
+  },
+
+  methods: {
+    actionDropdown(arrayData, params) {
+      this.$emit("action-dropdown-item", arrayData, params);
+    },
   },
 };
 </script>

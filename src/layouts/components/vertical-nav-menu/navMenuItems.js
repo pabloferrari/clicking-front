@@ -78,10 +78,10 @@ export default [
     permissions: ['admin']
   },
   {
-    url: '/classroom',
+    url: '/classrooms',
     name: 'Salones',
     slug: 'classroom',
     icon: 'HomeIcon',
-    permissions: ['admin']
+    permissions: ['institution']
   }
 ]

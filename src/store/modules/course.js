@@ -94,9 +94,9 @@ const actions = {
     //   console.log(error)
     // }
   },
-  async getCoursesData ({commit}) {
+  async getCoursesClassroomData ({commit},id) {
     try {
-      const courseData = await CourseService.getAll()
+      const courseData = await CourseService.get(id)
       commit('setCourses', courseData.data)
     } catch (error) {
       console.log(error)

@@ -5,16 +5,10 @@
         <p class="primary">{{ subject }}</p>
       </div>
     </div>
+    <CardCount :cardCount="this.cardCount"></CardCount>
 
-    <CardWelcome :cardsWelcome="this.cardsWelcome"></CardWelcome>
     <div class="flex flex-wrap justify-end mt-1">
-      <ButtonDropDownVue
-        class="btn-right button-dropdown"
-        v-show="dropdown"
-        title="Crear"
-        itemOne="Crear Clase"
-        :items="this.items"
-      ></ButtonDropDownVue>
+      <ButtonRight class="btn-right" buttonTitle="Crear Clase"></ButtonRight>
     </div>
     <div class="mt-0">
       <vs-tabs v-model="tab.value">
@@ -27,7 +21,16 @@
         <vs-tab label="Clases">
           <div class="tab-content-classes">
             <div>
-              <Collapse :classesList="this.classesList"></Collapse>
+              <Collapse
+                v-if="this.classesList.length > 0"
+                :DropDownList="this.DropDownList"
+                :classesList="this.classesList"
+              ></Collapse>
+              <div v-else>
+                <p class="font-semibold text-center">
+                  No se encontraron resultados
+                </p>
+              </div>
             </div>
           </div>
         </vs-tab>
@@ -40,20 +43,24 @@
 import Wall from "../components/Wall";
 import WallComment from "../components/WallComment";
 import Collapse from "../components/Collapse";
-import CardWelcome from "../components/CardWelcome";
-import ButtonDropDownVue from "../components/ButtonDropDown.vue";
+// import CardWelcome from "../components/CardWelcome";
+import CardCount from "../components/CardCount";
+import ButtonRight from "../components/ButtonRight";
+// import ButtonDropDownVue from "../components/ButtonDropDown.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "Subject",
   components: {
     Wall,
     WallComment,
-    CardWelcome,
+    // CardWelcome,
+    CardCount,
     Collapse,
-    ButtonDropDownVue,
+    ButtonRight,
   },
   props: {
     subject: String,
+    subjectId: String,
   },
   methods: {
     clickTag(e) {
@@ -61,7 +68,10 @@ export default {
     },
 
     getCourseClass() {
-      this.$store.dispatch("courseClass/getCourseClassesData");
+      this.$store.dispatch(
+        "courseClass/getCourseClassesSubjectData",
+        this.subjectId
+      );
     },
   },
 
@@ -93,33 +103,39 @@ export default {
     return {
       console,
       dropdown: true,
-      items: [
+      DropDownList: [
         {
           id: 1,
-          title: "Crear Tarea Practica",
+          title: "Crear Tarea",
         },
         {
           id: 2,
           title: "Crear Examen",
+        },
+        {
+          id: 3,
+          title: "Crear Trabajo Practico",
         },
       ],
 
       tab: {
         value: 1,
       },
-      cardsWelcome: [
+      cardCount: [
         {
-          icon: "",
           title: "Asistencia",
           count: 3,
         },
         {
-          icon: "",
           title: "Tareas",
           count: 1,
         },
+        {
+          title: "Evaluaciones",
+          count: 1,
+        },
       ],
-      classesList: null,
+      classesList: [],
       // classesList: [
       //   {
       //     subject: {

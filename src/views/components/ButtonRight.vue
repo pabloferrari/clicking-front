@@ -4,7 +4,7 @@
       <vs-button
         icon-pack="feather"
         @click="$emit('handler-click')"
-        class="hol"
+        class=""
         icon="icon-plus"
         >{{ buttonTitle }}</vs-button
       >
@@ -14,9 +14,9 @@
 
 <script>
 export default {
-  name: 'ButtonRight',
+  name: "ButtonRight",
   props: {
-    buttonTitle: String
-  }
-}
+    buttonTitle: String,
+  },
+};
 </script>
