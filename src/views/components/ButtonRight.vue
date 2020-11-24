@@ -4,7 +4,7 @@
       <vs-button
         icon-pack="feather"
         @click="$emit('handler-click')"
-        class="hol"
+        class=""
         icon="icon-plus"
         >{{ buttonTitle }}</vs-button
       >

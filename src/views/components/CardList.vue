@@ -16,18 +16,16 @@
 </template>
 
 <script>
-
 import Card from "../components/Card";
 export default {
   name: "CardList",
   components: {
-    Card
-   
+    Card,
   },
   props: {
     cardData: Array,
-    description:String,
-    dataAvatar:Array
+    description: String,
+    dataAvatar: Array,
   },
 };
 </script>

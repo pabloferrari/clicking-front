@@ -75,13 +75,13 @@ export default [
     name: 'Mis Cursos',
     slug: 'courses',
     icon: 'UserIcon',
-    permissions: ['admin']
+    permissions: ['teacher', 'student']
   },
   {
-    url: '/classroom',
+    url: '/classrooms',
     name: 'Salones',
     slug: 'classroom',
     icon: 'HomeIcon',
-    permissions: ['admin']
+    permissions: ['institution']
   }
 ]

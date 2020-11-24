@@ -102,7 +102,7 @@ const actions = {
     //   console.log(error)
     // }
   },
-  async getCoursesData ({commit}) {
+  async getCoursesClassroomData ({commit}) {
     try {
       const courseData = await CourseService.getAll()
       commit('setCourses', courseData.data)

@@ -15,59 +15,69 @@
           </vx-tooltip>
         </li>
       </ul>
-      <small class="ml-2">{{ this.countAvatar() }} {{ description }}</small>
+
+      <span class="mb-4">
+        <p class="ml-3 font-bold text-color-title-avatar">Alumnos</p>
+        <small class="ml-3 text-color-legend font-medium"
+          >{{ this.countAvatar() }} {{ description }}</small
+        >
+      </span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "AvatarList",
+  name: 'AvatarList',
   props: {
     dataAvatarList: Array,
-    description: String,
+    description: String
   },
-  data() {
+  data () {
     return {
-      studentData: Array,
-    };
+      studentData: []
+      // dataAvatarList: [],
+    }
   },
-  created() {
-    this.getAvatar();
+  mounted () {
+    this.getAvatar()
   },
 
   methods: {
-    countAvatar() {
-      const count =
-        this.studentData.length - 3 < 0
-          ? `${this.studentData.length}`
-          : `+ ${this.studentData.length - 3}`;
-
-      return count;
+    countAvatar () {
+      const count = this.studentData.length - 3 < 0 ? `${this.studentData.length}` : `+ ${this.studentData.length - 3}`
+      return count
     },
 
-    getAvatar() {
-      const avatarParse = [];
-      this.dataAvatarList.map((element) => {
-        avatarParse.push({
-          id: element.student.id,
-          name: element.student.name,
-          image: "",
-        });
-      });
-
-      this.studentData = avatarParse;
-    },
-    getPhoto(user) {
-      // console.log(image)
-      const pathImageFolder = "@/assets/images/portrait/small/";
-      if (user.image === null) {
-        require(`@/assets/images/portrait/small/avatar-s-1.jpg`);
-        // console.log("no hay imagen");
-      } else {
-        require(`${pathImageFolder}${user.image}`);
+    getAvatar () {
+      const avatarParse = []
+      if (this.dataAvatarList) {
+        this.dataAvatarList.map((element) => {
+          avatarParse.push({
+            id: element.student.id,
+            name: element.student.name,
+            image: ''
+          })
+        })
+        this.studentData = avatarParse
       }
     },
-  },
-};
+    getPhoto (user) {
+      // console.log(image)
+      const pathImageFolder = '@/assets/images/portrait/small/'
+      if (user.image === null) {
+        require('@/assets/images/portrait/small/avatar-s-1.jpg')
+        // console.log("no hay imagen");
+      } else {
+        require(`${pathImageFolder}${user.image}`)
+      }
+    }
+  }
+}
 </script>
+
+<style style="sccs">
+.text-color-title-avatar {
+  color: #22215b;
+}
+</style>

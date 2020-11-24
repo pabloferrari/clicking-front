@@ -111,10 +111,18 @@ const actions = {
     //   console.log(error)
     // }
   },
-  async getClassroomsData ({commit},id) {
+  async getClassroomsData ({commit}) {
     try {
-      const classroomData = await ClassroomService.get(id)
+      const classroomData = await ClassroomService.getAll()
       commit('setClassrooms', classroomData.data)
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  async getClassroomCount ({commit},id) {
+    try {
+      const classroomData = await ClassroomService.getClassroomCount(id)
+      commit('setClassroom', classroomData.data)
     } catch (error) {
       console.log(error)
     }

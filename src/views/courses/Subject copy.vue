@@ -8,11 +8,22 @@
     <CardCount :cardCount="this.cardCount"></CardCount>
 
     <div class="flex flex-wrap justify-end mt-1">
+<<<<<<< HEAD
+      <ButtonDropDownVue
+        class="btn-right button-dropdown"
+        v-show="dropdown"
+        title="Crear"
+        itemOne="Crear Clase"
+        :items="this.items"
+        v-model="popupCreate"
+      ></ButtonDropDownVue>
+=======
       <ButtonRight
         class="btn-right"
         v-permission="['teacher']"
         buttonTitle="Crear Clase"
       ></ButtonRight>
+>>>>>>> e8f395d5998be76f19eff6b4c43eeecd6c42b725
     </div>
 
     <!-- START MODAL -->
@@ -80,7 +91,11 @@ export default {
   },
   props: {
     subject: String,
+<<<<<<< HEAD
+    value: false
+=======
     subjectId: String
+>>>>>>> e8f395d5998be76f19eff6b4c43eeecd6c42b725
   },
   methods: {
     clickTag (e) {
@@ -118,6 +133,38 @@ export default {
       // console.log(courseClassData);
     }
   },
+<<<<<<< HEAD
+  watch: {
+    popupCreate: function() {
+      if( this.popupCreate == 'itemOne' ) {
+        this.itemOne = !this.itemOne
+      }else if(this.popupCreate == 'itemTwo'){
+        this.itemTwo = !this.itemTwo
+      }else if(this.popupCreate == 'itemThree'){
+        this.itemThree = !this.itemThree
+      }
+      console.log('Actualizado')
+    },
+  },
+  data() {
+    return {
+      console,
+      dropdown: true,
+      popupCreate: false,
+      itemOne: false,
+      itemTwo: false,
+      itemThree: false,
+      items: [
+        {
+          id: 1,
+          title: "Crear Tarea Practica",
+          action: "itemTwo",
+        },
+        {
+          id: 2,
+          title: "Crear Examen",
+          action: "itemThree",
+=======
 
   data () {
     return {
@@ -131,6 +178,7 @@ export default {
         {
           id: 2,
           title: 'Crear Examen'
+>>>>>>> e8f395d5998be76f19eff6b4c43eeecd6c42b725
         },
         {
           id: 3,

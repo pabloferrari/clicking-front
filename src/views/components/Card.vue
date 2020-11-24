@@ -30,13 +30,13 @@
 </template>
 
 <script>
-import AvatarList from "./AvatarList";
-import ButtonPath from "./ButtonPath";
+import AvatarList from './AvatarList'
+import ButtonPath from './ButtonPath'
 export default {
-  name: "Card",
+  name: 'Card',
   components: {
     AvatarList,
-    ButtonPath,
+    ButtonPath
   },
   props: {
     title: String,
@@ -45,12 +45,12 @@ export default {
     subtitle: String,
     buttonComponent: Object,
     description: String,
-    dataAvatar: Array,
+    dataAvatar: Array
   },
-  mounted() {
+  mounted () {
     // console.log(this.dataAvatar);
   },
-  data() {
+  data () {
     return {
       console,
       userPosts: [
@@ -58,23 +58,23 @@ export default {
           likes: 100,
           usersLiked: [
             {
-              name: "Trina Lynes",
-              img: require("@/assets/images/portrait/small/avatar-s-1.jpg"),
+              name: 'Trina Lynes',
+              img: require('@/assets/images/portrait/small/avatar-s-1.jpg')
             },
             {
-              name: "Lilian Nenez",
-              img: require("@/assets/images/portrait/small/avatar-s-2.jpg"),
+              name: 'Lilian Nenez',
+              img: require('@/assets/images/portrait/small/avatar-s-2.jpg')
             },
             {
-              name: "Alberto Glotzbach",
-              img: require("@/assets/images/portrait/small/avatar-s-3.jpg"),
-            },
-          ],
-        },
-      ],
-    };
-  },
-};
+              name: 'Alberto Glotzbach',
+              img: require('@/assets/images/portrait/small/avatar-s-3.jpg')
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
 </script>
 <style>
 .backgroud-internal {

@@ -5,11 +5,8 @@
         <p class="primary">Salones</p>
       </div>
     </div>
-
-    <CardWelcome :cardsWelcome="this.cardsWelcome" >
-    </CardWelcome>
-
-    <!-- Modal Create -->
+    <CardWelcome :cardsWelcome="this.cardsWelcome()"></CardWelcome>
+    <!-- ADD NEW -->
     <div
       class="flex flex-wrap justify-end mt-1 data-list-btn-container"
       @click="popupActive = true"
@@ -46,20 +43,29 @@
             <div>
               <CardList
                 :cardData="this.classroom"
-                description=" Alumnos cursando"
+                v-if="this.classroom.length > 0"
+                description="cursando"
               >
               </CardList>
+              <div v-else>
+                <p class="font-semibold text-center">
+                  No se encontraron resultados
+                </p>
+              </div>
             </div>
           </div>
         </vs-tab>
         <vs-tab label="Talleres">
           <div class="tab-content-workshop">
             <div>
-              <CardList
+              <p class="font-semibold text-center">
+                No se encontraron resultados
+              </p>
+              <!-- <CardList
                 :cardData="this.workshop"
                 description=" Alumnos cursando"
               >
-              </CardList>
+              </CardList> -->
             </div>
           </div>
         </vs-tab>
@@ -74,9 +80,9 @@ import CardWelcome from "../components/CardWelcome";
 import CardList from "../components/CardList";
 
 import CourseLogo from "../components/icons/CourseLogo";
-import PencilLogo from "../components/icons/PencilLogo";
-import CheckLogo from "../components/icons/CheckLogo";
-import DocumentLogo from "../components/icons/DocumentLogo";
+// import PencilLogo from '../components/icons/PencilLogo'
+// import CheckLogo from '../components/icons/CheckLogo'
+// import DocumentLogo from '../components/icons/DocumentLogo'
 import SchoolIcon from "../components/icons/SchoolIcon";
 import AppleIcon from "../components/icons/AppleIcon";
 
@@ -106,13 +112,35 @@ export default {
     institutionsList: null,
   },
   methods: {
+    getInstitutionCount() {
+      this.$store.dispatch("institution/getInstitutionCount", 2);
+    },
+
     getClassrooms() {
-      const userAuth = localStorage.userAuth;
-      const parseJson = JSON.parse(userAuth);
-      this.$store.dispatch(
-        "classroom/getClassroomsData",
-        parseJson.institution_id
-      );
+      this.$store.dispatch("classroom/getClassroomsData");
+    },
+
+    cardsWelcome() {
+      return [
+        {
+          icon: CourseLogo,
+          title: "Salones",
+          count: this.countInstitution.classrooms,
+          path: "/classrooms",
+        },
+        {
+          icon: SchoolIcon,
+          title: "Alumnos",
+          count: this.countInstitution.students,
+          path: "/students",
+        },
+        {
+          icon: AppleIcon,
+          title: "Docentes",
+          count: this.countInstitution.teachers,
+          path: "/teachers",
+        },
+      ];
     },
     getShifts() {
       this.$store.dispatch("shift/getShifts")
@@ -128,14 +156,17 @@ export default {
     }
   },
   watch: {
-    classrooms(data) {
+    storeClassrooms(data) {
       const classroomsData = [];
-      data.map((element, index) => {
+      data.map((element) => {
+        const count = element.courses_count ? element.courses_count : 0;
         classroomsData.push({
           title: element.name,
-          subtitle: `${element.courses_count} Cursos - ` + element.shift.name,
+          subtitle: `${count} Cursos - ${element.shift.name}`,
           buttonTitle: "Ir a salon",
-          path: "/classroom/" + element.name.split(" ").join("-"),
+          path: `/classrooms/${element.name.split(" ").join("-")}/${
+            element.id
+          }`,
           avatarData: element.classroom_students,
         });
       });
@@ -153,10 +184,25 @@ export default {
     },
     storeTeachers(data) {
       this.teachers = data
-    }
+    },
+    storeInstitutionCount(data) {
+      this.countInstitution = {
+        classrooms: data.classrooms,
+        students: data.students,
+        teachers: data.teachers,
+      };
+    },
   },
   computed: {
-    ...mapGetters({ classrooms: "classroom/getClassrooms", storeShifts:'shift/getShifts', storeSubjects:'subject/getSubjects', storeCourseTypes:'courseType/getCourseTypes', storeTeachers:'teacher/getTeachers' }),
+    ...mapGetters({
+      classrooms: "classroom/getClassrooms",
+      storeShifts: 'shift/getShifts',
+      storeSubjects: 'subject/getSubjects',
+      storeCourseTypes: 'courseType/getCourseTypes',
+      storeTeachers: 'teacher/getTeachers',
+      storeClassrooms: "classroom/getClassrooms",
+      storeInstitutionCount: "institution/getInstitution",
+    }),
   },
   mounted() {
     this.getClassrooms()
@@ -164,6 +210,7 @@ export default {
     this.getSubjects()
     this.getCourseTypes()
     this.getTeachers()
+    this.getInstitutionCount();
   },
   data () {
     return {
@@ -173,6 +220,7 @@ export default {
       subjects: null,
       courseTypes: null,
       teachers: null,
+      countInstitution: [],
       users: [
         {
           id: 1,
@@ -203,24 +251,27 @@ export default {
         dataShifts: "",
         dataInstitutions: "",
       },
-      cardsWelcome: [
+      userPosts: [
         {
-          icon: CourseLogo,
-          title: "Salones",
-          count: 10,
-        },
-        {
-          icon: SchoolIcon,
-          title: "Alumnos",
-          count: 106,
-        },
-        {
-          icon: AppleIcon,
-          title: "Docentes",
-          count: 11,
+          likes: 100,
+          usersLiked: [
+            {
+              name: "Trina Lynes",
+              img: require("@/assets/images/portrait/small/avatar-s-1.jpg"),
+            },
+            {
+              name: "Lilian Nenez",
+              img: require("@/assets/images/portrait/small/avatar-s-2.jpg"),
+            },
+            {
+              name: "Alberto Glotzbach",
+              img: require("@/assets/images/portrait/small/avatar-s-3.jpg"),
+            },
+          ],
         },
       ],
-      classroom: null,
+
+      classroom: [],
       course: [
         {
           title: "4A-Comisión A",
@@ -241,18 +292,7 @@ export default {
           path: '/classroom/4C-Comisión-C'
         }
       ],
-      workshop: [
-        {
-          title: "4A-Comisión A",
-          subtitle: "2 Talleres - Turno Mañana",
-          buttonTitle: "Ir a taller",
-        },
-        {
-          title: "4B-Comisión B",
-          subtitle: "4 Talleres - Turno Tarde",
-          buttonTitle: "Ir a taller",
-        },
-      ],
+      workshop: [],
       tabs: [
         {
           title: "Salones",

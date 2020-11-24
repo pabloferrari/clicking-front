@@ -6,11 +6,15 @@
         svgClasses="h-5 w-5 cursor-pointer"
       />
       <vs-dropdown-menu>
+        <vs-dropdown-item class="py-2 text-xl color-text-menu font-semibold" @click="popupCreateActive = 'itemOne'" v-model="popupCreateActive">
+          {{ itemOne }}
+        </vs-dropdown-item>
+        <vs-divider />
         <vs-dropdown-item
           class="color-text-menu font-semibold"
           v-for="item in items"
           :key="item.id"
-          @click="actionDropdown(item)"
+          @click="popupCreateActive = item.action" v-model="popupCreateActive"
         >
           {{ item.title }}
         </vs-dropdown-item>
@@ -22,16 +26,32 @@
 <script>
 export default {
   name: 'ButtonDropDown',
-  props: {
-    items: Array
+  props:
+    {
+    title: String,
+    itemOne: String,
+    items: Array,
+    value: false
   },
-
-  methods: {
-    actionDropdown (arrayData, params) {
-      this.$emit('action-dropdown-item', arrayData, params)
+  computed: {
+    popupCreateActive: {
+      get() {
+        return this.value
+      },
+      set(value){
+        this.$emit("input", value);
+      }
+    },
+    popupCreateTaskActive: {
+      get() {
+        return this.value
+      },
+      set(value){
+        this.$emit("input", value);
+      }
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

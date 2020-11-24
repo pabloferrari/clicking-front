@@ -2,7 +2,7 @@
   <div id="courses">
     <div class="vx-row">
       <div class="vx-col w-full">
-        <p class="primary">Mis Cursos</p>
+        <p class="primary">{{ titleHeader }}</p>
       </div>
     </div>
     <CardWelcome :cardsWelcome="this.cardsWelcome"></CardWelcome>
@@ -20,8 +20,17 @@
         <vs-tab label="Talleres">
           <div class="tab-content-workshop">
             <div>
-              <CardList :cardData="this.workshop" description="cursando">
+              <CardList
+                v-if="this.workshop.length > 0"
+                :cardData="this.workshop"
+                description="cursando"
+              >
               </CardList>
+              <div v-else>
+                <p class="font-semibold text-center">
+                  No se encontraron resultados
+                </p>
+              </div>
             </div>
           </div>
         </vs-tab>
@@ -48,6 +57,10 @@ export default {
     CardList,
     Tabs,
   },
+  props: {
+    title: String,
+    id: String,
+  },
 
   mounted() {
     this.getCourses();
@@ -58,20 +71,21 @@ export default {
   },
   methods: {
     getCourses() {
-      this.$store.dispatch("course/getCoursesData");
+      this.$store.dispatch("course/getCoursesClassroomData", this.id);
     },
   },
   watch: {
     storeCourses(data) {
-      // console.log(data);
+      console.log(data);
       const courseData = [];
-      data.map((element, index) => {
+      data.map((element) => {
         courseData.push({
           title: element.subject.name,
-          subtitle:
-            `${element.classroom.name} - ` + element.classroom.shift.name,
+          subtitle: `${element.classroom.name} - ${element.classroom.shift.name}`,
           buttonTitle: "Ir a curso",
-          path: "/courses/" + element.subject.name.split(" ").join("-"),
+          path: `/courses/${element.subject.name.split(" ").join("-")}/${
+            element.subject.id
+          }`,
           avatarData: element.classroom.classroom_students,
         });
       });
@@ -106,7 +120,8 @@ export default {
           count: 2,
         },
       ],
-      courses: null,
+      courses: [],
+      titleHeader: this.title ? title.split("-").join(" ") : "Mis Cursos",
       // course: [
       //   {
       //     title: "Matematica",
@@ -121,18 +136,7 @@ export default {
       //     path: "/courses/Lenguaje",
       //   },
       // ],
-      workshop: [
-        {
-          title: "Programacion",
-          subtitle: "Comision A - Turno Mañana",
-          buttonTitle: "Ir a taller",
-        },
-        {
-          title: "Lenguaje",
-          subtitle: "Comision A - Turno Tarde",
-          buttonTitle: "Ir a taller",
-        },
-      ],
+      workshop: [],
       tabs: [
         {
           title: "Cursos",
