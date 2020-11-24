@@ -48,6 +48,7 @@
                     ></vs-button>
 
                     <ButtonDropDown
+                      v-permission="['teacher']"
                       ref="ButtonDropDown"
                       v-on:action-dropdown-item="
                         showModalClass(classes, $event)

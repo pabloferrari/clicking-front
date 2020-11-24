@@ -8,7 +8,11 @@
     <CardCount :cardCount="this.cardCount"></CardCount>
 
     <div class="flex flex-wrap justify-end mt-1">
-      <ButtonRight class="btn-right" buttonTitle="Crear Clase"></ButtonRight>
+      <ButtonRight
+        class="btn-right"
+        v-permission="['teacher']"
+        buttonTitle="Crear Clase"
+      ></ButtonRight>
     </div>
     <div class="mt-0">
       <vs-tabs v-model="tab.value">
