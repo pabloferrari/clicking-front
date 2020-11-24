@@ -27,9 +27,5 @@ export default {
     description: String,
     dataAvatar: Array,
   },
-
-  mounted() {
-    console.log(this.$route);
-  },
 };
 </script>

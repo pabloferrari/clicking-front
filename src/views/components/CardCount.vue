@@ -26,11 +26,11 @@
 
 <script>
 export default {
-  name: "CardCount",
+  name: 'CardCount',
   props: {
-    cardCount: null,
-  },
-};
+    cardCount: null
+  }
+}
 </script>
 <style>
 .active-card-welcome {

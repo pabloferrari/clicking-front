@@ -6,17 +6,17 @@
 
 <script>
 export default {
-  name: "ButtonPath",
+  name: 'ButtonPath',
   props: {
     buttonTitle: String,
     path: String,
 
-    size: String,
+    size: String
   },
   computed: {
-    activeLink() {
-      return true;
-    },
-  },
-};
+    activeLink () {
+      return true
+    }
+  }
+}
 </script>

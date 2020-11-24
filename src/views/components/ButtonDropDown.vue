@@ -21,17 +21,17 @@
 
 <script>
 export default {
-  name: "ButtonDropDown",
+  name: 'ButtonDropDown',
   props: {
-    items: Array,
+    items: Array
   },
 
   methods: {
-    actionDropdown(arrayData, params) {
-      this.$emit("action-dropdown-item", arrayData, params);
-    },
-  },
-};
+    actionDropdown (arrayData, params) {
+      this.$emit('action-dropdown-item', arrayData, params)
+    }
+  }
+}
 </script>
 
 <style lang="scss">

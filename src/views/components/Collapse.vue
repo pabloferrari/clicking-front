@@ -80,43 +80,43 @@
 
 <script>
 // import ListIcon from "../components/icons/ListIcon";
-import ButtonDropDown from "./ButtonDropDown";
+import ButtonDropDown from './ButtonDropDown'
 // import Toolbars from "./Toolbars";
-import CollapseBody from "./CollapseBody";
+import CollapseBody from './CollapseBody'
 export default {
-  name: "Collapse",
+  name: 'Collapse',
   components: {
     // ListIcon,
     ButtonDropDown,
     // Toolbars,
-    CollapseBody,
+    CollapseBody
   },
   props: {
     classesList: Array,
-    DropDownList: Array,
+    DropDownList: Array
   },
-  data() {
+  data () {
     return {
       console,
-      titleButton: "clase grabada",
+      titleButton: 'clase grabada',
       showDetails: false,
-      collapseBodyProp: null,
-    };
+      collapseBodyProp: null
+    }
   },
   methods: {
-    showModalClass(object, event) {
-      const classId = object.id;
-      const assignmentId = event.id;
-      console.log(classId, assignmentId);
+    showModalClass (object, event) {
+      const classId = object.id
+      const assignmentId = event.id
+      console.log(classId, assignmentId)
     },
 
-    showContent(data) {
+    showContent (data) {
       // console.log(data);
-      this.$set(data, "showDetails", !data.showDetails);
+      this.$set(data, 'showDetails', !data.showDetails)
       // this.collapseBodyProp = data;
-    },
-  },
-};
+    }
+  }
+}
 </script>
 <style>
 .backgroud-internal {

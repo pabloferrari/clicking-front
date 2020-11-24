@@ -44,17 +44,17 @@
 </template>
 
 <script>
-import ListIcon from "../components/icons/ListIcon";
+import ListIcon from '../components/icons/ListIcon'
 export default {
-  name: "CollapseBody",
+  name: 'CollapseBody',
   components: {
-    ListIcon,
+    ListIcon
   },
   props: {
-    dataCollapseBody: Object,
+    dataCollapseBody: Object
   },
-  mounted() {
+  mounted () {
     // console.log(this.dataCollapseBody);
-  },
-};
+  }
+}
 </script>

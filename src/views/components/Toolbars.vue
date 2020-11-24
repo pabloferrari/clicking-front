@@ -36,14 +36,14 @@
 </template>
 
 <script>
-import ButtonDropDown from "./ButtonDropDown";
+// import ButtonDropDown from './ButtonDropDown'
 
 export default {
-  name: "Toolbars",
+  name: 'Toolbars',
 
   props: {
     itemsDropdown: Array,
-    titleButton: String,
-  },
-};
+    titleButton: String
+  }
+}
 </script>

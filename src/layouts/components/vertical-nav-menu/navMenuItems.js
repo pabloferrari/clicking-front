@@ -75,7 +75,7 @@ export default [
     name: 'Mis Cursos',
     slug: 'courses',
     icon: 'UserIcon',
-    permissions: ['admin']
+    permissions: ['teacher', 'student']
   },
   {
     url: '/classrooms',

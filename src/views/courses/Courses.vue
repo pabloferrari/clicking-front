@@ -39,89 +39,91 @@
   </div>
 </template>
 <script>
-import AvatarList from "../components/AvatarList";
-import CardWelcome from "../components/CardWelcome";
-import CourseLogo from "../components/icons/CourseLogo";
-import PencilLogo from "../components/icons/PencilLogo";
-import CheckLogo from "../components/icons/CheckLogo";
-import DocumentLogo from "../components/icons/DocumentLogo";
-import CardList from "../components/CardList";
-import Tabs from "../components/Tabs";
-import { mapGetters } from "vuex";
+import AvatarList from '../components/AvatarList'
+import CardWelcome from '../components/CardWelcome'
+import CourseLogo from '../components/icons/CourseLogo'
+import PencilLogo from '../components/icons/PencilLogo'
+import CheckLogo from '../components/icons/CheckLogo'
+import DocumentLogo from '../components/icons/DocumentLogo'
+import CardList from '../components/CardList'
+import Tabs from '../components/Tabs'
+import { mapGetters } from 'vuex'
 export default {
-  name: "courses",
+  name: 'courses',
   components: {
     AvatarList,
     CardWelcome,
     CourseLogo,
     CardList,
-    Tabs,
+    Tabs
   },
   props: {
     title: String,
-    id: String,
+    id: String
   },
 
-  mounted() {
-    this.getCourses();
+  mounted () {
+    console.log(this.$route.name)
+
+    this.getCourses()
   },
 
   computed: {
-    ...mapGetters({ storeCourses: "course/getCourses" }),
+    ...mapGetters({ storeCourses: 'course/getCourses' })
   },
   methods: {
-    getCourses() {
-      this.$store.dispatch("course/getCoursesClassroomData", this.id);
-    },
+    getCourses () {
+      this.$store.dispatch('course/getCoursesClassroomData', this.id)
+    }
   },
   watch: {
-    storeCourses(data) {
+    storeCourses (data) {
       // console.log(data);
-      const courseData = [];
-      data.map((element, index) => {
+      const courseData = []
+      data.map((element) => {
         courseData.push({
           title: element.subject.name,
           subtitle:
-            `${element.classroom.name} - ` + element.classroom.shift.name,
-          buttonTitle: "Ir a curso",
+            `${element.classroom.name} - ${  element.classroom.shift.name}`,
+          buttonTitle: 'Ir a curso',
           path:
-            "/courses/" +
-            element.subject.name.split(" ").join("-") +
-            "/" +
-            element.subject.id,
-          avatarData: element.classroom.classroom_students,
-        });
-      });
-      console.log(courseData);
-      this.courses = courseData;
-    },
+            `/courses/${
+              element.subject.name.split(' ').join('-')
+            }/${
+              element.subject.id}`,
+          avatarData: element.classroom.classroom_students
+        })
+      })
+      console.log(courseData)
+      this.courses = courseData
+    }
   },
-  data() {
+  data () {
     return {
       cardsWelcome: [
         {
           icon: CourseLogo,
-          title: "Cursos",
+          title: 'Cursos',
           count: 2,
 
-          path: "",
+          path: ''
         },
         {
           icon: DocumentLogo,
-          title: "Tareas",
+          title: 'Tareas',
           count: 3,
-          path: "",
+          path: ''
         },
         {
           icon: PencilLogo,
-          title: "Trabajos Prácticos",
-          count: 1,
+          title: 'Trabajos Prácticos',
+          count: 1
         },
         {
           icon: CheckLogo,
-          title: "Exámenes",
-          count: 2,
-        },
+          title: 'Exámenes',
+          count: 2
+        }
       ],
       courses: [],
       // course: [
@@ -141,15 +143,15 @@ export default {
       workshop: [],
       tabs: [
         {
-          title: "Cursos",
+          title: 'Cursos'
         },
         {
-          title: "Talleres",
-        },
-      ],
-    };
-  },
-};
+          title: 'Talleres'
+        }
+      ]
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

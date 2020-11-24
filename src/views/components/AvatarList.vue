@@ -28,56 +28,52 @@
 
 <script>
 export default {
-  name: "AvatarList",
+  name: 'AvatarList',
   props: {
     dataAvatarList: Array,
-    description: String,
+    description: String
   },
-  data() {
+  data () {
     return {
-      studentData: [],
+      studentData: []
       // dataAvatarList: [],
-    };
+    }
   },
-  mounted() {
-    this.getAvatar();
+  mounted () {
+    this.getAvatar()
   },
 
   methods: {
-    countAvatar() {
-      const count =
-        this.studentData.length - 3 < 0
-          ? `${this.studentData.length}`
-          : `+ ${this.studentData.length - 3}`;
-
-      return count;
+    countAvatar () {
+      const count = this.studentData.length - 3 < 0 ? `${this.studentData.length}` : `+ ${this.studentData.length - 3}`
+      return count
     },
 
-    getAvatar() {
-      const avatarParse = [];
+    getAvatar () {
+      const avatarParse = []
       if (this.dataAvatarList) {
         this.dataAvatarList.map((element) => {
           avatarParse.push({
             id: element.student.id,
             name: element.student.name,
-            image: "",
-          });
-        });
-        this.studentData = avatarParse;
+            image: ''
+          })
+        })
+        this.studentData = avatarParse
       }
     },
-    getPhoto(user) {
+    getPhoto (user) {
       // console.log(image)
-      const pathImageFolder = "@/assets/images/portrait/small/";
+      const pathImageFolder = '@/assets/images/portrait/small/'
       if (user.image === null) {
-        require(`@/assets/images/portrait/small/avatar-s-1.jpg`);
+        require('@/assets/images/portrait/small/avatar-s-1.jpg')
         // console.log("no hay imagen");
       } else {
-        require(`${pathImageFolder}${user.image}`);
+        require(`${pathImageFolder}${user.image}`)
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style style="sccs">

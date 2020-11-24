@@ -48,6 +48,9 @@ import router from './router'
 import store from './store/store'
 
 
+import VueModal from 'vue2-modal'
+Vue.use(VueModal)
+
 // Vuejs - Vue wrapper for hammerjs
 import { VueHammer } from 'vue2-hammer'
 Vue.use(VueHammer)

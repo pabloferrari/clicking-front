@@ -44,102 +44,102 @@
 </template>
 
 <script>
-import Wall from "../components/Wall";
-import WallComment from "../components/WallComment";
-import Collapse from "../components/Collapse";
+import Wall from '../components/Wall'
+import WallComment from '../components/WallComment'
+import Collapse from '../components/Collapse'
 // import CardWelcome from "../components/CardWelcome";
-import CardCount from "../components/CardCount";
-import ButtonRight from "../components/ButtonRight";
+import CardCount from '../components/CardCount'
+import ButtonRight from '../components/ButtonRight'
 // import ButtonDropDownVue from "../components/ButtonDropDown.vue";
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 export default {
-  name: "Subject",
+  name: 'Subject',
   components: {
     Wall,
     WallComment,
     // CardWelcome,
     CardCount,
     Collapse,
-    ButtonRight,
+    ButtonRight
   },
   props: {
     subject: String,
-    subjectId: String,
+    subjectId: String
   },
   methods: {
-    clickTag(e) {
-      this.dropdown = e !== 0;
+    clickTag (e) {
+      this.dropdown = e !== 0
     },
 
-    getCourseClass() {
+    getCourseClass () {
       this.$store.dispatch(
-        "courseClass/getCourseClassesSubjectData",
+        'courseClass/getCourseClassesSubjectData',
         this.subjectId
-      );
-    },
+      )
+    }
   },
 
-  mounted() {
-    this.getCourseClass();
+  mounted () {
+    this.getCourseClass()
   },
 
   computed: {
-    ...mapGetters({ storeCoursesClass: "courseClass/getCourseClasses" }),
+    ...mapGetters({ storeCoursesClass: 'courseClass/getCourseClasses' })
   },
 
   watch: {
-    storeCoursesClass(data) {
-      const courseClassData = [];
+    storeCoursesClass (data) {
+      const courseClassData = []
       data.map((element) => {
         courseClassData.push({
           id: element.id,
           title: element.title,
           description: element.description,
-          assignments: element.assignments,
-        });
-      });
-      this.classesList = courseClassData;
+          assignments: element.assignments
+        })
+      })
+      this.classesList = courseClassData
       // console.log(courseClassData);
-    },
+    }
   },
 
-  data() {
+  data () {
     return {
       console,
       dropdown: true,
       DropDownList: [
         {
           id: 1,
-          title: "Crear Tarea",
+          title: 'Crear Tarea'
         },
         {
           id: 2,
-          title: "Crear Examen",
+          title: 'Crear Examen'
         },
         {
           id: 3,
-          title: "Crear Trabajo Practico",
-        },
+          title: 'Crear Trabajo Practico'
+        }
       ],
 
       tab: {
-        value: 1,
+        value: 1
       },
       cardCount: [
         {
-          title: "Asistencia",
-          count: 3,
+          title: 'Asistencia',
+          count: 3
         },
         {
-          title: "Tareas",
-          count: 1,
+          title: 'Tareas',
+          count: 1
         },
         {
-          title: "Evaluaciones",
-          count: 1,
-        },
+          title: 'Evaluaciones',
+          count: 1
+        }
       ],
-      classesList: [],
+      classesList: []
       // classesList: [
       //   {
       //     subject: {
@@ -174,9 +174,9 @@ export default {
       //     },
       //   },
       // ],
-    };
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
