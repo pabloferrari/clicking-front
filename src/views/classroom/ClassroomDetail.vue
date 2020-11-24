@@ -2,10 +2,10 @@
   <div class="classroom-detail">
     <div class="vx-row">
       <div class="vx-col w-full">
-        <p class="primary">{{ commission }}</p>
+        <p class="primary">{{ title.split("-").join(" ") }}</p>
       </div>
     </div>
-    <CardWelcome :cardsWelcome="this.cardsWelcome"></CardWelcome>
+    <CardWelcome :cardsWelcome="this.cardsWelcome()"></CardWelcome>
     <div
       class="flex flex-wrap justify-end mt-1 data-list-btn-container"
       @click="activePrompt = true"
@@ -23,10 +23,10 @@
 
     <div class="mt-0">
       <vs-tabs>
-        <vs-tab label="Cursos">
+        <vs-tab label="Cursos" @click="getCourses()">
           <div class="tab-content-courses">
             <div>
-              <CardList :cardData="this.course" description=" Alumnos cursando">
+              <CardList :cardData="this.courses" description="cursando">
               </CardList>
             </div>
           </div>
@@ -35,10 +35,16 @@
           <div class="tab-content-workshop">
             <div>
               <CardList
+                v-if="this.workshop.length > 0"
                 :cardData="this.workshop"
-                description=" Alumnos cursando"
+                description="cursando"
               >
               </CardList>
+              <div v-else>
+                <p class="font-semibold text-center">
+                  No se encontraron resultados
+                </p>
+              </div>
             </div>
           </div>
         </vs-tab>
@@ -82,19 +88,20 @@
 </template>
 
 <script>
-import CardList from '../components/CardList'
-import CardWelcome from '../components/CardWelcome'
-import CourseLogo from '../components/icons/CourseLogo'
-import PencilLogo from '../components/icons/PencilLogo'
-import CheckLogo from '../components/icons/CheckLogo'
-import DocumentLogo from '../components/icons/DocumentLogo'
-import SchoolIcon from '../components/icons/SchoolIcon'
-import AppleIcon from '../components/icons/AppleIcon'
-// import vSelect from 'vue-select'
+import CardList from "../components/CardList";
+import CardWelcome from "../components/CardWelcome";
+import CourseLogo from "../components/icons/CourseLogo";
+import PencilLogo from "../components/icons/PencilLogo";
+import CheckLogo from "../components/icons/CheckLogo";
+import DocumentLogo from "../components/icons/DocumentLogo";
+import SchoolIcon from "../components/icons/SchoolIcon";
+import AppleIcon from "../components/icons/AppleIcon";
+import { mapGetters } from "vuex";
 export default {
-  name: 'ClassroomDetail',
+  name: "ClassroomDetail",
   props: {
-    commission: String
+    title: String,
+    id: String,
   },
   components: {
     CardWelcome,
@@ -103,65 +110,90 @@ export default {
     CheckLogo,
     DocumentLogo,
     SchoolIcon,
-    CardList
+    CardList,
+  },
+  mounted() {
+    this.getCourses();
+    this.getClassroomCount();
+  },
+
+  computed: {
+    ...mapGetters({
+      storeCourses: "course/getCourses",
+      storeClassroomCount: "classroom/getClassroom",
+    }),
   },
   methods: {
-    accept () {
-      this.activePrompt = true
-    }
-  },
-  data () {
-    return {
-      coursesName: '',
-      teachers: '',
-      activePrompt: false,
-      cardsWelcome: [
+    accept() {
+      this.activePrompt = true;
+    },
+    getCourses() {
+      this.$store.dispatch("course/getCoursesClassroomData", this.id);
+    },
+    getClassroomCount() {
+      this.$store.dispatch("classroom/getClassroomCount", this.id);
+    },
+    cardsWelcome() {
+      return [
         {
           icon: CourseLogo,
-          title: 'Cursos',
-          count: 2
+          title: "Cursos",
+          count: this.countClassroom.courses,
+          // path: "/classrooms",
         },
         {
           icon: SchoolIcon,
-          title: 'Alumnos',
-          count: 40
+          title: "Alumnos",
+          count: this.countClassroom.students,
+          path: "/students",
         },
         {
           icon: AppleIcon,
-          title: 'Docentes',
-          count: 2
-        }
-      ],
+          title: "Docentes",
+          count: this.countClassroom.teachers,
+          path: "/teachers",
+        },
+      ];
+    },
+  },
+  watch: {
+    storeClassroomCount(data) {
+      this.countClassroom = {
+        courses: data.courses,
+        students: data.students,
+        teachers: data.teachers,
+      };
+    },
+    storeCourses(data) {
+      const courseData = [];
+      data.map((element) => {
+        courseData.push({
+          title: element.subject.name,
+          subtitle: `${element.classroom.name} - ${element.classroom.shift.name}`,
+          buttonTitle: "Ir a curso",
+          path: `/courses/${element.subject.name.split(" ").join("-")}/${
+            element.subject.id
+          }`,
+          avatarData: element.classroom.classroom_students,
+        });
+      });
+      console.log(courseData);
+      this.courses = courseData;
+    },
+  },
 
-      course: [
-        {
-          title: 'Matematica',
-          subtitle: '4A-Comisión A - Turno Mañana',
-          buttonTitle: 'Ir al curso',
-          path: '/courses/Matematica'
-        },
-        {
-          title: 'Programacion',
-          subtitle: '4A-Comisión A - Turno Tarde',
-          buttonTitle: 'Ir al curso',
-          path: '/courses/Programacion'
-        }
-      ],
-      workshop: [
-        {
-          title: 'Matematica',
-          subtitle: '2 Talleres - Turno Mañana',
-          buttonTitle: 'Ir a taller'
-        },
-        {
-          title: 'Programacion II',
-          subtitle: '4 Talleres - Turno Tarde',
-          buttonTitle: 'Ir a taller'
-        }
-      ]
-    }
-  }
-}
+  data() {
+    return {
+      coursesName: "",
+      teachers: "",
+      activePrompt: false,
+
+      countClassroom: [],
+      courses: [],
+      workshop: [],
+    };
+  },
+};
 </script>
 
 <style lang="css">

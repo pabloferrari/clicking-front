@@ -70,7 +70,7 @@ export default [
     name: 'Mis Cursos',
     component: () => import('../views/courses/Courses.vue'),
     meta: {
-      permissions: ['admin']
+      permissions: ['admin','teacher']
     }
   },
   {
@@ -78,7 +78,7 @@ export default [
     name: 'Curso Materia Asignaciones',
     component: () => import('../views/courses/Subject.vue'),
     meta: {
-      permissions: ['admin','institution']
+      permissions: ['admin','institution','teacher']
     },
     props:true
   },
@@ -102,7 +102,7 @@ export default [
   {
     path: '/classrooms/:title/:id',
     name: 'Salones Curso',
-    component: () => import('../views/courses/Courses.vue'),
+    component: () => import('../views/classroom/ClassroomDetail.vue'),
     meta: {
       permissions: ['institution']
     },

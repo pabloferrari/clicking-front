@@ -10,6 +10,11 @@ class InstitutionService {
     get (id) {
       return service.get(`/${this.entity}/${id}`)
     }
+
+    getInstitutionCount(id) {
+      return service.get(`/${this.entity}/${id}/dashboard`)
+    }
+
     create (data) {
       return service.post(`/${this.entity}`, data)
     }

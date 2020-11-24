@@ -9,6 +9,9 @@ class ClassroomService {
     get (id) {
       return service.get(`/${this.entity}/${id}`)
     }
+    getClassroomCount(id) {
+      return service.get(`/${this.entity}/${id}/dashboard`)
+    }
     create (data) {
       return service.post(`/${this.entity}`, data)
     }

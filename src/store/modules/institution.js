@@ -106,6 +106,14 @@ const actions = {
     } catch (error) {
       console.log(error)
     }
+  },
+  async getInstitutionCount ({commit},id) {
+    try {
+      const intitutionsData = await InstitutionService.getInstitutionCount(id)
+      commit('setInstitution', intitutionsData.data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 
