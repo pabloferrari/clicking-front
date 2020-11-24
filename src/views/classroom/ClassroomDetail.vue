@@ -132,7 +132,6 @@ export default {
     this.getTeachers()
     this.getSubjects()
   },
-
   computed: {
     ...mapGetters({
       storeCourses: "course/getCourses",
@@ -235,7 +234,7 @@ export default {
       form: {
         subject_id:     '',
         teacher_id:     '',
-        classroom_id:   '',
+        classroom_id:   this.id,
 	      course_type_id: ''
       },
     };

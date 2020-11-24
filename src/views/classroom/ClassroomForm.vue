@@ -112,7 +112,7 @@
 
           <div>
             <vs-select placeholder="Asignar alumnos"  multiple class="selectExample" v-model="form.student_id">
-                <vs-select-item :key="index" :value="item.id" :text="item.name" v-for="(item,index) in options" />
+                <vs-select-item :key="index" :value="item.id" :text="item.name" v-for="(item,index) in studentsList" />
             </vs-select>
             <!-- <v-select
               label-placeholder="Asignar alumnos"
@@ -203,6 +203,7 @@ export default {
     shiftList: null,
     subjectsList: null,
     courseTypesList: null,
+    studentsList: null,
     teachersList: null,
     isCreate: Boolean,
     descriptionAvatar: String,
@@ -290,18 +291,18 @@ export default {
       description: 'Cursando',
       value1: '',
       //student_id: [],
-      options: [{
-          id:1,
-          name:'Nestor Infante'
-        },
-        {
-          id:2,
-          name:'Gregorio Lucena',
-        },
-        {
-          id:3,
-          name:'Roberto'
-        }],
+      // options: [{
+      //     id:1,
+      //     name:'Nestor Infante'
+      //   },
+      //   {
+      //     id:2,
+      //     name:'Gregorio Lucena',
+      //   },
+      //   {
+      //     id:3,
+      //     name:'Roberto'
+      //   }],
       form: {
         id: null,
         name: '',

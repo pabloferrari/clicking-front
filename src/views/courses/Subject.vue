@@ -7,7 +7,7 @@
     </div>
     <CardCount :cardCount="this.cardCount"></CardCount>
 
-    <div class="flex flex-wrap justify-end mt-1">
+    <div class="flex flex-wrap justify-end mt-1"  @click="activePrompt = true">
       <ButtonRight
         class="btn-right"
         v-permission="['teacher']"
@@ -15,8 +15,44 @@
       ></ButtonRight>
     </div>
 
+
+    <!-- Popup Course -->
+    <vs-prompt
+      @accept="create"
+      title="Crear Curso"
+      accept-text="Guardar"
+      cancel-text="Cancelar"
+      :active.sync="activePrompt"
+    >
+      <div class="con-exemple-prompt">
+        <div class="w-full p-2">
+          <vs-input
+              class="w-full"
+              label-placeholder="Nombre Clase"
+              v-model="form.title"
+              name="title"
+              v-validate="'required'"
+              :danger="errors.has('title')"
+            />
+        </div>
+        <div class="w-full p-2">
+          <div class="">
+            <vs-input
+              class="w-full"
+              label-placeholder="Descripción"
+              v-model="form.description"
+              name="description"
+              v-validate="'required'"
+              :danger="errors.has('description')"
+            />
+          </div>
+        </div>
+      </div>
+    </vs-prompt>
+
+
     <!-- START MODAL -->
-    <vs-popup title="Crear Clase" :active.sync="itemOne" >
+    <!-- <vs-popup title="Crear Clase" :active.sync="itemOne" >
 
     </vs-popup>
 
@@ -26,7 +62,7 @@
 
      <vs-popup title="Crear Éxamen" :active.sync="itemThree">
 
-    </vs-popup>
+    </vs-popup> -->
     <!-- END MODAL -->
 
     <div class="mt-0">
@@ -80,19 +116,27 @@ export default {
   },
   props: {
     subject: String,
-    subjectId: String
+    subjectId: String,
   },
   methods: {
     clickTag (e) {
       this.dropdown = e !== 0
     },
-
     getCourseClass () {
       this.$store.dispatch(
         'courseClass/getCourseClassesSubjectData',
         this.subjectId
       )
-    }
+    },
+    accept() {
+      this.activePrompt = true;
+    },
+    create () {
+      console.log('Creando... test');
+      const payload = this.form
+      console.log(payload);
+      this.$store.dispatch('courseClass/createCourseClass', payload)
+    },
   },
 
   mounted () {
@@ -123,6 +167,12 @@ export default {
     return {
       console,
       dropdown: true,
+      activePrompt: false,
+      form: {
+        title: '',
+        description: '',
+        course_id: this.subjectId
+      },
       DropDownList: [
         {
           id: 1,

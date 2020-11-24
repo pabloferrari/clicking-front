@@ -40,7 +40,7 @@ const actions = {
       const newCourse = {
         subject_id: course.subject_id,
         teacher_id: course.teacher_id,
-        classroom_id: 1, //course.classroom_id,
+        classroom_id: course.classroom_id,
         course_type_id: 1 //course.courses
       }
       //console.log(newClassroom)

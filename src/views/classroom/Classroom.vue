@@ -32,6 +32,7 @@
       :subjectsList="this.subjects"
       :courseTypesList="this.courseTypes"
       :teachersList="this.teachers"
+      :studentsList="this.storeStudents"
       ></ClassroomForm>
 
     </vs-popup>
@@ -153,6 +154,9 @@ export default {
     },
     getTeachers() {
       this.$store.dispatch("teacher/getTeachers")
+    },
+    getStudents() {
+      this.$store.dispatch("student/getStudents")
     }
   },
   watch: {
@@ -185,6 +189,9 @@ export default {
     storeTeachers(data) {
       this.teachers = data
     },
+    storeStudents(data) {
+      console.log(data)
+    },
     storeInstitutionCount(data) {
       this.countInstitution = {
         classrooms: data.classrooms,
@@ -202,6 +209,7 @@ export default {
       storeTeachers: 'teacher/getTeachers',
       storeClassrooms: "classroom/getClassrooms",
       storeInstitutionCount: "institution/getInstitution",
+      storeStudents: "student/getStudents",
     }),
   },
   mounted() {
@@ -211,6 +219,7 @@ export default {
     this.getCourseTypes()
     this.getTeachers()
     this.getInstitutionCount();
+    this.getStudents();
   },
   data () {
     return {
