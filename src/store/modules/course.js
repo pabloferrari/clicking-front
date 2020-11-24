@@ -36,28 +36,36 @@ const mutations = {
 const actions = {
   async createCourse ({commit, state, dispatch}, course) {
 
-    // try {
-    //   const newCommission = {
-    //     name: commission.name,
-    //     turn_id: commission.turn_id,
-    //     institution_year_id: commission.institution_year_id
-    //   }
-    //   const commissionCreate  = await CommissionService.create(newCommission)
-    //   const commissions = Object.assign([], state.commissions)
+    try {
+      const newCourse = {
+        subject_id: course.subject_id,
+        teacher_id: course.teacher_id,
+        classroom_id: 1, //course.classroom_id,
+        course_type_id: 1 //course.courses
+      }
+      //console.log(newClassroom)
+      const CourseCreate  = await CourseService.create(newCourse)
+      const courses = Object.assign([], state.courses)
 
-    //   commissions.push(commissionCreate.data)
+      try {
+        const courseData = await CourseService.getAll()
+        commit('setCourses', courseData.data)
+      } catch (error) {
+        console.log(error)
+      }
+      //classrooms.push(classroomCreate.data)
+      //commit('setClassrooms', classrooms)
 
-    //   commit('setCommissions', commissions)
+      dispatch(
+        'notification/success',
+        {title: 'Guardado exitoso....',
+          text: 'se ha actualizado correctamente.'},
+        { root: true }
+      )
+    } catch (error) {
+      console.log(error)
+    }
 
-    //   dispatch(
-    //     'notification/success',
-    //     {title: 'Guardado exitoso....',
-    //       text: 'se ha actualizado correctamente.'},
-    //     { root: true }
-    //   )
-    // } catch (error) {
-    //   console.log(error)
-    // }
   },
 
   async updateCourse ({ state, commit, dispatch }, course) {

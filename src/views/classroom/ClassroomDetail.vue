@@ -46,7 +46,7 @@
     </div>
     <!-- Popup Course -->
     <vs-prompt
-      @accept="accept"
+      @accept="create"
       title="Crear Curso"
       accept-text="Guardar"
       cancel-text="Cancelar"
@@ -54,25 +54,39 @@
     >
       <div class="con-exemple-prompt">
         <div class="w-full p-2">
-          <vs-input
-            type="text"
-            label-placeholder="escribe el titulo del curso"
-            v-model="coursesName"
-            class="w-full sm:w-auto"
-          />
+          <vs-select
+            v-model="form.subject_id"
+            label="Curso"
+            class="mt-5 w-full"
+            name="item-shift"
+            v-validate="'required'"
+          >
+            <vs-select-item key="" value="" selected text="seleccione Curso" />
+            <vs-select-item
+              :key="item.id"
+              :value="item.id"
+              :text="item.name"
+              v-for="item in this.subjects"
+            />
+          </vs-select>
         </div>
         <div class="w-full p-2">
           <div class="">
             <vs-select
-              v-model="teachers"
+              v-model="form.teacher_id"
               label="Docente"
               class="mt-5 w-full"
               name="item-shift"
               v-validate="'required'"
             >
-              <!-- <vs-select-item key="" value="" text="seleccione plan" /> -->
+              <vs-select-item key="" value="" selected text="seleccione docente" />
               <vs-select-item
-            /></vs-select>
+                :key="item.id"
+                :value="item.id"
+                :text="item.name"
+                v-for="item in this.teachers"
+              />
+            </vs-select>
           </div>
         </div>
       </div>
@@ -91,10 +105,12 @@ import DocumentLogo from "../components/icons/DocumentLogo";
 import SchoolIcon from "../components/icons/SchoolIcon";
 import AppleIcon from "../components/icons/AppleIcon";
 import vSelect from "vue-select";
+import { mapGetters } from "vuex";
+
 export default {
   name: "ClassroomDetail",
   props: {
-    commission: String,
+    commission: String
   },
   components: {
     CardWelcome,
@@ -105,16 +121,20 @@ export default {
     SchoolIcon,
     CardList,
   },
-  methods: {
-    accept() {
-      this.activePrompt = true;
-    },
-  },
   data() {
     return {
       coursesName: "",
       teachers: "",
+      subjects: "",
       activePrompt: false,
+      activePromptSave: false,
+      teachersList: [],
+      form: {
+        subject_id:     '',
+        teacher_id:     '',
+        classroom_id:   '',
+	      course_type_id: ''
+      },
       cardsWelcome: [
         {
           icon: CourseLogo,
@@ -160,6 +180,46 @@ export default {
         },
       ],
     };
+  },
+  mounted() {
+    this.getTeachers()
+    this.getSubjects()
+  },
+  methods: {
+    accept() {
+      if(this.activePrompt == true){
+        this.create();
+      }else{
+        this.activePrompt = true;
+      }
+    },
+    getTeachers() {
+      this.$store.dispatch("teacher/getTeachers")
+    },
+    getSubjects() {
+      this.$store.dispatch("subject/getSubjects")
+    },
+    create () {
+      console.log('Creando...');
+      //this.$validator.validateAll().then((result) => {
+        //if (result) {
+          const payload = this.form
+          this.$store.dispatch('course/createCourse', payload)
+          //this.$emit("close-modal");
+        //}
+      //})
+    },
+  },
+  watch: {
+    storeTeachers(data) {
+      this.teachers = data
+    },
+    storeSubjects(data) {
+      this.subjects = data
+    }
+  },
+  computed: {
+    ...mapGetters({ storeTeachers: 'teacher/getTeachers', storeSubjects: 'subject/getSubjects' }),
   },
 };
 </script>

@@ -30,7 +30,12 @@
 
     <vs-popup title="" :active.sync="popupActive">
 
-      <ClassroomForm title="Crear Salón"></ClassroomForm>
+      <ClassroomForm title="Crear Salón"
+      :shiftList="this.shifts"
+      :subjectsList="this.subjects"
+      :courseTypesList="this.courseTypes"
+      :teachersList="this.teachers"
+      ></ClassroomForm>
 
     </vs-popup>
 
@@ -100,7 +105,6 @@ export default {
     shiftsList: null,
     institutionsList: null,
   },
-
   methods: {
     getClassrooms() {
       const userAuth = localStorage.userAuth;
@@ -110,6 +114,18 @@ export default {
         parseJson.institution_id
       );
     },
+    getShifts() {
+      this.$store.dispatch("shift/getShifts")
+    },
+    getSubjects(){
+      this.$store.dispatch("subject/getSubjects")
+    },
+    getCourseTypes() {
+      this.$store.dispatch("courseType/getCourseTypes")
+    },
+    getTeachers() {
+      this.$store.dispatch("teacher/getTeachers")
+    }
   },
   watch: {
     classrooms(data) {
@@ -126,18 +142,37 @@ export default {
 
       this.classroom = classroomsData;
     },
+    storeShifts(data) {
+      this.shifts = data
+    },
+    storeSubjects(data) {
+      this.subjects = data
+    },
+    storeCourseTypes(data) {
+      this.courseTypes = data
+    },
+    storeTeachers(data) {
+      this.teachers = data
+    }
   },
   computed: {
-    ...mapGetters({ classrooms: "classroom/getClassrooms" }),
+    ...mapGetters({ classrooms: "classroom/getClassrooms", storeShifts:'shift/getShifts', storeSubjects:'subject/getSubjects', storeCourseTypes:'courseType/getCourseTypes', storeTeachers:'teacher/getTeachers' }),
   },
-
   mounted() {
-    this.getClassrooms();
+    this.getClassrooms()
+    this.getShifts()
+    this.getSubjects()
+    this.getCourseTypes()
+    this.getTeachers()
   },
   data () {
     return {
       description: 'Cursando',
       popupActive: false,
+      shifts: null,
+      subjects: null,
+      courseTypes: null,
+      teachers: null,
       users: [
         {
           id: 1,

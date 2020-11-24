@@ -11,96 +11,84 @@
             <vs-input
               type="text"
               label-placeholder="Nombre salón"
-              v-model="value1"
+              v-model="form.name"
               class="w-full sm:w-auto"
             />
           </div>
         </div>
 
         <div class="vx-row">
-          <div class="vx-col sm:w-1/2 w-full mb-2">
+          <div class="vx-col sm:w-4/4 w-full mb-2">
             <vs-select
-                v-model="form.dataShifts"
+                v-model="form.shift_id"
                 label="Turno"
                 class="mt-5 w-full"
                 name="item-shift"
                 v-validate="'required'"
               >
+              <vs-select-item key="" value="" selected text="seleccione turno" />
               <vs-select-item
                 :key="item.id"
                 :value="item.id"
                 :text="item.name"
-                v-for="item in this.form.shiftsList"
+                v-for="item in shiftList"
               />
             </vs-select>
           </div>
 
-          <div class="vx-col sm:w-1/2 w-full mb-2">
-            <vs-select
-                v-model="form.dataInstitutions"
-                label="Institución"
-                class="mt-5 w-full"
-                name="item-shift"
-                v-validate="'required'"
-              >
-              <vs-select-item
-                :key="item.id"
-                :value="item.id"
-                :text="item.name"
-                v-for="item in this.form.institutionsList"
-              />
-            </vs-select>
-          </div>
         </div>
 
         <div class="vx-row">
           <div class="vx-col sm:w-1/3 w-full mb-2">
             <vs-select
-              v-model="form.dataShifts"
+              v-model="form.subject_id"
               label="Curso"
               class="mt-5 w-full"
               name="item-shift"
               v-validate="'required'"
             >
+              <vs-select-item key="" value="" selected text="seleccione curso" />
               <vs-select-item
                 :key="item.id"
                 :value="item.id"
                 :text="item.name"
-                v-for="item in this.form.shiftsList"
+                v-for="item in this.subjectsList"
               />
             </vs-select>
           </div>
 
           <div class="vx-col sm:w-1/3 w-full mb-2">
             <vs-select
-              v-model="form.dataInstitutions"
+              v-model="form.course_type_id"
               label="Tipo Curso"
               class="mt-5 w-full"
               name="item-shift"
               v-validate="'required'"
             >
+              <vs-select-item key="" value="" selected text="seleccione tipo curso" />
               <vs-select-item
                 :key="item.id"
                 :value="item.id"
                 :text="item.name"
-                v-for="item in this.form.institutionsList"
+                v-for="item in this.courseTypesList"
               />
             </vs-select>
           </div>
 
           <div class="vx-col sm:w-1/3 w-full mb-2">
             <vs-select
-              v-model="form.dataInstitutions"
+              v-model="form.teacher_id"
               label="Docente"
               class="mt-5 w-full"
               name="item-shift"
               v-validate="'required'"
             >
+              <vs-select-item key="" value="" selected text="seleccione docente" />
               <vs-select-item
                 :key="item.id"
                 :value="item.id"
                 :text="item.name"
-                v-for="item in this.form.institutionsList"
+                v-for="item in this.teachersList"
               />
             </vs-select>
           </div>
@@ -108,7 +96,7 @@
 
         <div class="vx-row">
           <div class="vx-col sm:w-1/2 w-full mb-2">
-            <vs-button color="primary" type="flat">+ Añadir Curso</vs-button>
+            <vs-button @click="addCourse" color="primary" type="flat">+ Añadir Curso</vs-button>
           </div>
         </div>
       </div>
@@ -123,20 +111,24 @@
           <p>Asignar alumnos</p>
 
           <div>
-            <v-select
+            <vs-select placeholder="Asignar alumnos"  multiple class="selectExample" v-model="form.student_id">
+                <vs-select-item :key="index" :value="item.id" :text="item.name" v-for="(item,index) in options" />
+            </vs-select>
+            <!-- <v-select
               label-placeholder="Asignar alumnos"
               multiple
               :closeOnSelect="false"
-              v-model="selected"
+              v-model="form.student_id"
               :options="options"
               :dir="$vs.rtl ? 'rtl' : 'ltr'"
-            />
+            /> -->
+
           </div>
           <br />
 
           <AvatarList
-            :post="post"
-            description="alumnos asignados"
+            :dataAvatarList="dataAvatar"
+            :description="description"
           ></AvatarList>
         </vx-card>
       </div>
@@ -145,7 +137,7 @@
       <div
           class="vx-col sm:w-full md:w-full lg:w-4/4 mx-auto d-theme-dark-bg"
         >
-          <vs-table stripe :data="users">
+          <vs-table stripe :data="form.courses">
             <template slot="thead">
               <vs-th></vs-th>
               <vs-th>Curso</vs-th>
@@ -162,16 +154,17 @@
                     icon-pack="feather"
                     icon="icon-trash"
                     color="danger"
+                    @click="removeCourse(indextr)"
                   ></vs-button>
                 </vs-td>
-                <vs-td :data="data[indextr].email">
-                  {{ data[indextr].email }}
+                <vs-td :data="data[indextr].subject_id">
+                  {{ data[indextr].subject_txt }}
                 </vs-td>
-                <vs-td :data="data[indextr].username">
-                  {{ data[indextr].name }}
+                <vs-td :data="data[indextr].course_type_id">
+                  {{ data[indextr].course_type_txt }}
                 </vs-td>
-                <vs-td :data="data[indextr].id">
-                  {{ data[indextr].website }}
+                <vs-td :data="data[indextr].teacher_id">
+                  {{ data[indextr].teacher_txt }}
                 </vs-td>
               </vs-tr>
             </template>
@@ -188,7 +181,7 @@
             class="w-full sm:w-auto mb-8 sm:mb-auto mt-3 sm:mt-auto cancel-btn"
             >Cancelar</vs-button
           >
-          <vs-button class="w-full sm:w-auto">Crear</vs-button>
+          <vs-button @click="create" class="w-full sm:w-auto">Crear</vs-button>
         </div>
       </div>
 </div>
@@ -206,42 +199,132 @@ export default {
     'v-select': vSelect
   },
   props: {
-    title: null
+    title: null,
+    shiftList: null,
+    subjectsList: null,
+    courseTypesList: null,
+    teachersList: null,
+    isCreate: Boolean,
+    descriptionAvatar: String,
+    dataAvatar: Array,
+  },
+  methods: {
+    setData () {
+      if (this.plan) {
+        this.form = Object.assign({}, this.plan)
+      }
+    },
+    save () {
+      if (!this.isCreate) {
+        this.update()
+      } else {
+        this.create()
+      }
+    },
+    removeCourse(indextr){
+      //console.log(indextr);
+      this.form.courses.splice(indextr, 1);
+      //console.log(this.courses);
+    },
+    addCourse() {
+      //.log('Agregando Curso');
+      //console.log(this.courses);
+
+      let subject_txt = "";
+      this.subjectsList.map((element, index) => {
+        if(element.id === this.form.subject_id){
+            subject_txt = element.name
+        }
+      });
+
+      let course_type_txt = "";
+      this.courseTypesList.map((element, index) => {
+        if(element.id === this.form.course_type_id){
+            course_type_txt = element.name
+        }
+      });
+
+      let teacher_txt = "";
+      this.teachersList.map((element, index) => {
+        if(element.id === this.form.teacher_id){
+            teacher_txt = element.name
+        }
+      });
+
+      this.form.courses.push(
+        {
+          subject_txt: subject_txt,
+          course_type_txt: course_type_txt,
+          teacher_txt: teacher_txt,
+          subject_id: this.form.subject_id,
+          course_type_id: this.form.course_type_id,
+          teacher_id: this.form.teacher_id
+        }
+      );
+      //console.log(this.courses);
+     //console.log(this.form.student_id)
+    },
+    create () {
+      //console.log("Creando...");
+      const userAuth = localStorage.userAuth;
+      const parseJson = JSON.parse(userAuth);
+      this.form.institution_id = parseJson.institution_id
+      const payload = this.form
+      //console.log(payload);
+      // this.$validator.validateAll().then((result) => {
+      //   if (result) {
+      //     const payload = this.form
+      this.$store.dispatch('classroom/createClassroom', payload)
+      //   }
+      // })
+    },
+
+    update () {
+      const payload = this.form
+      this.$store.dispatch('plan/updatePlan', payload)
+      //this.$emit("close-modal");
+    }
   },
   data () {
     return {
       description: 'Cursando',
       value1: '',
-      selected: [],
-      options: ['Daniel', 'Nestor', 'Oscar', 'Gregorio', 'Pablo'],
+      //student_id: [],
+      options: [{
+          id:1,
+          name:'Nestor Infante'
+        },
+        {
+          id:2,
+          name:'Gregorio Lucena',
+        },
+        {
+          id:3,
+          name:'Roberto'
+        }],
       form: {
         id: null,
-        dataShifts: '',
-        dataInstitutions: ''
+        name: '',
+        shift_id: '',
+        institution_id: '',
+        subject_id: '',
+        teacher_id: '',
+        classroom_id: '',
+        course_type_id: '',
+        student_id: [],
+        courses: []
       },
-      users: [
-        {
-          id: 1,
-          name: 'Curso',
-          username: 'Bret',
-          email: 'Matemática',
-          website: 'Laura Perez'
-        },
-        {
-          id: 2,
-          name: 'Examén',
-          username: 'Antonette',
-          email: 'Ingles',
-          website: 'Claudia Colmenarez'
-        },
-        {
-          id: 3,
-          name: 'Taller',
-          username: 'Samantha',
-          email: 'Ciencias',
-          website: 'Berta Gomez'
-        }
-      ],
+      // courses: [
+      //   // {
+      //   //   id: 1,
+      //   //   subject_txt: 'Matemáticas',
+      //   //   course_type_txt: 'Course',
+      //   //   teacher_txt: 'Pedro',
+      //   //   subject_id: 1,
+      //   //   course_type_id: 1,
+      //   //   teacher_id: 1
+      //   // }
+      // ],
       userPosts: [
         {
           likes: 100,

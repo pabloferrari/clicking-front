@@ -34,30 +34,47 @@ const mutations = {
 }
 
 const actions = {
-  async createClassroom ({commit, state, dispatch}, classroomstudent) {
+  async createClassroom ({commit, state, dispatch}, classroom) {
 
-    // try {
-    //   const newCommission = {
-    //     name: commission.name,
-    //     turn_id: commission.turn_id,
-    //     institution_year_id: commission.institution_year_id
-    //   }
-    //   const commissionCreate  = await CommissionService.create(newCommission)
-    //   const commissions = Object.assign([], state.commissions)
+    //  CourseTypeService.create(courseType).then((response) => {
+    //   const courseTypes = Object.assign([], state.courseTypes)
+    //   courseTypes.push(response.data)
+    //   commit('setCourseTypes', courseTypes)
+    //   dispatch('notification/success', {title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.'}, { root: true })
+    // }).catch((err) => {
+    //   console.log(err)
+    // })
 
-    //   commissions.push(commissionCreate.data)
+    try {
+      const newClassroom = {
+        name: classroom.name,
+        institution_id: classroom.institution_id,
+        shift_id: classroom.shift_id,
+        courses: classroom.courses,
+        student_id: classroom.student_id
+      }
+      //console.log(newClassroom)
+      const classroomCreate  = await ClassroomService.create(newClassroom)
+      const classrooms = Object.assign([], state.classrooms)
 
-    //   commit('setCommissions', commissions)
+      try {
+        const classroomData = await ClassroomService.get(newClassroom.institution_id)
+        commit('setClassrooms', classroomData.data)
+      } catch (error) {
+        console.log(error)
+      }
+      //classrooms.push(classroomCreate.data)
+      //commit('setClassrooms', classrooms)
 
-    //   dispatch(
-    //     'notification/success',
-    //     {title: 'Guardado exitoso....',
-    //       text: 'se ha actualizado correctamente.'},
-    //     { root: true }
-    //   )
-    // } catch (error) {
-    //   console.log(error)
-    // }
+      dispatch(
+        'notification/success',
+        {title: 'Guardado exitoso....',
+          text: 'se ha actualizado correctamente.'},
+        { root: true }
+      )
+    } catch (error) {
+      console.log(error)
+    }
   },
 
   async updateClassroom ({ state, commit, dispatch }, classroomstudent) {

@@ -32,6 +32,9 @@ import classroomStudent from './modules/classroomStudent'
 import classroom from './modules/classroom'
 import course from './modules/course'
 import courseClass from './modules/courseClass'
+import shift from './modules/shift'
+import subject from './modules/subject'
+import courseType from './modules/courseType'
 
 Vue.use(Vuex)
 
@@ -51,8 +54,10 @@ export default new Vuex.Store({
     classroom,
     classroomStudent,
     course,
-    courseClass
-
+    courseClass,
+    shift,
+    subject,
+    courseType
   },
   getters,
   mutations,
