@@ -186,13 +186,15 @@ export default {
     institutions (data) {
       const rows = []
       data.map((value) => {
+
+        console.log(value);
         rows.push({
           id: value.id,
           name: value.name,
           email: value.email,
-          students: 0,
-          teachers: 0,
-          course: 0,
+          students: value.students,
+          teachers: value.teachers,
+          course: value.courses,
           country: value.city.province.country.name
         })
       })

@@ -74,6 +74,7 @@ export default {
   },
   methods: {
     getCourses() {
+      console.log('THIS GET COURSES');
       this.$store.dispatch("course/getCoursesClassroomData", this.id);
     },
   },
