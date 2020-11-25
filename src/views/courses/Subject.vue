@@ -1,58 +1,59 @@
 <template>
-  <div class="subjects">
-    <div class="vx-row">
-      <div class="vx-col w-full">
-        <p class="primary">{{ subject }}</p>
-      </div>
-    </div>
-    <CardCount :cardCount="this.cardCount"></CardCount>
-
-    <div class="flex flex-wrap justify-end mt-1"  @click="activePrompt = true">
-      <ButtonRight
-        class="btn-right"
-        v-permission="['teacher']"
-        buttonTitle="Crear Clase"
-      ></ButtonRight>
-    </div>
-
-
-    <!-- Popup Course -->
-    <vs-prompt
-      @accept="create"
-      title="Crear Curso"
-      accept-text="Guardar"
-      cancel-text="Cancelar"
-      :active.sync="activePrompt"
-    >
-      <div class="con-exemple-prompt">
-        <div class="w-full p-2">
-          <vs-input
-              class="w-full"
-              label-placeholder="Nombre Clase"
-              v-model="form.title"
-              name="title"
-              v-validate="'required'"
-              :danger="errors.has('title')"
-            />
+    <div class="subjects">
+        <div class="vx-row">
+            <div class="vx-col w-full">
+                <p class="primary">{{ subject }}</p>
+            </div>
         </div>
-        <div class="w-full p-2">
-          <div class="">
-            <vs-input
-              class="w-full"
-              label-placeholder="Descripción"
-              v-model="form.description"
-              name="description"
-              v-validate="'required'"
-              :danger="errors.has('description')"
-            />
-          </div>
+        <CardCount :cardCount="this.cardCountCourseClass()"></CardCount>
+
+        <div
+            class="flex flex-wrap justify-end mt-1"
+            @click="activePrompt = true"
+        >
+            <ButtonRight
+                class="btn-right"
+                v-permission="['teacher']"
+                buttonTitle="Crear Clase"
+            ></ButtonRight>
         </div>
-      </div>
-    </vs-prompt>
 
+        <!-- Popup Course -->
+        <vs-prompt
+            @accept="create"
+            title="Crear Curso"
+            accept-text="Guardar"
+            cancel-text="Cancelar"
+            :active.sync="activePrompt"
+        >
+            <div class="con-exemple-prompt">
+                <div class="w-full p-2">
+                    <vs-input
+                        class="w-full"
+                        label-placeholder="Nombre Clase"
+                        v-model="form.title"
+                        name="title"
+                        v-validate="'required'"
+                        :danger="errors.has('title')"
+                    />
+                </div>
+                <div class="w-full p-2">
+                    <div class="">
+                        <vs-input
+                            class="w-full"
+                            label-placeholder="Descripción"
+                            v-model="form.description"
+                            name="description"
+                            v-validate="'required'"
+                            :danger="errors.has('description')"
+                        />
+                    </div>
+                </div>
+            </div>
+        </vs-prompt>
 
-    <!-- START MODAL -->
-    <!-- <vs-popup title="Crear Clase" :active.sync="itemOne" >
+        <!-- START MODAL -->
+        <!-- <vs-popup title="Crear Clase" :active.sync="itemOne" >
 
     </vs-popup>
 
@@ -63,36 +64,35 @@
      <vs-popup title="Crear Éxamen" :active.sync="itemThree">
 
     </vs-popup> -->
-    <!-- END MODAL -->
+        <!-- END MODAL -->
 
-    <div class="mt-0">
-      <vs-tabs v-model="tab.value">
-        <vs-tab label="Muro" v-on="clickTag(tab.value)">
-          <div class="tab-content-wall">
-            <Wall></Wall>
-            <WallComment></WallComment>
-          </div>
-        </vs-tab>
-        <vs-tab label="Clases">
-          <div class="tab-content-classes">
-            <div>
-              <Collapse
-                v-if="this.classesList.length > 0"
-                :DropDownList="this.DropDownList"
-                :classesList="this.classesList"
-              ></Collapse>
-              <div v-else>
-                <p class="font-semibold text-center">
-                  No se encontraron resultados
-                </p>
-              </div>
-            </div>
-          </div>
-        </vs-tab>
-      </vs-tabs>
+        <div class="mt-0">
+            <vs-tabs v-model="tab.value">
+                <vs-tab label="Muro" v-on="clickTag(tab.value)">
+                    <div class="tab-content-wall">
+                        <Wall></Wall>
+                        <WallComment></WallComment>
+                    </div>
+                </vs-tab>
+                <vs-tab label="Clases">
+                    <div class="tab-content-classes">
+                        <div>
+                            <Collapse
+                                v-if="this.classesList.length > 0"
+                                :DropDownList="this.DropDownList"
+                                :classesList="this.classesList"
+                            ></Collapse>
+                            <div v-else>
+                                <p class="font-semibold text-center">
+                                    No se encontraron resultados
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </vs-tab>
+            </vs-tabs>
+        </div>
     </div>
-  </div>
-
 </template>
 
 <script>
@@ -128,6 +128,30 @@ export default {
         this.subjectId
       )
     },
+    getCourseClassesCount() {
+      this.$store.dispatch('courseClass/getCourseClassesCount', this.subjectId)
+    },
+
+    cardCountCourseClass() {
+      const {assistance,tasks,exams} = this.cardCount
+      return [
+        
+        {
+          count:  0,
+          title: 'Asistencia'
+        },
+        {
+          count: 0,
+          title: 'Tareas'
+        },
+        {
+          count: 0,
+          title: 'Evaluaciones'
+        }
+        
+      ]
+    },
+
     accept() {
       this.activePrompt = true;
     },
@@ -141,6 +165,7 @@ export default {
 
   mounted () {
     this.getCourseClass()
+    // this.getCourseClassesCount()
   },
 
   computed: {
@@ -148,19 +173,27 @@ export default {
   },
 
   watch: {
+
     storeCoursesClass (data) {
       const courseClassData = []
-      data.map((element) => {
-        courseClassData.push({
-          id: element.id,
-          title: element.title,
-          description: element.description,
-          assignments: element.assignments
+      if(data){
+        data.map((element) => {
+          courseClassData.push({
+            id: element.id,
+            title: element.title,
+            description: element.description,
+            assignments: element.assignments
+          })
         })
-      })
+
+      }
+      console.log( data)
       this.classesList = courseClassData
       // console.log(courseClassData);
     }
+    // storeCoursesClassCount(data){
+    //   this.cardCount = data;
+    // }
   },
 
   data () {
@@ -173,6 +206,7 @@ export default {
         description: '',
         course_id: this.subjectId
       },
+      cardCount:[],
       DropDownList: [
         {
           id: 1,
@@ -191,20 +225,7 @@ export default {
       tab: {
         value: 1
       },
-      cardCount: [
-        {
-          title: 'Asistencia',
-          count: 3
-        },
-        {
-          title: 'Tareas',
-          count: 1
-        },
-        {
-          title: 'Evaluaciones',
-          count: 1
-        }
-      ],
+     
       classesList: []
       // classesList: [
       //   {
@@ -247,19 +268,19 @@ export default {
 
 <style lang="scss" scoped>
 .primary {
-  font-family: Gilroy;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 28px;
-  line-height: 44px;
-  display: flex;
-  align-items: center;
-  color: #567df4;
+    font-family: Gilroy;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 28px;
+    line-height: 44px;
+    display: flex;
+    align-items: center;
+    color: #567df4;
 }
 
 .btn-right {
-  position: absolute;
-  right: 1rem;
-  z-index: 999;
+    position: absolute;
+    right: 1rem;
+    z-index: 999;
 }
 </style>

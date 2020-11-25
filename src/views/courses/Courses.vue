@@ -1,42 +1,45 @@
 <template>
-  <div id="courses">
-    <div class="vx-row">
-      <div class="vx-col w-full">
-        <p class="primary">{{ titleHeader }}</p>
-      </div>
-    </div>
-    <CardWelcome :cardsWelcome="this.cardsWelcome"></CardWelcome>
+    <div id="courses">
+        <div class="vx-row">
+            <div class="vx-col w-full">
+                <p class="primary">{{ titleHeader }}</p>
+            </div>
+        </div>
+        <CardWelcome :cardsWelcome="this.cardsWelcome"></CardWelcome>
 
-    <div class="mt-0">
-      <vs-tabs>
-        <vs-tab label="Cursos" @click="getCourses()">
-          <div class="tab-content-courses">
-            <div>
-              <CardList :cardData="this.courses" description="cursando">
-              </CardList>
-            </div>
-          </div>
-        </vs-tab>
-        <vs-tab label="Talleres">
-          <div class="tab-content-workshop">
-            <div>
-              <CardList
-                v-if="this.workshop.length > 0"
-                :cardData="this.workshop"
-                description="cursando"
-              >
-              </CardList>
-              <div v-else>
-                <p class="font-semibold text-center">
-                  No se encontraron resultados
-                </p>
-              </div>
-            </div>
-          </div>
-        </vs-tab>
-      </vs-tabs>
+        <div class="mt-0">
+            <vs-tabs>
+                <vs-tab label="Cursos" @click="getCourses()">
+                    <div class="tab-content-courses">
+                        <div>
+                            <CardList
+                                :cardData="this.courses"
+                                description="cursando"
+                            >
+                            </CardList>
+                        </div>
+                    </div>
+                </vs-tab>
+                <vs-tab label="Talleres">
+                    <div class="tab-content-workshop">
+                        <div>
+                            <CardList
+                                v-if="this.workshop.length > 0"
+                                :cardData="this.workshop"
+                                description="cursando"
+                            >
+                            </CardList>
+                            <div v-else>
+                                <p class="font-semibold text-center">
+                                    No se encontraron resultados
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </vs-tab>
+            </vs-tabs>
+        </div>
     </div>
-  </div>
 </template>
 <script>
 import AvatarList from "../components/AvatarList";
@@ -152,13 +155,13 @@ export default {
 
 <style lang="scss" scoped>
 .primary {
-  font-family: Gilroy;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 28px;
-  line-height: 44px;
-  display: flex;
-  align-items: center;
-  color: #567df4;
+    font-family: Gilroy;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 28px;
+    line-height: 44px;
+    display: flex;
+    align-items: center;
+    color: #567df4;
 }
 </style>

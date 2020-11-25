@@ -1,79 +1,76 @@
 <template>
-  <div id="classroom">
-    <div class="vx-row">
-      <div class="vx-col w-full">
-        <p class="primary">Salones</p>
-      </div>
-    </div>
-    <CardWelcome :cardsWelcome="this.cardsWelcome()"></CardWelcome>
-    <!-- ADD NEW -->
-    <div
-      class="flex flex-wrap justify-end mt-1 data-list-btn-container"
-      @click="popupActive = true"
-    >
-      <vs-button
-        color="primary"
-        size="small"
-        class="font-semibold btn-right"
-        icon="icon-plus"
-        icon-pack="feather"
-        type="border"
-        >Crear Salón</vs-button
-      >
-    </div>
-
-    <!-- <ModalSection ModalTitle="" :action="popupActive" :children="this.children" v-bind="propsChildren"></ModalSection> -->
-
-
-    <vs-popup title="" :active.sync="popupActive">
-
-      <ClassroomForm title="Crear Salón"
-      :shiftList="this.shifts"
-      :subjectsList="this.subjects"
-      :courseTypesList="this.courseTypes"
-      :teachersList="this.teachers"
-      :studentsList="this.storeStudents"
-      ></ClassroomForm>
-
-    </vs-popup>
-
-    <div class="mt-0">
-      <vs-tabs>
-        <vs-tab label="Salones" @click="getClassrooms()">
-          <div class="tab-content-courses">
-            <div>
-              <CardList
-                :cardData="this.classroom"
-                v-if="this.classroom.length > 0"
-                description="cursando"
-              >
-              </CardList>
-              <div v-else>
-                <p class="font-semibold text-center">
-                  No se encontraron resultados
-                </p>
-              </div>
+    <div id="classroom">
+        <div class="vx-row">
+            <div class="vx-col w-full">
+                <p class="primary">Salones</p>
             </div>
-          </div>
-        </vs-tab>
-        <vs-tab label="Talleres">
-          <div class="tab-content-workshop">
-            <div>
-              <p class="font-semibold text-center">
-                No se encontraron resultados
-              </p>
-              <!-- <CardList
+        </div>
+        <CardWelcome :cardsWelcome="this.cardsWelcome()"></CardWelcome>
+        <!-- ADD NEW -->
+        <div
+            class="flex flex-wrap justify-end mt-1 data-list-btn-container"
+            @click="popupActive = true"
+        >
+            <vs-button
+                color="primary"
+                size="small"
+                class="font-semibold btn-right"
+                icon="icon-plus"
+                icon-pack="feather"
+                type="border"
+                >Crear Salón</vs-button
+            >
+        </div>
+
+        <!-- <ModalSection ModalTitle="" :action="popupActive" :children="this.children" v-bind="propsChildren"></ModalSection> -->
+
+        <vs-popup title="" :active.sync="popupActive">
+            <ClassroomForm
+                title="Crear Salón"
+                :shiftList="this.shifts"
+                :subjectsList="this.subjects"
+                :courseTypesList="this.courseTypes"
+                :teachersList="this.teachers"
+                :studentsList="this.storeStudents"
+            ></ClassroomForm>
+        </vs-popup>
+
+        <div class="mt-0">
+            <vs-tabs>
+                <vs-tab label="Salones" @click="getClassrooms()">
+                    <div class="tab-content-courses" id="div-with-loading">
+                        <div>
+                            <CardList
+                                :cardData="this.classroom"
+                                v-if="this.classroom.length > 0"
+                                description="cursando"
+                            >
+                            </CardList>
+                            <div v-else>
+                                <p class="font-semibold text-center">
+                                    No se encontraron resultados
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </vs-tab>
+                <vs-tab label="Talleres">
+                    <div class="tab-content-workshop">
+                        <div>
+                            <p class="font-semibold text-center">
+                                No se encontraron resultados
+                            </p>
+                            <!-- <CardList
                 :cardData="this.workshop"
                 description=" Alumnos cursando"
               >
               </CardList> -->
-            </div>
-          </div>
-        </vs-tab>
-      </vs-tabs>
+                        </div>
+                    </div>
+                </vs-tab>
+            </vs-tabs>
+        </div>
     </div>
-
-  </div>
 </template>
 
 <script>
@@ -113,6 +110,17 @@ export default {
     institutionsList: null,
   },
   methods: {
+
+    // openLoadingInDiv(){
+    //   this.$vs.loading({
+    //     container: '#div-with-loading',
+    //     scale: 0.6
+    //   })
+    //   setTimeout( ()=> {
+    //     this.$vs.loading.close('#div-with-loading > .con-vs-loading')
+    //   }, 3000);
+    // },
+
     getInstitutionCount() {
       this.$store.dispatch("institution/getInstitutionCount", 2);
     },
@@ -214,11 +222,13 @@ export default {
   },
   mounted() {
     this.getClassrooms()
+    this.getInstitutionCount();
+     
     this.getShifts()
     this.getSubjects()
     this.getCourseTypes()
     this.getTeachers()
-    this.getInstitutionCount();
+    
     this.getStudents();
   },
   data () {
@@ -317,24 +327,24 @@ export default {
 
 <style lang="scss" scoped>
 .primary {
-  font-family: Gilroy;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 28px;
-  line-height: 44px;
-  display: flex;
-  align-items: center;
-  color: #567df4;
+    font-family: Gilroy;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 28px;
+    line-height: 44px;
+    display: flex;
+    align-items: center;
+    color: #567df4;
 }
 </style>
 
 <style lang="css">
-  .con-vs-popup .vs-popup {
+.con-vs-popup .vs-popup {
     width: 800px !important;
-  }
-  .btn-right {
+}
+.btn-right {
     position: absolute;
     right: 1rem;
     z-index: 999;
-  }
+}
 </style>

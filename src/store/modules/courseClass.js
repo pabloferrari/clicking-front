@@ -3,7 +3,8 @@ import CourseClassService from '../../services/courseClass'
 
 const state = {
   courseClass: {},
-  courseClasses: []
+  courseClasses: [],
+  courseClassesCount: []
 }
 
 
@@ -19,25 +20,29 @@ const getters = {
 
 
 const mutations = {
-  updatedCourseClasses (state, courseClass) {
+  updatedCourseClasses(state, courseClass) {
     state.courseClass = courseClass
   },
 
-  setCourseClasses (state, courseClasses) {
+  setCourseClasses(state, courseClasses) {
     state.courseClasses = courseClasses
   },
 
-  setCourseClass (state, courseClass) {
+  setCourseClassesCount(state, courseClassesCount) {
+    state.courseClasses = courseClassesCount
+  },
+
+  setCourseClass(state, courseClass) {
     state.courseClass = courseClass
   }
 
 }
 
 const actions = {
-  async createCourseClass ({commit, state, dispatch}, courseClass) {
+  async createCourseClass({ commit, state, dispatch }, courseClass) {
     try {
-    //.then((response) => {
-      const courseClasseCreate  = await CourseClassService.create(courseClass)
+      //.then((response) => {
+      const courseClasseCreate = await CourseClassService.create(courseClass)
       const courseClasses = Object.assign([], state.courseClasses)
       //plans.push(response.data)
 
@@ -61,7 +66,7 @@ const actions = {
     }
   },
 
-  async updateCourseClass ({ state, commit, dispatch }, courseClass) {
+  async updateCourseClass({ state, commit, dispatch }, courseClass) {
     // try {
     //   const editCommission = {
 
@@ -83,7 +88,7 @@ const actions = {
     //   console.log(error)
     // }
   },
-  async deleteCourseClass ({ state, commit, dispatch }, id) {
+  async deleteCourseClass({ state, commit, dispatch }, id) {
     // try {
     //   await CommissionService.delete(id)
     //   const index = state.commissions.findIndex(x => x.id === id)
@@ -95,10 +100,19 @@ const actions = {
     //   console.log(error)
     // }
   },
-  async getCourseClassesSubjectData ({commit},id) {
+  async getCourseClassesSubjectData({ commit }, id) {
     try {
       const courseClassData = await CourseClassService.get(id)
       commit('setCourseClasses', courseClassData.data)
+    } catch (error) {
+      console.log(error)
+    }
+  },
+
+  async getCourseClassesCount({ commit }, id) {
+    try {
+      const courseClassCountData = await CourseClassService.getCourseClassesCount(id)
+      commit('setCourseClassesCount', courseClassCountData.data)
     } catch (error) {
       console.log(error)
     }
