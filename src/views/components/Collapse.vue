@@ -108,6 +108,8 @@ export default {
       const classId = object.id
       const assignmentId = event.id
       console.log(classId, assignmentId)
+
+      this.$emit("input", event.action);
     },
 
     showContent (data) {

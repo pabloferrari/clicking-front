@@ -53,17 +53,18 @@
         </vs-prompt>
 
         <!-- START MODAL -->
-        <!-- <vs-popup title="Crear Clase" :active.sync="itemOne" >
+        <vs-popup title="Crear Tarea" :active.sync="itemOne" >
 
-    </vs-popup>
+        </vs-popup>
 
-    <vs-popup title="Crear Tarea Práctica" :active.sync="itemTwo">
+        <vs-popup title="Crear Éxamen" :active.sync="itemTwo">
 
-    </vs-popup>
+        </vs-popup>
 
-     <vs-popup title="Crear Éxamen" :active.sync="itemThree">
+        <vs-popup title="Crear Trabajo Práctica" :active.sync="itemThree">
 
-    </vs-popup> -->
+        </vs-popup>
+
         <!-- END MODAL -->
 
         <div class="mt-0">
@@ -81,6 +82,7 @@
                                 v-if="this.classesList.length > 0"
                                 :DropDownList="this.DropDownList"
                                 :classesList="this.classesList"
+                                v-model="ActiveModal"
                             ></Collapse>
                             <div v-else>
                                 <p class="font-semibold text-center">
@@ -135,7 +137,7 @@ export default {
     cardCountCourseClass() {
       const {assistance,tasks,exams} = this.cardCount
       return [
-        
+
         {
           count:  0,
           title: 'Asistencia'
@@ -148,7 +150,7 @@ export default {
           count: 0,
           title: 'Evaluaciones'
         }
-        
+
       ]
     },
 
@@ -190,6 +192,17 @@ export default {
       console.log( data)
       this.classesList = courseClassData
       // console.log(courseClassData);
+    },
+    ActiveModal: function() {
+      if( this.ActiveModal == 'itemOne' ) {
+        this.itemOne = !this.itemOne
+      }else if(this.ActiveModal == 'itemTwo'){
+        this.itemTwo = !this.itemTwo
+      }else if(this.ActiveModal == 'itemThree'){
+        this.itemThree = !this.itemThree
+      }
+
+      console.log('Actualizado.... ', this.ActiveModal)
     }
     // storeCoursesClassCount(data){
     //   this.cardCount = data;
@@ -201,6 +214,10 @@ export default {
       console,
       dropdown: true,
       activePrompt: false,
+      ActiveModal: false,
+      itemOne: false,
+      itemTwo: false,
+      itemThree: false,
       form: {
         title: '',
         description: '',
@@ -210,22 +227,25 @@ export default {
       DropDownList: [
         {
           id: 1,
-          title: 'Crear Tarea'
+          title: 'Crear Tarea',
+          action: "itemOne",
         },
         {
           id: 2,
-          title: 'Crear Examen'
+          title: 'Crear Examen',
+          action: "itemTwo",
         },
         {
           id: 3,
-          title: 'Crear Trabajo Practico'
+          title: 'Crear Trabajo Practico',
+          action: "itemThree",
         }
       ],
 
       tab: {
         value: 1
       },
-     
+
       classesList: []
       // classesList: [
       //   {
