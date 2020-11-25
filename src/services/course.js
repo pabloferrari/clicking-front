@@ -12,6 +12,9 @@ class CourseService {
   getByCourseClassroom(id) {
     return service.get(`/${this.entity}/byClassroom/${id}`)
   }
+  getMyCourses() {
+    return service.get(`/my-courses`)
+  }
 
   create(data) {
     return service.post(`/${this.entity}`, data)

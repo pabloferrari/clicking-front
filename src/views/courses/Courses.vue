@@ -74,25 +74,25 @@ export default {
   },
   methods: {
     getCourses() {
-      this.$store.dispatch("course/getCoursesClassroomData", this.id);
+      this.$store.dispatch("course/getMyCoursesData");
     },
   },
   watch: {
-    storeCourses(data) {
-      console.log(data);
+    storeCourses({Curso}) {
+
       const courseData = [];
-      data.map((element) => {
+      Curso.map((element) => {
         courseData.push({
           title: element.subject.name,
           subtitle: `${element.classroom.name} - ${element.classroom.shift.name}`,
           buttonTitle: "Ir a curso",
           path: `/courses/${element.subject.name.split(" ").join("-")}/${
-            element.subject.id
+            element.id
           }`,
           avatarData: element.classroom.classroom_students,
         });
       });
-      console.log(courseData);
+
       this.courses = courseData;
     },
   },

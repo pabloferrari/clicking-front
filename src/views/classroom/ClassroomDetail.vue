@@ -141,7 +141,7 @@ export default {
   },
   mounted() {
     this.getCourses();
-    this.getClassroomCount();
+    //this.getClassroomCount();
     this.getTeachers()
     this.getSubjects()
   },
@@ -223,7 +223,7 @@ export default {
           avatarData: element.classroom.classroom_students,
         });
       });
-      // console.log(data);
+      console.log(data);
       this.courses = courseData;
     },
     storeTeachers(data) {

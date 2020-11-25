@@ -21,7 +21,7 @@
         <!-- Popup Course -->
         <vs-prompt
             @accept="create"
-            title="Crear Curso"
+            title="Crear Clase"
             accept-text="Guardar"
             cancel-text="Cancelar"
             :active.sync="activePrompt"
@@ -53,16 +53,16 @@
         </vs-prompt>
 
         <!-- START MODAL -->
-        <vs-popup title="Crear Tarea" :active.sync="itemOne" >
-
+        <vs-popup title="" :active.sync="itemOne" class="rounded-lg">
+          <TaskForm title="Crear Tarea" :studentsList="studentsList"></TaskForm>
         </vs-popup>
 
-        <vs-popup title="Crear Éxamen" :active.sync="itemTwo">
-
+        <vs-popup title="" :active.sync="itemTwo">
+          <ExamForm title="Crear Exámen" :studentsList="studentsList"></ExamForm>
         </vs-popup>
 
-        <vs-popup title="Crear Trabajo Práctica" :active.sync="itemThree">
-
+        <vs-popup title="" :active.sync="itemThree">
+          <PracticalWorkForm title="Crear Trabajo Práctica" :studentsList="studentsList"></PracticalWorkForm>
         </vs-popup>
 
         <!-- END MODAL -->
@@ -104,6 +104,10 @@ import Collapse from '../components/Collapse'
 // import CardWelcome from "../components/CardWelcome";
 import CardCount from '../components/CardCount'
 import ButtonRight from '../components/ButtonRight'
+import TaskForm from './TaskForm'
+import ExamForm from './ExamForm'
+import PracticalWorkForm from './PracticalWorkForm'
+
 // import ButtonDropDownVue from "../components/ButtonDropDown.vue";
 import { mapGetters } from 'vuex'
 export default {
@@ -114,7 +118,10 @@ export default {
     // CardWelcome,
     CardCount,
     Collapse,
-    ButtonRight
+    ButtonRight,
+    TaskForm,
+    ExamForm,
+    PracticalWorkForm
   },
   props: {
     subject: String,
@@ -218,6 +225,18 @@ export default {
       itemOne: false,
       itemTwo: false,
       itemThree: false,
+      studentsList: [{
+        id:1,
+        name:'Nestor Infante'
+      },
+      {
+        id:2,
+        name:'Gregorio Lucena',
+      },
+      {
+        id:3,
+        name:'Roberto'
+      }],
       form: {
         title: '',
         description: '',
@@ -298,9 +317,15 @@ export default {
     color: #567df4;
 }
 
+</style>
+
+<style lang="css">
+.con-vs-popup .vs-popup {
+    width: 800px !important;
+}
 .btn-right {
-    position: absolute;
-    right: 1rem;
-    z-index: 999;
+  position: absolute;
+  right: 1rem;
+  z-index: 999;
 }
 </style>
