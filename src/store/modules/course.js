@@ -19,22 +19,22 @@ const getters = {
 
 
 const mutations = {
-  updatedCourses(state, course) {
+  updatedCourses (state, course) {
     state.course = course
   },
 
-  setCourses(state, courses) {
+  setCourses (state, courses) {
     state.courses = courses
   },
 
-  setCourse(state, course) {
+  setCourse (state, course) {
     state.course = course
   }
 
 }
 
 const actions = {
-  async createCourse({ commit, state, dispatch }, course) {
+  async createCourse ({ commit, state, dispatch }, course) {
 
     try {
       const newCourse = {
@@ -44,7 +44,7 @@ const actions = {
         course_type_id: 1 //course.courses
       }
       //console.log(newClassroom)
-      const CourseCreate = await CourseService.create(newCourse)
+      const courseCreate = await CourseService.create(newCourse)
       const courses = Object.assign([], state.courses)
 
       try {
@@ -70,7 +70,7 @@ const actions = {
 
   },
 
-  async updateCourse({ state, commit, dispatch }, course) {
+  async updateCourse ({ state, commit, dispatch }, course) {
     // try {
     //   const editCommission = {
 
@@ -92,7 +92,7 @@ const actions = {
     //   console.log(error)
     // }
   },
-  async deleteCourse({ state, commit, dispatch }, id) {
+  async deleteCourse ({ state, commit, dispatch }, id) {
     // try {
     //   await CommissionService.delete(id)
     //   const index = state.commissions.findIndex(x => x.id === id)
@@ -105,15 +105,16 @@ const actions = {
     // }
   },
 
-  async getMyCoursesData({commit}) {
-    try {
-      const courseData = await CourseService.getMyCourses()
-      commit('setCourses', courseData.data)
-    } catch (error) {
-      console.log(error)
-    }
+  async getMyCoursesData ({commit}) {
+    await CourseService.getMyCourses()
+      .then((response) => {
+        commit('setCourses', response.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   },
-  async getCoursesClassroomData({ commit }) {
+  async getCoursesClassroomData ({ commit }) {
     try {
       const courseData = await CourseService.getAll()
       commit('setCourses', courseData.data)
@@ -121,14 +122,14 @@ const actions = {
       console.log(error)
     }
   },
-  async getCourseByClassroom({ commit }, id) {
+  async getCourseByClassroom ({ commit }, id) {
     try {
       const courseClassroomData = await CourseService.getByCourseClassroom(id)
       commit('setCourses', courseClassroomData.data)
     } catch (error) {
       console.log(error)
     }
-  },
+  }
 
 
 }

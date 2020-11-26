@@ -11,7 +11,7 @@ class InstitutionService {
       return service.get(`/${this.entity}/${id}`)
     }
 
-    getInstitutionCount(id) {
+    getInstitutionCount (id) {
       return service.get(`/${this.entity}/${id}/dashboard`)
     }
 

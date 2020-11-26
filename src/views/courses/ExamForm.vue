@@ -87,8 +87,13 @@
           </div>
 
           <div class="vx-row">
+<<<<<<< HEAD
             <div class="vx-col w-full mb-2"> <br/>
               <label for="" class="vs-select--label">Fecha de evaluación</label>
+=======
+            <div class="vx-col w-full mb-2"><br />
+              <label for="" class="vs-select--label">Fecha limite de entrega</label>
+>>>>>>> bdc31d760e1a68710cecc9355d94e5eb61730c74
               <div>
                 <flat-pickr class ="w-full " :config="configdateTimePicker" v-model="datetime" placeholder="Fecha de evaluación" />
               </div>
@@ -149,7 +154,7 @@ export default {
     teachersList: null,
     isCreate: Boolean,
     descriptionAvatar: String,
-    dataAvatar: Array,
+    dataAvatar: Array
   },
   methods: {
     setData () {
@@ -164,53 +169,53 @@ export default {
         this.create()
       }
     },
-    removeCourse(indextr){
+    removeCourse (indextr) {
       //console.log(indextr);
-      this.form.courses.splice(indextr, 1);
+      this.form.courses.splice(indextr, 1)
       //console.log(this.courses);
     },
-    addCourse() {
+    addCourse () {
       //.log('Agregando Curso');
       //console.log(this.courses);
 
-      let subject_txt = "";
-      this.subjectsList.map((element, index) => {
-        if(element.id === this.form.subject_id){
-            subject_txt = element.name
+      let subject_txt = ''
+      this.subjectsList.map((element) => {
+        if (element.id === this.form.subject_id) {
+          subject_txt = element.name
         }
-      });
+      })
 
-      let course_type_txt = "";
-      this.courseTypesList.map((element, index) => {
-        if(element.id === this.form.course_type_id){
-            course_type_txt = element.name
+      let course_type_txt = ''
+      this.courseTypesList.map((element) => {
+        if (element.id === this.form.course_type_id) {
+          course_type_txt = element.name
         }
-      });
+      })
 
-      let teacher_txt = "";
-      this.teachersList.map((element, index) => {
-        if(element.id === this.form.teacher_id){
-            teacher_txt = element.name
+      let teacher_txt = ''
+      this.teachersList.map((element) => {
+        if (element.id === this.form.teacher_id) {
+          teacher_txt = element.name
         }
-      });
+      })
 
       this.form.courses.push(
         {
-          subject_txt: subject_txt,
-          course_type_txt: course_type_txt,
-          teacher_txt: teacher_txt,
+          subject_txt,
+          course_type_txt,
+          teacher_txt,
           subject_id: this.form.subject_id,
           course_type_id: this.form.course_type_id,
           teacher_id: this.form.teacher_id
         }
-      );
+      )
       //console.log(this.courses);
-     //console.log(this.form.student_id)
+      //console.log(this.form.student_id)
     },
     create () {
       //console.log("Creando...");
-      const userAuth = localStorage.userAuth;
-      const parseJson = JSON.parse(userAuth);
+      const userAuth = localStorage.userAuth
+      const parseJson = JSON.parse(userAuth)
       this.form.institution_id = parseJson.institution_id
       const payload = this.form
       //console.log(payload);

@@ -109,7 +109,7 @@ export default {
       const assignmentId = event.id
       console.log(classId, assignmentId)
 
-      this.$emit("input", event.action);
+      this.$emit('input', event.action)
     },
 
     showContent (data) {

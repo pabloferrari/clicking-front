@@ -115,20 +115,20 @@
 </template>
 
 <script>
-import CardList from "../components/CardList";
-import CardWelcome from "../components/CardWelcome";
-import CourseLogo from "../components/icons/CourseLogo";
-import PencilLogo from "../components/icons/PencilLogo";
-import CheckLogo from "../components/icons/CheckLogo";
-import DocumentLogo from "../components/icons/DocumentLogo";
-import SchoolIcon from "../components/icons/SchoolIcon";
-import AppleIcon from "../components/icons/AppleIcon";
-import { mapGetters } from "vuex";
+import CardList from '../components/CardList'
+import CardWelcome from '../components/CardWelcome'
+import CourseLogo from '../components/icons/CourseLogo'
+import PencilLogo from '../components/icons/PencilLogo'
+import CheckLogo from '../components/icons/CheckLogo'
+import DocumentLogo from '../components/icons/DocumentLogo'
+import SchoolIcon from '../components/icons/SchoolIcon'
+import AppleIcon from '../components/icons/AppleIcon'
+import { mapGetters } from 'vuex'
 export default {
-  name: "ClassroomDetail",
+  name: 'ClassroomDetail',
   props: {
     title: String,
-    id: String,
+    id: String
   },
   components: {
     CardWelcome,
@@ -137,108 +137,108 @@ export default {
     CheckLogo,
     DocumentLogo,
     SchoolIcon,
-    CardList,
+    CardList
   },
-  mounted() {
-    this.getCourses();
+  mounted () {
+    this.getCourses()
     //this.getClassroomCount();
     this.getTeachers()
     this.getSubjects()
   },
   computed: {
     ...mapGetters({
-      storeCourses: "course/getCourses",
-      storeClassroomCount: "classroom/getClassroom",
+      storeCourses: 'course/getCourses',
+      storeClassroomCount: 'classroom/getClassroom',
       storeTeachers: 'teacher/getTeachers',
       storeSubjects: 'subject/getSubjects'
-    }),
+    })
   },
   methods: {
-    accept() {
-      this.activePrompt = true;
+    accept () {
+      this.activePrompt = true
     },
-    getCourses() {
-      this.$store.dispatch("course/getCourseByClassroom", this.id);
+    getCourses () {
+      this.$store.dispatch('course/getCourseByClassroom', this.id)
     },
-    getClassroomCount() {
-      this.$store.dispatch("classroom/getClassroomCount", this.id);
+    getClassroomCount () {
+      this.$store.dispatch('classroom/getClassroomCount', this.id)
     },
-    cardsWelcome() {
+    cardsWelcome () {
       return [
         {
           icon: CourseLogo,
-          title: "Cursos",
-          count: this.countClassroom.courses,
+          title: 'Cursos',
+          count: this.countClassroom.courses
           // path: "/classrooms",
         },
         {
           icon: SchoolIcon,
-          title: "Alumnos",
+          title: 'Alumnos',
           count: this.countClassroom.students,
-          path: "/students",
+          path: '/students'
         },
         {
           icon: AppleIcon,
-          title: "Docentes",
+          title: 'Docentes',
           count: this.countClassroom.teachers,
-          path: "/teachers",
-        },
-      ];
+          path: '/teachers'
+        }
+      ]
     },
-    getTeachers() {
-      this.$store.dispatch("teacher/getTeachers")
+    getTeachers () {
+      this.$store.dispatch('teacher/getTeachers')
     },
-    getSubjects() {
-      this.$store.dispatch("subject/getSubjects")
+    getSubjects () {
+      this.$store.dispatch('subject/getSubjects')
     },
     create () {
-      console.log('Creando...');
+      console.log('Creando...')
       //this.$validator.validateAll().then((result) => {
-        //if (result) {
-          const payload = this.form
-          this.$store.dispatch('course/createCourse', payload)
-          //this.$emit("close-modal");
-        //}
+      //if (result) {
+      const payload = this.form
+      this.$store.dispatch('course/createCourse', payload)
+      //this.$emit("close-modal");
+      //}
       //})
-    },
+    }
   },
   watch: {
-    storeClassroomCount(data) {
+    storeClassroomCount (data) {
       this.countClassroom = {
         courses: data.courses,
         students: data.students,
-        teachers: data.teachers,
-      };
+        teachers: data.teachers
+      }
     },
-    storeCourses(data) {
-      const courseData = [];
+    storeCourses (data) {
+      const courseData = []
       data.map((element) => {
         courseData.push({
           title: element.subject.name,
           subtitle: `${element.classroom.name} - ${element.classroom.shift.name}`,
-          buttonTitle: "Ir a curso",
-          path: `/courses/${element.subject.name.split(" ").join("-")}/${
+          buttonTitle: 'Ir a curso',
+          path: `/courses/${element.subject.name.split(' ').join('-')}/${
             element.id
           }`,
-          avatarData: element.classroom.classroom_students,
-        });
-      });
-      console.log(data);
-      this.courses = courseData;
+          avatarData: element.classroom.classroom_students
+        })
+      })
+      console.log(data)
+      this.courses = courseData
     },
-    storeTeachers(data) {
+    storeTeachers (data) {
       this.teachers = data
     },
-    storeSubjects(data) {
+    storeSubjects (data) {
       this.subjects = data
-    },
+    }
   },
 
-  data() {
+  data () {
     return {
-      coursesName: "",
-      teachers: "",
-      subjects: "",
+      coursesName: '',
+      teachers: '',
+      subjects: '',
       activePrompt: false,
       activePromptSave: false,
       countClassroom: [],
@@ -248,11 +248,11 @@ export default {
         subject_id:     '',
         teacher_id:     '',
         classroom_id:   this.id,
-	      course_type_id: ''
-      },
-    };
-  },
-};
+        course_type_id: ''
+      }
+    }
+  }
+}
 </script>
 
 <style lang="css">
