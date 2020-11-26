@@ -68,17 +68,10 @@
         </vs-popup>
 
         <vs-popup title="" :active.sync="itemThree">
-            <<<<<<< HEAD
             <PracticalWorkForm
                 title="Crear Trabajo Práctica"
                 :studentsList="studentsList"
             ></PracticalWorkForm>
-            =======
-            <PracticalWorkForm
-                title="Crear Trabajo Práctico"
-                :studentsList="studentsList"
-            ></PracticalWorkForm>
-            >>>>>>> ec519f43374cec5754e0dcaf7a34c7dba8451633
         </vs-popup>
 
         <!-- END MODAL -->
@@ -141,7 +134,7 @@ export default {
   },
   props: {
     subject: String,
-    subjectId: String
+    subjectId: String,
   },
   methods: {
     clickTag (e) {
@@ -157,15 +150,9 @@ export default {
       this.$store.dispatch('courseClass/getCourseClassesCountData', this.subjectId)
     },
 
-  
+    cardCountCourseClass() {
       // const {assistance,tasks,evaluations} = this.cardCount
       // console.log(this.cardCount)
-    getCourseClassesCount () {
-      this.$store.dispatch('courseClass/getCourseClassesCount', this.subjectId)
-    },
-
-    cardCountCourseClass () {
-      const {assistance, tasks, exams} = this.cardCount
       return [
 
         {
@@ -184,15 +171,15 @@ export default {
       ]
     },
 
-    accept () {
-      this.activePrompt = true
+    accept() {
+      this.activePrompt = true;
     },
     create () {
-      console.log('Creando... test')
+      console.log('Creando... test');
       const payload = this.form
-      console.log(payload)
+      console.log(payload);
       this.$store.dispatch('courseClass/createCourseClass', payload)
-    }
+    },
   },
 
   mounted () {
@@ -208,21 +195,18 @@ export default {
   watch: {
 
     storeCourseAssignments(data){
+    
       if(data) {
+        
         this.cardCount = data
-
       }
+        
     },
 
     storeCoursesClass (data) {
       const courseClassData = []
-<<<<<<< HEAD
       if(data.length > 0) {
            data.map((element) => {
-=======
-      if (data) {
-        data.map((element) => {
->>>>>>> ec519f43374cec5754e0dcaf7a34c7dba8451633
           courseClassData.push({
             id: element.id,
             title: element.title,
@@ -231,35 +215,20 @@ export default {
           })
         })
       }
-<<<<<<< HEAD
    
-=======
-      console.log(data)
->>>>>>> ec519f43374cec5754e0dcaf7a34c7dba8451633
       this.classesList = courseClassData
      
     },
-    ActiveModal () {
-      switch (this.ActiveModal.action) {
-      case 'itemOne':
+    ActiveModal: function() {
+      if( this.ActiveModal == 'itemOne' ) {
         this.itemOne = !this.itemOne
-        break
-      case 'itemTwo':
+      }else if(this.ActiveModal == 'itemTwo'){
         this.itemTwo = !this.itemTwo
-        break
-      case 'itemThree':
+      }else if(this.ActiveModal == 'itemThree'){
         this.itemThree = !this.itemThree
-        break
       }
-      // if (this.ActiveModal.action === 'itemOne') {
-      //   this.itemOne = !this.itemOne
-      // } else if (this.ActiveModal === 'itemTwo') {
-      //   this.itemTwo = !this.itemTwo
-      // } else if (this.ActiveModal === 'itemThree') {
-      //   this.itemThree = !this.itemThree
-      // }
 
-      // console.log('Actualizado.... ', this.ActiveModal)
+      console.log('Actualizado.... ', this.ActiveModal)
     }
     // storeCoursesClassCount(data){
     //   this.cardCount = data;
@@ -275,20 +244,18 @@ export default {
       itemOne: false,
       itemTwo: false,
       itemThree: false,
-      studentsList: [
-        {
-          id:1,
-          name:'Nestor Infante'
-        },
-        {
-          id:2,
-          name:'Gregorio Lucena'
-        },
-        {
-          id:3,
-          name:'Roberto'
-        }
-      ],
+      studentsList: [{
+        id:1,
+        name:'Nestor Infante'
+      },
+      {
+        id:2,
+        name:'Gregorio Lucena',
+      },
+      {
+        id:3,
+        name:'Roberto'
+      }],
       form: {
         title: '',
         description: '',
@@ -299,17 +266,17 @@ export default {
         {
           id: 1,
           title: 'Crear Tarea',
-          action: 'itemOne'
+          action: "itemOne",
         },
         {
           id: 2,
           title: 'Crear Examen',
-          action: 'itemTwo'
+          action: "itemTwo",
         },
         {
           id: 3,
           title: 'Crear Trabajo Practico',
-          action: 'itemThree'
+          action: "itemThree",
         }
       ],
 
