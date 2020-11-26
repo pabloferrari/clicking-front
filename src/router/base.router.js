@@ -70,7 +70,7 @@ export default [
     name: 'Mis Cursos',
     component: () => import('../views/courses/Courses.vue'),
     meta: {
-      permissions: ['admin','teacher']
+      permissions: ['admin', 'teacher']
     }
   },
   {
@@ -78,7 +78,7 @@ export default [
     name: 'Curso Materia Asignaciones',
     component: () => import('../views/courses/Subject.vue'),
     meta: {
-      permissions: ['admin','institution','teacher']
+      permissions: ['admin', 'institution', 'teacher']
     },
     props:true
   },
@@ -107,7 +107,7 @@ export default [
       permissions: ['institution']
     },
     props:true
-  },
+  }
   // {
   //   path: '/classrooms/:course/:subject',
   //   name: 'Curso Materia',

@@ -32,6 +32,9 @@ const mutations = {
   setCourseClassesCount(state, courseClassesCount) {
     state.courseClassesCount = courseClassesCount
   },
+  setCourseClassesCount(state, courseClassesCount) {
+    state.courseClasses = courseClassesCount
+  },
 
   setCourseClass(state, courseClass) {
     state.courseClass = courseClass
@@ -110,7 +113,11 @@ const actions = {
     }
   },
 
+<<<<<<< HEAD
   async getCourseClassesCountData({ commit }, id) {
+=======
+  async getCourseClassesCount ({ commit }, id) {
+>>>>>>> ec519f43374cec5754e0dcaf7a34c7dba8451633
     try {
       const courseClassCountData = await CourseClassService.getCourseClassesCount(id)
       commit('setCourseClassesCount', courseClassCountData.data)

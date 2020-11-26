@@ -187,7 +187,7 @@ export default {
       const rows = []
       data.map((value) => {
 
-        console.log(value);
+        console.log(value)
         rows.push({
           id: value.id,
           name: value.name,

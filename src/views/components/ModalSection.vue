@@ -15,11 +15,11 @@ export default {
 
   },
   props: {
-    ModalTitle: "",
+    ModalTitle: '',
     action: null,
-    children: null,
+    children: null
   },
-  data() {
+  data () {
     return {
 
     }

@@ -12,14 +12,14 @@ import ClassroomForm from './ClassroomForm'
 export default {
   name: 'ModalSection',
   components: {
-    ClassroomForm,
+    ClassroomForm
   },
   props: {
-    ModalTitle: "",
+    ModalTitle: '',
     action: null,
-    children: null,
+    children: null
   },
-  data() {
+  data () {
     return {
 
     }

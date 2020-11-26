@@ -28,30 +28,30 @@ export default {
   name: 'ButtonDropDown',
   props:
     {
-    title: String,
-    itemOne: String,
-    items: Array,
-    value: false
-  },
+      title: String,
+      itemOne: String,
+      items: Array,
+      value: false
+    },
   computed: {
     popupCreateActive: {
-      get() {
+      get () {
         return this.value
       },
-      set(value){
-        this.$emit("input", value);
+      set (value) {
+        this.$emit('input', value)
       }
     },
     popupCreateTaskActive: {
-      get() {
+      get () {
         return this.value
       },
-      set(value){
-        this.$emit("input", value);
+      set (value) {
+        this.$emit('input', value)
       }
     }
   }
-};
+}
 </script>
 
 <style lang="scss">

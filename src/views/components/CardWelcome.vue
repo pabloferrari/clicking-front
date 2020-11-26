@@ -33,29 +33,29 @@
 
 <script>
 export default {
-  name: "CardWelcome",
+  name: 'CardWelcome',
   components: {},
   props: {
-    cardsWelcome: null,
+    cardsWelcome: null
   },
   methods: {
-    handlerRoute(path) {
+    handlerRoute (path) {
       if (this.$router.currentRoute.path !== path) {
-        this.$router.push(path);
+        this.$router.push(path)
       }
     },
 
-    routeActive(path) {
+    routeActive (path) {
       const activeRoute =
-        this.$router.currentRoute.path === path ? true : false;
+        this.$router.currentRoute.path === path
 
-      return activeRoute;
-    },
+      return activeRoute
+    }
   },
-  mounted() {
-    this.routeActive();
-  },
-};
+  mounted () {
+    this.routeActive()
+  }
+}
 </script>
 <style>
 .active-card-welcome {

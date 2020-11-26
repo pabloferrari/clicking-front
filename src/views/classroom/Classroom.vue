@@ -74,26 +74,26 @@
 </template>
 
 <script>
-import CardWelcome from "../components/CardWelcome";
-import CardList from "../components/CardList";
+import CardWelcome from '../components/CardWelcome'
+import CardList from '../components/CardList'
 
-import CourseLogo from "../components/icons/CourseLogo";
+import CourseLogo from '../components/icons/CourseLogo'
 // import PencilLogo from '../components/icons/PencilLogo'
 // import CheckLogo from '../components/icons/CheckLogo'
 // import DocumentLogo from '../components/icons/DocumentLogo'
-import SchoolIcon from "../components/icons/SchoolIcon";
-import AppleIcon from "../components/icons/AppleIcon";
+import SchoolIcon from '../components/icons/SchoolIcon'
+import AppleIcon from '../components/icons/AppleIcon'
 
 import Tabs from '../components/Tabs'
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
 import ClassroomForm from './ClassroomForm'
 
-import AvatarList from "../components/AvatarList";
-import vSelect from "vue-select";
-import { mapGetters } from "vuex";
+import AvatarList from '../components/AvatarList'
+import vSelect from 'vue-select'
+import { mapGetters } from 'vuex'
 
 export default {
-  name: "classroom",
+  name: 'classroom',
   components: {
     CardWelcome,
     CourseLogo,
@@ -103,11 +103,11 @@ export default {
     AppleIcon,
     ClassroomForm,
     AvatarList,
-    "v-select": vSelect,
+    'v-select': vSelect
   },
   props: {
     shiftsList: null,
-    institutionsList: null,
+    institutionsList: null
   },
   methods: {
 
@@ -121,115 +121,115 @@ export default {
     //   }, 3000);
     // },
 
-    getInstitutionCount() {
-      this.$store.dispatch("institution/getInstitutionCount", 2);
+    getInstitutionCount () {
+      this.$store.dispatch('institution/getInstitutionCount', 2)
     },
 
-    getClassrooms() {
-      this.$store.dispatch("classroom/getClassroomsData");
+    getClassrooms () {
+      this.$store.dispatch('classroom/getClassroomsData')
     },
 
-    cardsWelcome() {
+    cardsWelcome () {
       return [
         {
           icon: CourseLogo,
-          title: "Salones",
+          title: 'Salones',
           count: this.countInstitution.classrooms,
-          path: "/classrooms",
+          path: '/classrooms'
         },
         {
           icon: SchoolIcon,
-          title: "Alumnos",
+          title: 'Alumnos',
           count: this.countInstitution.students,
-          path: "/students",
+          path: '/students'
         },
         {
           icon: AppleIcon,
-          title: "Docentes",
+          title: 'Docentes',
           count: this.countInstitution.teachers,
-          path: "/teachers",
-        },
-      ];
+          path: '/teachers'
+        }
+      ]
     },
-    getShifts() {
-      this.$store.dispatch("shift/getShifts")
+    getShifts () {
+      this.$store.dispatch('shift/getShifts')
     },
-    getSubjects(){
-      this.$store.dispatch("subject/getSubjects")
+    getSubjects () {
+      this.$store.dispatch('subject/getSubjects')
     },
-    getCourseTypes() {
-      this.$store.dispatch("courseType/getCourseTypes")
+    getCourseTypes () {
+      this.$store.dispatch('courseType/getCourseTypes')
     },
-    getTeachers() {
-      this.$store.dispatch("teacher/getTeachers")
+    getTeachers () {
+      this.$store.dispatch('teacher/getTeachers')
     },
-    getStudents() {
-      this.$store.dispatch("student/getStudents")
+    getStudents () {
+      this.$store.dispatch('student/getStudents')
     }
   },
   watch: {
-    storeClassrooms(data) {
-      const classroomsData = [];
+    storeClassrooms (data) {
+      const classroomsData = []
       data.map((element) => {
-        const count = element.courses_count ? element.courses_count : 0;
+        const count = element.courses_count ? element.courses_count : 0
         classroomsData.push({
           title: element.name,
           subtitle: `${count} Cursos - ${element.shift.name}`,
-          buttonTitle: "Ir a salon",
-          path: `/classrooms/${element.name.split(" ").join("-")}/${
+          buttonTitle: 'Ir a salon',
+          path: `/classrooms/${element.name.split(' ').join('-')}/${
             element.id
           }`,
-          avatarData: element.classroom_students,
-        });
-      });
+          avatarData: element.classroom_students
+        })
+      })
 
-      this.classroom = classroomsData;
+      this.classroom = classroomsData
     },
-    storeShifts(data) {
+    storeShifts (data) {
       this.shifts = data
     },
-    storeSubjects(data) {
+    storeSubjects (data) {
       this.subjects = data
     },
-    storeCourseTypes(data) {
+    storeCourseTypes (data) {
       this.courseTypes = data
     },
-    storeTeachers(data) {
+    storeTeachers (data) {
       this.teachers = data
     },
-    storeStudents(data) {
+    storeStudents (data) {
       console.log(data)
     },
-    storeInstitutionCount(data) {
+    storeInstitutionCount (data) {
       this.countInstitution = {
         classrooms: data.classrooms,
         students: data.students,
-        teachers: data.teachers,
-      };
-    },
+        teachers: data.teachers
+      }
+    }
   },
   computed: {
     ...mapGetters({
-      classrooms: "classroom/getClassrooms",
+      classrooms: 'classroom/getClassrooms',
       storeShifts: 'shift/getShifts',
       storeSubjects: 'subject/getSubjects',
       storeCourseTypes: 'courseType/getCourseTypes',
       storeTeachers: 'teacher/getTeachers',
-      storeClassrooms: "classroom/getClassrooms",
-      storeInstitutionCount: "institution/getInstitution",
-      storeStudents: "student/getStudents",
-    }),
+      storeClassrooms: 'classroom/getClassrooms',
+      storeInstitutionCount: 'institution/getInstitution',
+      storeStudents: 'student/getStudents'
+    })
   },
-  mounted() {
+  mounted () {
     this.getClassrooms()
-    this.getInstitutionCount();
-     
+    this.getInstitutionCount()
+
     this.getShifts()
     this.getSubjects()
     this.getCourseTypes()
     this.getTeachers()
-    
-    this.getStudents();
+
+    this.getStudents()
   },
   data () {
     return {
@@ -243,66 +243,66 @@ export default {
       users: [
         {
           id: 1,
-          name: "Curso",
-          username: "Bret",
-          email: "Matemática",
-          website: "Laura Perez",
+          name: 'Curso',
+          username: 'Bret',
+          email: 'Matemática',
+          website: 'Laura Perez'
         },
         {
           id: 2,
-          name: "Examén",
-          username: "Antonette",
-          email: "Ingles",
-          website: "Claudia Colmenarez",
+          name: 'Examén',
+          username: 'Antonette',
+          email: 'Ingles',
+          website: 'Claudia Colmenarez'
         },
         {
           id: 3,
-          name: "Taller",
-          username: "Samantha",
-          email: "Ciencias",
-          website: "Berta Gomez",
-        },
+          name: 'Taller',
+          username: 'Samantha',
+          email: 'Ciencias',
+          website: 'Berta Gomez'
+        }
       ],
       selected: [],
-      options: ["Daniel", "Nestor", "Oscar", "Gregorio", "Pablo"],
+      options: ['Daniel', 'Nestor', 'Oscar', 'Gregorio', 'Pablo'],
       form: {
         id: null,
-        dataShifts: "",
-        dataInstitutions: "",
+        dataShifts: '',
+        dataInstitutions: ''
       },
       userPosts: [
         {
           likes: 100,
           usersLiked: [
             {
-              name: "Trina Lynes",
-              img: require("@/assets/images/portrait/small/avatar-s-1.jpg"),
+              name: 'Trina Lynes',
+              img: require('@/assets/images/portrait/small/avatar-s-1.jpg')
             },
             {
-              name: "Lilian Nenez",
-              img: require("@/assets/images/portrait/small/avatar-s-2.jpg"),
+              name: 'Lilian Nenez',
+              img: require('@/assets/images/portrait/small/avatar-s-2.jpg')
             },
             {
-              name: "Alberto Glotzbach",
-              img: require("@/assets/images/portrait/small/avatar-s-3.jpg"),
-            },
-          ],
-        },
+              name: 'Alberto Glotzbach',
+              img: require('@/assets/images/portrait/small/avatar-s-3.jpg')
+            }
+          ]
+        }
       ],
 
       classroom: [],
       course: [
         {
-          title: "4A-Comisión A",
-          subtitle: "2 Cursos - Turno Mañana",
-          buttonTitle: "Ir al salón",
-          path: "/classroom/4A-Comisión-A",
+          title: '4A-Comisión A',
+          subtitle: '2 Cursos - Turno Mañana',
+          buttonTitle: 'Ir al salón',
+          path: '/classroom/4A-Comisión-A'
         },
         {
-          title: "4B-Comisión B",
-          subtitle: "5 Cursos - Turno Tarde",
-          buttonTitle: "Ir al salón",
-          path: "/classroom/4B-Comisión-B",
+          title: '4B-Comisión B',
+          subtitle: '5 Cursos - Turno Tarde',
+          buttonTitle: 'Ir al salón',
+          path: '/classroom/4B-Comisión-B'
         },
         {
           title: '4C-Comisión C',
@@ -314,15 +314,15 @@ export default {
       workshop: [],
       tabs: [
         {
-          title: "Salones",
+          title: 'Salones'
         },
         {
-          title: "Talleres",
-        },
-      ],
-    };
-  },
-};
+          title: 'Talleres'
+        }
+      ]
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

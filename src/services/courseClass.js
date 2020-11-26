@@ -12,6 +12,7 @@ class CourseClassService {
   getCourseClassesCount(id) {
     return service.get(`/${this.entity}/assignments/${id}/dashboard`)
   }
+
   create(data) {
     return service.post(`/${this.entity}`, data)
   }

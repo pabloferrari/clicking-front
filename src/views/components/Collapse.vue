@@ -107,9 +107,9 @@ export default {
     showModalClass (object, event) {
       const classId = object.id
       const assignmentId = event.id
-      console.log(classId, assignmentId)
+      console.log(event, classId, assignmentId)
 
-      this.$emit("input", event.action);
+      this.$emit('input', {classId, action: event.action})
     },
 
     showContent (data) {

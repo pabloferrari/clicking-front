@@ -49,7 +49,7 @@ export default {
   name: 'ClassroomCourseCreate',
   props: {
     isCreate: Boolean,
-    teachersList: null,
+    teachersList: null
   },
 
   data () {
