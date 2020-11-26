@@ -80,10 +80,10 @@ export default {
     }
   },
   watch: {
-    storeCourses ({curso}) {
-      if (curso) {
+    storeCourses ({Course}) {
+      if (Course) {
         const courseData = []
-        curso.map((element) => {
+        Course.map((element) => {
           courseData.push({
             title: element.subject.name,
             subtitle: `${element.classroom.name} - ${element.classroom.shift.name}`,

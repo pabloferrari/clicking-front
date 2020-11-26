@@ -185,7 +185,7 @@ export default {
   mounted () {
     this.getCourseClass()
     this.getCourseClassesCount()
-  
+
   },
 
   computed: {
@@ -195,12 +195,12 @@ export default {
   watch: {
 
     storeCourseAssignments(data){
-    
+
       if(data) {
-        
+
         this.cardCount = data
       }
-        
+
     },
 
     storeCoursesClass (data) {
@@ -215,20 +215,25 @@ export default {
           })
         })
       }
-   
+
       this.classesList = courseClassData
-     
+
     },
     ActiveModal: function() {
-      if( this.ActiveModal == 'itemOne' ) {
-        this.itemOne = !this.itemOne
-      }else if(this.ActiveModal == 'itemTwo'){
-        this.itemTwo = !this.itemTwo
-      }else if(this.ActiveModal == 'itemThree'){
-        this.itemThree = !this.itemThree
+
+      switch (this.ActiveModal.action) {
+        case 'itemOne':
+          this.itemOne = true
+          break;
+        case 'itemTwo':
+          this.itemTwo = true
+          break;
+        case 'itemThree':
+          this.itemThree = true
+          break;
       }
 
-      console.log('Actualizado.... ', this.ActiveModal)
+      //console.log('Actualizado.... ', this.ActiveModal)
     }
     // storeCoursesClassCount(data){
     //   this.cardCount = data;

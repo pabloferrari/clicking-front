@@ -11,7 +11,7 @@
             <vs-input
               type="text"
               label-placeholder="Titulo Tarea"
-              v-model="form.name"
+              v-model="form.title"
               class="w-full sm:w-auto"
             />
           </div>
@@ -19,7 +19,7 @@
 
         <div class="vx-row">
           <div class="vx-col w-full mb-2">
-             <vs-textarea label="Instrucciones" class="w-full sm:w-auto"/>
+             <vs-textarea label="Instrucciones" class="w-full sm:w-auto" v-model="form.description"/>
           </div>
         </div>
 
@@ -49,7 +49,7 @@
           <div class="vx-row">
             <div class="vx-col w-full mb-2">
               <vs-select
-                  v-model="form.subject_id"
+                  v-model="form.course_id"
                   label="Curso"
                   class="mt-5 w-full"
                   name="item-shift"
@@ -60,7 +60,7 @@
                   :key="item.id"
                   :value="item.id"
                   :text="item.name"
-                  v-for="item in this.subjectsList"
+                  v-for="item in this.coursesList"
                 />
               </vs-select>
             </div>
@@ -129,6 +129,7 @@ export default {
     courseTypesList: null,
     studentsList: null,
     teachersList: null,
+    coursesList: null,
     isCreate: Boolean,
     descriptionAvatar: String,
     dataAvatar: Array
@@ -147,14 +148,9 @@ export default {
       }
     },
     removeCourse (indextr) {
-      //console.log(indextr);
       this.form.courses.splice(indextr, 1)
-      //console.log(this.courses);
     },
     addCourse () {
-      //.log('Agregando Curso');
-      //console.log(this.courses);
-
       let subject_txt = ''
       this.subjectsList.map((element) => {
         if (element.id === this.form.subject_id) {
@@ -186,24 +182,14 @@ export default {
           teacher_id: this.form.teacher_id
         }
       )
-      //console.log(this.courses);
-      //console.log(this.form.student_id)
     },
     create () {
-      //console.log("Creando...");
       const userAuth = localStorage.userAuth
       const parseJson = JSON.parse(userAuth)
       this.form.institution_id = parseJson.institution_id
       const payload = this.form
-      //console.log(payload);
-      // this.$validator.validateAll().then((result) => {
-      //   if (result) {
-      //     const payload = this.form
       this.$store.dispatch('classroom/createClassroom', payload)
-      //   }
-      // })
     },
-
     update () {
       const payload = this.form
       this.$store.dispatch('plan/updatePlan', payload)
@@ -221,7 +207,9 @@ export default {
       },
       form: {
         id: null,
-        name: '',
+        title: '',
+        description: '',
+        course_id: '',
         shift_id: '',
         institution_id: '',
         subject_id: '',
@@ -231,36 +219,6 @@ export default {
         student_id: [],
         courses: []
       },
-      // courses: [
-      //   // {
-      //   //   id: 1,
-      //   //   subject_txt: 'Matemáticas',
-      //   //   course_type_txt: 'Course',
-      //   //   teacher_txt: 'Pedro',
-      //   //   subject_id: 1,
-      //   //   course_type_id: 1,
-      //   //   teacher_id: 1
-      //   // }
-      // ],
-      userPosts: [
-        {
-          likes: 100,
-          usersLiked: [
-            {
-              name: 'Trina Lynes',
-              img: require('@/assets/images/portrait/small/avatar-s-1.jpg')
-            },
-            {
-              name: 'Lilian Nenez',
-              img: require('@/assets/images/portrait/small/avatar-s-2.jpg')
-            },
-            {
-              name: 'Alberto Glotzbach',
-              img: require('@/assets/images/portrait/small/avatar-s-3.jpg')
-            }
-          ]
-        }
-      ]
     }
   }
 }
