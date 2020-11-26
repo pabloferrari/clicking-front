@@ -54,15 +54,24 @@
 
         <!-- START MODAL -->
         <vs-popup title="" :active.sync="itemOne" class="rounded-lg">
-          <TaskForm title="Crear Tarea" :studentsList="studentsList"></TaskForm>
+            <TaskForm
+                title="Crear Tarea"
+                :studentsList="studentsList"
+            ></TaskForm>
         </vs-popup>
 
         <vs-popup title="" :active.sync="itemTwo">
-          <ExamForm title="Crear Exámen" :studentsList="studentsList"></ExamForm>
+            <ExamForm
+                title="Crear Exámen"
+                :studentsList="studentsList"
+            ></ExamForm>
         </vs-popup>
 
         <vs-popup title="" :active.sync="itemThree">
-          <PracticalWorkForm title="Crear Trabajo Práctica" :studentsList="studentsList"></PracticalWorkForm>
+            <PracticalWorkForm
+                title="Crear Trabajo Práctica"
+                :studentsList="studentsList"
+            ></PracticalWorkForm>
         </vs-popup>
 
         <!-- END MODAL -->
@@ -125,7 +134,7 @@ export default {
   },
   props: {
     subject: String,
-    subjectId: String
+    subjectId: String,
   },
   methods: {
     clickTag (e) {
@@ -137,56 +146,67 @@ export default {
         this.subjectId
       )
     },
-    getCourseClassesCount () {
-      this.$store.dispatch('courseClass/getCourseClassesCount', this.subjectId)
+    getCourseClassesCount() {
+      this.$store.dispatch('courseClass/getCourseClassesCountData', this.subjectId)
     },
 
-    cardCountCourseClass () {
-      const {assistance, tasks, exams} = this.cardCount
+    cardCountCourseClass() {
+      // const {assistance,tasks,evaluations} = this.cardCount
+      // console.log(this.cardCount)
       return [
 
         {
-          count:  0,
+          count:  this.cardCount.assistance,
           title: 'Asistencia'
         },
         {
-          count: 0,
+          count: this.cardCount.tasks,
           title: 'Tareas'
         },
         {
-          count: 0,
+          count: this.cardCount.evaluations,
           title: 'Evaluaciones'
         }
 
       ]
     },
 
-    accept () {
-      this.activePrompt = true
+    accept() {
+      this.activePrompt = true;
     },
     create () {
-      console.log('Creando... test')
+      console.log('Creando... test');
       const payload = this.form
-      console.log(payload)
+      console.log(payload);
       this.$store.dispatch('courseClass/createCourseClass', payload)
-    }
+    },
   },
 
   mounted () {
     this.getCourseClass()
-    // this.getCourseClassesCount()
+    this.getCourseClassesCount()
+  
   },
 
   computed: {
-    ...mapGetters({ storeCoursesClass: 'courseClass/getCourseClasses' })
+    ...mapGetters({ storeCoursesClass: 'courseClass/getCourseClasses',storeCourseAssignments:'courseClass/getCourseClassesCount' })
   },
 
   watch: {
 
+    storeCourseAssignments(data){
+    
+      if(data) {
+        
+        this.cardCount = data
+      }
+        
+    },
+
     storeCoursesClass (data) {
       const courseClassData = []
-      if (data) {
-        data.map((element) => {
+      if(data.length > 0) {
+           data.map((element) => {
           courseClassData.push({
             id: element.id,
             title: element.title,
@@ -194,18 +214,17 @@ export default {
             assignments: element.assignments
           })
         })
-
       }
-      console.log(data)
+   
       this.classesList = courseClassData
-      // console.log(courseClassData);
+     
     },
-    ActiveModal () {
-      if (this.ActiveModal == 'itemOne') {
+    ActiveModal: function() {
+      if( this.ActiveModal == 'itemOne' ) {
         this.itemOne = !this.itemOne
-      } else if (this.ActiveModal == 'itemTwo') {
+      }else if(this.ActiveModal == 'itemTwo'){
         this.itemTwo = !this.itemTwo
-      } else if (this.ActiveModal == 'itemThree') {
+      }else if(this.ActiveModal == 'itemThree'){
         this.itemThree = !this.itemThree
       }
 
@@ -225,20 +244,18 @@ export default {
       itemOne: false,
       itemTwo: false,
       itemThree: false,
-      studentsList: [
-        {
-          id:1,
-          name:'Nestor Infante'
-        },
-        {
-          id:2,
-          name:'Gregorio Lucena'
-        },
-        {
-          id:3,
-          name:'Roberto'
-        }
-      ],
+      studentsList: [{
+        id:1,
+        name:'Nestor Infante'
+      },
+      {
+        id:2,
+        name:'Gregorio Lucena',
+      },
+      {
+        id:3,
+        name:'Roberto'
+      }],
       form: {
         title: '',
         description: '',
@@ -249,17 +266,17 @@ export default {
         {
           id: 1,
           title: 'Crear Tarea',
-          action: 'itemOne'
+          action: "itemOne",
         },
         {
           id: 2,
           title: 'Crear Examen',
-          action: 'itemTwo'
+          action: "itemTwo",
         },
         {
           id: 3,
           title: 'Crear Trabajo Practico',
-          action: 'itemThree'
+          action: "itemThree",
         }
       ],
 
@@ -318,7 +335,6 @@ export default {
     align-items: center;
     color: #567df4;
 }
-
 </style>
 
 <style lang="css">
@@ -326,8 +342,8 @@ export default {
     width: 800px !important;
 }
 .btn-right {
-  position: absolute;
-  right: 1rem;
-  z-index: 999;
+    position: absolute;
+    right: 1rem;
+    z-index: 999;
 }
 </style>
