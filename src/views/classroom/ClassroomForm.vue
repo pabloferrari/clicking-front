@@ -1,9 +1,9 @@
 <template>
    <div class="vx-row">
       <!-- LEFT DATA FORM -->
-      <div class="vx-col lg:block lg:w-1/2 mx-auto self-center">
+      <div class="vx-col lg:block lg:w-1/2 mb-auto mx-auto self-center mt-8">
         <div class="vx-card__title mb-8">
-          <h4 class="mb-4">{{title}}</h4>
+          <h4 class="mb-4 font-semibold text-title">{{title}}</h4>
         </div>
 
         <div class="vx-row">
@@ -99,10 +99,60 @@
             <vs-button @click="addCourse" color="primary" type="flat">+ Añadir Curso</vs-button>
           </div>
         </div>
+
+        <div class="vx-row">
+          <div class="vx-col sm:w-4/4 w-full mb-2">
+            <vs-table stripe :data="form.courses">
+              <template slot="thead">
+                <vs-th></vs-th>
+                <vs-th>Curso</vs-th>
+                <vs-th>Tipo Curso</vs-th>
+                <vs-th>Docente</vs-th>
+              </template>
+
+              <template slot-scope="{ data }">
+                <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+                  <vs-td :data="data[indextr].id">
+                    <vs-button
+                      type="border"
+                      size="small"
+                      icon-pack="feather"
+                      icon="icon-trash"
+                      color="danger"
+                      @click="removeCourse(indextr)"
+                    ></vs-button>
+                  </vs-td>
+                  <vs-td :data="data[indextr].subject_id">
+                    {{ data[indextr].subject_txt }}
+                  </vs-td>
+                  <vs-td :data="data[indextr].course_type_id">
+                    {{ data[indextr].course_type_txt }}
+                  </vs-td>
+                  <vs-td :data="data[indextr].teacher_id">
+                    {{ data[indextr].teacher_txt }}
+                  </vs-td>
+                </vs-tr>
+              </template>
+            </vs-table>
+          </div>
+        </div>
+
+        <div class="vx-row relative h-32 ">
+          <div class="vx-col w-full mb-2 flex flex-wrap justify-end sm:flex-row absolute bottom-0 right-0 left-15">
+            <vs-button
+              color="primary"
+              type="flat"
+              class="w-full sm:w-auto mb-8 sm:mb-auto mt-3 sm:mt-auto cancel-btn"
+              >Cancelar</vs-button
+            >
+            <vs-button @click="create" class="w-full sm:w-auto">Crear</vs-button>
+          </div>
+        </div>
+
       </div>
 
       <!-- RIGHT DATA FORM ALUMNO -->
-      <div class="vx-col sm:w-full md:w-full lg:w-1/3 mx-auto d-theme-dark-bg">
+      <div class="vx-col sm:w-full md:w-full lg:w-1/3 mb-auto mx-auto right-data-form mr-3">
         <vx-card
           class="mt-base"
           v-for="(post, index) in userPosts"
@@ -134,7 +184,7 @@
       </div>
 
       <!-- TABLE DETAIL COURSE -->
-      <div
+      <!-- <div
           class="vx-col sm:w-full md:w-full lg:w-4/4 mx-auto d-theme-dark-bg"
         >
           <vs-table stripe :data="form.courses">
@@ -169,10 +219,10 @@
               </vs-tr>
             </template>
           </vs-table>
-      </div>
+      </div> -->
 
       <!-- Botones -->
-      <div class="vx-col sm:w-full md:w-full lg:w-4/4">
+      <!-- <div class="vx-col sm:w-full md:w-full lg:w-4/4">
         <br />
         <div class="flex flex-wrap justify-end flex-col-reverse sm:flex-row">
           <vs-button
@@ -183,7 +233,7 @@
           >
           <vs-button @click="create" class="w-full sm:w-auto">Crear</vs-button>
         </div>
-      </div>
+      </div> -->
 </div>
 </template>
 
@@ -349,3 +399,28 @@ export default {
   }
 }
 </script>
+
+<style lang="css">
+.right-data-form{
+  background: #EEF7FE;
+}
+
+[dir] .mb-auto {
+  margin-bottom: 0 !important;
+}
+
+div .vs-popup--content {
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow-x: hidden !important;
+}
+
+.vs-popup--content{
+  width: 100% !important;
+  border-radius: 5px !important;
+}
+
+.text-title {
+  color: #22215b;
+}
+</style>

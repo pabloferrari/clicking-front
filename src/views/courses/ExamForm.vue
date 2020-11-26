@@ -10,7 +10,7 @@
           <div class="vx-col w-full mb-2">
             <vs-input
               type="text"
-              label-placeholder="Titulo Tarea"
+              label-placeholder="Titulo Evaluación"
               v-model="form.name"
               class="w-full sm:w-auto"
             />
@@ -87,12 +87,31 @@
           </div>
 
           <div class="vx-row">
-            <div class="vx-col w-full mb-2"></br>
-              <label for="" class="vs-select--label">Fecha limite de entrega</label>
+            <div class="vx-col w-full mb-2"> <br/>
+              <label for="" class="vs-select--label">Fecha de evaluación</label>
               <div>
-                <flat-pickr class ="w-full " :config="configdateTimePicker" v-model="datetime" placeholder="Fecha limite de entrega" />
+                <flat-pickr class ="w-full " :config="configdateTimePicker" v-model="datetime" placeholder="Fecha de evaluación" />
               </div>
 
+            </div>
+          </div>
+
+          <div class="vx-row">
+            <div class="vx-col w-full mb-2">
+              <vs-select
+                  v-model="form.subject_id"
+                  label="Puntos"
+                  class="mt-5 w-full"
+                  name="item-shift"
+                  v-validate="'required'"
+                >
+                <vs-select-item
+                  :key="item.id"
+                  :value="item.id"
+                  :text="item.name"
+                  v-for="item in this.subjectsList"
+                />
+              </vs-select>
             </div>
           </div>
 

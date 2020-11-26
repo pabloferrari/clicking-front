@@ -10,7 +10,7 @@
           <div class="vx-col w-full mb-2">
             <vs-input
               type="text"
-              label-placeholder="Titulo Tarea"
+              label-placeholder="Título Trabajo Práctico"
               v-model="form.name"
               class="w-full sm:w-auto"
             />
@@ -29,7 +29,7 @@
           </div>
         </div>
 
-        <br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br /><br />
         <div class="vx-row relative h-32 " >
           <div class="vx-col w-full mb-2 flex flex-wrap justify-end sm:flex-row absolute bottom-0 right-0 left-15">
             <vs-button
@@ -87,12 +87,31 @@
           </div>
 
           <div class="vx-row">
-            <div class="vx-col w-full mb-2"></br>
-              <label for="" class="vs-select--label">Fecha limite de entrega</label>
+            <div class="vx-col w-full mb-2"> <br/>
+              <label for="" class="vs-select--label">Fecha de evaluación</label>
               <div>
-                <flat-pickr class ="w-full " :config="configdateTimePicker" v-model="datetime" placeholder="Fecha limite de entrega" />
+                <flat-pickr class ="w-full " :config="configdateTimePicker" v-model="datetime" placeholder="Fecha de evaluación" />
               </div>
 
+            </div>
+          </div>
+
+          <div class="vx-row">
+            <div class="vx-col w-full mb-2">
+              <vs-select
+                  v-model="form.subject_id"
+                  label="Puntos"
+                  class="mt-5 w-full"
+                  name="item-shift"
+                  v-validate="'required'"
+                >
+                <vs-select-item
+                  :key="item.id"
+                  :value="item.id"
+                  :text="item.name"
+                  v-for="item in this.subjectsList"
+                />
+              </vs-select>
             </div>
           </div>
 
@@ -101,6 +120,25 @@
                 <vs-select-item key="" value="" selected text="seleccione alumnos" />
                 <vs-select-item :key="index" :value="item.id" :text="item.name" v-for="(item,index) in studentsList" />
             </vs-select>
+          </div>
+
+          <div class="vx-row">
+            <div class="vx-col w-full mb-2">
+              <vs-select
+                  v-model="form.subject_id"
+                  label="Cantidad de Grupos"
+                  class="mt-5 w-full"
+                  name="item-shift"
+                  v-validate="'required'"
+                >
+                <vs-select-item
+                  :key="item.id"
+                  :value="item.id"
+                  :text="item.name"
+                  v-for="item in this.subjectsList"
+                />
+              </vs-select>
+            </div>
           </div>
       </div>
 

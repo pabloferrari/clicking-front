@@ -75,27 +75,30 @@ export default {
   methods: {
     getCourses() {
       this.$store.dispatch("course/getMyCoursesData");
-      console.log('THIS GET COURSES');
-      this.$store.dispatch("course/getCoursesClassroomData", this.id);
+      //console.log('THIS GET COURSES');
+      //this.$store.dispatch("course/getCoursesClassroomData", this.id);
     },
   },
   watch: {
     storeCourses({Curso}) {
 
       const courseData = [];
-      Curso.map((element) => {
-        courseData.push({
-          title: element.subject.name,
-          subtitle: `${element.classroom.name} - ${element.classroom.shift.name}`,
-          buttonTitle: "Ir a curso",
-          path: `/courses/${element.subject.name.split(" ").join("-")}/${
-            element.id
-          }`,
-          avatarData: element.classroom.classroom_students,
+      if(Curso){
+        Curso.map((element) => {
+          courseData.push({
+            title: element.subject.name,
+            subtitle: `${element.classroom.name} - ${element.classroom.shift.name}`,
+            buttonTitle: "Ir a curso",
+            path: `/courses/${element.subject.name.split(" ").join("-")}/${
+              element.id
+            }`,
+            avatarData: element.classroom.classroom_students,
+          });
         });
-      });
 
-      this.courses = courseData;
+        this.courses = courseData;
+      }
+
     },
   },
   data() {
@@ -126,7 +129,7 @@ export default {
         },
       ],
       courses: [],
-      titleHeader: this.title ? title.split("-").join(" ") : "Mis Cursos",
+      titleHeader: this.title ? this.title.split("-").join(" ") : "Mis Cursos",
       // course: [
       //   {
       //     title: "Matematica",
