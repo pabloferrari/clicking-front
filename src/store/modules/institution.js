@@ -4,7 +4,7 @@ import InstitutionService from '../../services/institutions'
 const state = {
   institution: {},
   institutions: [],
-  
+
   activePrompt: false
 }
 
@@ -14,7 +14,7 @@ const getters = {
   getInstitutions: state => { return state.institutions },
   getInstitutionId: state => id => {
     return state.institutions.find(
-      intitutions => intitutions.id === id 
+      intitutions => intitutions.id === id
     )
   }
 }
@@ -107,7 +107,7 @@ const actions = {
       console.log(error)
     }
   },
-  async getInstitutionCount ({commit},id) {
+  async getInstitutionCount ({commit}, id) {
     try {
       const intitutionsData = await InstitutionService.getInstitutionCount(id)
       commit('setInstitution', intitutionsData.data)
@@ -118,7 +118,7 @@ const actions = {
 }
 
 
-export default { 
+export default {
   namespaced: true,
   state,
   getters,
