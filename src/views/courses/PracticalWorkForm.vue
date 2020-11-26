@@ -87,13 +87,8 @@
           </div>
 
           <div class="vx-row">
-<<<<<<< HEAD
             <div class="vx-col w-full mb-2"> <br/>
               <label for="" class="vs-select--label">Fecha de evaluación</label>
-=======
-            <div class="vx-col w-full mb-2"><br />
-              <label for="" class="vs-select--label">Fecha limite de entrega</label>
->>>>>>> bdc31d760e1a68710cecc9355d94e5eb61730c74
               <div>
                 <flat-pickr class ="w-full " :config="configdateTimePicker" v-model="datetime" placeholder="Fecha de evaluación" />
               </div>
