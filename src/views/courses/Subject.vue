@@ -62,7 +62,7 @@
         </vs-popup>
 
         <vs-popup title="" :active.sync="itemThree">
-          <PracticalWorkForm title="Crear Trabajo Práctica" :studentsList="studentsList"></PracticalWorkForm>
+          <PracticalWorkForm title="Crear Trabajo Práctico" :studentsList="studentsList"></PracticalWorkForm>
         </vs-popup>
 
         <!-- END MODAL -->
@@ -201,15 +201,26 @@ export default {
       // console.log(courseClassData);
     },
     ActiveModal () {
-      if (this.ActiveModal == 'itemOne') {
+      switch (this.ActiveModal.action) {
+      case 'itemOne':
         this.itemOne = !this.itemOne
-      } else if (this.ActiveModal == 'itemTwo') {
+        break
+      case 'itemTwo':
         this.itemTwo = !this.itemTwo
-      } else if (this.ActiveModal == 'itemThree') {
+        break
+      case 'itemThree':
         this.itemThree = !this.itemThree
+        break
       }
+      // if (this.ActiveModal.action === 'itemOne') {
+      //   this.itemOne = !this.itemOne
+      // } else if (this.ActiveModal === 'itemTwo') {
+      //   this.itemTwo = !this.itemTwo
+      // } else if (this.ActiveModal === 'itemThree') {
+      //   this.itemThree = !this.itemThree
+      // }
 
-      console.log('Actualizado.... ', this.ActiveModal)
+      // console.log('Actualizado.... ', this.ActiveModal)
     }
     // storeCoursesClassCount(data){
     //   this.cardCount = data;
