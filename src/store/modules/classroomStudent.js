@@ -12,7 +12,7 @@ const getters = {
   getClassroomStudents: state => { return state.classroomstudents },
   getClassroomStudenId: state => id => {
     return state.classroomstudents.find(
-        classroomstudents => classroomstudents.id === id
+      classroomstudents => classroomstudents.id === id
     )
   }
 }

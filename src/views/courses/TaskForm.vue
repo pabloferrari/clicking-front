@@ -218,7 +218,7 @@ export default {
         course_type_id: '',
         student_id: [],
         courses: []
-      },
+      }
     }
   }
 }

@@ -31,6 +31,6 @@
 <script>
 
 export default {
-    name:'CheckAssignmentIcon'
+  name:'CheckAssignmentIcon'
 }
 </script>

@@ -119,7 +119,7 @@ const actions = {
       console.log(error)
     }
   },
-  async getClassroomCount ({commit},id) {
+  async getClassroomCount ({commit}, id) {
     try {
       const classroomData = await ClassroomService.getClassroomCount(id)
       commit('setClassroom', classroomData.data)

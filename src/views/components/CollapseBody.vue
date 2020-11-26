@@ -77,22 +77,22 @@ export default {
   
   methods:{
 
-    messageStatus(status) {
+    messageStatus (status) {
       return '10/40'
     },
-    renderIcons(status) {
+    renderIcons (status) {
       switch (status) {
-        case 1:
-          return 'ClockIcon';
+      case 1:
+        return 'ClockIcon'
           
-          break;
+        break
       
-        default:
-          break;
+      default:
+        break
       }
     },
-    formatDateTime(datetime) {
-      if(!datetime) {
+    formatDateTime (datetime) {
+      if (!datetime) {
         return null  
       }
       return datetime

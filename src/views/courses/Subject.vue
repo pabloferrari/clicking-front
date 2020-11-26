@@ -134,7 +134,7 @@ export default {
   },
   props: {
     subject: String,
-    subjectId: String,
+    subjectId: String
   },
   methods: {
     clickTag (e) {
@@ -146,11 +146,11 @@ export default {
         this.subjectId
       )
     },
-    getCourseClassesCount() {
+    getCourseClassesCount () {
       this.$store.dispatch('courseClass/getCourseClassesCountData', this.subjectId)
     },
 
-    cardCountCourseClass() {
+    cardCountCourseClass () {
       // const {assistance,tasks,evaluations} = this.cardCount
       // console.log(this.cardCount)
       return [
@@ -171,15 +171,15 @@ export default {
       ]
     },
 
-    accept() {
-      this.activePrompt = true;
+    accept () {
+      this.activePrompt = true
     },
     create () {
-      console.log('Creando... test');
+      console.log('Creando... test')
       const payload = this.form
-      console.log(payload);
+      console.log(payload)
       this.$store.dispatch('courseClass/createCourseClass', payload)
-    },
+    }
   },
 
   mounted () {
@@ -189,14 +189,14 @@ export default {
   },
 
   computed: {
-    ...mapGetters({ storeCoursesClass: 'courseClass/getCourseClasses',storeCourseAssignments:'courseClass/getCourseClassesCount' })
+    ...mapGetters({ storeCoursesClass: 'courseClass/getCourseClasses', storeCourseAssignments:'courseClass/getCourseClassesCount' })
   },
 
   watch: {
 
-    storeCourseAssignments(data){
+    storeCourseAssignments (data) {
 
-      if(data) {
+      if (data) {
 
         this.cardCount = data
       }
@@ -205,8 +205,8 @@ export default {
 
     storeCoursesClass (data) {
       const courseClassData = []
-      if(data.length > 0) {
-           data.map((element) => {
+      if (data.length > 0) {
+        data.map((element) => {
           courseClassData.push({
             id: element.id,
             title: element.title,
@@ -219,18 +219,18 @@ export default {
       this.classesList = courseClassData
 
     },
-    ActiveModal: function() {
+    ActiveModal () {
 
       switch (this.ActiveModal.action) {
-        case 'itemOne':
-          this.itemOne = true
-          break;
-        case 'itemTwo':
-          this.itemTwo = true
-          break;
-        case 'itemThree':
-          this.itemThree = true
-          break;
+      case 'itemOne':
+        this.itemOne = true
+        break
+      case 'itemTwo':
+        this.itemTwo = true
+        break
+      case 'itemThree':
+        this.itemThree = true
+        break
       }
 
       //console.log('Actualizado.... ', this.ActiveModal)
@@ -249,18 +249,20 @@ export default {
       itemOne: false,
       itemTwo: false,
       itemThree: false,
-      studentsList: [{
-        id:1,
-        name:'Nestor Infante'
-      },
-      {
-        id:2,
-        name:'Gregorio Lucena',
-      },
-      {
-        id:3,
-        name:'Roberto'
-      }],
+      studentsList: [
+        {
+          id:1,
+          name:'Nestor Infante'
+        },
+        {
+          id:2,
+          name:'Gregorio Lucena'
+        },
+        {
+          id:3,
+          name:'Roberto'
+        }
+      ],
       form: {
         title: '',
         description: '',
@@ -271,17 +273,17 @@ export default {
         {
           id: 1,
           title: 'Crear Tarea',
-          action: "itemOne",
+          action: 'itemOne'
         },
         {
           id: 2,
           title: 'Crear Examen',
-          action: "itemTwo",
+          action: 'itemTwo'
         },
         {
           id: 3,
           title: 'Crear Trabajo Practico',
-          action: "itemThree",
+          action: 'itemThree'
         }
       ],
 
