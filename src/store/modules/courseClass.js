@@ -11,6 +11,7 @@ const state = {
 const getters = {
   getCourseClass: state => { return state.courseClass },
   getCourseClasses: state => { return state.courseClasses },
+  getCourseClassesCount: state => { return state.courseClassesCount },
   getCourseClassId: state => id => {
     return state.courseClasses.find(
       courseClasses => courseClasses.id === id
@@ -29,7 +30,7 @@ const mutations = {
   },
 
   setCourseClassesCount(state, courseClassesCount) {
-    state.courseClasses = courseClassesCount
+    state.courseClassesCount = courseClassesCount
   },
 
   setCourseClass(state, courseClass) {
@@ -109,10 +110,11 @@ const actions = {
     }
   },
 
-  async getCourseClassesCount({ commit }, id) {
+  async getCourseClassesCountData({ commit }, id) {
     try {
       const courseClassCountData = await CourseClassService.getCourseClassesCount(id)
       commit('setCourseClassesCount', courseClassCountData.data)
+
     } catch (error) {
       console.log(error)
     }

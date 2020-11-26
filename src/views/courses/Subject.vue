@@ -54,15 +54,24 @@
 
         <!-- START MODAL -->
         <vs-popup title="" :active.sync="itemOne" class="rounded-lg">
-          <TaskForm title="Crear Tarea" :studentsList="studentsList"></TaskForm>
+            <TaskForm
+                title="Crear Tarea"
+                :studentsList="studentsList"
+            ></TaskForm>
         </vs-popup>
 
         <vs-popup title="" :active.sync="itemTwo">
-          <ExamForm title="Crear Exámen" :studentsList="studentsList"></ExamForm>
+            <ExamForm
+                title="Crear Exámen"
+                :studentsList="studentsList"
+            ></ExamForm>
         </vs-popup>
 
         <vs-popup title="" :active.sync="itemThree">
-          <PracticalWorkForm title="Crear Trabajo Práctica" :studentsList="studentsList"></PracticalWorkForm>
+            <PracticalWorkForm
+                title="Crear Trabajo Práctica"
+                :studentsList="studentsList"
+            ></PracticalWorkForm>
         </vs-popup>
 
         <!-- END MODAL -->
@@ -138,23 +147,24 @@ export default {
       )
     },
     getCourseClassesCount() {
-      this.$store.dispatch('courseClass/getCourseClassesCount', this.subjectId)
+      this.$store.dispatch('courseClass/getCourseClassesCountData', this.subjectId)
     },
 
     cardCountCourseClass() {
-      const {assistance,tasks,exams} = this.cardCount
+      // const {assistance,tasks,evaluations} = this.cardCount
+      // console.log(this.cardCount)
       return [
 
         {
-          count:  0,
+          count:  this.cardCount.assistance,
           title: 'Asistencia'
         },
         {
-          count: 0,
+          count: this.cardCount.tasks,
           title: 'Tareas'
         },
         {
-          count: 0,
+          count: this.cardCount.evaluations,
           title: 'Evaluaciones'
         }
 
@@ -174,19 +184,27 @@ export default {
 
   mounted () {
     this.getCourseClass()
-    // this.getCourseClassesCount()
+    this.getCourseClassesCount()
+  
   },
 
   computed: {
-    ...mapGetters({ storeCoursesClass: 'courseClass/getCourseClasses' })
+    ...mapGetters({ storeCoursesClass: 'courseClass/getCourseClasses',storeCourseAssignments:'courseClass/getCourseClassesCount' })
   },
 
   watch: {
 
+    storeCourseAssignments(data){
+      if(data) {
+        this.cardCount = data
+
+      }
+    },
+
     storeCoursesClass (data) {
       const courseClassData = []
-      if(data){
-        data.map((element) => {
+      if(data.length > 0) {
+           data.map((element) => {
           courseClassData.push({
             id: element.id,
             title: element.title,
@@ -194,11 +212,10 @@ export default {
             assignments: element.assignments
           })
         })
-
       }
-      console.log( data)
+   
       this.classesList = courseClassData
-      // console.log(courseClassData);
+     
     },
     ActiveModal: function() {
       if( this.ActiveModal == 'itemOne' ) {
@@ -316,7 +333,6 @@ export default {
     align-items: center;
     color: #567df4;
 }
-
 </style>
 
 <style lang="css">
@@ -324,8 +340,8 @@ export default {
     width: 800px !important;
 }
 .btn-right {
-  position: absolute;
-  right: 1rem;
-  z-index: 999;
+    position: absolute;
+    right: 1rem;
+    z-index: 999;
 }
 </style>

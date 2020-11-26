@@ -10,7 +10,7 @@ class CourseClassService {
     return service.get(`/${this.entity}/${id}`)
   }
   getCourseClassesCount(id) {
-    return service.get(`/courses/${this.entity}/${id}/dashboard`)
+    return service.get(`/${this.entity}/assignments/${id}/dashboard`)
   }
   create(data) {
     return service.post(`/${this.entity}`, data)
