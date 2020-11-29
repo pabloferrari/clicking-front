@@ -54,7 +54,7 @@ const actions = {
       const courses = Object.assign([], state.courses)
 
       try {
-        const courseData = await CourseService.getAll()
+        const courseData = await CourseService.getByCourseClassroom(newCourse.classroom_id)
         commit('setCourses', courseData.data)
       } catch (error) {
         console.log(error)
