@@ -9,7 +9,7 @@
 
         <div
             class="flex flex-wrap justify-end mt-1"
-            @click="activePrompt = true"
+            @click="activePromptClasses = true"
         >
             <ButtonRight
                 class="btn-right"
@@ -20,57 +20,35 @@
 
         <!-- Popup Course -->
         <vs-prompt
-            @accept="create"
+            @accept="saveclass"
             title="Crear Clase"
             accept-text="Guardar"
             cancel-text="Cancelar"
-            :active.sync="activePrompt"
+            :active.sync="activePromptClasses"
         >
-            <div class="con-exemple-prompt">
-                <div class="w-full p-2">
-                    <vs-input
-                        class="w-full"
-                        label-placeholder="Nombre Clase"
-                        v-model="form.title"
-                        name="title"
-                        v-validate="'required'"
-                        :danger="errors.has('title')"
-                    />
-                </div>
-                <div class="w-full p-2">
-                    <div class="">
-                        <vs-input
-                            class="w-full"
-                            label-placeholder="Descripción"
-                            v-model="form.description"
-                            name="description"
-                            v-validate="'required'"
-                            :danger="errors.has('description')"
-                        />
-                    </div>
-                </div>
-            </div>
+            <Classes
+                @close-modal-class="closeModalClass(false)"
+                :courseId="this.subjectId"
+                ref="Classes"
+            ></Classes>
         </vs-prompt>
 
         <!-- START MODAL -->
         <vs-popup title="" :active.sync="itemOne" class="rounded-lg">
             <TaskForm
+                @close-modal="closeModal(false)"
+                ref="TaskForm"
                 title="Crear Tarea"
-                :studentsList="studentsList"
             ></TaskForm>
         </vs-popup>
 
         <vs-popup title="" :active.sync="itemTwo">
-            <ExamForm
-                title="Crear Exámen"
-                :studentsList="studentsList"
-            ></ExamForm>
+            <ExamForm title="Crear Exámen"></ExamForm>
         </vs-popup>
 
         <vs-popup title="" :active.sync="itemThree">
             <PracticalWorkForm
                 title="Crear Trabajo Práctica"
-                :studentsList="studentsList"
             ></PracticalWorkForm>
         </vs-popup>
 
@@ -91,7 +69,6 @@
                                 v-if="this.classesList.length > 0"
                                 :DropDownList="this.DropDownList"
                                 :classesList="this.classesList"
-                                v-model="ActiveModal"
                             ></Collapse>
                             <div v-else>
                                 <p class="font-semibold text-center">
@@ -107,226 +84,214 @@
 </template>
 
 <script>
-import Wall from '../components/Wall'
-import WallComment from '../components/WallComment'
-import Collapse from '../components/Collapse'
-// import CardWelcome from "../components/CardWelcome";
-import CardCount from '../components/CardCount'
-import ButtonRight from '../components/ButtonRight'
-import TaskForm from './TaskForm'
-import ExamForm from './ExamForm'
-import PracticalWorkForm from './PracticalWorkForm'
+import Wall from "../components/Wall";
+import WallComment from "../components/WallComment";
+import Collapse from "../components/Collapse";
 
-// import ButtonDropDownVue from "../components/ButtonDropDown.vue";
-import { mapGetters } from 'vuex'
+import CardCount from "../components/CardCount";
+import ButtonRight from "../components/ButtonRight";
+import TaskForm from "./TaskForm";
+import ExamForm from "./ExamForm";
+import PracticalWorkForm from "./PracticalWorkForm";
+import Classes from "./Classes";
+import { mapGetters } from "vuex";
 export default {
-  name: 'Subject',
-  components: {
-    Wall,
-    WallComment,
-    // CardWelcome,
-    CardCount,
-    Collapse,
-    ButtonRight,
-    TaskForm,
-    ExamForm,
-    PracticalWorkForm
-  },
-  props: {
-    subject: String,
-    subjectId: String,
-  },
-  methods: {
-    clickTag (e) {
-      this.dropdown = e !== 0
+    name: "Subject",
+    components: {
+        Wall,
+        WallComment,
+        Classes,
+        CardCount,
+        Collapse,
+        ButtonRight,
+        TaskForm,
+        ExamForm,
+        PracticalWorkForm,
     },
-    getCourseClass () {
-      this.$store.dispatch(
-        'courseClass/getCourseClassesSubjectData',
-        this.subjectId
-      )
-    },
-    getCourseClassesCount() {
-      this.$store.dispatch('courseClass/getCourseClassesCountData', this.subjectId)
+    props: {
+        subject: String,
+        subjectId: String,
     },
 
-    cardCountCourseClass() {
-      // const {assistance,tasks,evaluations} = this.cardCount
-      // console.log(this.cardCount)
-      return [
+    data() {
+        return {
+            dropdown: true,
+            activePrompt: false,
+            ActiveModal: false,
+            itemOne: false,
+            activePromptClasses: false,
+            class_: null,
+            itemTwo: false,
+            itemThree: false,
+            courseStudents: [],
 
-        {
-          count:  this.cardCount.assistance,
-          title: 'Asistencia'
+            cardCount: [],
+            DropDownList: [
+                {
+                    id: 1,
+                    title: "Crear Tarea",
+                    action: this.tasksModal,
+                },
+                {
+                    id: 2,
+                    title: "Crear Examen",
+                    action: this.examModal,
+                },
+                {
+                    id: 3,
+                    title: "Crear Trabajo Practico",
+                    action: this.workModal,
+                },
+            ],
+
+            tab: {
+                value: 1,
+            },
+
+            classesList: [],
+        };
+    },
+    computed: {
+        ...mapGetters({
+            storeCoursesClass: "courseClass/getCourseClasses",
+            storeCourseAssignments: "assignment/getAssignments",
+            storeCourseById: "course/getCourses",
+            storeCourseClassCount: "courseClass/getCourseClassesCount",
+        }),
+    },
+
+    methods: {
+        saveclass() {
+            this.activePromptClasses = true;
+            this.$refs.Classes.save();
+            console.log("ghuardno class");
         },
-        {
-          count: this.cardCount.tasks,
-          title: 'Tareas'
+        closeModal(value) {
+            this.itemOne = value;
         },
-        {
-          count: this.cardCount.evaluations,
-          title: 'Evaluaciones'
-        }
-
-      ]
-    },
-
-    accept() {
-      this.activePrompt = true;
-    },
-    create () {
-      console.log('Creando... test');
-      const payload = this.form
-      console.log(payload);
-      this.$store.dispatch('courseClass/createCourseClass', payload)
-    },
-  },
-
-  mounted () {
-    this.getCourseClass()
-    this.getCourseClassesCount()
-
-  },
-
-  computed: {
-    ...mapGetters({ storeCoursesClass: 'courseClass/getCourseClasses',storeCourseAssignments:'courseClass/getCourseClassesCount' })
-  },
-
-  watch: {
-
-    storeCourseAssignments(data){
-
-      if(data) {
-
-        this.cardCount = data
-      }
-
-    },
-
-    storeCoursesClass (data) {
-      const courseClassData = []
-      if(data.length > 0) {
-           data.map((element) => {
-          courseClassData.push({
-            id: element.id,
-            title: element.title,
-            description: element.description,
-            assignments: element.assignments
-          })
-        })
-      }
-
-      this.classesList = courseClassData
-
-    },
-    ActiveModal: function() {
-
-      switch (this.ActiveModal.action) {
-        case 'itemOne':
-          this.itemOne = true
-          break;
-        case 'itemTwo':
-          this.itemTwo = true
-          break;
-        case 'itemThree':
-          this.itemThree = true
-          break;
-      }
-
-      //console.log('Actualizado.... ', this.ActiveModal)
-    }
-    // storeCoursesClassCount(data){
-    //   this.cardCount = data;
-    // }
-  },
-
-  data () {
-    return {
-      console,
-      dropdown: true,
-      activePrompt: false,
-      ActiveModal: false,
-      itemOne: false,
-      itemTwo: false,
-      itemThree: false,
-      studentsList: [{
-        id:1,
-        name:'Nestor Infante'
-      },
-      {
-        id:2,
-        name:'Gregorio Lucena',
-      },
-      {
-        id:3,
-        name:'Roberto'
-      }],
-      form: {
-        title: '',
-        description: '',
-        course_id: this.subjectId
-      },
-      cardCount:[],
-      DropDownList: [
-        {
-          id: 1,
-          title: 'Crear Tarea',
-          action: "itemOne",
+        closeModalClass(value) {
+            this.activePromptClasses = value;
         },
-        {
-          id: 2,
-          title: 'Crear Examen',
-          action: "itemTwo",
+        tasksModal(e) {
+            this.itemOne = true;
+            const dataTasks = Object.assign(this.courseStudents, {
+                class_: {
+                    assignmentTypeId: e.target.dataset.id,
+                    id: e.target.dataset.classid,
+                    title: e.target.dataset.classtitle,
+                },
+            });
+
+            this.$refs.TaskForm.getDataForm(dataTasks);
         },
-        {
-          id: 3,
-          title: 'Crear Trabajo Practico',
-          action: "itemThree",
-        }
-      ],
+        examModal() {
+            console.log("hola evalution");
+        },
+        workModal() {
+            console.log("hola working practical");
+        },
+        clickTag(e) {
+            this.dropdown = e !== 0;
+        },
+        getCourseClass() {
+            this.$store.dispatch(
+                "courseClass/getCourseClassesSubjectData",
+                this.subjectId
+            );
+        },
+        getAssignmentsByCourse() {
+            this.$store.dispatch(
+                "assignment/getAssignmentsByCourseData",
+                this.subjectId
+            );
+        },
+        getClassById(id) {
+            if (id) {
+                this.class_ = Object.assign(
+                    {},
+                    this.$store.state.courseClass.courseClasses.find(
+                        (x) => x.id === id
+                    )
+                );
+            }
+        },
+        getCourseById() {
+            this.$store.dispatch("course/getCourseById", this.subjectId);
+        },
+        getCourseClassesCount() {
+            if (this.subjectId) {
+                this.$store.dispatch(
+                    "courseClass/getCourseClassesCountData",
+                    this.subjectId
+                );
+            }
+        },
 
-      tab: {
-        value: 1
-      },
+        cardCountCourseClass() {
+            return [
+                {
+                    count: this.cardCount.assistance,
+                    title: "Asistencia",
+                },
+                {
+                    count: this.cardCount.tasks,
+                    title: "Tareas",
+                },
+                {
+                    count: this.cardCount.evaluations,
+                    title: "Evaluaciones",
+                },
+            ];
+        },
 
-      classesList: []
-      // classesList: [
-      //   {
-      //     subject: {
-      //       id: 1,
-      //       name: "1. Números Reales",
-      //       content: [
-      //         {
-      //           id: 1,
-      //           type: "Tarea",
-      //           title: "Estructura de los numeros reales",
-      //           dateend: "Vence 10/11/2020 11:00 PM",
-      //           status: "Pendiente",
-      //           icon: "ClockIcon",
-      //         },
-      //       ],
-      //     },
-      //   },
-      //   {
-      //     subject: {
-      //       id: 2,
-      //       name: "2. Números Primos",
-      //       content: [
-      //         {
-      //           id: 2,
-      //           type: "Examen",
-      //           title: "Estructura de los numeros Primos",
-      //           dateend: "Vence 19/11/2020 11:00 PM",
-      //           status: "Pendiente",
-      //           icon: "ClockIcon",
-      //         },
-      //       ],
-      //     },
-      //   },
-      // ],
-    }
-  }
-}
+        accept() {
+            this.activePrompt = true;
+        },
+    },
+
+    watch: {
+        storeCourseById(data) {
+            if (data) {
+                data.map((element) => {
+                    this.courseStudents = Object.assign(
+                        {},
+                        {
+                            course: element.subject,
+                            students: element.classroom.classroom_students,
+                        }
+                    );
+                });
+            }
+        },
+        storeCourseClassCount(data) {
+            if (data) {
+                this.cardCount = data;
+            }
+        },
+
+        storeCourseAssignments(data) {
+            const assignmentsData = [];
+            if (data && data.length) {
+                data.map((element, i) => {
+                    assignmentsData.push({
+                        id: element.id,
+                        title: element.title,
+                        description: element.description,
+                        assignments: element.assignments,
+                    });
+                });
+            }
+            console.log(assignmentsData);
+            this.classesList = assignmentsData;
+        },
+    },
+
+    mounted() {
+        this.getCourseById();
+        this.getAssignmentsByCourse();
+        this.getCourseClassesCount();
+    },
+};
 </script>
 
 <style lang="scss" scoped>
