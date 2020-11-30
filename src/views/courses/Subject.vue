@@ -135,7 +135,10 @@ export default {
       itemThree: false,
       courseStudents: [],
       cardCount: [],
-      path: '/courses/4A-Comisión-A/37/students-list',
+      //path: '/courses/Física/students-list/',
+      path: `/courses/${this.subject.split(' ').join('-')}/students-list/${
+        this.subjectId
+      }`,
       DropDownList: [
         {
           id: 1,

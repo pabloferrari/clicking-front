@@ -84,13 +84,12 @@ export default {
             buttonSearch: false,
             // actionSearch: (id) => { /** action **/ },
             buttonEdit: true,
-            actionEdit: (id) => {
-
+            actionEdit: id => {
               this.getData(id)
               this.showModal(false)
             },
             buttonDelete: true,
-            actionDelete: (id) => {
+            actionDelete: id => {
               this.idDeleted = id
               this.showModalConfirm()
             }
@@ -127,10 +126,9 @@ export default {
       this.activePromptDelete = true
     },
     getData (id) {
-
       this.student = Object.assign(
         {},
-        this.$store.state.student.students.find((x) => x.id === id)
+        this.$store.state.student.students.find(x => x.id === id)
       )
       console.log(this.student)
     },
@@ -159,12 +157,12 @@ export default {
   watch: {
     students (data) {
       const studentData = []
-      data.map((e) => {
+      data.map(e => {
         studentData.push({
-          id:e.id,
-          name:e.name,
-          active:e.active,
-          email:(e.user) ? e.user.email : ''
+          id: e.id,
+          name: e.name,
+          active: e.active,
+          email: e.user ? e.user.email : ''
         })
       })
       this.rowData = studentData

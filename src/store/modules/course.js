@@ -21,26 +21,26 @@ const getters = {
 
 
 const mutations = {
-  updatedCourses(state, course) {
+  updatedCourses (state, course) {
     state.course = course
   },
 
-  setCourses(state, courses) {
+  setCourses (state, courses) {
     state.courses = courses
   },
 
-  setCourse(state, course) {
+  setCourse (state, course) {
     state.course = course
   },
 
-  setCourseSubject(state, courseSubject) {
+  setCourseSubject (state, courseSubject) {
     state.courseSubject = courseSubject
   }
 
 }
 
 const actions = {
-  async createCourse({ commit, state, dispatch }, course) {
+  async createCourse ({ commit, state, dispatch }, course) {
 
     try {
       const newCourse = {
@@ -76,7 +76,7 @@ const actions = {
 
   },
 
-  async updateCourse({ state, commit, dispatch }, course) {
+  async updateCourse ({ state, commit, dispatch }, course) {
     // try {
     //   const editCommission = {
 
@@ -98,7 +98,7 @@ const actions = {
     //   console.log(error)
     // }
   },
-  async deleteCourse({ state, commit, dispatch }, id) {
+  async deleteCourse ({ state, commit, dispatch }, id) {
     // try {
     //   await CommissionService.delete(id)
     //   const index = state.commissions.findIndex(x => x.id === id)
@@ -111,7 +111,7 @@ const actions = {
     // }
   },
 
-  async getCourseById({ commit }, id) {
+  async getCourseById ({ commit }, id) {
     await CourseService.get(id)
       .then((response) => commit('setCourses', response.data))
       .catch((err) => console.log(err))
@@ -126,7 +126,7 @@ const actions = {
     //     console.log(err)
     //   })
   },
-  async getMyCoursesData({ commit }) {
+  async getMyCoursesData ({ commit }) {
     await CourseService.getMyCourses()
       .then((response) => {
         commit('setCourses', response.data)
@@ -135,7 +135,7 @@ const actions = {
         console.log(err)
       })
   },
-  async getCoursesClassroomData({ commit }) {
+  async getCoursesClassroomData ({ commit }) {
     try {
       const courseData = await CourseService.getAll()
       commit('setCourses', courseData.data)
@@ -143,7 +143,7 @@ const actions = {
       console.log(error)
     }
   },
-  async getCourseByClassroom({ commit }, id) {
+  async getCourseByClassroom ({ commit }, id) {
     try {
       const courseClassroomData = await CourseService.getByCourseClassroom(id)
       commit('setCourses', courseClassroomData.data)

@@ -109,12 +109,12 @@ export default [
     props:true
   },
   {
-    path: '/courses/:title/:id/students-list',
+    path: '/courses/:title/students-list/:id',
     name: 'Listado Alumnos',
     component: () => import('../views/studentsList/'),
-    meta: {
-      permissions: ['institution']
-    },
+    // meta: {
+    //   permissions: ['institution']
+    // },
     props:true
   }
 

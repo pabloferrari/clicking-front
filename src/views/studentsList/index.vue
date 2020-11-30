@@ -13,11 +13,11 @@
 
       <!-- CardAvatar -->
       <CardAvatar
-      v-for="(card, index) in cardsTeacher"
-      :key="'A'+index"
-      :name="card.name"
-      :avatar="card.avatar"
+      v-for="(teacher, index) in this.courseTeachers"
+      :key="index"
+      :name="teacher.name"
       />
+
 
       <div id="form-model" class="principal-title mb-10 mt-10">
         <div class="vx-row">
@@ -29,12 +29,12 @@
 
       <!-- CardAvatar -->
       <CardAvatar
-      v-for="(card, index) in cardsStudent"
+      v-for="(student, index) in this.courseStudents.student"
       :key="index"
-      :name="card.name"
-      :avatar="card.avatar"
+      :name="student.name"
       class="mt-5"
       />
+      <!-- :avatar="student.user.image" -->
 
     </div>
 
@@ -56,18 +56,23 @@
 
 <script>
 
-//import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import CardAvatar from './CardAvatar'
 import CardAvatarDetail from './CardAvatarDetail'
 
 export default {
   name: 'studentsList',
+  props: {
+    id: String
+  },
   components: {
     CardAvatar,
     CardAvatarDetail
   },
   data () {
     return {
+      courseStudents: [],
+      courseTeachers: {},
       cardsTeacher:[
         {
           name: 'Teacher name',
@@ -96,6 +101,45 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    ...mapGetters({
+      storeCourseById: 'course/getCourses'
+    })
+  },
+  watch: {
+    storeCourseById (data) {
+      //console.log(data)
+      if (data) {
+        data.map((element) => {
+          this.courseStudents.push({
+            student: Object.assign(
+              {},
+              {
+                student: element.classroom.classroom_students
+              }
+            )
+          })
+
+          this.courseTeachers = Object.assign(
+            {},
+            {
+              teacher: element.teacher
+            }
+          )
+        })
+
+      }
+      //console.log(this.courseStudents)
+    }
+  },
+  methods: {
+    getCourses () {
+      this.$store.dispatch('course/getCourseById', this.id)
+    }
+  },
+  mounted () {
+    this.getCourses()
   }
 }
 </script>
