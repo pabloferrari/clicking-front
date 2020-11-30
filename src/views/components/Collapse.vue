@@ -79,48 +79,48 @@
 
 <script>
 // import ListIcon from "../components/icons/ListIcon";
-import ButtonDropDown from "./ButtonDropDown";
+import ButtonDropDown from './ButtonDropDown'
 
-import CollapseBody from "./CollapseBody";
+import CollapseBody from './CollapseBody'
 export default {
-    name: "Collapse",
-    components: {
-        // ListIcon,
-        ButtonDropDown,
-        // Toolbars,
-        CollapseBody,
+  name: 'Collapse',
+  components: {
+    // ListIcon,
+    ButtonDropDown,
+    // Toolbars,
+    CollapseBody
+  },
+  props: {
+    classesList: Array,
+    DropDownList: Array
+  },
+  data () {
+    return {
+      console,
+      titleButton: 'clase grabada',
+      showDetails: '',
+      collapseBodyProp: null
+    }
+  },
+  methods: {
+    changeHadlerDropDown () {
+      console.log('handler change dropwdown')
     },
-    props: {
-        classesList: Array,
-        DropDownList: Array,
-    },
-    data() {
-        return {
-            console,
-            titleButton: "clase grabada",
-            showDetails: "",
-            collapseBodyProp: null,
-        };
-    },
-    methods: {
-        changeHadlerDropDown() {
-            console.log("handler change dropwdown");
-        },
-        showModalClass(object, event) {
-            const classId = object.id;
-            const assignmentId = event.id;
-            console.log(event, classId, assignmentId);
+    showModalClass (object, event) {
+      const classId = object.id
+      const assignmentId = event.id
+      console.log(event, classId, assignmentId)
 
-            this.$emit("input", { classId, action: event.action });
-        },
-
-        showContent(data) {
-            // console.log(data);
-            this.$set(data, "showDetails", !data.showDetails);
-            // this.collapseBodyProp = data;
-        },
+      this.$emit('input', { classId, action: event.action })
     },
-};
+
+    showContent (data) {
+      // console.log(data);
+      this.$set(data, 'showDetails', !data.showDetails)
+      // this.collapseBodyProp = data;
+    }
+  }
+}
 </script>
 <style>
 .backgroud-internal {

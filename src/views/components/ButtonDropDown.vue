@@ -24,18 +24,18 @@
 
 <script>
 export default {
-    name: "ButtonDropDown",
-    props: {
-        items: Array,
-        dataSelected: {},
-    },
+  name: 'ButtonDropDown',
+  props: {
+    items: Array,
+    dataSelected: {}
+  },
 
-    methods: {
-        actionDropdown(arrayData, params) {
-            this.$emit("action-dropdown-item", arrayData, params);
-        },
-    },
-};
+  methods: {
+    actionDropdown (arrayData, params) {
+      this.$emit('action-dropdown-item', arrayData, params)
+    }
+  }
+}
 </script>
 
 <style lang="scss">

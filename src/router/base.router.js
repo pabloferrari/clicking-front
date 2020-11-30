@@ -107,7 +107,17 @@ export default [
       permissions: ['institution']
     },
     props:true
+  },
+  {
+    path: '/courses/:title/:id/students-list',
+    name: 'Listado Alumnos',
+    component: () => import('../views/studentsList/'),
+    meta: {
+      permissions: ['institution']
+    },
+    props:true
   }
+
   // {
   //   path: '/classrooms/:course/:subject',
   //   name: 'Curso Materia',

@@ -74,26 +74,28 @@ export default {
     dataCollapseBody: Object
   },
 
-  
+
   methods:{
 
     messageStatus (status) {
+      console.log(status)
       return '10/40'
     },
     renderIcons (status) {
-      switch (status) {
-      case 1:
-        return 'ClockIcon'
-          
-        break
-      
-      default:
-        break
-      }
+      console.log(status)
+      // switch (status) {
+      // case 1:
+      //   return 'ClockIcon'
+
+      //   break
+
+      // default:
+      //   break
+      // }
     },
     formatDateTime (datetime) {
       if (!datetime) {
-        return null  
+        return null
       }
       return datetime
     }

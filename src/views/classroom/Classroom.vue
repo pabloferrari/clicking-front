@@ -84,8 +84,8 @@ import CourseLogo from '../components/icons/CourseLogo'
 import SchoolIcon from '../components/icons/SchoolIcon'
 import AppleIcon from '../components/icons/AppleIcon'
 
-import Tabs from '../components/Tabs'
-import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
+//import Tabs from '../components/Tabs'
+//import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
 import ClassroomForm from './ClassroomForm'
 
 import AvatarList from '../components/AvatarList'
