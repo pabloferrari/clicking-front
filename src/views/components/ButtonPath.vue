@@ -1,6 +1,13 @@
 <template>
   <div class="">
-    <vs-button :to="{ path: path }" :size="size">{{ buttonTitle }}</vs-button>
+    <vs-button
+    :to="{ path: path }"
+    :size="size"
+    :color="color"
+    :type="type"
+    :icon-pack="iconPack"
+    :icon="icon"
+    >{{ buttonTitle }}</vs-button>
   </div>
 </template>
 
@@ -10,8 +17,11 @@ export default {
   props: {
     buttonTitle: String,
     path: String,
-
-    size: String
+    size: String,
+    color: String,
+    type: String,
+    iconPack: String,
+    icon: String
   },
   computed: {
     activeLink () {

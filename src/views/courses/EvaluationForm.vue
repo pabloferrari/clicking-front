@@ -194,88 +194,88 @@
 </template>
 
 <script>
-import AvatarList from "../components/AvatarList";
-import vSelect from "vue-select";
-import flatPickr from "vue-flatpickr-component";
-import "flatpickr/dist/flatpickr.css";
+import AvatarList from '../components/AvatarList'
+import vSelect from 'vue-select'
+import flatPickr from 'vue-flatpickr-component'
+import 'flatpickr/dist/flatpickr.css'
 
 export default {
-    name: "EvaluationForm",
-    components: {
-        AvatarList,
-        "v-select": vSelect,
-        flatPickr
-    },
-    props: {
-        title: null,
-        isCreate: Boolean
-    },
-    data() {
-        return {
-            description: "Cursando",
-            value1: "",
-            datetime: null,
+  name: 'EvaluationForm',
+  components: {
+    AvatarList,
+    'v-select': vSelect,
+    flatPickr
+  },
+  props: {
+    title: null,
+    isCreate: Boolean
+  },
+  data () {
+    return {
+      description: 'Cursando',
+      value1: '',
+      datetime: null,
 
-            selectedDefault: null,
-            configdateTimePicker: {
-                enableTime: true,
-                dateFormat: "d-m-Y H:i"
-            },
-            form: {
-                id: null,
-                score: null,
-                titleTask: "",
-                description: "",
-                courses: [],
-                class_id: null,
-                limit_date: null,
-                classroom_students: []
-            },
-            classesData: [],
-            classList: [],
-            studentsCourse: []
-        };
-    },
-
-    methods: {
-        getDataForm(data) {
-            this.form.id = data.class_.assignmentTypeId;
-            this.classesData = data.course;
-            this.classroom_students = [];
-            this.classList = data.class_;
-            this.form.class_id = data.class_.id;
-            this.form.courses = data.course.id;
-            this.studentsCourse = [];
-            data.students.map(element => {
-                this.studentsCourse.push({
-                    id: element.id,
-                    name: element.student.name
-                });
-            });
-        },
-
-        save() {
-            this.create();
-        },
-        closeModal() {
-            this.$emit("close-modal");
-        },
-        create() {
-            this.$validator.validateAll().then(result => {
-                if (result) {
-                    const payload = this.form;
-                    this.$store.dispatch(
-                        "assignment/createAssignment",
-                        payload
-                    );
-                    this.closeModal();
-                }
-            });
-        },
-
-        update() {}
+      selectedDefault: null,
+      configdateTimePicker: {
+        enableTime: true,
+        dateFormat: 'd-m-Y H:i'
+      },
+      form: {
+        id: null,
+        score: null,
+        titleTask: '',
+        description: '',
+        courses: [],
+        class_id: null,
+        limit_date: null,
+        classroom_students: []
+      },
+      classesData: [],
+      classList: [],
+      studentsCourse: []
     }
-};
+  },
+
+  methods: {
+    getDataForm (data) {
+      this.form.id = data.class_.assignmentTypeId
+      this.classesData = data.course
+      this.classroom_students = []
+      this.classList = data.class_
+      this.form.class_id = data.class_.id
+      this.form.courses = data.course.id
+      this.studentsCourse = []
+      data.students.map(element => {
+        this.studentsCourse.push({
+          id: element.id,
+          name: element.student.name
+        })
+      })
+    },
+
+    save () {
+      this.create()
+    },
+    closeModal () {
+      this.$emit('close-modal')
+    },
+    create () {
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          const payload = this.form
+          this.$store.dispatch(
+            'assignment/createAssignment',
+            payload
+          )
+          this.closeModal()
+        }
+      })
+    },
+
+    update () {}
+  }
+}
 </script>
 
 <style lang="css">

@@ -1,6 +1,6 @@
 <template>
   <div class="student-list-card-detail">
-    <vs-avatar class="student-list-card-detail-avatar" src="https://i.imgur.com/ezM6SJ5.png"/>
+    <vs-avatar class="student-list-card-detail-avatar" :src="avatar"/>
 
     <div class="student-list-card-detail-name">
       {{name}}
@@ -25,7 +25,8 @@ export default {
   props: {
     name: String,
     rol: String,
-    description: String
+    description: String,
+    avatar: String
   }
 }
 </script>
@@ -38,7 +39,7 @@ export default {
     top: 274px;
     background: #FFFFFF;
     border-radius: 30px;
-    padding: 70px;
+    padding: 50px;
   }
   .student-list-card-detail-avatar{
     width: 100.79px;
@@ -59,7 +60,7 @@ export default {
   }
   .student-list-card-detail-name-rol {
     position: relative;
-    display: initial;
+    /* display: initial; */
     top: -50px;
     left: 140px;
     font-family: Gilroy;

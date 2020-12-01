@@ -1,5 +1,5 @@
 <template>
-  <div class="student-list-card">
+  <div class="student-list-card" @click="activeDetail()">
     <vs-avatar class="student-list-avatar" size="large" :src="avatar"/>
     <div class="student-list-name">
       {{name}}
@@ -15,6 +15,11 @@ export default {
     cardsStudent: [],
     name: String,
     avatar: String
+  },
+  methods: {
+    activeDetail () {
+      this.$emit('student-list-card')
+    }
   }
 }
 </script>

@@ -15,9 +15,11 @@
       <CardAvatar
       v-for="(teacher, index) in this.courseTeachers"
       :key="index"
+      :id="teacher.id"
       :name="teacher.name"
+      :avatar="teacher.user.image"
+      @student-list-card="elementActiveDetail(teacher,'Docente')"
       />
-
 
       <div id="form-model" class="principal-title mb-10 mt-10">
         <div class="vx-row">
@@ -29,10 +31,13 @@
 
       <!-- CardAvatar -->
       <CardAvatar
-      v-for="(student, index) in this.courseStudents"
+      v-for="(element, index) in this.courseStudents"
       :key="index"
-      :name="student.name"
+      :id="element.id"
+      :name="element.student.name"
+      :avatar="element.student.user.image"
       class="mt-5"
+     @student-list-card="elementActiveDetail(element.student,'Alumno')"
       />
       <!-- :avatar="student.user.image" -->
 
@@ -42,11 +47,10 @@
 
       <!-- CardAvatarDetail -->
       <CardAvatarDetail
-       v-for="(card, index) in cardsDetail"
-       :key="'C'+index"
-       :name="card.name"
-       :description="card.description"
-       :rol="card.rol"
+       :name="this.cardsDetail.name"
+       :description="this.cardsDetail.description"
+       :rol="this.cardsDetail.rol"
+       :avatar="this.cardsDetail.avatar"
       />
 
     </div>
@@ -72,34 +76,13 @@ export default {
   data () {
     return {
       courseStudents: [],
-      courseTeachers: {},
-      cardsTeacher:[
-        {
-          name: 'Teacher name',
-          avatar: 'https://i.imgur.com/ezM6SJ5.png'
-        }
-      ],
-      cardsStudent: [
-        {
-          name: 'Usuario 1',
-          avatar: 'https://i.imgur.com/ezM6SJ5.png'
-        },
-        {
-          name: 'Usuario 2',
-          avatar: 'https://i.imgur.com/ezM6SJ5.png'
-        },
-        {
-          name: 'Usuario 3',
-          avatar: 'https://i.imgur.com/ezM6SJ5.png'
-        }
-      ],
-      cardsDetail: [
-        {
-          name: 'Pedro Pablo',
-          description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum ea dolore, voluptate modi optio repudiandae animi error? Praesentium quod harum, consequatur sequi expedita eveniet sunt libero doloremque debitis placeat ipsa.',
-          rol: 'Docente'
-        }
-      ]
+      courseTeachers: [],
+      cardsDetail:{
+        name: 'Docente',
+        description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum ea dolore, voluptate modi optio repudiandae animi error? Praesentium quod harum, consequatur sequi expedita eveniet sunt libero doloremque debitis placeat ipsa.',
+        rol: 'Docente',
+        avatar: ''
+      }
     }
   },
   computed: {
@@ -109,18 +92,9 @@ export default {
   },
   watch: {
     storeCourseById (data) {
-      //console.log(data)
       if (data) {
         data.map((element) => {
-          this.courseStudents.push({
-            student: Object.assign(
-              {},
-              {
-                student: element.classroom.classroom_students
-              }
-            )
-          })
-
+          this.courseStudents = Object.assign({}, element.classroom.classroom_students)
           this.courseTeachers = Object.assign(
             {},
             {
@@ -128,14 +102,26 @@ export default {
             }
           )
         })
-
+        // Load initial rol Teacher
+        this.elementActiveDetail(this.courseTeachers.teacher, 'Docente')
       }
-      console.log(this.courseStudents)
     }
   },
   methods: {
     getCourses () {
       this.$store.dispatch('course/getCourseById', this.id)
+    },
+    elementActiveDetail (data, rol) {
+      const {name, user:{ image, description }} = data
+      this.cardsDetail = Object.assign(
+        {},
+        {
+          name,
+          description,
+          avatar:image,
+          rol
+        }
+      )
     }
   },
   mounted () {
