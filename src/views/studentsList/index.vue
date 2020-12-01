@@ -29,7 +29,7 @@
 
       <!-- CardAvatar -->
       <CardAvatar
-      v-for="(student, index) in this.courseStudents.student"
+      v-for="(student, index) in this.courseStudents"
       :key="index"
       :name="student.name"
       class="mt-5"
@@ -130,7 +130,7 @@ export default {
         })
 
       }
-      //console.log(this.courseStudents)
+      console.log(this.courseStudents)
     }
   },
   methods: {
