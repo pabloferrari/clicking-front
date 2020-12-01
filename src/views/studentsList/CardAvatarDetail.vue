@@ -14,14 +14,26 @@
       {{description}}
     </div>
 
-    <div class="student-list-card-detail-in">O</div>
-    <div class="student-list-card-detail-msg">O</div>
+    <div class="student-list-card-detail-in">
+      <LinIcon />
+    </div>
+    <div class="student-list-card-detail-msg">
+      <EmailIcon />
+    </div>
   </div>
 </template>
 
 <script>
+
+import LinIcon from '../components/icons/LinIcon.vue'
+import EmailIcon from '../components/icons/EmailIcon.vue'
+
 export default {
   name: 'CardAvatarDetail',
+  components: {
+    LinIcon,
+    EmailIcon
+  },
   props: {
     name: String,
     rol: String,
@@ -86,14 +98,14 @@ export default {
     top: 20px;
     left: 120px;
     padding: 5px;
-    border: 3px solid #22215B;
+    /* border: 3px solid #22215B; */
   }
   .student-list-card-detail-msg{
     position: relative;
     display: initial;
-    top: 20px;
+    top: 15px;
     left: 160px;
     padding: 5px;
-    border: 3px solid #22215B;
+    /* border: 3px solid #22215B; */
   }
 </style>
