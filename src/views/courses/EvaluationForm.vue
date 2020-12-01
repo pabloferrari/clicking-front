@@ -10,7 +10,7 @@
                 <div class="vx-col w-full mb-2">
                     <vs-input
                         type="text"
-                        label-placeholder="Titulo Tarea"
+                        label-placeholder="Titulo Evaluación"
                         v-model="form.titleTask"
                         name="Titulo"
                         class="w-full sm:w-auto"
@@ -142,6 +142,29 @@
                     >
                 </div>
             </div>
+            <div>
+                <vs-select
+                    v-model="form.score"
+                    label="Puntos"
+                    :dir="$vs.rtl ? 'rtl' : 'ltr'"
+                    class="selectExample w-full sm:w-auto mt-5"
+                    name="Puntos"
+                    v-validate="'required'"
+                    :danger="errors.has('Puntos')"
+                >
+                    <vs-select-item
+                        :key="item"
+                        :value="item"
+                        :text="item"
+                        v-for="item in 10"
+                    />
+                </vs-select>
+                <span
+                    class="text-danger text-sm"
+                    v-show="errors.has('Puntos')"
+                    >{{ errors.first("Puntos") }}</span
+                >
+            </div>
             <div class="">
                 <vs-select
                     v-model="form.classroom_students"
@@ -177,7 +200,7 @@ import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
 
 export default {
-    name: "TaskForm",
+    name: "EvaluationForm",
     components: {
         AvatarList,
         "v-select": vSelect,
@@ -192,6 +215,7 @@ export default {
             description: "Cursando",
             value1: "",
             datetime: null,
+
             selectedDefault: null,
             configdateTimePicker: {
                 enableTime: true,
@@ -199,7 +223,7 @@ export default {
             },
             form: {
                 id: null,
-
+                score: null,
                 titleTask: "",
                 description: "",
                 courses: [],
@@ -257,6 +281,7 @@ export default {
 <style lang="css">
 .right-data-form {
     background: #eef7fe;
+    height: 36rem;
 }
 
 [dir] .mb-auto {

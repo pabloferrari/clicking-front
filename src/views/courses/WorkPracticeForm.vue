@@ -10,7 +10,7 @@
                 <div class="vx-col w-full mb-2">
                     <vs-input
                         type="text"
-                        label-placeholder="Titulo Tarea"
+                        label-placeholder="Titulo del Trabajo Práctico"
                         v-model="form.titleTask"
                         name="Titulo"
                         class="w-full sm:w-auto"
@@ -142,6 +142,29 @@
                     >
                 </div>
             </div>
+            <div>
+                <vs-select
+                    v-model="form.score"
+                    label="Puntos"
+                    :dir="$vs.rtl ? 'rtl' : 'ltr'"
+                    class="selectExample w-full sm:w-auto mt-5"
+                    name="Puntos"
+                    v-validate="'required'"
+                    :danger="errors.has('Puntos')"
+                >
+                    <vs-select-item
+                        :key="item"
+                        :value="item"
+                        :text="item"
+                        v-for="item in 10"
+                    />
+                </vs-select>
+                <span
+                    class="text-danger text-sm"
+                    v-show="errors.has('Puntos')"
+                    >{{ errors.first("Puntos") }}</span
+                >
+            </div>
             <div class="">
                 <vs-select
                     v-model="form.classroom_students"
@@ -166,6 +189,29 @@
                     >{{ errors.first("Asignar A") }}</span
                 >
             </div>
+            <div>
+                <vs-select
+                    v-model="form.groupqty"
+                    label="Cantidad de Grupos"
+                    :dir="$vs.rtl ? 'rtl' : 'ltr'"
+                    class="selectExample w-full sm:w-auto mt-5"
+                    name="Cantidad de Grupos"
+                    v-validate="'required'"
+                    :danger="errors.has('Cantidad de Grupos')"
+                >
+                    <vs-select-item
+                        :key="item"
+                        :value="item"
+                        :text="item"
+                        v-for="item in 10"
+                    />
+                </vs-select>
+                <span
+                    class="text-danger text-sm"
+                    v-show="errors.has('Cantidad de Grupos')"
+                    >{{ errors.first("Cantidad de Grupos") }}</span
+                >
+            </div>
         </div>
     </div>
 </template>
@@ -177,7 +223,7 @@ import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
 
 export default {
-    name: "TaskForm",
+    name: "WorkPraticeForm",
     components: {
         AvatarList,
         "v-select": vSelect,
@@ -192,6 +238,7 @@ export default {
             description: "Cursando",
             value1: "",
             datetime: null,
+
             selectedDefault: null,
             configdateTimePicker: {
                 enableTime: true,
@@ -199,7 +246,8 @@ export default {
             },
             form: {
                 id: null,
-
+                score: null,
+                groupqty: null,
                 titleTask: "",
                 description: "",
                 courses: [],
