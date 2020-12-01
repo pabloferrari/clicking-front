@@ -5,7 +5,7 @@
                 <div class="">
                     <div class="flex content-between">
                         <div
-                            class="m-4 p-2 rounded-full bg-white"
+                            class="m-6 p-2 rounded-full bg-white"
                             v-permission="['teacher', 'student']"
                         >
                             <ListIcon
@@ -60,48 +60,46 @@
 </template>
 
 <script>
-import ListIcon from '../components/icons/ListIcon'
-import PencilAssignmentlIcon from '../components/icons/PencilAssignmentlIcon'
-import CheckAssignmentIcon from '../components/icons/CheckAssignmentIcon'
+import ListIcon from "../components/icons/ListIcon";
+import PencilAssignmentlIcon from "../components/icons/PencilAssignmentlIcon";
+import CheckAssignmentIcon from "../components/icons/CheckAssignmentIcon";
 export default {
-  name: 'CollapseBody',
-  components: {
-    ListIcon,
-    PencilAssignmentlIcon,
-    CheckAssignmentIcon
-  },
-  props: {
-    dataCollapseBody: Object
-  },
-
-
-  methods:{
-
-    messageStatus (status) {
-      console.log(status)
-      return '10/40'
+    name: "CollapseBody",
+    components: {
+        ListIcon,
+        PencilAssignmentlIcon,
+        CheckAssignmentIcon
     },
-    renderIcons (status) {
-      console.log(status)
-      // switch (status) {
-      // case 1:
-      //   return 'ClockIcon'
-
-      //   break
-
-      // default:
-      //   break
-      // }
+    props: {
+        dataCollapseBody: Object
     },
-    formatDateTime (datetime) {
-      if (!datetime) {
-        return null
-      }
-      return datetime
+
+    methods: {
+        messageStatus(status) {
+            console.log(status);
+            return "10/40";
+        },
+        renderIcons(status) {
+            console.log(status);
+            // switch (status) {
+            // case 1:
+            //   return 'ClockIcon'
+
+            //   break
+
+            // default:
+            //   break
+            // }
+        },
+        formatDateTime(datetime) {
+            if (!datetime) {
+                return null;
+            }
+            return datetime;
+        }
+    },
+    mounted() {
+        // console.log(this.dataCollapseBody);
     }
-  },
-  mounted () {
-    // console.log(this.dataCollapseBody);
-  }
-}
+};
 </script>

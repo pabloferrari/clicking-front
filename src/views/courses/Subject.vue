@@ -4,15 +4,16 @@
             <div class="vx-col w-1/2">
                 <p class="primary">{{ subject }}</p>
             </div>
-            <div class="vx-col w-1/2 ">
-              <vs-button
-              :to="{ path: this.path }"
-              class="btnStudentList"
-              color="dark"
-              type="border"
-              icon-pack="feather"
-              icon="icon-search"
-              >Listo de Alumnos</vs-button>
+            <div class="vx-col w-1/2">
+                <vs-button
+                    :to="{ path: this.path }"
+                    class="btnStudentList"
+                    color="dark"
+                    type="border"
+                    icon-pack="feather"
+                    icon="icon-search"
+                    >Listo de Alumnos</vs-button
+                >
             </div>
         </div>
         <CardCount :cardCount="this.cardCountCourseClass()"></CardCount>
@@ -46,20 +47,26 @@
         <!-- START MODAL -->
         <vs-popup title="" :active.sync="itemOne" class="rounded-lg">
             <TaskForm
-                @close-modal="closeModal(false)"
+                @close-modal="itemOne = false"
                 ref="TaskForm"
                 title="Crear Tarea"
             ></TaskForm>
         </vs-popup>
 
         <vs-popup title="" :active.sync="itemTwo">
-            <ExamForm title="Crear Exámen"></ExamForm>
+            <EvaluationForm
+                @close-modal="itemTwo = false"
+                ref="EvaluationForm"
+                title="Crear Evaluación"
+            ></EvaluationForm>
         </vs-popup>
 
         <vs-popup title="" :active.sync="itemThree">
-            <PracticalWorkForm
-                title="Crear Trabajo Práctica"
-            ></PracticalWorkForm>
+            <WorkPracticeForm
+                ref="WorkPracticeForm"
+                @close-modal="itemThree = false"
+                title="Crear Trabajo Práctico"
+            ></WorkPracticeForm>
         </vs-popup>
 
         <!-- END MODAL -->
@@ -94,217 +101,234 @@
 </template>
 
 <script>
-import Wall from '../components/Wall'
-import WallComment from '../components/WallComment'
-import Collapse from '../components/Collapse'
+import Wall from "../components/Wall";
+import WallComment from "../components/WallComment";
+import Collapse from "../components/Collapse";
 
-import CardCount from '../components/CardCount'
-import ButtonRight from '../components/ButtonRight'
-import TaskForm from './TaskForm'
-import ExamForm from './ExamForm'
-import PracticalWorkForm from './PracticalWorkForm'
-import Classes from './Classes'
-import { mapGetters } from 'vuex'
+import CardCount from "../components/CardCount";
+import ButtonRight from "../components/ButtonRight";
+import TaskForm from "./TaskForm";
+import EvaluationForm from "./EvaluationForm";
+import WorkPracticeForm from "./WorkPracticeForm";
+import Classes from "./Classes";
+import { mapGetters } from "vuex";
 export default {
-  name: 'Subject',
-  components: {
-    Wall,
-    WallComment,
-    Classes,
-    CardCount,
-    Collapse,
-    ButtonRight,
-    TaskForm,
-    ExamForm,
-    PracticalWorkForm
-  },
-  props: {
-    subject: String,
-    subjectId: String
-  },
+    name: "Subject",
+    components: {
+        Wall,
+        WallComment,
+        Classes,
+        CardCount,
+        Collapse,
+        ButtonRight,
+        TaskForm,
+        EvaluationForm,
+        WorkPracticeForm
+    },
+    props: {
+        subject: String,
+        subjectId: String
+    },
 
-  data () {
-    return {
-      dropdown: true,
-      activePrompt: false,
-      ActiveModal: false,
-      itemOne: false,
-      activePromptClasses: false,
-      class_: null,
-      itemTwo: false,
-      itemThree: false,
-      courseStudents: [],
-      cardCount: [],
-      //path: '/courses/Física/students-list/',
-      path: `/courses/${this.subject.split(' ').join('-')}/students-list/${
-        this.subjectId
-      }`,
-      DropDownList: [
-        {
-          id: 1,
-          title: 'Crear Tarea',
-          action: this.tasksModal
+    data() {
+        return {
+            dropdown: true,
+            activePrompt: false,
+            ActiveModal: false,
+            itemOne: false,
+            activePromptClasses: false,
+            class_: null,
+            itemTwo: false,
+            itemThree: false,
+            courseStudents: [],
+            cardCount: [],
+
+            path: `/courses/${this.subject
+                .split(" ")
+                .join("-")}/students-list/${this.subjectId}`,
+            DropDownList: [
+                {
+                    id: 1,
+                    title: "Crear Tarea",
+                    action: this.tasksModal
+                },
+                {
+                    id: 2,
+                    title: "Crear Evaluación",
+                    action: this.evaluationModal
+                },
+                {
+                    id: 3,
+                    title: "Crear Trabajo Practico",
+                    action: this.workPracticeModal
+                }
+            ],
+
+            tab: {
+                value: 1
+            },
+
+            classesList: []
+        };
+    },
+    computed: {
+        ...mapGetters({
+            storeCoursesClass: "courseClass/getCourseClasses",
+            storeCourseAssignments: "assignment/getAssignments",
+            storeCourseById: "course/getCourses",
+            storeCourseClassCount: "courseClass/getCourseClassesCount"
+        })
+    },
+
+    methods: {
+        saveclass() {
+            this.activePromptClasses = true;
+            this.$refs.Classes.save();
+            console.log("ghuardno class");
         },
-        {
-          id: 2,
-          title: 'Crear Examen',
-          action: this.examModal
+
+        closeModalClass(value) {
+            this.activePromptClasses = value;
         },
-        {
-          id: 3,
-          title: 'Crear Trabajo Practico',
-          action: this.workModal
-        }
-      ],
+        tasksModal(e) {
+            this.itemOne = true;
+            const dataTasks = Object.assign(this.courseStudents, {
+                class_: {
+                    assignmentTypeId: e.target.dataset.id,
+                    id: e.target.dataset.classid,
+                    title: e.target.dataset.classtitle
+                }
+            });
 
-      tab: {
-        value: 1
-      },
-
-      classesList: []
-    }
-  },
-  computed: {
-    ...mapGetters({
-      storeCoursesClass: 'courseClass/getCourseClasses',
-      storeCourseAssignments: 'assignment/getAssignments',
-      storeCourseById: 'course/getCourses',
-      storeCourseClassCount: 'courseClass/getCourseClassesCount'
-    })
-  },
-
-  methods: {
-    saveclass () {
-      this.activePromptClasses = true
-      this.$refs.Classes.save()
-      console.log('ghuardno class')
-    },
-    closeModal (value) {
-      this.itemOne = value
-    },
-    closeModalClass (value) {
-      this.activePromptClasses = value
-    },
-    tasksModal (e) {
-      this.itemOne = true
-      const dataTasks = Object.assign(this.courseStudents, {
-        class_: {
-          assignmentTypeId: e.target.dataset.id,
-          id: e.target.dataset.classid,
-          title: e.target.dataset.classtitle
-        }
-      })
-
-      this.$refs.TaskForm.getDataForm(dataTasks)
-    },
-    examModal () {
-      console.log('hola evalution')
-    },
-    workModal () {
-      console.log('hola working practical')
-    },
-    clickTag (e) {
-      this.dropdown = e !== 0
-    },
-    getCourseClass () {
-      this.$store.dispatch(
-        'courseClass/getCourseClassesSubjectData',
-        this.subjectId
-      )
-    },
-    getAssignmentsByCourse () {
-      this.$store.dispatch(
-        'assignment/getAssignmentsByCourseData',
-        this.subjectId
-      )
-    },
-    getClassById (id) {
-      if (id) {
-        this.class_ = Object.assign(
-          {},
-          this.$store.state.courseClass.courseClasses.find(
-            (x) => x.id === id
-          )
-        )
-      }
-    },
-    getCourseById () {
-      this.$store.dispatch('course/getCourseById', this.subjectId)
-    },
-    getCourseClassesCount () {
-      if (this.subjectId) {
-        this.$store.dispatch(
-          'courseClass/getCourseClassesCountData',
-          this.subjectId
-        )
-      }
-    },
-
-    cardCountCourseClass () {
-      return [
-        {
-          count: this.cardCount.assistance,
-          title: 'Asistencia'
+            this.$refs.TaskForm.getDataForm(dataTasks);
         },
-        {
-          count: this.cardCount.tasks,
-          title: 'Tareas'
+        evaluationModal(e) {
+            this.itemTwo = true;
+            const dataEvaluation = Object.assign(this.courseStudents, {
+                class_: {
+                    assignmentTypeId: e.target.dataset.id,
+                    id: e.target.dataset.classid,
+                    title: e.target.dataset.classtitle
+                }
+            });
+
+            this.$refs.EvaluationForm.getDataForm(dataEvaluation);
         },
-        {
-          count: this.cardCount.evaluations,
-          title: 'Evaluaciones'
-        }
-      ]
-    },
+        workPracticeModal(e) {
+            this.itemThree = true;
+            const dataworkPractice = Object.assign(this.courseStudents, {
+                class_: {
+                    assignmentTypeId: e.target.dataset.id,
+                    id: e.target.dataset.classid,
+                    title: e.target.dataset.classtitle
+                }
+            });
 
-    accept () {
-      this.activePrompt = true
-    }
-  },
-
-  watch: {
-    storeCourseById (data) {
-      if (data) {
-        data.map((element) => {
-          this.courseStudents = Object.assign(
-            {},
-            {
-              course: element.subject,
-              students: element.classroom.classroom_students
+            this.$refs.WorkPracticeForm.getDataForm(dataworkPractice);
+        },
+        clickTag(e) {
+            this.dropdown = e !== 0;
+        },
+        getCourseClass() {
+            this.$store.dispatch(
+                "courseClass/getCourseClassesSubjectData",
+                this.subjectId
+            );
+        },
+        getAssignmentsByCourse() {
+            this.$store.dispatch(
+                "assignment/getAssignmentsByCourseData",
+                this.subjectId
+            );
+        },
+        getClassById(id) {
+            if (id) {
+                this.class_ = Object.assign(
+                    {},
+                    this.$store.state.courseClass.courseClasses.find(
+                        x => x.id === id
+                    )
+                );
             }
-          )
-        })
-      }
-    },
-    storeCourseClassCount (data) {
-      if (data) {
-        this.cardCount = data
-      }
+        },
+        getCourseById() {
+            this.$store.dispatch("course/getCourseById", this.subjectId);
+        },
+        getCourseClassesCount() {
+            if (this.subjectId) {
+                this.$store.dispatch(
+                    "courseClass/getCourseClassesCountData",
+                    this.subjectId
+                );
+            }
+        },
+
+        cardCountCourseClass() {
+            return [
+                {
+                    count: this.cardCount.assistance,
+                    title: "Asistencia"
+                },
+                {
+                    count: this.cardCount.tasks,
+                    title: "Tareas"
+                },
+                {
+                    count: this.cardCount.evaluations,
+                    title: "Evaluaciones"
+                }
+            ];
+        },
+
+        accept() {
+            this.activePrompt = true;
+        }
     },
 
-    storeCourseAssignments (data) {
-      const assignmentsData = []
-      if (data && data.length) {
-        data.map((element, i) => {
-          assignmentsData.push({
-            id: element.id,
-            title: element.title,
-            description: element.description,
-            assignments: element.assignments
-          })
-        })
-      }
-      console.log(assignmentsData)
-      this.classesList = assignmentsData
+    watch: {
+        storeCourseById(data) {
+            if (data) {
+                data.map(element => {
+                    this.courseStudents = Object.assign(
+                        {},
+                        {
+                            course: element.subject,
+                            students: element.classroom.classroom_students
+                        }
+                    );
+                });
+            }
+        },
+        storeCourseClassCount(data) {
+            if (data) {
+                this.cardCount = data;
+            }
+        },
+
+        storeCourseAssignments(data) {
+            const assignmentsData = [];
+            if (data && data.length > 0) {
+                data.filter(n => n);
+                data.map(element => {
+                    assignmentsData.push({
+                        id: element.id,
+                        title: element.title,
+                        description: element.description,
+                        assignments: element.assignments
+                    });
+                });
+            }
+            console.log(assignmentsData);
+            this.classesList = assignmentsData;
+        }
+    },
+
+    mounted() {
+        this.getCourseById();
+        this.getAssignmentsByCourse();
+        this.getCourseClassesCount();
     }
-  },
-
-  mounted () {
-    this.getCourseById()
-    this.getAssignmentsByCourse()
-    this.getCourseClassesCount()
-  }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -323,6 +347,7 @@ export default {
 <style lang="css">
 .con-vs-popup .vs-popup {
     width: 800px !important;
+    height: 540px;
 }
 .btn-right {
     position: absolute;
@@ -330,9 +355,7 @@ export default {
     z-index: 999;
 }
 .btnStudentList {
-  border: 1px solid #22215B;
-  border-radius: 8px;
+    border: 1px solid #22215b;
+    border-radius: 8px;
 }
-
-
 </style>

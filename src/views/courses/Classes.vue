@@ -37,38 +37,38 @@
 
 <script>
 export default {
-  name: 'Classes',
-  props: {
-    courseId: String
-  },
-  data () {
-    return {
-      form: {
-        title: null,
-        description: null,
-        course_id: this.courseId
-      }
-    }
-  },
-  methods: {
-    save () {
-      this.create()
+    name: "Classes",
+    props: {
+        courseId: String,
     },
-    closeModalClass () {
-      this.$emit('close-modal-class')
+    data() {
+        return {
+            form: {
+                title: null,
+                description: null,
+                course_id: this.courseId,
+            },
+        };
     },
-    create () {
-      this.$validator.validateAll().then((result) => {
-        if (result) {
-          const payload = this.form
-          this.$store.dispatch(
-            'courseClass/createCourseClass',
-            payload
-          )
-          this.closeModalClass()
-        }
-      })
-    }
-  }
-}
+    methods: {
+        save() {
+            this.create();
+        },
+        closeModalClass() {
+            this.$emit("close-modal-class");
+        },
+        create() {
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    const payload = this.form;
+                    this.$store.dispatch(
+                        "assignment/createCourseClass",
+                        payload
+                    );
+                    this.closeModalClass();
+                }
+            });
+        },
+    },
+};
 </script>
