@@ -50,8 +50,8 @@ const actions = {
         course_type_id: 1 //course.courses
       }
       //console.log(newClassroom)
-      const courseCreate = await CourseService.create(newCourse)
-      const courses = Object.assign([], state.courses)
+      await CourseService.create(newCourse)
+      Object.assign([], state.courses)
 
       try {
         const courseData = await CourseService.getByCourseClassroom(newCourse.classroom_id)
@@ -76,40 +76,40 @@ const actions = {
 
   },
 
-  async updateCourse ({ state, commit, dispatch }, course) {
-    // try {
-    //   const editCommission = {
+  // async updateCourse ({ state, commit, dispatch }, course) {
+  // try {
+  //   const editCommission = {
 
-    //     name: commission.name,
-    //     turn_id: commission.turn_id,
-    //     institution_year_id: commission.institution_year_id
-    //   }
-    //   const commissionEdit = await CommissionService.update(commission.id, editCommission)
+  //     name: commission.name,
+  //     turn_id: commission.turn_id,
+  //     institution_year_id: commission.institution_year_id
+  //   }
+  //   const commissionEdit = await CommissionService.update(commission.id, editCommission)
 
-    //   const newValue = state.commissions.map((value) => {
-    //     if (value.id === commissionEdit.data.id) {
-    //       value = Object.assign({}, commissionEdit.data)
-    //     }
-    //     return value
-    //   })
-    //   commit('setCommissions', newValue)
-    //   dispatch('notification/success', {title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.'}, { root: true })
-    // } catch (error) {
-    //   console.log(error)
-    // }
-  },
-  async deleteCourse ({ state, commit, dispatch }, id) {
-    // try {
-    //   await CommissionService.delete(id)
-    //   const index = state.commissions.findIndex(x => x.id === id)
-    //   const commission =  [... state.commissions]
-    //   commission.splice(index, 1)
-    //   commit('setCommissions', commission)
-    //   dispatch('notification/success', {title: 'Eliminado exitoso....', text: 'se ha eliminado correctamente.'}, { root: true })
-    // } catch (error) {
-    //   console.log(error)
-    // }
-  },
+  //   const newValue = state.commissions.map((value) => {
+  //     if (value.id === commissionEdit.data.id) {
+  //       value = Object.assign({}, commissionEdit.data)
+  //     }
+  //     return value
+  //   })
+  //   commit('setCommissions', newValue)
+  //   dispatch('notification/success', {title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.'}, { root: true })
+  // } catch (error) {
+  //   console.log(error)
+  // }
+  //},
+  // async deleteCourse ({ state, commit, dispatch }, id) {
+  // try {
+  //   await CommissionService.delete(id)
+  //   const index = state.commissions.findIndex(x => x.id === id)
+  //   const commission =  [... state.commissions]
+  //   commission.splice(index, 1)
+  //   commit('setCommissions', commission)
+  //   dispatch('notification/success', {title: 'Eliminado exitoso....', text: 'se ha eliminado correctamente.'}, { root: true })
+  // } catch (error) {
+  //   console.log(error)
+  // }
+  //},
 
   async getCourseById ({ commit }, id) {
     await CourseService.get(id)

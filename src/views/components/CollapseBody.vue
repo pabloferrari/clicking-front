@@ -60,46 +60,46 @@
 </template>
 
 <script>
-import ListIcon from "../components/icons/ListIcon";
-import PencilAssignmentlIcon from "../components/icons/PencilAssignmentlIcon";
-import CheckAssignmentIcon from "../components/icons/CheckAssignmentIcon";
+import ListIcon from '../components/icons/ListIcon'
+import PencilAssignmentlIcon from '../components/icons/PencilAssignmentlIcon'
+import CheckAssignmentIcon from '../components/icons/CheckAssignmentIcon'
 export default {
-    name: "CollapseBody",
-    components: {
-        ListIcon,
-        PencilAssignmentlIcon,
-        CheckAssignmentIcon
-    },
-    props: {
-        dataCollapseBody: Object
-    },
+  name: 'CollapseBody',
+  components: {
+    ListIcon,
+    PencilAssignmentlIcon,
+    CheckAssignmentIcon
+  },
+  props: {
+    dataCollapseBody: Object
+  },
 
-    methods: {
-        messageStatus(status) {
-            console.log(status);
-            return "10/40";
-        },
-        renderIcons(status) {
-            console.log(status);
-            // switch (status) {
-            // case 1:
-            //   return 'ClockIcon'
-
-            //   break
-
-            // default:
-            //   break
-            // }
-        },
-        formatDateTime(datetime) {
-            if (!datetime) {
-                return null;
-            }
-            return datetime;
-        }
+  methods: {
+    messageStatus (status) {
+      console.log(status)
+      return '10/40'
     },
-    mounted() {
-        // console.log(this.dataCollapseBody);
+    renderIcons (status) {
+      console.log(status)
+      // switch (status) {
+      // case 1:
+      //   return 'ClockIcon'
+
+      //   break
+
+      // default:
+      //   break
+      // }
+    },
+    formatDateTime (datetime) {
+      if (!datetime) {
+        return null
+      }
+      return datetime
     }
-};
+  },
+  mounted () {
+    // console.log(this.dataCollapseBody);
+  }
+}
 </script>

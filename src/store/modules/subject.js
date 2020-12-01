@@ -36,10 +36,10 @@ const mutations = {
 
 const actions = {
   createSubject ({commit, state, dispatch}, subject) {
-    ShiftService.create(subject).then((response) => {
+    SubjectService.create(subject).then((response) => {
       const subjects = Object.assign([], state.subjects)
       subjects.push(response.data)
-      commit('setSubjects', shifts)
+      commit('setSubjects', subject)
       dispatch('notification/success', {title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.'}, { root: true })
     }).catch((err) => {
       console.log(err)
