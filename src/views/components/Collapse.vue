@@ -70,6 +70,7 @@
                 >
                     <CollapseBody
                         :dataCollapseBody="assignments"
+
                     ></CollapseBody>
                 </div>
             </div>
@@ -96,10 +97,10 @@ export default {
   },
   data () {
     return {
-      console,
       titleButton: 'clase grabada',
       showDetails: '',
       collapseBodyProp: null
+
     }
   },
   methods: {
@@ -114,9 +115,9 @@ export default {
       this.$emit('input', { classId, action: event.action })
     },
 
-    showContent (data) {
+    showContent () {
       // console.log(data);
-      this.$set(data, 'showDetails', !data.showDetails)
+      // this.$set(data, 'showDetails', !data.showDetails)
       // this.collapseBodyProp = data;
     }
   }

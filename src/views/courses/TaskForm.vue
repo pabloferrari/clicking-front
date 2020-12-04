@@ -171,7 +171,7 @@
 </template>
 
 <script>
-import AvatarList from '../components/AvatarList'
+// import AvatarList from '../components/AvatarList'
 import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
@@ -179,7 +179,8 @@ import 'flatpickr/dist/flatpickr.css'
 export default {
   name: 'TaskForm',
   components: {
-    AvatarList,
+    // AvatarList,
+
     'v-select': vSelect,
     flatPickr
   },
@@ -200,7 +201,7 @@ export default {
       form: {
         id: null,
 
-        titleTask: '',
+        titleTask: null,
         description: '',
         courses: [],
         class_id: null,

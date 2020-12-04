@@ -197,7 +197,7 @@ export default {
     saveclass () {
       this.activePromptClasses = true
       this.$refs.Classes.save()
-      console.log('ghuardno class')
+
     },
 
     closeModalClass (value) {
@@ -321,7 +321,6 @@ export default {
     storeCourseAssignments (data) {
       const assignmentsData = []
       if (data && data.length > 0) {
-        data.filter(n => n)
         data.map(element => {
           assignmentsData.push({
             id: element.id,
@@ -329,9 +328,9 @@ export default {
             description: element.description,
             assignments: element.assignments
           })
+
         })
       }
-      console.log(assignmentsData)
       this.classesList = assignmentsData
     }
   },

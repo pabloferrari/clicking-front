@@ -42,7 +42,7 @@
     </div>
 </template>
 <script>
-import AvatarList from '../components/AvatarList'
+// import AvatarList from '../components/AvatarList'
 import CardWelcome from '../components/CardWelcome'
 import CourseLogo from '../components/icons/CourseLogo'
 import PencilLogo from '../components/icons/PencilLogo'
@@ -54,7 +54,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'courses',
   components: {
-    AvatarList,
+    // AvatarList,
     CardWelcome,
     CourseLogo,
     CardList,
@@ -75,7 +75,7 @@ export default {
   methods: {
     getCourses () {
       this.$store.dispatch('course/getMyCoursesData')
-      console.log('THIS GET COURSES')
+
       this.$store.dispatch('course/getCoursesClassroomData', this.id)
     }
   },

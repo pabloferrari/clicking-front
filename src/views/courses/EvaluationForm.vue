@@ -194,7 +194,7 @@
 </template>
 
 <script>
-import AvatarList from '../components/AvatarList'
+// import AvatarList from '../components/AvatarList'
 import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
@@ -202,7 +202,7 @@ import 'flatpickr/dist/flatpickr.css'
 export default {
   name: 'EvaluationForm',
   components: {
-    AvatarList,
+    // AvatarList,
     'v-select': vSelect,
     flatPickr
   },

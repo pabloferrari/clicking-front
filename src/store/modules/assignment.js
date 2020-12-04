@@ -19,22 +19,23 @@ const getters = {
 
 
 const mutations = {
-  updatedAssignment (state, assignment) {
-    state.assignment = assignment
-  },
-
   setAssignments (state, assignments) {
     state.assignments = assignments
   },
-
-  setAssignmen (state, assignment) {
-    state.assignment = assignment
+  updatedAssignment (state, assignment) {
+    const assignmentClone = Object.assign([], state.assignments)
+    const newAssignment = assignmentClone.map((e) => {
+      if (e.id === assignment.classId) {
+        e.assignments.push(assignment)
+      }
+      return e
+    })
+    state.assignments = newAssignment
   }
-
 }
 
 const actions = {
-  async createAssignment ({ commit, state, dispatch }, assignment) {
+  async createAssignment ({ commit, dispatch }, assignment) {
     const newAssignment = {
       title: assignment.titleTask,
       description: assignment.description,
@@ -50,9 +51,16 @@ const actions = {
     Object.keys(newAssignment).forEach(key => newAssignment[key] === undefined && delete newAssignment[key])
     await AssignmentService.create(newAssignment)
       .then((response) => {
-        const assignments = Object.assign([], state.assignments)
-        assignments.push(response.data)
-        commit('setAssignments', assignments)
+
+        const assignmentData = {
+          classId: response.data.class.id,
+          title: response.data.title,
+          id: response.data.id,
+          description: response.data.description,
+          limit_date: response.data.limit_date,
+          assignmenttype: response.data.assignment_type
+        }
+        commit('updatedAssignment', assignmentData)
 
         dispatch(
           'notification/success',
