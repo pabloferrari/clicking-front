@@ -50,8 +50,8 @@
                 </p>
               </vs-chip>
 
-          <div class="mb-2 p-1">
-            <ButtonDropDown :items="[]"></ButtonDropDown>
+          <div class="mb-2 p-1" v-if=" dataCollapseBody.assignmenttype.group_enabled ===1">
+            <ButtonDropDown :dataSelected="[]" :items="this.dataDropDown(dataCollapseBody)"></ButtonDropDown>
           </div>
             </div>
           </div>
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import ButtonDropDown from './ButtonDropDown'
 import ListIcon from '../components/icons/ListIcon'
 import PencilAssignmentlIcon from '../components/icons/PencilAssignmentlIcon'
@@ -76,22 +77,23 @@ export default {
   },
   props: {
     dataCollapseBody: Object
-
   },
-
-
   methods: {
-    dataDropDown () {
-      return [
+    dataDropDown (data) {
+      return   [
         {
-          id:0,
+          id:data.id,
           title:'Crear Grupos',
-          action: null
+          action: this.showModalGroup
         }
       ]
     },
+    showModalGroup (data) {
+      const assignmentId = data.target.dataset.id
+      console.log(assignmentId)
+    },
     messageStatus () {
-      return '10/40'
+      return 'Pendiente'
     },
     renderIcons () {
       // switch (status) {
@@ -106,7 +108,7 @@ export default {
       if (!datetime) {
         return null
       }
-      return datetime
+      return moment(String(datetime)).format('DD/MM/YYYY hh:mm A')
     }
   },
   mounted () {

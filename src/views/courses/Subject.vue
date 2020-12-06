@@ -279,15 +279,15 @@ export default {
     cardCountCourseClass () {
       return [
         {
-          count: this.cardCount.assistance,
+          count: `${this.cardCount.assistance ? this.cardCount.assistance : 0 }%`,
           title: 'Asistencia'
         },
         {
-          count: this.cardCount.tasks,
+          count: this.cardCount.tasks ? this.cardCount.tasks : 0,
           title: 'Tareas'
         },
         {
-          count: this.cardCount.evaluations,
+          count: this.cardCount.evaluations  ? this.cardCount.evaluations : 0,
           title: 'Evaluaciones'
         }
       ]
@@ -313,6 +313,7 @@ export default {
       }
     },
     storeCourseClassCount (data) {
+      this.cardCount  = ''
       if (data) {
         this.cardCount = data
       }

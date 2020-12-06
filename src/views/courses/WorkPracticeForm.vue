@@ -217,16 +217,15 @@
 </template>
 
 <script>
-import AvatarList from '../components/AvatarList'
-import vSelect from 'vue-select'
+// import AvatarList from '../components/AvatarList'
+
 import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
 
 export default {
   name: 'WorkPraticeForm',
   components: {
-    AvatarList,
-    'v-select': vSelect,
+    // AvatarList,
     flatPickr
   },
   props: {
@@ -263,6 +262,7 @@ export default {
 
   methods: {
     getDataForm (data) {
+      this.clearFields()
       this.form.id = data.class_.assignmentTypeId
       this.classesData = data.course
       this.classroom_students = []
@@ -293,10 +293,16 @@ export default {
             payload
           )
           this.closeModal()
+          this.clearFields()
         }
       })
     },
-
+    clearFields () {
+      Object.keys(this.form).forEach((element) => {
+        this.form[element] = ''
+      })
+      this.$validator.reset()
+    },
     update () {}
   }
 }

@@ -437,6 +437,7 @@ module.exports = {
       '16': '4rem',
       '24': '6rem',
       '32': '8rem',
+      '36': '10rem',
       '48': '12rem',
       '64': '16rem',
       '1/2': '50%',
@@ -729,7 +730,7 @@ module.exports = {
     */
 
     // NOTE: IF YOU WANT TO CUSTOMIZE OPACITY THAN UNCOMMENT BELOW OBJECT AND EDIT
-             // ELSE JUST REMOVE IT OR COMMENT IT FOR LATER CUSTOMIZATION
+    // ELSE JUST REMOVE IT OR COMMENT IT FOR LATER CUSTOMIZATION
     // opacity: {
     //   '0': '0',
     //   '25': '.25',

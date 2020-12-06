@@ -172,7 +172,7 @@
 
 <script>
 // import AvatarList from '../components/AvatarList'
-import vSelect from 'vue-select'
+
 import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
 
@@ -180,8 +180,6 @@ export default {
   name: 'TaskForm',
   components: {
     // AvatarList,
-
-    'v-select': vSelect,
     flatPickr
   },
   props: {
@@ -201,11 +199,11 @@ export default {
       form: {
         id: null,
 
-        titleTask: null,
+        titleTask: '',
         description: '',
         courses: [],
-        class_id: null,
-        limit_date: null,
+        class_id: '',
+        limit_date: '',
         classroom_students: []
       },
       classesData: [],
@@ -216,6 +214,7 @@ export default {
 
   methods: {
     getDataForm (data) {
+      this.clearFields()
       this.form.id = data.class_.assignmentTypeId
       this.classesData = data.course
       this.classroom_students = []
@@ -246,11 +245,22 @@ export default {
             payload
           )
           this.closeModal()
+          this.clearFields()
         }
       })
     },
+    clearFields () {
+      Object.keys(this.form).forEach((element) => {
+        this.form[element] = ''
+      })
+      this.$validator.reset()
+    },
 
     update () {}
+  },
+
+  mounted () {
+
   }
 }
 </script>

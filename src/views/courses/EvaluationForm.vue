@@ -195,7 +195,6 @@
 
 <script>
 // import AvatarList from '../components/AvatarList'
-import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
 
@@ -203,7 +202,6 @@ export default {
   name: 'EvaluationForm',
   components: {
     // AvatarList,
-    'v-select': vSelect,
     flatPickr
   },
   props: {
@@ -239,6 +237,7 @@ export default {
 
   methods: {
     getDataForm (data) {
+      this.clearFields()
       this.form.id = data.class_.assignmentTypeId
       this.classesData = data.course
       this.classroom_students = []
@@ -269,8 +268,15 @@ export default {
             payload
           )
           this.closeModal()
+          this.clearFields()
         }
       })
+    },
+    clearFields () {
+      Object.keys(this.form).forEach((element) => {
+        this.form[element] = ''
+      })
+      this.$validator.reset()
     },
 
     update () {}
