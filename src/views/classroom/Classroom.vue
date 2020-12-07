@@ -9,7 +9,7 @@
         <!-- ADD NEW -->
         <div
             class="flex flex-wrap justify-end mt-1 data-list-btn-container"
-            @click="popupActive = true"
+            @click="activeModal()"
         >
             <vs-button
                 color="primary"
@@ -32,6 +32,9 @@
                 :courseTypesList="this.courseTypes"
                 :teachersList="this.teachers"
                 :studentsList="this.storeStudents"
+                :popupActive="this.popupActive"
+                @close-modal="popupActive = false"
+                :cardData="this.classroom"
             ></ClassroomForm>
         </vs-popup>
 
@@ -120,6 +123,10 @@ export default {
     //     this.$vs.loading.close('#div-with-loading > .con-vs-loading')
     //   }, 3000);
     // },
+
+    activeModal () {
+      this.popupActive = true
+    },
 
     getInstitutionCount () {
       this.$store.dispatch('institution/getInstitutionCount', 2)

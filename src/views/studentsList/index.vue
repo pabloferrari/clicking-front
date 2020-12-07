@@ -1,60 +1,68 @@
 <template>
-  <div class="vx-row">
-
-    <div class="vx-col lg:block sm:w-full md:w-full lg:w-1/2 mb-auto mx-auto self-center mt-8">
-
-      <div id="form-model" class="principal-title mb-10">
-        <div class="vx-row">
-          <div class="vx-col w-full">
-            <p class="primary">Docente</p>
-          </div>
-        </div>
+  <div class="studentsList">
+    <div class="vx-row">
+      <div class="vx-col w-1/2">
+          <p class="primary-title">{{ title }}</p>
       </div>
-
-      <!-- CardAvatar -->
-      <CardAvatar
-      v-for="(teacher, index) in this.courseTeachers"
-      :key="index"
-      :id="teacher.id"
-      :name="teacher.name"
-      :avatar="teacher.user.image"
-      @student-list-card="elementActiveDetail(teacher,'Docente')"
-      />
-
-      <div id="form-model" class="principal-title mb-10 mt-10">
-        <div class="vx-row">
-          <div class="vx-col w-full">
-            <p class="primary">Alumnos</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- CardAvatar -->
-      <CardAvatar
-      v-for="(element, index) in this.courseStudents"
-      :key="index"
-      :id="element.id"
-      :name="element.student.name"
-      :avatar="element.student.user.image"
-      class="mt-5"
-     @student-list-card="elementActiveDetail(element.student,'Alumno')"
-      />
-      <!-- :avatar="student.user.image" -->
-
     </div>
 
-    <div class="vx-col lg:block sm:w-full md:w-full lg:w-1/2 mb-auto mx-auto self-center mt-8">
 
-      <!-- CardAvatarDetail -->
-      <CardAvatarDetail
-       :name="this.cardsDetail.name"
-       :description="this.cardsDetail.description"
-       :rol="this.cardsDetail.rol"
-       :avatar="this.cardsDetail.avatar"
-      />
+    <div class="vx-row">
+      <div class="vx-col lg:block sm:w-full md:w-full lg:w-1/2 mb-auto mx-auto self-center mt-8">
+
+        <div id="form-model" class="principal-title mb-10">
+          <div class="vx-row">
+            <div class="vx-col w-full">
+              <p class="primary">Docente</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CardAvatar -->
+        <CardAvatar
+        v-for="(teacher, index) in this.courseTeachers"
+        :key="index"
+        :id="teacher.id"
+        :name="teacher.name"
+        :avatar="teacher.user.image"
+        @student-list-card="elementActiveDetail(teacher,'Docente')"
+        />
+
+        <div id="form-model" class="principal-title mb-10 mt-10">
+          <div class="vx-row">
+            <div class="vx-col w-full">
+              <p class="primary">Alumnos</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CardAvatar -->
+        <CardAvatar
+        v-for="(element, index) in this.courseStudents"
+        :key="index"
+        :id="element.id"
+        :name="element.student.name"
+        :avatar="element.student.user.image"
+        class="mt-5"
+      @student-list-card="elementActiveDetail(element.student,'Alumno')"
+        />
+        <!-- :avatar="student.user.image" -->
+
+      </div>
+
+      <div class="vx-col lg:block sm:w-full md:w-full lg:w-1/2 mb-auto mx-auto self-center mt-8">
+
+        <!-- CardAvatarDetail -->
+        <CardAvatarDetail
+        :name="this.cardsDetail.name"
+        :description="this.cardsDetail.description"
+        :rol="this.cardsDetail.rol"
+        :avatar="this.cardsDetail.avatar"
+        />
+
+      </div>
 
     </div>
-
   </div>
 </template>
 
@@ -67,7 +75,8 @@ import CardAvatarDetail from './CardAvatarDetail'
 export default {
   name: 'studentsList',
   props: {
-    id: String
+    id: String,
+    title: String
   },
   components: {
     CardAvatar,
@@ -129,6 +138,19 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.primary-title {
+    font-family: Gilroy;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 28px;
+    line-height: 44px;
+    display: flex;
+    align-items: center;
+    color: #567df4;
+}
+</style>
 
 <style lang="css" >
   .principal-title {

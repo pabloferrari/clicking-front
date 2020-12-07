@@ -154,6 +154,10 @@ export default {
     })
   },
   methods: {
+    clearFields () {
+      this.form.subject_id = ''
+      this.form.teacher_id = ''
+    },
     accept () {
       this.activePrompt = true
     },
@@ -193,16 +197,21 @@ export default {
     },
     create () {
       console.log('Creando...')
-      //this.$validator.validateAll().then((result) => {
-      //if (result) {
-      const payload = this.form
-      this.$store.dispatch('course/createCourse', payload)
-      //this.$emit("close-modal");
-      //}
-      //})
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          const payload = this.form
+          this.$store.dispatch('course/createCourse', payload)
+          //this.$emit("close-modal");
+        }
+      })
     }
   },
   watch: {
+    activePrompt (newVal) {
+      if (newVal) {
+        this.clearFields()
+      }
+    },
     storeClassroomCount (data) {
       this.countClassroom = {
         courses: data.courses,
