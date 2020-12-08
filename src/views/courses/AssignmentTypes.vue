@@ -5,33 +5,19 @@
         <p class="primary">{{ titleHeader }}</p>
       </div>
     </div>
-    <CardWelcome :cardsWelcome="this.cardsWelcome"></CardWelcome>
-
+    <CardWelcome :cardsWelcome="this.cardsWelcome"> </CardWelcome>
     <div class="mt-0">
       <vs-tabs>
-        <vs-tab label="Cursos" @click="getCourses()">
+        <vs-tab label="Por Corregir">
           <div class="tab-content-courses">
-            <div>
-              <CardList :cardData="this.courses" description="cursando">
-              </CardList>
+            <div v-for="(assignment, index) in this.cardStatus" :key="index">
+              <CardStatus :data="assignment"></CardStatus>
             </div>
           </div>
         </vs-tab>
-        <vs-tab label="Talleres">
+        <vs-tab label="Completado">
           <div class="tab-content-workshop">
-            <div>
-              <CardList
-                v-if="this.workshop.length > 0"
-                :cardData="this.workshop"
-                description="cursando"
-              >
-              </CardList>
-              <div v-else>
-                <p class="font-semibold text-center">
-                  No se encontraron resultados
-                </p>
-              </div>
-            </div>
+            <div class="text-center">No se encontraron resultados</div>
           </div>
         </vs-tab>
       </vs-tabs>
@@ -39,62 +25,76 @@
   </div>
 </template>
 <script>
-// import AvatarList from '../components/AvatarList'
 import CardWelcome from '../components/CardWelcome'
 import CourseLogo from '../components/icons/CourseLogo'
 import PencilLogo from '../components/icons/PencilLogo'
 import CheckLogo from '../components/icons/CheckLogo'
 import DocumentLogo from '../components/icons/DocumentLogo'
-import CardList from '../components/CardList'
-import { mapGetters } from 'vuex'
+
+import CardStatus from '../components/CardStatus'
+
+
+// import { mapGetters } from 'vuex'
 export default {
-  name: 'courses',
+  name: 'Course',
   components: {
-
     CardWelcome,
-    CardList
-
+    CardStatus
   },
   props: {
-    title: String,
-    id: String
+    assignment: String
   },
 
   mounted () {
-    this.getCourses()
+    // this.getCourses()
   },
 
-  computed: {
-    ...mapGetters({ storeCourses: 'course/getCourses' })
-  },
-  methods: {
-    getCourses () {
-      this.$store.dispatch('course/getMyCoursesData')
+  // computed: {
+  //   ...mapGetters({ storeCourses: 'course/getCourses' })
+  // },
+  // methods: {
+  //   getCourses () {
+  //     this.$store.dispatch('course/getMyCoursesData')
 
-      this.$store.dispatch('course/getCoursesClassroomData', this.id)
-    }
-  },
-  watch: {
-    storeCourses ({ Curso }) {
-      if (Curso) {
-        const courseData = []
-        Curso.map((element) => {
-          courseData.push({
-            title: element.subject.name,
-            subtitle: `${element.classroom.name} - ${element.classroom.shift.name}`,
-            buttonTitle: 'Ir a curso',
-            path: `/courses/${element.subject.name.split(' ').join('-')}/${
-              element.id
-            }`,
-            avatarData: element.classroom.classroom_students
-          })
-        })
-        this.courses = courseData
-      }
-    }
-  },
+  //     this.$store.dispatch('course/getCoursesClassroomData', this.id)
+  //   }
+  // },
+  // watch: {
+  //   storeCourses ({Curso}) {
+  //     if (Curso) {
+  //       const courseData = []
+  //       Curso.map((element) => {
+  //         courseData.push({
+  //           title: element.subject.name,
+  //           subtitle: `${element.classroom.name} - ${element.classroom.shift.name}`,
+  //           buttonTitle: 'Ir a curso',
+  //           path: `/courses/${element.subject.name.split(' ').join('-')}/${
+  //             element.id
+  //           }`,
+  //           avatarData: element.classroom.classroom_students
+  //         })
+  //       })
+  //       this.courses = courseData
+  //     }
+  //   }
+  // },
   data () {
     return {
+      cardStatus: [
+        {
+          title: 'Estructura Basica',
+          name: '3B-Comision - Mañana',
+          type: 1,
+          limit_date: '2020-12-08 14:30:00'
+        },
+        {
+          title: 'Estructura Basica 2',
+          name: '3B-Comision - Mañana',
+          type: 1,
+          limit_date: '2020-12-08 14:30:00'
+        }
+      ],
+
       cardsWelcome: [
         {
           icon: CourseLogo,

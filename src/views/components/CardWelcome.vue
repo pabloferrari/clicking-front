@@ -40,14 +40,14 @@ export default {
   },
   methods: {
     handlerRoute (path) {
+      console.log(path)
       if (this.$router.currentRoute.path !== path) {
         this.$router.push(path)
       }
     },
 
     routeActive (path) {
-      const activeRoute =
-        this.$router.currentRoute.path === path
+      const activeRoute = this.$router.currentRoute.path === path
 
       return activeRoute
     }

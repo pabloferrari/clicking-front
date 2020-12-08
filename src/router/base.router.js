@@ -74,13 +74,22 @@ export default [
     }
   },
   {
+    path: '/courses/:assignment',
+    name: 'Mis Cursos - Asignación',
+    component: () => import('../views/courses/AssignmentTypes.vue'),
+    meta: {
+      permissions: ['student', 'teacher']
+    },
+    props: true
+  },
+  {
     path: '/courses/:subject/:subjectId',
     name: 'Curso Materia Asignaciones',
     component: () => import('../views/courses/Subject.vue'),
     meta: {
       permissions: ['admin', 'institution', 'teacher']
     },
-    props:true
+    props: true
   },
   {
     path: '/classrooms',
@@ -96,7 +105,7 @@ export default [
     component: () => import('../views/courses/Courses.vue'),
     meta: {
       permissions: ['teacher'],
-      props:true
+      props: true
     }
   },
   {
@@ -106,7 +115,7 @@ export default [
     meta: {
       permissions: ['institution']
     },
-    props:true
+    props: true
   },
   {
     path: '/courses/:title/students-list/:id',
@@ -115,7 +124,7 @@ export default [
     // meta: {
     //   permissions: ['institution']
     // },
-    props:true
+    props: true
   }
 
   // {
