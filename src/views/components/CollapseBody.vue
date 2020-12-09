@@ -58,6 +58,40 @@
         </div>
       </div>
     </div>
+
+    <!-- START MODAL -->
+        <vs-prompt
+            @accept="saveGroup"
+            title="Armar Grupos"
+            cancel-text="Cancelar"
+            accept-text="Crear"
+            :active.sync="itemOne"
+        >
+
+            <div
+                  class=""
+                  v-for="i in this.form.groupqty"
+                  :key="i"
+              >
+              <label class="typo__label">Grupo {{i}}</label>
+              <multiselect
+                  v-model="form.student_id[i]"
+                  :options="dataStudentsList"
+                  :multiple="true"
+                  :close-on-select="false"
+                  :clear-on-select="false"
+                  :preserve-search="true"
+                  :placeholder="'Asignar Alumnos ' + i"
+                  label="name"
+                  track-by="id"
+                  selectLabel="Seleccionar"
+                  deselectLabel="Quitar"
+                  >
+              </multiselect>
+              <br />
+          </div>
+        </vs-prompt>
+
   </div>
 </template>
 
@@ -67,18 +101,55 @@ import ButtonDropDown from './ButtonDropDown'
 import ListIcon from '../components/icons/ListIcon'
 import PencilAssignmentlIcon from '../components/icons/PencilAssignmentlIcon'
 import CheckAssignmentIcon from '../components/icons/CheckAssignmentIcon'
+import Multiselect from 'vue-multiselect'
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'CollapseBody',
   components: {
     ListIcon,
     PencilAssignmentlIcon,
     CheckAssignmentIcon,
-    ButtonDropDown
+    ButtonDropDown,
+    Multiselect
   },
   props: {
-    dataCollapseBody: Object
+    dataCollapseBody: Object,
+    studentsList: null
+  },
+  data () {
+    return {
+      itemOne: false,
+      dataStudentsList: [],
+      form: {
+        assignmentId: null,
+        groupqty: this.dataCollapseBody.groupqty,
+        student_id: []
+      }
+    }
+  },
+  watch : {
+    studentsList () {
+      this.studentsList.students.map(element => {
+        this.dataStudentsList.push(
+          {
+            id: element.id,
+            name: element.student.name
+          }
+        )
+      })
+      console.log('dataStudentsList', this.dataStudentsList)
+    }
   },
   methods: {
+    saveGroup () {
+      // this.form.student_id.map((element, index) => {
+      //   console.log('Grupo', index)
+      // })
+      const payload = this.form
+      this.$store.dispatch('assignmentGroup/createAssignmentGroup', payload)
+      //console.log('Save Group', payload)
+    },
     dataDropDown (data) {
       return   [
         {
@@ -89,8 +160,11 @@ export default {
       ]
     },
     showModalGroup (data) {
-      const assignmentId = data.target.dataset.id
-      console.log(assignmentId)
+      this.form.assignmentId = data.target.dataset.id
+      this.itemOne = true
+      //console.log(data)
+      // console.log('assignmentId', assignmentId)
+      // console.log('groupqty', this.groupqty)
     },
     messageStatus () {
       return 'Pendiente'
@@ -112,7 +186,9 @@ export default {
     }
   },
   mounted () {
-    // console.log(this.dataCollapseBody);
+
   }
 }
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

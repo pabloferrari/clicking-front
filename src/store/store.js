@@ -37,6 +37,8 @@ import subject from './modules/subject'
 import courseType from './modules/courseType'
 
 import assignment from './modules/assignment'
+import assignmentGroup from './modules/assignmentGroup'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -59,8 +61,8 @@ export default new Vuex.Store({
     shift,
     subject,
     courseType,
-
-    assignment
+    assignment,
+    assignmentGroup
   },
   getters,
   mutations,

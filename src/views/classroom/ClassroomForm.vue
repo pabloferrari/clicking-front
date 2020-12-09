@@ -154,23 +154,8 @@
 
       <!-- RIGHT DATA FORM ALUMNO -->
       <div class="vx-col sm:w-full md:w-full lg:w-1/3 mb-auto mx-auto right-data-form mr-3">
-        <vx-card
-          class="mt-base"
-          v-for="(post, index) in userPosts"
-          :key="index"
-        >
-        <!--
-          <p>Asignar alumnos</p>
 
-
-          <div>
-             <vs-select placeholder="Asignar alumnos"  multiple class="selectExample" v-model="form.student_id" v-validate="'required'">
-                <vs-select-item :key="index" :value="item.id" :text="item.name" v-for="(item,index) in studentsList" />
-            </vs-select>
-
-          </div>-->
-
-          <div>
+          <div class="mt-base">
             <label class="typo__label">Asignar alumnos</label>
             <multiselect
                 v-model="form.student_id"
@@ -193,7 +178,7 @@
             :dataAvatarList="cardData"
             :description="description"
           ></AvatarList>
-        </vx-card>
+
       </div>
 </div>
 </template>

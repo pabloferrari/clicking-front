@@ -22,6 +22,9 @@ const mutations = {
   setAssignments (state, assignments) {
     state.assignments = assignments
   },
+  setAssignment (state, assignment) {
+    state.assignment = assignment
+  },
   updatedAssignment (state, assignment) {
     const assignmentClone = Object.assign([], state.assignments)
     const newAssignment = assignmentClone.map((e) => {
@@ -95,6 +98,12 @@ const actions = {
     await AssignmentService.getAssignmentsByCourse(id)
       .then((response) => {
         commit('setAssignments', response.data)
+      }).catch((err) => console.log(err))
+  },
+  async getAssignmentsById ({ commit }, id) {
+    await AssignmentService.get(id)
+      .then((response) => {
+        commit('setAssignment', response.data)
       }).catch((err) => console.log(err))
   }
 

@@ -70,7 +70,7 @@
                 >
                     <CollapseBody
                         :dataCollapseBody="assignments"
-
+                        :studentsList="courseStudents"
                     ></CollapseBody>
                 </div>
             </div>
@@ -93,14 +93,15 @@ export default {
   },
   props: {
     classesList: Array,
-    DropDownList: Array
+    DropDownList: Array,
+    courseStudents: null
   },
   data () {
     return {
       titleButton: 'clase grabada',
       showDetails: '',
-      collapseBodyProp: null
-
+      collapseBodyProp: null,
+      dataStudents: []
     }
   },
   methods: {

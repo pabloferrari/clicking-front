@@ -97,6 +97,7 @@
                                 v-if="this.classesList.length > 0"
                                 :DropDownList="this.DropDownList"
                                 :classesList="this.classesList"
+                                :courseStudents="this.courseStudents"
                             ></Collapse>
                             <div v-else>
                                 <p class="font-semibold text-center">
