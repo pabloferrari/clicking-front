@@ -321,6 +321,7 @@ export default {
     },
 
     storeCourseAssignments (data) {
+      console.log(data)
       const assignmentsData = []
       if (data && data.length > 0) {
         data.map(element => {

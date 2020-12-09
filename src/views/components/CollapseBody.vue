@@ -102,7 +102,7 @@ import ListIcon from '../components/icons/ListIcon'
 import PencilAssignmentlIcon from '../components/icons/PencilAssignmentlIcon'
 import CheckAssignmentIcon from '../components/icons/CheckAssignmentIcon'
 import Multiselect from 'vue-multiselect'
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 
 export default {
   name: 'CollapseBody',
@@ -128,8 +128,21 @@ export default {
       }
     }
   },
-  watch : {
-    studentsList () {
+  // watch : {
+  //   studentsList () {
+  //     this.studentsList.students.map(element => {
+  //       this.dataStudentsList.push(
+  //         {
+  //           id: element.id,
+  //           name: element.student.name
+  //         }
+  //       )
+  //     })
+  //     console.log('dataStudentsList', this.dataStudentsList)
+  //   }
+  // },
+  methods: {
+    LoadstudentsList () {
       this.studentsList.students.map(element => {
         this.dataStudentsList.push(
           {
@@ -138,10 +151,8 @@ export default {
           }
         )
       })
-      console.log('dataStudentsList', this.dataStudentsList)
-    }
-  },
-  methods: {
+      //console.log('dataStudentsList', this.dataStudentsList)
+    },
     saveGroup () {
       // this.form.student_id.map((element, index) => {
       //   console.log('Grupo', index)
@@ -151,6 +162,7 @@ export default {
       //console.log('Save Group', payload)
     },
     dataDropDown (data) {
+      //console.log(data)
       return   [
         {
           id:data.id,
@@ -162,6 +174,7 @@ export default {
     showModalGroup (data) {
       this.form.assignmentId = data.target.dataset.id
       this.itemOne = true
+      this.LoadstudentsList()
       //console.log(data)
       // console.log('assignmentId', assignmentId)
       // console.log('groupqty', this.groupqty)

@@ -64,6 +64,7 @@ const actions = {
           classId: response.data.class.id,
           title: response.data.title,
           id: response.data.id,
+          groupqty: response.data.groupqty,
           description: response.data.description,
           limit_date: response.data.limit_date,
           assignmenttype: response.data.assignment_type
