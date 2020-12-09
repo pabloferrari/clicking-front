@@ -3,13 +3,15 @@ import AssignmentService from '../../services/assignment'
 import CourseClassService from '../../services/courseClass'
 const state = {
   assignment: {},
-  assignments: []
+  assignments: [],
+  myAssignments: []
 }
 
 
 const getters = {
   getAssignment: state => { return state.assignment },
   getAssignments: state => { return state.assignments },
+  getMyAssignments: state => { return state.myAssignments },
   getAssignmentsId: state => id => {
     return state.assignments.find(
       assignments => assignments.id === id
@@ -19,10 +21,10 @@ const getters = {
 
 
 const mutations = {
-  setAssignments (state, assignments) {
+  setAssignments(state, assignments) {
     state.assignments = assignments
   },
-  updatedAssignment (state, assignment) {
+  updatedAssignment(state, assignment) {
     const assignmentClone = Object.assign([], state.assignments)
     const newAssignment = assignmentClone.map((e) => {
       if (e.id === assignment.classId) {
@@ -31,11 +33,14 @@ const mutations = {
       return e
     })
     state.assignments = newAssignment
+  },
+  setMyAssignments(state, myAssignments) {
+    state.myAssignments = myAssignments
   }
 }
 
 const actions = {
-  async createAssignment ({ commit, dispatch }, assignment) {
+  async createAssignment({ commit, dispatch }, assignment) {
     const newAssignment = {
       title: assignment.titleTask,
       description: assignment.description,
@@ -73,7 +78,7 @@ const actions = {
       }).catch((err) => console.log(err))
   },
 
-  async createCourseClass ({ commit, state, dispatch }, courseClass) {
+  async createCourseClass({ commit, state, dispatch }, courseClass) {
     await CourseClassService.create(courseClass)
       .then((response) => {
         const assignments = Object.assign([], state.assignments)
@@ -91,10 +96,16 @@ const actions = {
 
   },
 
-  async getAssignmentsByCourseData ({ commit }, id) {
+  async getAssignmentsByCourseData({ commit }, id) {
     await AssignmentService.getAssignmentsByCourse(id)
       .then((response) => {
         commit('setAssignments', response.data)
+      }).catch((err) => console.log(err))
+  },
+  async getMyAssignmentsData({ commit }, id) {
+    await AssignmentService.getMyAssignments(id)
+      .then((response) => {
+        commit('setMyAssignments', response.data)
       }).catch((err) => console.log(err))
   }
 

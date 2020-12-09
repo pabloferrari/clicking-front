@@ -35,9 +35,14 @@
           <div class="w-2/6 p-4">
             <div class="rounded-full h-10 p-4">
               <vs-chip class="bg-white">
-                <feather-icon icon="clockIcon" svgClasses="h-5 w-8 text-red">
+                <feather-icon
+                  :icon="this.parseStatus(data.typeStatusId)"
+                  svgClasses="h-5 w-8 text-red"
+                >
                 </feather-icon>
-                <p class="text-center text-red font-bold">Pendiente</p>
+                <p class="text-center text-red font-bold">
+                  {{ data.typeStatus }}
+                </p>
               </vs-chip>
             </div>
           </div>
@@ -47,31 +52,43 @@
   </div>
 </template>
 
-<script>
-import moment from 'moment'
 
-import ListIcon from '../components/icons/ListIcon'
-import PencilAssignmentlIcon from '../components/icons/PencilAssignmentlIcon'
-import CheckAssignmentIcon from '../components/icons/CheckAssignmentIcon'
+<script>
+import moment from "moment";
+
+import ListIcon from "../components/icons/ListIcon";
+import PencilAssignmentlIcon from "../components/icons/PencilAssignmentlIcon";
+import CheckAssignmentIcon from "../components/icons/CheckAssignmentIcon";
 export default {
-  name: 'CardStatus',
+  name: "CardStatus",
   components: {
     ListIcon,
     PencilAssignmentlIcon,
-    CheckAssignmentIcon
+    CheckAssignmentIcon,
   },
   props: {
-    data: Object
+    data: Object,
   },
   methods: {
-    formatDateTime (datetime) {
-      if (!datetime) {
-        return null
+    parseStatus(status) {
+      switch (status) {
+        case 1:
+          return "ClockIcon";
+          break;
+
+        default:
+          break;
       }
-      return moment(String(datetime)).format('DD/MM/YYYY hh:mm A')
-    }
-  }
-}
+    },
+
+    formatDateTime(datetime) {
+      if (!datetime) {
+        return null;
+      }
+      return moment(String(datetime)).format("DD/MM/YYYY hh:mm A");
+    },
+  },
+};
 </script>
 <style>
 .backgroud-internal {
