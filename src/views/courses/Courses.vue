@@ -113,13 +113,13 @@ export default {
           icon: PencilLogo,
           title: 'Trabajos Prácticos',
           count: 1,
-          path: '/courses/workpractice'
+          path: '/courses/workpractices'
         },
         {
           icon: CheckLogo,
           title: 'Exámenes',
           count: 2,
-          path: '/courses/evaluation'
+          path: '/courses/evaluations'
         }
       ],
       courses: [],

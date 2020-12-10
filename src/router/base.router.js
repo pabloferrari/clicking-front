@@ -74,9 +74,27 @@ export default [
     }
   },
   {
-    path: '/courses/:assignment',
-    name: 'Mis Cursos - Asignación',
-    component: () => import('../views/courses/AssignmentTypes.vue'),
+    path: '/courses/tasks',
+    name: 'Mis Cursos - Asignación Tarea',
+    component: () => import('../views/courses/MyTasks.vue'),
+    meta: {
+      permissions: ['student', 'teacher']
+    },
+    props: true
+  },
+  {
+    path: '/courses/evaluations',
+    name: 'Mis Cursos - Asignación Evaluación',
+    component: () => import('../views/courses/MyEvaluations.vue'),
+    meta: {
+      permissions: ['student', 'teacher']
+    },
+    props: true
+  },
+  {
+    path: '/courses/workpractices',
+    name: 'Mis Cursos - Asignación Trabajo Practico',
+    component: () => import('../views/courses/MyWorkPractices.vue'),
     meta: {
       permissions: ['student', 'teacher']
     },

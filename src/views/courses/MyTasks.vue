@@ -25,91 +25,97 @@
   </div>
 </template>
 <script>
-import CardWelcome from "../components/CardWelcome";
-import CourseLogo from "../components/icons/CourseLogo";
-import PencilLogo from "../components/icons/PencilLogo";
-import CheckLogo from "../components/icons/CheckLogo";
-import DocumentLogo from "../components/icons/DocumentLogo";
+import CardWelcome from '../components/CardWelcome'
+import CourseLogo from '../components/icons/CourseLogo'
+import PencilLogo from '../components/icons/PencilLogo'
+import CheckLogo from '../components/icons/CheckLogo'
+import DocumentLogo from '../components/icons/DocumentLogo'
 
-import CardStatus from "../components/CardStatus";
-import { mapGetters } from "vuex";
+import CardStatus from '../components/CardStatus'
+import { mapGetters } from 'vuex'
 
 export default {
-  name: "Course",
+  name: 'Course',
   components: {
     CardWelcome,
-    CardStatus,
+    CardStatus
   },
   props: {
-    assignment: String,
+    assignment: String
   },
-  data() {
+  data () {
     return {
       cardStatus: [],
 
       cardsWelcome: [
         {
           icon: CourseLogo,
-          title: "Cursos",
+          title: 'Cursos',
           count: 2,
 
-          path: "/courses",
+          path: '/courses'
         },
         {
           icon: DocumentLogo,
-          title: "Tareas",
+          title: 'Tareas',
           count: 3,
-          path: "/courses/tasks",
+          path: '/courses/tasks'
         },
         {
           icon: PencilLogo,
-          title: "Trabajos Prácticos",
+          title: 'Trabajos Prácticos',
           count: 1,
-          path: "/courses/workpractice",
+          path: '/courses/workpractices'
         },
         {
           icon: CheckLogo,
-          title: "Exámenes",
+          title: 'Exámenes',
           count: 2,
-          path: "/courses/evaluation",
-        },
+          path: '/courses/evaluations'
+        }
       ],
 
-      titleHeader: this.title ? this.title.split("-").join(" ") : "Mis Cursos",
-    };
+      titleHeader: this.title ? this.title.split('-').join(' ') : 'Mis Cursos'
+    }
   },
   computed: {
-    ...mapGetters({ storeMyAssignments: "assignment/getMyAssignments" }),
+    ...mapGetters({ storeMyAssignments: 'assignment/getMyAssignments' })
   },
   watch: {
-    storeMyAssignments(data) {
-      const myAssignmentData = [];
+    storeMyAssignments (data) {
+      const myAssignmentData = []
       data.map((element) => {
+        const statusName = this.parseStatus(element.studentsassignment, 'name')
+        const statusId = this.parseStatus(element.studentsassignment, 'id')
+        console.log(statusName, statusId)
         myAssignmentData.push({
           name: `${element.class.course.classroom.name} - ${element.class.course.classroom.shift.name}`,
 
           type: element.assignmenttype.id,
-          typeStatusId: 1,
-          typeStatus: "Pendiente",
-          // typeStatusId: element.studentsassignment.assignmentstatus.id,
-          // typeStatus: element.studentsassignment.assignmentstatus.name,
+          typeStatusId: statusId[0],
+          typeStatus: statusName[0],
+
           title: element.title,
-          limit_date: element.limit_date,
-        });
-      });
-      this.cardStatus = myAssignmentData;
-      console.log(data);
-    },
+          limit_date: element.limit_date
+        })
+      })
+      this.cardStatus = myAssignmentData
+      // console.log(data)
+    }
   },
   methods: {
-    getMyAssignments() {
-      this.$store.dispatch("assignment/getMyAssignmentsData", 1);
+    parseStatus (data, field) {
+      return  [... new Set(data.map((e) => e.assignmentstatus[field]))]
     },
+
+    getMyAssignments () {
+      this.$store.dispatch('assignment/getMyAssignmentsData', 1)
+    }
   },
-  mounted() {
-    this.getMyAssignments();
-  },
-};
+  mounted () {
+    this.getMyAssignments()
+  }
+}
 </script>
 
 <style lang="scss" scoped>
