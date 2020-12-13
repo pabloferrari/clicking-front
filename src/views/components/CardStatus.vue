@@ -33,14 +33,14 @@
         </div>
         <div class="grid justify-items-end">
           <div class="w-2/6 p-4">
-            <div class="rounded-full h-10 p-4">
-              <vs-chip class="bg-white">
+            <div class="rounded-full h-10 p-4" @click="handleRouter(data.id)">
+              <vs-chip class="bg-white" >
                 <feather-icon
                   :icon="this.parseStatus(data.typeStatusId)"
-                  svgClasses="h-5 w-8 text-red"
+                  :svgClasses="'h-5 w-8 '+this.classColor"
                 >
                 </feather-icon>
-                <p class="text-center text-red font-bold">
+                <p :class="'text-center  font-bold '+this.classColor">
                   {{ data.typeStatus }}
                 </p>
               </vs-chip>
@@ -54,41 +54,57 @@
 
 
 <script>
-import moment from "moment";
+import moment from 'moment'
 
-import ListIcon from "../components/icons/ListIcon";
-import PencilAssignmentlIcon from "../components/icons/PencilAssignmentlIcon";
-import CheckAssignmentIcon from "../components/icons/CheckAssignmentIcon";
+import ListIcon from '../components/icons/ListIcon'
+import PencilAssignmentlIcon from '../components/icons/PencilAssignmentlIcon'
+import CheckAssignmentIcon from '../components/icons/CheckAssignmentIcon'
 export default {
-  name: "CardStatus",
+  name: 'CardStatus',
   components: {
     ListIcon,
     PencilAssignmentlIcon,
-    CheckAssignmentIcon,
+    CheckAssignmentIcon
   },
   props: {
-    data: Object,
+    data: Object
+  },
+  data () {
+    return {
+      classColor: ''
+    }
   },
   methods: {
-    parseStatus(status) {
+    handleRouter (id) {
+      if (id) {
+        const path = `/courses/assignment/${id}`
+        this.$router.push(path)
+      }
+    },
+    parseStatus (status) {
       switch (status) {
-        case 1:
-          return "ClockIcon";
-          break;
+      case 1:
+        this.classColor = 'text-red'
+        return 'ClockIcon'
+        break
+      case 2:
+        this.classColor = 'text-primary'
+        return 'CheckIcon'
+        break
 
-        default:
-          break;
+      default:
+        break
       }
     },
 
-    formatDateTime(datetime) {
+    formatDateTime (datetime) {
       if (!datetime) {
-        return null;
+        return null
       }
-      return moment(String(datetime)).format("DD/MM/YYYY hh:mm A");
-    },
-  },
-};
+      return moment(String(datetime)).format('DD/MM/YYYY hh:mm A')
+    }
+  }
+}
 </script>
 <style>
 .backgroud-internal {

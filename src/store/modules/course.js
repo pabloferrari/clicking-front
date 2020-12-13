@@ -4,7 +4,8 @@ import CourseService from '../../services/course'
 const state = {
   course: {},
   courses: [],
-  courseSubject: []
+  courseSubject: [],
+  courseAssignmentCount: []
 }
 
 
@@ -12,6 +13,7 @@ const getters = {
   getCourse: state => { return state.course },
   getCourses: state => { return state.courses },
   getCourseSubject: state => { return state.courseSubject },
+  getCourseAssignmentCount: state => { return state.courseAssignmentCount },
   getCourseId: state => id => {
     return state.courses.find(
       courses => courses.id === id
@@ -35,6 +37,10 @@ const mutations = {
 
   setCourseSubject (state, courseSubject) {
     state.courseSubject = courseSubject
+  },
+
+  setCourseAssignmentCount (state, courseAssignmentCount) {
+    state.courseAssignmentCount = courseAssignmentCount
   }
 
 }
@@ -115,21 +121,20 @@ const actions = {
     await CourseService.get(id)
       .then((response) => commit('setCourses', response.data))
       .catch((err) => console.log(err))
-    // commit('setCourseSubject', courseData.data)
-
-    // await CourseService.get(id)
-    //   .then((response) => {
-    //     console.log(response.data)
-    //     commit('setCourses', response.data)
-    //   })
-    //   .catch((err) => {
-    //     console.log(err)
-    //   })
   },
   async getMyCoursesData ({ commit }) {
     await CourseService.getMyCourses()
       .then((response) => {
         commit('setCourses', response.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
+  async getCoursesAssignmentsCountData ({ commit }) {
+    await CourseService.getCoursesAssignmentsCount()
+      .then((response) => {
+        commit('setCourseAssignmentCount', response.data)
       })
       .catch((err) => {
         console.log(err)

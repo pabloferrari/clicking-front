@@ -112,8 +112,9 @@ const actions = {
         commit('setAssignment', response.data)
       }).catch((err) => console.log(err))
   },
-  async getMyAssignmentsData ({ commit }, id) {
-    await AssignmentService.getMyAssignments(id)
+  async getMyAssignmentsData ({ commit }, {id, status}) {
+    // console.log(params)
+    await AssignmentService.getMyAssignments(id, status)
       .then((response) => {
         commit('setMyAssignments', response.data)
       }).catch((err) => console.log(err))

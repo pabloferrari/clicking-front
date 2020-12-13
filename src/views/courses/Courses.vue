@@ -5,7 +5,7 @@
         <p class="primary">{{ titleHeader }}</p>
       </div>
     </div>
-    <CardWelcome :cardsWelcome="this.cardsWelcome"></CardWelcome>
+    <CardWelcome :cardsWelcome="this.getCourseAssignments()"></CardWelcome>
 
     <div class="mt-0">
       <vs-tabs>
@@ -59,19 +59,65 @@ export default {
     title: String,
     id: String
   },
+  data () {
+    return {
+      courses: [],
+      workshop: [],
+      courseAssignmentCount: [],
+
+
+      titleHeader: this.title ? this.title.split('-').join(' ') : 'Mis Cursos'
+    }
+  },
 
   mounted () {
+    this.getCoursesAssignmentsCount()
     this.getCourses()
   },
 
   computed: {
-    ...mapGetters({ storeCourses: 'course/getCourses' })
+    ...mapGetters({ storeCourses: 'course/getCourses', storeCourseAssignmentsCount:'course/getCourseAssignmentCount' })
   },
   methods: {
+
+    getCourseAssignments () {
+
+      return [
+        {
+          icon: CourseLogo,
+          title: 'Cursos',
+          count: this.courseAssignmentCount.courses ? this.courseAssignmentCount.courses : 0,
+          path: '/courses'
+        },
+        {
+          icon: DocumentLogo,
+          title: 'Tareas',
+          count: this.courseAssignmentCount.tasks ? this.courseAssignmentCount.tasks : 0,
+          path: '/courses/tasks'
+        },
+        {
+          icon: PencilLogo,
+          title: 'Trabajos Prácticos',
+          count: this.courseAssignmentCount.workpractice ? this.courseAssignmentCount.workpractice : 0,
+          path: '/courses/workpractices'
+        },
+        {
+          icon: CheckLogo,
+          title: 'Exámenes',
+          count: this.courseAssignmentCount.exams ? this.courseAssignmentCount.exams : 0,
+          path: '/courses/evaluations'
+        }
+      ]
+    },
+
+
     getCourses () {
       this.$store.dispatch('course/getMyCoursesData')
 
-      this.$store.dispatch('course/getCoursesClassroomData', this.id)
+      // this.$store.dispatch('course/getCoursesClassroomData', this.id)
+    },
+    getCoursesAssignmentsCount () {
+      this.$store.dispatch('course/getCoursesAssignmentsCountData')
     }
   },
   watch: {
@@ -91,64 +137,22 @@ export default {
         })
         this.courses = courseData
       }
-    }
-  },
-  data () {
-    return {
-      cardsWelcome: [
-        {
-          icon: CourseLogo,
-          title: 'Cursos',
-          count: 2,
+    },
+    storeCourseAssignmentsCount (data) {
+      const defaultCourseAssignment = {
+        courses: 0,
+        tasks: 0,
+        workpractice: 0,
+        exams: 0
+      }
+      if (!data) {
+        this.courseAssignmentCount = defaultCourseAssignment
+      }
+      this.courseAssignmentCount = data
 
-          path: '/courses'
-        },
-        {
-          icon: DocumentLogo,
-          title: 'Tareas',
-          count: 3,
-          path: '/courses/tasks'
-        },
-        {
-          icon: PencilLogo,
-          title: 'Trabajos Prácticos',
-          count: 1,
-          path: '/courses/workpractices'
-        },
-        {
-          icon: CheckLogo,
-          title: 'Exámenes',
-          count: 2,
-          path: '/courses/evaluations'
-        }
-      ],
-      courses: [],
-      titleHeader: this.title ? this.title.split('-').join(' ') : 'Mis Cursos',
-      // course: [
-      //   {
-      //     title: "Matematica",
-      //     subtitle: "Comision A -Turno Mañana",
-      //     buttonTitle: "Ir a curso",
-      //     path: "/courses/Matematica",
-      //   },
-      //   {
-      //     title: "Lenguaje",
-      //     subtitle: "Comision A -Turno Tarde",
-      //     buttonTitle: "Ir a curso",
-      //     path: "/courses/Lenguaje",
-      //   },
-      // ],
-      workshop: [],
-      tabs: [
-        {
-          title: 'Cursos'
-        },
-        {
-          title: 'Talleres'
-        }
-      ]
     }
   }
+
 }
 </script>
 

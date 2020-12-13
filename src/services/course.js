@@ -15,7 +15,9 @@ class CourseService {
   getMyCourses () {
     return service.get('/my-courses')
   }
-
+  getCoursesAssignmentsCount () {
+    return service.get('/my-courses-assignments-count')
+  }
   create (data) {
     return service.post(`/${this.entity}`, data)
   }

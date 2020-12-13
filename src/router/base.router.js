@@ -70,7 +70,7 @@ export default [
     name: 'Mis Cursos',
     component: () => import('../views/courses/Courses.vue'),
     meta: {
-      permissions: ['admin', 'teacher']
+      permissions: ['admin', 'teacher', 'student']
     }
   },
   {
@@ -95,6 +95,15 @@ export default [
     path: '/courses/workpractices',
     name: 'Mis Cursos - Asignación Trabajo Practico',
     component: () => import('../views/courses/MyWorkPractices.vue'),
+    meta: {
+      permissions: ['student', 'teacher']
+    },
+    props: true
+  },
+  {
+    path: '/courses/assignment/:id',
+    name: 'Mis Cursos - Asignación',
+    component: () => import('../views/courses/Assignment.vue'),
     meta: {
       permissions: ['student', 'teacher']
     },

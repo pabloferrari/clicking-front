@@ -5,20 +5,32 @@
         <p class="primary">{{ titleHeader }}</p>
       </div>
     </div>
-    <CardWelcome :cardsWelcome="this.cardsWelcome"> </CardWelcome>
+    <CardWelcome :cardsWelcome="this.getCourseAssignments()"> </CardWelcome>
     <div class="mt-0">
       <vs-tabs>
-        <vs-tab label="Por Corregir">
-          <div class="tab-content-courses">
-            <div v-for="(assignment, index) in this.cardStatus" :key="index">
+        <vs-tab  label="Pendiente" @click="getMyAssignments()" >
+          <div class="tab-content-courses " v-if="this.cardStatus.length > 0">
+            <div  v-for="(assignment, index) in this.cardStatus" :key="index" >
               <CardStatus :data="assignment"></CardStatus>
             </div>
           </div>
+          <div v-else>
+                <p class="font-semibold text-center">
+                  No se encontraron resultados
+                </p>
+              </div>
         </vs-tab>
-        <vs-tab label="Completado">
-          <div class="tab-content-workshop">
-            <div class="text-center">No se encontraron resultados</div>
+        <vs-tab label="Completado" @click="getMyAssignmentsComplete()">
+          <div class="tab-content-workshop" v-if="this.cardStatus.length > 0">
+            <div v-for="(assignment, index) in this.cardStatus" :key="index" >
+              <CardStatus :data="assignment"></CardStatus>
+            </div>
           </div>
+          <div v-else>
+                <p class="font-semibold text-center">
+                  No se encontraron resultados
+                </p>
+              </div>
         </vs-tab>
       </vs-tabs>
     </div>
@@ -35,7 +47,7 @@ import CardStatus from '../components/CardStatus'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Course',
+  name: 'MyTasks',
   components: {
     CardWelcome,
     CardStatus
@@ -46,40 +58,12 @@ export default {
   data () {
     return {
       cardStatus: [],
-
-      cardsWelcome: [
-        {
-          icon: CourseLogo,
-          title: 'Cursos',
-          count: 2,
-
-          path: '/courses'
-        },
-        {
-          icon: DocumentLogo,
-          title: 'Tareas',
-          count: 3,
-          path: '/courses/tasks'
-        },
-        {
-          icon: PencilLogo,
-          title: 'Trabajos Prácticos',
-          count: 1,
-          path: '/courses/workpractices'
-        },
-        {
-          icon: CheckLogo,
-          title: 'Exámenes',
-          count: 2,
-          path: '/courses/evaluations'
-        }
-      ],
-
+      courseAssignmentCount: [],
       titleHeader: this.title ? this.title.split('-').join(' ') : 'Mis Cursos'
     }
   },
   computed: {
-    ...mapGetters({ storeMyAssignments: 'assignment/getMyAssignments' })
+    ...mapGetters({ storeMyAssignments: 'assignment/getMyAssignments', storeCourseAssignmentsCount:'course/getCourseAssignmentCount' })
   },
   watch: {
     storeMyAssignments (data) {
@@ -87,32 +71,94 @@ export default {
       data.map((element) => {
         const statusName = this.parseStatus(element.studentsassignment, 'name')
         const statusId = this.parseStatus(element.studentsassignment, 'id')
-        console.log(statusName, statusId)
+        let classrooms = ''
+        if (element.class.course.classroom) {
+          classrooms = `${element.class.course.classroom.name} - ${element.class.course.classroom.shift.name}`
+        } else {
+          classrooms = `${element.assignmenttype.name} ${element.class.course.subject.name}`
+        }
         myAssignmentData.push({
-          name: `${element.class.course.classroom.name} - ${element.class.course.classroom.shift.name}`,
-
+          name: classrooms,
           type: element.assignmenttype.id,
           typeStatusId: statusId[0],
           typeStatus: statusName[0],
-
+          id:element.id,
           title: element.title,
           limit_date: element.limit_date
         })
       })
       this.cardStatus = myAssignmentData
-      // console.log(data)
+      console.log(data)
+    },
+    storeCourseAssignmentsCount (data) {
+      const defaultCourseAssignment = {
+        courses: 0,
+        tasks: 0,
+        workpractice: 0,
+        exams: 0
+      }
+      if (!data) {
+        this.courseAssignmentCount = defaultCourseAssignment
+      }
+      this.courseAssignmentCount = data
+
     }
   },
   methods: {
     parseStatus (data, field) {
       return  [... new Set(data.map((e) => e.assignmentstatus[field]))]
     },
+    getCourseAssignments () {
+      return [
+        {
+          icon: CourseLogo,
+          title: 'Cursos',
+          count: this.courseAssignmentCount.courses ? this.courseAssignmentCount.courses : 0,
+          path: '/courses'
+        },
+        {
+          icon: DocumentLogo,
+          title: 'Tareas',
+          count: this.courseAssignmentCount.tasks ? this.courseAssignmentCount.tasks : 0,
+          path: '/courses/tasks'
+        },
+        {
+          icon: PencilLogo,
+          title: 'Trabajos Prácticos',
+          count: this.courseAssignmentCount.workpractice ? this.courseAssignmentCount.workpractice : 0,
+          path: '/courses/workpractices'
+        },
+        {
+          icon: CheckLogo,
+          title: 'Exámenes',
+          count: this.courseAssignmentCount.exams ? this.courseAssignmentCount.exams : 0,
+          path: '/courses/evaluations'
+        }
+      ]
+    },
 
     getMyAssignments () {
-      this.$store.dispatch('assignment/getMyAssignmentsData', 1)
+      const params = {
+        id: 1, //  Id Tasks
+        status: 1 // assingment Status Pending
+      }
+      this.$store.dispatch('assignment/getMyAssignmentsData', params)
+
+    },
+    getMyAssignmentsComplete () {
+      const params = {
+        id: 1, // Id Tasks
+        status: 2 // assingment Status Pending
+      }
+      this.$store.dispatch('assignment/getMyAssignmentsData', params)
+
+    },
+    getCoursesAssignmentsCount () {
+      this.$store.dispatch('course/getCoursesAssignmentsCountData')
     }
   },
   mounted () {
+    this.getCoursesAssignmentsCount()
     this.getMyAssignments()
   }
 }
