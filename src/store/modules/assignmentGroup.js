@@ -19,8 +19,8 @@ const getters = {
 
 
 const mutations = {
-  updatedAssignmentGroups (state, assignmentGroup) {
-    state.assignmentGroup = assignmentGroup
+  updatedAssignmentGroups (state, assignmentGroups) {
+    state.assignmentGroups = assignmentGroups
   },
 
   setAssignmentGroups (state, assignmentGroups) {
@@ -117,6 +117,16 @@ const actions = {
     try {
       const assignmentGroupData = await assignmentGroupService.getAssignmentGroupCount(id)
       commit('setAssignmentGroup', assignmentGroupData.data)
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  async getAssignmentGroupByAssignment ({commit}, id) {
+    try {
+      const assignmentGroupData = await assignmentGroupService.getByAssignment(id)
+      return assignmentGroupData.data
+      //assignmentGroupData.data
+      // commit('updatedAssignmentGroups', assignmentGroupData.data)
     } catch (error) {
       console.log(error)
     }

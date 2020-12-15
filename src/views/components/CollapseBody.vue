@@ -75,6 +75,8 @@
               >
               <label class="typo__label">Grupo {{i}}</label>
               <multiselect
+                  @select="addTagMultiSelect"
+                  @remove="removeTagMultiSelect"
                   v-model="form.student_id[i]"
                   :options="dataStudentsList"
                   :multiple="true"
@@ -102,7 +104,7 @@ import ListIcon from '../components/icons/ListIcon'
 import PencilAssignmentlIcon from '../components/icons/PencilAssignmentlIcon'
 import CheckAssignmentIcon from '../components/icons/CheckAssignmentIcon'
 import Multiselect from 'vue-multiselect'
-// import { mapGetters } from 'vuex'
+//import { mapGetters } from 'vuex'
 
 export default {
   name: 'CollapseBody',
@@ -141,7 +143,34 @@ export default {
   //     console.log('dataStudentsList', this.dataStudentsList)
   //   }
   // },
+
+  // watch : {
+  //   assignmentGroup (data) {
+  //     this.form.student_id = data
+  //   }
+  // },
+  // computed: {
+  //   ...mapGetters({ assignmentGroup: 'assignmentGroup/getAssignmentGroups' })
+  // },
   methods: {
+    async getAssignmentGroupByAssignment (id) {
+      let data = []
+      this.$store.dispatch('assignmentGroup/getAssignmentGroupByAssignment', id).then((response) => {
+        data = response
+      })
+      return data
+
+    },
+    addTagMultiSelect (searchQuery) {
+      console.log('Add tagMultiSelect', searchQuery)
+      console.log('id', searchQuery.id)
+      console.log('name', searchQuery.name)
+    },
+    removeTagMultiSelect (searchQuery) {
+      console.log('Remove tagMultiSelect', searchQuery)
+      console.log('id', searchQuery.id)
+      console.log('name', searchQuery.name)
+    },
     LoadstudentsList () {
       this.studentsList.students.map(element => {
         this.dataStudentsList.push(
@@ -172,9 +201,17 @@ export default {
       ]
     },
     showModalGroup (data) {
+      this.form.student_id = []
       this.form.assignmentId = data.target.dataset.id
       this.itemOne = true
+
+      this.dataStudentsList = []
+
+      const dataResult = this.getAssignmentGroupByAssignment(this.form.assignmentId)
+      console.log(dataResult)
       this.LoadstudentsList()
+      //console.log(this.assignmentGroup)
+      //this.form.student_id = this.assignmentGroup
       //console.log(data)
       // console.log('assignmentId', assignmentId)
       // console.log('groupqty', this.groupqty)

@@ -9,6 +9,9 @@ class AssignmentService {
     get (id) {
       return service.get(`/${this.entity}/${id}`)
     }
+    getByAssignment (id) {
+      return service.get(`/${this.entity}/byAssignment/${id}`)
+    }
     create (data) {
       return service.post(`/${this.entity}`, data)
     }
