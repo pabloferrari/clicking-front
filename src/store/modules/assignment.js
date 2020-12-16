@@ -4,7 +4,8 @@ import CourseClassService from '../../services/courseClass'
 const state = {
   assignment: {},
   assignments: [],
-  myAssignments: []
+  myAssignments: [],
+  assignmentDetail: []
 }
 
 
@@ -12,6 +13,7 @@ const getters = {
   getAssignment: state => { return state.assignment },
   getAssignments: state => { return state.assignments },
   getMyAssignments: state => { return state.myAssignments },
+  getAssignmentDetail: state => { return state.assignmentDetail },
   getAssignmentsId: state => id => {
     return state.assignments.find(
       assignments => assignments.id === id
@@ -39,6 +41,9 @@ const mutations = {
   },
   setMyAssignments (state, myAssignments) {
     state.myAssignments = myAssignments
+  },
+  setAssignmentDetail(state, assignmentDetail) {
+    state.assignmentDetail = assignmentDetail
   }
 }
 
@@ -117,6 +122,13 @@ const actions = {
     await AssignmentService.getMyAssignments(id, status)
       .then((response) => {
         commit('setMyAssignments', response.data)
+      }).catch((err) => console.log(err))
+  },
+  async getMyAssignmentsDetailData ({ commit }, id) {
+    // console.log(params)
+    await AssignmentService.getAssignmentsDetail(id)
+      .then((response) => {
+        commit('setAssignmentDetail', response.data)
       }).catch((err) => console.log(err))
   }
 

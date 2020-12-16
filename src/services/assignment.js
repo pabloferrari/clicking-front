@@ -15,6 +15,9 @@ class AssignmentService {
   getMyAssignments (id, status) {
     return service.get(`/my-assignments/${id}/${status}`)
   }
+  getAssignmentsDetail (id) {
+    return service.get(`/${this.entity}/detail/${id}`)
+  }
   create (data) {
     return service.post(`/${this.entity}`, data)
   }

@@ -104,7 +104,6 @@ import ListIcon from '../components/icons/ListIcon'
 import PencilAssignmentlIcon from '../components/icons/PencilAssignmentlIcon'
 import CheckAssignmentIcon from '../components/icons/CheckAssignmentIcon'
 import Multiselect from 'vue-multiselect'
-//import { mapGetters } from 'vuex'
 
 export default {
   name: 'CollapseBody',
@@ -123,6 +122,7 @@ export default {
     return {
       itemOne: false,
       dataStudentsList: [],
+      dataResult: [],
       form: {
         assignmentId: null,
         groupqty: this.dataCollapseBody.groupqty,
@@ -149,17 +149,11 @@ export default {
   //     this.form.student_id = data
   //   }
   // },
-  // computed: {
-  //   ...mapGetters({ assignmentGroup: 'assignmentGroup/getAssignmentGroups' })
-  // },
   methods: {
-    async getAssignmentGroupByAssignment (id) {
-      let data = []
+    getAssignmentGroupByAssignment (id) {
       this.$store.dispatch('assignmentGroup/getAssignmentGroupByAssignment', id).then((response) => {
-        data = response
+        this.form.student_id = response
       })
-      return data
-
     },
     addTagMultiSelect (searchQuery) {
       console.log('Add tagMultiSelect', searchQuery)
@@ -207,9 +201,9 @@ export default {
 
       this.dataStudentsList = []
 
-      const dataResult = this.getAssignmentGroupByAssignment(this.form.assignmentId)
-      console.log(dataResult)
       this.LoadstudentsList()
+      this.getAssignmentGroupByAssignment(this.form.assignmentId)
+      // console.log(this.dataResult )
       //console.log(this.assignmentGroup)
       //this.form.student_id = this.assignmentGroup
       //console.log(data)
