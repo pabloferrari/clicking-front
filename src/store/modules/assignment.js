@@ -125,7 +125,6 @@ const actions = {
       }).catch((err) => console.log(err))
   },
   async getMyAssignmentsDetailData ({ commit }, id) {
-    // console.log(params)
     await AssignmentService.getAssignmentsDetail(id)
       .then((response) => {
         commit('setAssignmentDetail', response.data)
