@@ -1,6 +1,6 @@
 <template>
   <div class="student-list-card" >
-    <vs-avatar class="student-list-avatar" size="large" :src="image"/>
+    <vs-avatar class="student-list-avatar" size="large" :src="this.imageEmpty(avatar)"/>
     <div class="student-list-name">
       {{name}}
     </div>
@@ -17,6 +17,9 @@ export default {
     avatar: String
   },
   methods: {
+    imageEmpty (image) {
+      return image === null ? image : ''
+    },
     activeDetail () {
       this.$emit('student-list-card')
     }

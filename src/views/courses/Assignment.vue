@@ -3,45 +3,55 @@
     <div class="vx-row">
       <div class="vx-col flex w-full">
         <div class="flex w-full">
-          <div class="rounded-full p-0  bg-white h-12 w-12 flex items-center justify-center mr-2">
-            <component :is="this.renderIcon(this.assignment.assignmentType)" ></component>
+          <div
+            class="rounded-full p-0 bg-white h-12 w-12 flex items-center justify-center mr-2"
+          >
+            <component
+              :is="this.renderIcon(this.assignment.assignmentType)"
+            ></component>
           </div>
           <p class="primary">{{ this.assignment.title }}</p>
-
         </div>
       </div>
       <div class="vx-col flex">
-        <div class="flex w-full mx-6 my-2">
-          <small>{{this.assignment.limitDate}}</small>
+        <div class="flex w-full mx-16 my-2">
+          <small>{{ this.assignment.limitDate }}</small>
         </div>
       </div>
     </div>
 
     <div class="flex justify-between my-8">
-      <div class="vx-col w-2/3 mx-4">
+      <div class="vx-col md:w-full mx-4 sm:w-4/3 xs:w-4/3">
         <vx-card class="body-card">
-          <div class="flex mb-1 w-full">
-            <!-- <div class="justify-between"> -->
-            <!-- <div class=""> -->
-            <vs-avatar
-              src="https://avatars2.githubusercontent.com/u/31676496?s=460&v=4"
-              size=""
-              class="border-2 border-white border-solid -m-1"
-            ></vs-avatar>
-            <p class="mx-2 font-bold justify-items-start">{{this.assignment.teacher}}</p>
-            <!-- </div> -->
-            <!-- </div> -->
-            <div class="grid justify-items-end" v-permission="['teacher']">
+          <div class="flex">
+            <div class="vx-col flex mb-1 w-1/2">
+              <vs-avatar
+                src="https://avatars2.githubusercontent.com/u/31676496?s=460&v=4"
+                size=""
+                class="border-2 border-white border-solid -m-1"
+              ></vs-avatar>
+              <p class="mx-2 font-bold">
+                {{ this.assignment.teacher }}
+              </p>
+            </div>
+            <div
+              class="vx-col flex w-1/2 justify-end"
+              v-permission="['teacher']"
+            >
               <feather-icon
                 icon="Edit3Icon"
                 svgClasses="h-5 w-5 cursor-pointer"
               />
+              <ButtonDropDown
+                :dataSelected="[]"
+                :items="itemsDropdown"
+              ></ButtonDropDown>
             </div>
           </div>
 
           <div class="p-4">
             <p>
-              {{this.assignment.description}}
+              {{ this.assignment.description }}
             </p>
           </div>
           <div>
@@ -70,17 +80,23 @@
           </div>
         </vx-card>
       </div>
-      <div class=" flex flex-col  w-1/3">
+      <div class="flex flex-col md:w-1/3 sm:w-1/2 xs:w-1/2">
         <div class="vx-col w-full">
           <vx-card>
-             <h2 class="font-bold text-title pb-4">Trabajo</h2>
-             <div class="" v-for="(data,index) in documentData" :key="index">
-                <AttachDocumentList :dataAttach="data" :displayIcon="false" :displayRemove="true"></AttachDocumentList>
-             </div>
-              <ButtonCardAction></ButtonCardAction>
+            <h2 class="font-bold text-title pb-4">Trabajo</h2>
+            <div class="" v-for="(data, index) in documentData" :key="index">
+              <AttachDocumentList
+                :dataAttach="data"
+                :displayIcon="false"
+                :displayRemove="true"
+              ></AttachDocumentList>
+            </div>
+            <ButtonCardAction
+              @handle-correct="activePromptCorrect = true"
+            ></ButtonCardAction>
           </vx-card>
         </div>
-        <div class="flex w-full my-2">
+        <!-- <div class="flex w-full my-2">
           <vx-card>
             <div class="body-card p-2">
               <h2 class="text-title">Comentarios</h2>
@@ -122,49 +138,95 @@
               </div>
             </div>
           </vx-card>
-        </div>
+        </div> -->
       </div>
     </div>
 
     <div class="">
       <div class="vx-col" v-permission="['teacher']">
-      <h2 class="font-bold text-title">Entregado</h2>
-    </div>
-    <div class="vx-row" v-permission="['teacher']">
-      <div class="flex w-full my-2" v-for="(student, index) in this.assignment.students" :key="index"  >
-        <div >
-          <CardAvatar :name="student.classroomstudents.student.name" v-if="student.assignmentstatus.id==2" :avatar="student.classroomstudents.student.user.image ? student.classroomstudents.student.user.image: ''" ></CardAvatar>
+        <h2 class="font-bold text-title">Entregado</h2>
+      </div>
+      <div class="vx-row" v-permission="['teacher']">
+        <div
+          class="flex w-full my-2"
+          v-for="(student, index) in this.assignment.students"
+          :key="index"
+        >
+          <div v-if="student.assignmentstatus.id == 2">
+            <CardAvatar
+              :name="student.classroomstudents.student.name"
+              :avatar="student.classroomstudents.student.user.image"
+            ></CardAvatar>
+          </div>
         </div>
-        <!-- <div  class="">
-          <p>No se encontraron resultados</p>
-        </div> -->
+      </div>
+
+      <div class="vx-col" v-permission="['teacher']">
+        <h2 class="font-bold text-title">Pendiente por Entregar</h2>
+      </div>
+      <div class="vx-row" v-permission="['teacher']">
+        <div v-permission="['teacher']">
+          <div
+            class="flex w-full my-2"
+            v-for="(student, index) in this.assignment.students"
+            :key="index"
+          >
+            <CardAvatar
+              :name="student.classroomstudents.student.name"
+              v-if="student.assignmentstatus.id == 1"
+              :avatar="student.classroomstudents.student.user.image"
+            ></CardAvatar>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="vx-col" v-permission="['teacher']">
-      <h2 class="font-bold text-title">Pendiente por Entregar</h2>
-    </div>
-    <div class="vx-row" v-permission="['teacher']">
-       <div  v-permission="['teacher']">
-      <div class="flex w-full my-2" v-for="(student, index) in this.assignment.students" :key="index" >
-        <CardAvatar :name="student.classroomstudents.student.name" v-if="student.assignmentstatus.id==1" :avatar="student.classroomstudents.student.user.image ? student.classroomstudents.student.user.image: ''" ></CardAvatar>
+    <!-- Dialog Modal Button Corregir -->
+    <vs-prompt
+      @accept="correct"
+      title="Corregir"
+      accept-text="Guardar"
+      cancel-text="Cancelar"
+      :active.sync="activePromptCorrect"
+    >
+      <div class="vx-row">
+        <div class="vx-col flex w-full">
+          <vs-select
+            label="Estado"
+            class="mt-5 w-full"
+            name="item-plan"
+            v-validate="'required'"
+          >
+            <!-- <vs-select-item key="" value="" text="seleccione plan" /> -->
+            <vs-select-item value="1" text="Aprobado" />
+          </vs-select>
+        </div>
+        <div class="vx-col flex w-full">
+          <vs-input
+            class="w-full"
+            label-placeholder="Escribe un comentario"
+            name="name"
+            v-validate="'required'"
+            :danger="errors.has('name')"
+          />
+        </div>
       </div>
-    </div>
-    </div>
-    </div>
+    </vs-prompt>
+    <!-- / Dialog Modal Button Corregir -->
   </div>
 </template>
 
 <script>
-import ListIcon from '../components/icons/ListIcon';
-import PencilAssignmentlIcon from '../components/icons/PencilAssignmentlIcon';
-import CheckAssignmentIcon from '../components/icons/CheckAssignmentIcon';
+import ListIcon from '../components/icons/ListIcon'
+import PencilAssignmentlIcon from '../components/icons/PencilAssignmentlIcon'
+import CheckAssignmentIcon from '../components/icons/CheckAssignmentIcon'
 
 import moment from 'moment'
-import AttachDocumentList from '../components/SectionAttach/AttachDocumentList';
+import AttachDocumentList from '../components/SectionAttach/AttachDocumentList'
 import ButtonCardAction from '../components/Buttons/ButtonCardAction'
 import CardAvatar from '../components/Avatars/CardAvatar'
 import { mapGetters } from 'vuex'
+import ButtonDropDown from '../components/ButtonDropDown.vue'
 export default {
   name: 'Assignment',
   props: {
@@ -176,21 +238,35 @@ export default {
     PencilAssignmentlIcon,
     CheckAssignmentIcon,
     AttachDocumentList,
-    ButtonCardAction
+    ButtonCardAction,
+    ButtonDropDown
   },
-  data() {
+  data () {
     return {
-      commentResponse: "",
-      assignment:[],
-      titleAssignment: "Titulo Asignacion",
+      correct: false,
+      activePromptCorrect: false,
+      commentResponse: '',
+      assignment: [],
+      itemsDropdown: [
+        {
+          title: 'Editar'
+        },
+        {
+          title: 'Reasignar'
+        },
+        {
+          title: 'Eliminar'
+        }
+      ],
+      titleAssignment: 'Titulo Asignacion',
       documentData: [
         {
           title: 'Numero Reales',
-          type:'PDF'
+          type: 'PDF'
         },
         {
           title: 'Numero Primos',
-          type:'Imagen',
+          type: 'Imagen'
         }
       ]
     }
@@ -200,22 +276,23 @@ export default {
   },
   watch: {
     storeAssignment (data) {
-       this.assignment = {}
-      if(data){
-       this.assignment  = {
+      this.assignment = {}
+      if (data) {
+        this.assignment = {
           title: data.title,
           limitDate: this.formatDateTime(data.limit_date),
           description: data.description,
           assignmentType: data.assignmenttype.id,
           teacher: data.class.course.teacher.name,
-          students: data.studentsassignment,
+          students: data.studentsassignment
         }
       }
+      console.log(this.assignment)
     }
   },
   methods: {
     getAssignment () {
-      this.$store.dispatch('assignment/getMyAssignmentsDetailData',this.id)
+      this.$store.dispatch('assignment/getMyAssignmentsDetailData', this.id)
     },
     formatDateTime (datetime) {
       if (!datetime) {
@@ -223,19 +300,19 @@ export default {
       }
       return moment(String(datetime)).format('DD/MM/YYYY hh:mm A')
     },
-    renderIcon(type) {
+    renderIcon (type) {
       switch (type) {
-        case 1: // Tasks
-            return ListIcon;
-            break;
-        case 2: // Evaluations
-            return CheckAssignmentIcon;
-            break;
-        case 3: // Work Practice
-            return PencilAssignmentlIcon;
-            break;
+      case 1: // Tasks
+        return ListIcon
+        break
+      case 2: // Evaluations
+        return CheckAssignmentIcon
+        break
+      case 3: // Work Practice
+        return PencilAssignmentlIcon
+        break
       }
-    },
+    }
   },
   mounted () {
     this.getAssignment()

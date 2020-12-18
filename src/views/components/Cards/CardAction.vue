@@ -12,13 +12,13 @@
 
 <script>
 export default {
-    name: 'CardAction',
-    props: {
-      title: String,
-      titleAssignment: String,
-      typeAttach: String
-    },
-};
+  name: 'CardAction',
+  props: {
+    title: String,
+    titleAssignment: String,
+    typeAttach: String
+  }
+}
 </script>
 
 <style>

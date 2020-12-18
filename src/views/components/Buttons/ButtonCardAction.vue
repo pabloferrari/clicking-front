@@ -17,14 +17,19 @@
             <vs-button class="w-full">Entregar</vs-button>
         </div>
         <div class="vx-col w-full" v-permission="['teacher']">
-            <vs-button class="w-full">Corregir</vs-button>
+            <vs-button @click="correct()" class="w-full">Corregir</vs-button>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-  name:'ButtonCardAction'
+  name:'ButtonCardAction',
 
+  methods: {
+    correct () {
+      this.$emit('handle-correct')
+    }
+  }
 }
 </script>
