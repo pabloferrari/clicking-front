@@ -10,7 +10,7 @@
             >
         </div>
         <div class="vx-col w-full my-2" v-permission="['teacher']">
-            <vs-button class="w-full" type="border">Devolver</vs-button>
+            <vs-button class="w-full" @click="giveBack()" type="border">Devolver</vs-button>
         </div>
 
         <div class="vx-col w-full" v-permission="['student']">
@@ -29,6 +29,10 @@ export default {
   methods: {
     correct () {
       this.$emit('handle-correct')
+    },
+    giveBack () {
+      this.$emit('handle-give-back')
+
     }
   }
 }

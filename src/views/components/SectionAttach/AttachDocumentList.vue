@@ -25,6 +25,7 @@
         <div class="items-end mb-2" v-if="displayRemove">
           <feather-icon
             icon="XIcon"
+            @click="deleteAttach(dataAttach.id)"
             svgClasses="h-5 w-5 m-4 hover:text-danger cursor-pointer"
           />
         </div>
@@ -63,6 +64,12 @@ export default {
           return PencilAssignmentlIcon
           break
       }
+    },
+    deleteAttach(id) {
+      // this.dataAttach.splice(id, 1)
+
+      // this.dataAttach.splice(dataAttach, 1)
+      console.log(id)
     }
   }
 }
