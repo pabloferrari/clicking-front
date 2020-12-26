@@ -170,7 +170,7 @@ export default {
     countriesList: null,
     idEdit: null
   },
-  data () {
+  data() {
     return {
       form: {
         id: null,
@@ -187,17 +187,17 @@ export default {
       citiesList: null
     }
   },
-  mounted () {
+  mounted() {
     this.setData()
   },
   methods: {
-    setData () {
+    setData() {
       if (this.institution) {
         if (this.idEdit) {
           const institution = Object.assign(
             {},
             this.$store.state.institution.institutions.find(
-              (x) => x.id === this.idEdit
+              x => x.id === this.idEdit
             )
           )
           if (institution) {
@@ -217,38 +217,50 @@ export default {
         }
       }
     },
-    save () {
+    save() {
       if (!this.isCreate) {
         this.update()
       } else {
         this.create()
       }
     },
-    create () {
-      this.$validator.validateAll().then((result) => {
+    create() {
+      this.$validator.validateAll().then(result => {
         if (result) {
           const payload = this.form
-          this.$store.dispatch('institution/createInstitution', payload)
-          this.$emit('close-modal')
+          this.$store
+            .dispatch('institution/createInstitution', payload)
+            .then(response => {
+              this.$emit('close-modal')
+            })
+            .catch(err => {
+              console.log(err)
+            })
         }
       })
     },
-    update () {
-      this.$validator.validateAll().then((result) => {
+    update() {
+      this.$validator.validateAll().then(result => {
         if (result) {
           const payload = this.form
-          this.$store.dispatch('institution/updateInstitution', payload)
-          this.$emit('close-modal')
+          this.$store
+            .dispatch('institution/updateInstitution', payload)
+            .then(response => {
+              this.$emit('close-modal')
+            })
+            .catch(err => {
+              console.log(err)
+            })
         }
       })
     },
-    changeCountry (id) {
-      const country = this.countriesList.find((x) => x.id === id)
+    changeCountry(id) {
+      const country = this.countriesList.find(x => x.id === id)
 
       this.provinceList = country.provinces
     },
-    changeProvince (id) {
-      const provinces = this.provinceList.find((x) => x.id === id)
+    changeProvince(id) {
+      const provinces = this.provinceList.find(x => x.id === id)
       this.citiesList = provinces.cities
     }
   }

@@ -1,10 +1,10 @@
 
+import { resolve } from 'core-js/fn/promise'
 import InstitutionService from '../../services/institutions'
 
 const state = {
   institution: {},
   institutions: [],
-
   activePrompt: false
 }
 
@@ -21,24 +21,22 @@ const getters = {
 
 
 const mutations = {
-  updatedInstitution (state, institution) {
+  updatedInstitution(state, institution) {
     state.institution = institution
   },
 
-  setInstitutions (state, institutions) {
+  setInstitutions(state, institutions) {
     state.institutions = institutions
   },
 
-  setInstitution (state, institution) {
+  setInstitution(state, institution) {
     state.institution = institution
   }
-
 }
 
 const actions = {
-  async createInstitution ({commit, state, dispatch}, institution) {
-
-    try {
+  createInstitution({ commit, state, dispatch }, institution) {
+    return new Promise((resolve, reject) => {
       const newInstution = {
         name: institution.name,
         email: institution.email,
@@ -46,23 +44,47 @@ const actions = {
         cuit: institution.cuit,
         plan_id: institution.dataPlans,
         city_id: institution.dataCities,
-        image:'',
-        active:1
+        image: '',
+        active: 1
       }
-      const institutionCreate  = await InstitutionService.create(newInstution)
-      const intitutions = Object.assign([], state.institutions)
+      InstitutionService.create(newInstution).then((response) => {
+        const intitutions = Object.assign([], state.institutions)
+        intitutions.push(response.data)
+        commit('setInstitutions', intitutions)
+        dispatch('notification/success', { title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.' }, { root: true })
+        resolve()
 
-      intitutions.push(institutionCreate.data)
+      }).catch((err) => {
+        reject(err)
+        console.log(err)
+      })
+    })
+    // const newInstution = {
+    //   name: institution.name,
+    //   email: institution.email,
+    //   phone: institution.phone,
+    //   cuit: institution.cuit,
+    //   plan_id: institution.dataPlans,
+    //   city_id: institution.dataCities,
+    //   image: '',
+    //   active: 1
+    // }
+    // await InstitutionService.create(newInstution).then((response) => {
+    //   const intitutions = Object.assign([], state.institutions)
+    //   intitutions.push(response.data)
+    //   commit('setError', false)
+    //   commit('setInstitutions', intitutions)
+    //   dispatch('notification/success', { title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.' }, { root: true })
 
-      commit('setInstitutions', intitutions)
-      dispatch('notification/success', {title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.'}, { root: true })
-    } catch (error) {
-      console.log(error)
-    }
+
+    // }).catch((err) => {
+    //   commit('setError', true)
+    //   console.log(err)
+    // })
   },
 
-  async updateInstitution ({ state, commit, dispatch }, institution) {
-    try {
+  updateInstitution({ state, commit, dispatch }, institution) {
+    return new Promise((resolve, reject) => {
       const editInstution = {
         id: institution.id,
         name: institution.name,
@@ -74,32 +96,53 @@ const actions = {
         image: null,
         active: !!(institution.active)
       }
-      const institutionEdit = await InstitutionService.update(institution.id, editInstution)
-      const newValue = state.institutions.map((value) => {
-        if (value.id === institutionEdit.data.id) {
-          value = Object.assign({}, institutionEdit.data)
-        }
-        return value
+      InstitutionService.update(institution.id, editInstution).then((response) => {
+        const newValue = state.institutions.map((value) => {
+          if (value.id === response.data.id) {
+            value = Object.assign({}, response.data)
+          }
+          return value
+        })
+        commit('setInstitutions', newValue)
+        dispatch('notification/success', { title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.' }, { root: true })
+        resolve()
+
+      }).catch((err) => {
+        reject(err)
+        console.log(err)
+
       })
-      commit('setInstitutions', newValue)
-      dispatch('notification/success', {title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.'}, { root: true })
-    } catch (error) {
-      console.log(error)
-    }
+    })
+    // try {
+    // await InstitutionService.update(institution.id, editInstution).then((response) => {
+    //   const newValue = state.institutions.map((value) => {
+    //     if (value.id === response.data.id) {
+    //       value = Object.assign({}, response.data)
+    //     }
+    //     return value
+    //   })
+    //   commit('setInstitutions', newValue)
+    //   dispatch('notification/success', { title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.' }, { root: true })
+    //   commit('setError', false)
+
+    // }).catch((err) => {
+    //   console.log(err)
+    //   commit('setError', true)
+    // })
   },
-  async deleteInstitution ({ state, commit, dispatch }, id) {
+  async deleteInstitution({ state, commit, dispatch }, id) {
     try {
       await InstitutionService.delete(id)
       const index = state.institutions.findIndex(x => x.id === id)
-      const institutions =  [... state.institutions]
+      const institutions = [...state.institutions]
       institutions.splice(index, 1)
       commit('setInstitutions', institutions)
-      dispatch('notification/success', {title: 'Eliminado exitoso....', text: 'se ha eliminado correctamente.'}, { root: true })
+      dispatch('notification/success', { title: 'Eliminado exitoso....', text: 'se ha eliminado correctamente.' }, { root: true })
     } catch (error) {
       console.log(error)
     }
   },
-  async getInstitutions ({commit}) {
+  async getInstitutions({ commit }) {
     try {
       const intitutionsData = await InstitutionService.getAll()
       commit('setInstitutions', intitutionsData.data)
@@ -107,7 +150,7 @@ const actions = {
       console.log(error)
     }
   },
-  async getInstitutionCount ({commit}, id) {
+  async getInstitutionCount({ commit }, id) {
     try {
       const intitutionsData = await InstitutionService.getInstitutionCount(id)
       commit('setInstitution', intitutionsData.data)

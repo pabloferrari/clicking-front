@@ -57,19 +57,19 @@
 </template>
 
 <script>
-import '@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss'
-import DataTable from '../components/DataTable'
-import InstitutionsCreate from './InstitutionsCreate.vue'
-import { mapGetters } from 'vuex'
+import "@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss";
+import DataTable from "../components/DataTable";
+import InstitutionsCreate from "./InstitutionsCreate.vue";
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'institutions',
+  name: "institutions",
   components: {
     DataTable,
 
     InstitutionsCreate
   },
-  data () {
+  data() {
     return {
       idDeleted: null,
       iscreated: null,
@@ -80,141 +80,139 @@ export default {
       rowData: [],
       activePrompt: false,
       activePromptDelete: false,
-      actionModal: '',
+      actionModal: "",
       columnDefs: [
         {
-          headerName: 'Acciones',
-          field: 'id',
-          type: 'actionColumn',
+          headerName: "Acciones",
+          field: "id",
+          type: "actionColumn",
           cellRendererParams: {
             buttonSearch: false,
             // actionSearch: (id) => { /** action **/ },
             buttonEdit: true,
-            actionEdit: (id) => {
-              this.getData(id)
-              this.showModal(false)
+            actionEdit: id => {
+              this.getData(id);
+              this.showModal(false);
             },
             buttonDelete: true,
-            actionDelete: (id) => {
-              this.idDeleted = id
-              this.showModalConfirm()
+            actionDelete: id => {
+              this.idDeleted = id;
+              this.showModalConfirm();
             }
           }
         },
         {
-          headerName: 'Nombre',
-          field: 'name'
+          headerName: "Nombre",
+          field: "name"
         },
         {
-          headerName: 'Email',
-          field: 'email'
+          headerName: "Email",
+          field: "email"
         },
         {
-          headerName: 'Alumnos',
-          field: 'students'
+          headerName: "Alumnos",
+          field: "students"
         },
         {
-          headerName: 'Docentes',
-          field: 'teachers'
+          headerName: "Docentes",
+          field: "teachers"
         },
         {
-          headerName: 'Cursos',
-          field: 'course'
+          headerName: "Cursos",
+          field: "course"
         },
         {
-          headerName: 'Pais',
-          field: 'country'
+          headerName: "Pais",
+          field: "country"
         }
       ]
-    }
+    };
   },
   methods: {
-    showModal (iscreated) {
-      this.institution = !iscreated ? this.institution : null
-      this.actionModal = iscreated ? 'Añadir' : 'Editar'
-      this.iscreated = iscreated
-      this.activePrompt = true
-      this.idEdit = !iscreated ? this.idEdit : null
+    showModal(iscreated) {
+      this.institution = !iscreated ? this.institution : null;
+      this.actionModal = iscreated ? "Añadir" : "Editar";
+      this.iscreated = iscreated;
+      this.activePrompt = true;
+      this.idEdit = !iscreated ? this.idEdit : null;
     },
-    showModalConfirm () {
-      this.activePromptDelete = true
+    showModalConfirm() {
+      this.activePromptDelete = true;
     },
 
-    getData (id) {
-      this.idEdit = id
+    getData(id) {
+      this.idEdit = id;
       this.institution = Object.assign(
         {},
-        this.$store.state.institution.institutions.find((x) => x.id === id)
-      )
-
+        this.$store.state.institution.institutions.find(x => x.id === id)
+      );
     },
-    accept () {
-      this.activePrompt = true
-      this.$refs.InstitutionsCreate.save()
+    accept() {
+      this.activePrompt = true;
+      this.$refs.InstitutionsCreate.save();
     },
-    acceptDelete () {
-      this.$store.dispatch('institution/deleteInstitution', this.idDeleted)
-      this.idDeleted = null
+    acceptDelete() {
+      this.$store.dispatch("institution/deleteInstitution", this.idDeleted);
+      this.idDeleted = null;
     },
-    getInstitutions () {
-      this.$store.dispatch('institution/getInstitutions')
+    getInstitutions() {
+      this.$store.dispatch("institution/getInstitutions");
     },
-    getPlans () {
-      this.$store.dispatch('plan/getPlans')
+    getPlans() {
+      this.$store.dispatch("plan/getPlans");
     },
-    getCities () {
-      this.$store.dispatch('city/getCities')
+    getCities() {
+      this.$store.dispatch("city/getCities");
     },
-    getCountries () {
-      this.$store.dispatch('country/getCountries')
+    getCountries() {
+      this.$store.dispatch("country/getCountries");
     },
-    onFirstDataRendered (params) {
-      params.api.sizeColumnsToFit()
+    onFirstDataRendered(params) {
+      params.api.sizeColumnsToFit();
     },
-    closeModal () {
-      this.iscreated = false
-      this.activePrompt = false
-      this.idEdit = null
+    closeModal() {
+      this.iscreated = false;
+      this.activePrompt = false;
+      this.idEdit = null;
     }
   },
-  mounted () {
-    this.getInstitutions()
-    this.getPlans()
-    this.getCountries()
+  mounted() {
+    this.getInstitutions();
+    this.getPlans();
+    this.getCountries();
   },
   watch: {
-    institutions (data) {
-      const rows = []
-      data.map((value) => {
-
-        console.log(value)
+    institutions(data) {
+      const rows = [];
+      data.map(value => {
+        console.log(value);
         rows.push({
           id: value.id,
           name: value.name,
           email: value.email,
-          students: value.students,
-          teachers: value.teachers,
-          course: value.courses,
+          students: value.students ? value.students : 0,
+          teachers: value.teachers ? value.teachers : 0,
+          course: value.courses ? value.courses : 0,
           country: value.city.province.country.name
-        })
-      })
-      this.rowData = rows
+        });
+      });
+      this.rowData = rows;
     },
-    storeCountries (data) {
-      this.countries = data
+    storeCountries(data) {
+      this.countries = data;
     },
-    storePlans (data) {
-      this.plans = data
+    storePlans(data) {
+      this.plans = data;
     }
   },
   computed: {
     ...mapGetters({
-      institutions: 'institution/getInstitutions',
-      storeCountries: 'country/getCountries',
-      storePlans: 'plan/getPlans'
+      institutions: "institution/getInstitutions",
+      storeCountries: "country/getCountries",
+      storePlans: "plan/getPlans"
     })
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
