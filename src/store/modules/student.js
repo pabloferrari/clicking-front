@@ -117,6 +117,14 @@ const actions = {
     } catch (error) {
       console.log(error)
     }
+  },
+  async getStudentsByInstitution ({ commit }, id) {
+    try {
+      const studentsData = await StudentService.getStudentsByInstitution(id)
+      commit('setStudents', studentsData.data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div id="countries">
-    <div id="form-model" class="grid-layout-container alignment-block">
+    <div id="form-model" v-if="!titleHide" class="grid-layout-container alignment-block">
       <div class="vx-row">
         <div class="vx-col w-full">
           <p class="primary">Docentes</p>
@@ -62,6 +62,10 @@ import DataTable from '../components/DataTable'
 
 export default {
   name: 'teachers',
+  props: {
+    titleHide: Boolean,
+    institutionID: String
+  },
   components: {
     TeachersCreate,
     DataTable
@@ -140,7 +144,11 @@ export default {
       this.idDeleted = null
     },
     getteachers () {
-      this.$store.dispatch('teacher/getTeachers')
+      if (!this.institutionID) {
+        this.$store.dispatch('teacher/getTeachers')
+      } else {
+        this.$store.dispatch('teacher/getTeachersByInstitution', this.institutionID)
+      }
     },
 
     onFirstDataRendered (params) {

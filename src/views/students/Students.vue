@@ -1,6 +1,6 @@
 <template>
   <div id="countries">
-    <div id="form-model" class="grid-layout-container alignment-block">
+    <div id="form-model" v-if="!titleHide" class="grid-layout-container alignment-block">
       <div class="vx-row">
         <div class="vx-col w-full">
           <p class="primary">Alumno</p>
@@ -61,6 +61,10 @@ import DataTable from '../components/DataTable'
 
 export default {
   name: 'students',
+  props: {
+    titleHide: Boolean,
+    institutionID: String
+  },
   components: {
     StudentsCreate,
     DataTable
@@ -68,6 +72,7 @@ export default {
   data () {
     return {
       rowData: [],
+
       teachersList: [],
       activePrompt: false,
       activePromptDelete: false,
@@ -141,7 +146,11 @@ export default {
       this.idDeleted = null
     },
     getStudents () {
-      this.$store.dispatch('student/getStudents')
+      if (!this.institutionID) {
+        this.$store.dispatch('student/getStudents')
+      } else {
+        this.$store.dispatch('student/getStudentsByInstitution', this.institutionID)
+      }
     },
 
     onFirstDataRendered (params) {
@@ -162,7 +171,7 @@ export default {
           id: e.id,
           name: e.name,
           active: e.active,
-          email: e.user ? e.user.email : ''
+          email: e.email
         })
       })
       this.rowData = studentData

@@ -64,9 +64,7 @@ export default {
   name: 'StudentsCreate',
   props: {
     isCreate: Boolean,
-    student: {},
-
-    idEdit: false
+    student: {}
 
   },
   data () {
@@ -89,7 +87,7 @@ export default {
 
         this.form.id = student.id
         this.form.name = student.name
-        this.form.email = student.user.email
+        this.form.email = student.email
         this.form.active = student.active
       } else {
         const ObjectEmpty = Object.assign(this.form, this.student)

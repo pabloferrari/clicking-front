@@ -8,6 +8,9 @@ class TeacherService {
   get (id) {
     return service.get(`/${this.entity}/${id}`)
   }
+  getTeacherByInstitution (id) {
+    return service.get(`/${this.entity}/byInstitution/${id}`)
+  }
   create (data) {
     return service.post(`/${this.entity}`, data)
   }

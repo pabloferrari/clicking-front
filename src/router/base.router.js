@@ -42,6 +42,15 @@ export default [
     }
   },
   {
+    path: '/institutions/detail/:id',
+    name: 'Instituciones Detalle',
+    component: () => import('../views/institutions/InstitutionDetail.vue'),
+    meta: {
+      permissions: ['admin']
+    },
+    props: true
+  },
+  {
     path: '/plans',
     name: 'Planes',
     component: () => import('../views/plans/Plans.vue'),
@@ -54,7 +63,7 @@ export default [
     name: 'Docentes',
     component: () => import('../views/teachers/Teachers.vue'),
     meta: {
-      permissions: ['institution']
+      permissions: ['institution', 'admin']
     }
   },
   {
@@ -62,7 +71,7 @@ export default [
     name: 'Alumnos',
     component: () => import('../views/students/Students.vue'),
     meta: {
-      permissions: ['institution']
+      permissions: ['institution', 'admin']
     }
   },
   {

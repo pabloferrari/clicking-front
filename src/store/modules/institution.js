@@ -1,5 +1,3 @@
-
-import { resolve } from 'core-js/fn/promise'
 import InstitutionService from '../../services/institutions'
 
 const state = {
@@ -21,21 +19,21 @@ const getters = {
 
 
 const mutations = {
-  updatedInstitution(state, institution) {
+  updatedInstitution (state, institution) {
     state.institution = institution
   },
 
-  setInstitutions(state, institutions) {
+  setInstitutions (state, institutions) {
     state.institutions = institutions
   },
 
-  setInstitution(state, institution) {
+  setInstitution (state, institution) {
     state.institution = institution
   }
 }
 
 const actions = {
-  createInstitution({ commit, state, dispatch }, institution) {
+  createInstitution ({ commit, state, dispatch }, institution) {
     return new Promise((resolve, reject) => {
       const newInstution = {
         name: institution.name,
@@ -83,7 +81,7 @@ const actions = {
     // })
   },
 
-  updateInstitution({ state, commit, dispatch }, institution) {
+  updateInstitution ({ state, commit, dispatch }, institution) {
     return new Promise((resolve, reject) => {
       const editInstution = {
         id: institution.id,
@@ -130,7 +128,7 @@ const actions = {
     //   commit('setError', true)
     // })
   },
-  async deleteInstitution({ state, commit, dispatch }, id) {
+  async deleteInstitution ({ state, commit, dispatch }, id) {
     try {
       await InstitutionService.delete(id)
       const index = state.institutions.findIndex(x => x.id === id)
@@ -142,7 +140,7 @@ const actions = {
       console.log(error)
     }
   },
-  async getInstitutions({ commit }) {
+  async getInstitutions ({ commit }) {
     try {
       const intitutionsData = await InstitutionService.getAll()
       commit('setInstitutions', intitutionsData.data)
@@ -150,7 +148,15 @@ const actions = {
       console.log(error)
     }
   },
-  async getInstitutionCount({ commit }, id) {
+  async getInstitutionById ({ commit }, id) {
+    try {
+      const intitutionsData = await InstitutionService.get(id)
+      commit('setInstitution', intitutionsData.data)
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  async getInstitutionCount ({ commit }, id) {
     try {
       const intitutionsData = await InstitutionService.getInstitutionCount(id)
       commit('setInstitution', intitutionsData.data)

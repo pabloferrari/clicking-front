@@ -120,6 +120,14 @@ const actions = {
     } catch (error) {
       console.log(error)
     }
+  },
+  async getTeachersByInstitution ({commit}, id) {
+    try {
+      const teachersData = await TeacherService.getTeacherByInstitution(id)
+      commit('setTeachers', teachersData.data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 
