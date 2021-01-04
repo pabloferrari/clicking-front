@@ -10,6 +10,13 @@
 
     <div class="vx-row">
       <vs-tabs class="">
+        <vs-tab label="Admins">
+          <div class="tab-content-courses">
+            <div>
+              <Admins :titleHide="true" :institutionID="this.id"></Admins>
+            </div>
+          </div>
+        </vs-tab>
         <vs-tab label="Docentes">
           <div class="tab-content-courses">
             <div>
@@ -28,6 +35,7 @@
 </template>
 
 <script>
+import Admins from '../admins/Admins.vue'
 import Teachers from '../teachers/Teachers.vue'
 import Students from '../students/Students.vue'
 import { mapGetters } from 'vuex'
@@ -37,6 +45,7 @@ export default {
     id: String
   },
   components: {
+    Admins,
     Teachers,
     Students
   },

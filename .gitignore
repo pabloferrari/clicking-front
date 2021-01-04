@@ -16,3 +16,5 @@ yarn-error.log
 vuexy-shell-scripts
 .env
 .env.development
+.DS_Store
+**.DS_Store

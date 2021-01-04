@@ -26,6 +26,7 @@ import commission from './modules/commission'
 import city from './modules/city'
 import plan from './modules/plan'
 import teacher from './modules/teacher'
+import admin from './modules/admin'
 import student from './modules/student'
 import province from './modules/province'
 import classroomStudent from './modules/classroomStudent'
@@ -50,6 +51,7 @@ export default new Vuex.Store({
     turn,
     commission,
     teacher,
+    admin,
     student,
     notification,
     plan,
