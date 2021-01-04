@@ -109,11 +109,6 @@ export default {
         {
           headerName: 'Email',
           field: 'email'
-        },
-
-        {
-          headerName: 'Año',
-          field: 'year'
         }
       ]
     }

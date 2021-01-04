@@ -36,6 +36,7 @@ import courseClass from './modules/courseClass'
 import shift from './modules/shift'
 import subject from './modules/subject'
 import courseType from './modules/courseType'
+import bigBlueButton from './modules/bigBlueButton'
 
 import assignment from './modules/assignment'
 import assignmentGroup from './modules/assignmentGroup'
@@ -63,6 +64,7 @@ export default new Vuex.Store({
     shift,
     subject,
     courseType,
+    bigBlueButton,
     assignment,
     assignmentGroup
   },
