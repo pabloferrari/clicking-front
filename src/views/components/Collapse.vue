@@ -37,6 +37,8 @@
                                             icon="icon-play"
                                             color="primary"
                                             type="border"
+                                            @click="startMeeting(classes)"
+                                            :disabled="buttonDisabled"
                                         >
                                             <span class="font-semibold">
                                                 {{ titleButton }}
@@ -73,7 +75,13 @@
                         :studentsList="courseStudents"
                     ></CollapseBody>
                 </div>
+
+                
             </div>
+        </div>
+
+        <div v-for="(user, i) in users" :key="i + '_part'">
+            {{ user.type == 'moderator' ? 'moderador' : `participante ${i}` }} -> <a :href="user.public_url" target="'_blank'"> {{ user.public_url }}</a><br /><br />
         </div>
     </div>
 </template>
@@ -98,10 +106,13 @@ export default {
   },
   data () {
     return {
-      titleButton: 'clase grabada',
+      titleButton: 'comenzar clase',
+    //   titleButton: 'clase grabada',
       showDetails: '',
       collapseBodyProp: null,
-      dataStudents: []
+      dataStudents: [],
+      users: [],
+      buttonDisabled: false
     }
   },
   methods: {
@@ -120,6 +131,20 @@ export default {
       // console.log(data);
       // this.$set(data, 'showDetails', !data.showDetails)
       // this.collapseBodyProp = data;
+    },
+    startMeeting (classes) {
+        this.buttonDisabled = true;
+        const payload = { meeting_type: 8, model: 'class', model_id: classes.id, title: `${classes.title}: ${classes.description}` }
+        this.$store.dispatch('bigBlueButton/create', payload)
+    },
+    getMeetingData() {
+
+    }
+  },
+  watch: {
+    '$store.state.bigBlueButton.users' (val) {
+      this.users = val;
+      this.buttonDisabled = false;
     }
   }
 }

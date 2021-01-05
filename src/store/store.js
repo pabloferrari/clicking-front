@@ -26,6 +26,7 @@ import commission from './modules/commission'
 import city from './modules/city'
 import plan from './modules/plan'
 import teacher from './modules/teacher'
+import admin from './modules/admin'
 import student from './modules/student'
 import province from './modules/province'
 import classroomStudent from './modules/classroomStudent'
@@ -35,6 +36,7 @@ import courseClass from './modules/courseClass'
 import shift from './modules/shift'
 import subject from './modules/subject'
 import courseType from './modules/courseType'
+import bigBlueButton from './modules/bigBlueButton'
 
 import assignment from './modules/assignment'
 import assignmentGroup from './modules/assignmentGroup'
@@ -51,6 +53,7 @@ export default new Vuex.Store({
     turn,
     commission,
     teacher,
+    admin,
     student,
     notification,
     plan,
@@ -62,6 +65,7 @@ export default new Vuex.Store({
     shift,
     subject,
     courseType,
+    bigBlueButton,
     assignment,
     assignmentGroup,
     news
