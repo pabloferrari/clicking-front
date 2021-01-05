@@ -161,6 +161,14 @@ export default [
     //   permissions: ['institution']
     // },
     props: true
+  },
+  {
+    path: '/news',
+    name: 'Noticias',
+    component: () => import('../views/news/News.vue'),
+    meta: {
+      permissions: ['institution', 'teacher', 'student']
+    }
   }
 
   // {

@@ -19,6 +19,7 @@
       <div class="con-exemple-prompt">
         <TeachersCreate
           ref="TeachersCreate"
+          :institutionId="this.institutionID"
           :isCreate="this.iscreated"
           :teachers="this.teacher"
           :idEdit="this.idEdit"
@@ -108,11 +109,6 @@ export default {
         {
           headerName: 'Email',
           field: 'email'
-        },
-
-        {
-          headerName: 'Año',
-          field: 'year'
         }
       ]
     }

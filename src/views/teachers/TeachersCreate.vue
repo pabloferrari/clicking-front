@@ -79,7 +79,8 @@ export default {
   props: {
     isCreate: Boolean,
     teachers: {},
-    idEdit: null
+    idEdit: null,
+    institutionId: String
   },
   data () {
     return {
@@ -89,6 +90,7 @@ export default {
         phone: '',
         email: '',
         password: '',
+        institution_id: '',
         active: 1
       }
     }
@@ -120,6 +122,7 @@ export default {
         }
       } else {
         const ObjectEmpty = Object.assign(this.form, this.teachers)
+        this.form.institution_id = this.institutionId
         this.form = ObjectEmpty
       }
     },
@@ -144,7 +147,7 @@ export default {
       })
     },
     update () {
-      console.log(this.error)
+
       this.$validator.validateAll().then((result) => {
         if (result) {
           const payload = this.form

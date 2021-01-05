@@ -3,15 +3,13 @@ import TeacherService from '../../services/teachers'
 
 const state = {
   teacher: {},
-  teachers: [],
-  error:false
+  teachers: []
 }
 
 
 const getters = {
   getTeacher: state => { return state.teacher },
   getTeachers: state => { return state.teachers },
-  getError: state => { return state.error },
   getTeacherId: state => id => {
     return state.teachers.find(
       teachers => teachers.id === id
@@ -31,11 +29,7 @@ const mutations = {
 
   setTeacher (state, teacher) {
     state.teacher = teacher
-  },
-  setError (state, error) {
-    state.error = error
   }
-
 }
 
 const actions = {
@@ -48,7 +42,8 @@ const actions = {
         phone: teacher.phone,
         description:'Teacher user',
         password:teacher.password,
-        active:teacher.active
+        active: teacher.active,
+        institution_id: teacher.institution_id
 
       }
       const teacherCreate  = await TeacherService.create(newTeacher)
@@ -56,7 +51,6 @@ const actions = {
 
       teachers.push(teacherCreate.data)
 
-      commit('setError', true)
       commit('setTeachers', teachers)
       dispatch(
         'notification/success',
@@ -89,10 +83,7 @@ const actions = {
         }
         return value
       })
-      if (teacherEdit.data) {
 
-        commit('setError', true)
-      }
       commit('setTeachers', newValue)
       dispatch('notification/success', {title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.'}, { root: true })
 

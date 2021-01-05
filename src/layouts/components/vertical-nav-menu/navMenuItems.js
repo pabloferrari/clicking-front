@@ -83,5 +83,12 @@ export default [
     slug: 'classroom',
     icon: 'HomeIcon',
     permissions: ['institution']
+  },
+  {
+    url: '/news',
+    name: 'Noticias',
+    slug: 'news',
+    icon: 'FileTextIcon',
+    permissions: ['institution', 'teacher', 'student']
   }
 ]

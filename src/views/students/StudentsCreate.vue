@@ -62,10 +62,11 @@
 <script>
 export default {
   name: 'StudentsCreate',
+
   props: {
     isCreate: Boolean,
-    student: {}
-
+    student: {},
+    institutionId: String
   },
   data () {
     return {
@@ -73,6 +74,7 @@ export default {
         id: null,
         name: '',
         email: '',
+        institution_id: '',
         active: 1
       }
     }
@@ -91,6 +93,7 @@ export default {
         this.form.active = student.active
       } else {
         const ObjectEmpty = Object.assign(this.form, this.student)
+        this.form.institution_id = this.institutionId
         this.form = ObjectEmpty
       }
     },
@@ -102,19 +105,20 @@ export default {
       }
     },
     create () {
-      this.$validator.validateAll().then((result) => {
+      this.$validator.validateAll().then(result => {
         if (result) {
           const payload = this.form
+          // console.log(payload)
           this.$store.dispatch('student/createStudent', payload)
           this.$emit('close-modal')
         }
       })
     },
     update () {
-      this.$validator.validateAll().then((result) => {
+      this.$validator.validateAll().then(result => {
         if (result) {
           const payload = this.form
-          console.log(payload)
+
           this.$store.dispatch('student/updateStudent', payload)
           this.$emit('close-modal')
         }

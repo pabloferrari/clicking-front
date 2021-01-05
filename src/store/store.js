@@ -38,6 +38,7 @@ import courseType from './modules/courseType'
 
 import assignment from './modules/assignment'
 import assignmentGroup from './modules/assignmentGroup'
+import news from './modules/news'
 
 Vue.use(Vuex)
 
@@ -62,7 +63,8 @@ export default new Vuex.Store({
     subject,
     courseType,
     assignment,
-    assignmentGroup
+    assignmentGroup,
+    news
   },
   getters,
   mutations,

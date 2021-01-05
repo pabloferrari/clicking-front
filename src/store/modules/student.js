@@ -18,28 +18,29 @@ const getters = {
 }
 
 const mutations = {
-  updatedStudent (state, student) {
+  updatedStudent(state, student) {
     state.student = student
   },
 
-  setStudents (state, students) {
+  setStudents(state, students) {
     state.students = students
   },
 
-  setStudent (state, student) {
+  setStudent(state, student) {
     state.student = student
   }
 }
 
 const actions = {
-  async createStudent ({ commit, state, dispatch }, student) {
+  async createStudent({ commit, state, dispatch }, student) {
     try {
       const newStudent = {
         name: student.name,
         email: student.email,
         description: student.name,
         password: student.password,
-        active: student.active
+        active: student.active,
+        institution_id: student.institution_id
       }
       const studentCreate = await StudentService.create(newStudent)
       const students = Object.assign([], state.students)
@@ -61,7 +62,7 @@ const actions = {
     }
   },
 
-  async updateStudent ({ state, commit, dispatch }, student) {
+  async updateStudent({ state, commit, dispatch }, student) {
     try {
       const editstudent = {
         id: student.id,
@@ -91,7 +92,7 @@ const actions = {
       console.log(error)
     }
   },
-  async deleteStudent ({ state, commit, dispatch }, id) {
+  async deleteStudent({ state, commit, dispatch }, id) {
     try {
       await StudentService.delete(id)
       const index = state.students.findIndex((x) => x.id === id)
@@ -110,7 +111,7 @@ const actions = {
       console.log(error)
     }
   },
-  async getStudents ({ commit }) {
+  async getStudents({ commit }) {
     try {
       const studentsData = await StudentService.getAll()
       commit('setStudents', studentsData.data)
@@ -118,7 +119,7 @@ const actions = {
       console.log(error)
     }
   },
-  async getStudentsByInstitution ({ commit }, id) {
+  async getStudentsByInstitution({ commit }, id) {
     try {
       const studentsData = await StudentService.getStudentsByInstitution(id)
       commit('setStudents', studentsData.data)
