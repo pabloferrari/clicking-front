@@ -41,6 +41,7 @@ import bigBlueButton from './modules/bigBlueButton'
 import assignment from './modules/assignment'
 import assignmentGroup from './modules/assignmentGroup'
 import news from './modules/news'
+import comment from './modules/comment'
 
 Vue.use(Vuex)
 
@@ -68,7 +69,8 @@ export default new Vuex.Store({
     bigBlueButton,
     assignment,
     assignmentGroup,
-    news
+    news,
+    comment
   },
   getters,
   mutations,

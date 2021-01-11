@@ -7,14 +7,17 @@
         </div>
       </div>
       <div class="w-full">
-        <vs-textarea height="50px" label="Escribe aquí una descripción" v-model="textarea" name="Descripción"
-            v-validate="'required'"
-            :danger="errors.has('Descripción')" />
-            <span
-            class="text-danger text-sm"
-            v-show="errors.has('Descripción')"
-            >{{ errors.first("Descripción") }}</span
-          >
+        <vs-textarea
+          height="50px"
+          label="Escribe aquí una descripción"
+          v-model="textarea"
+          name="Descripción"
+          v-validate="'required'"
+          :danger="errors.has('Descripción')"
+        />
+        <span class="text-danger text-sm" v-show="errors.has('Descripción')">{{
+          errors.first("Descripción")
+        }}</span>
       </div>
     </div>
     <div class="flex flex-wrap items-center justify-end">
@@ -27,27 +30,26 @@
 
 <script>
 export default {
-  name: 'InputTypping',
+  name: "InputTypping",
 
-  data () {
+  data() {
     return {
-      textarea: ''
-    }
+      textarea: ""
+    };
   },
   methods: {
-    handlerPublish () {
+    handlerPublish() {
       this.$validator.validateAll().then(result => {
         if (result) {
-          this.$emit('handler-publish')
+          this.$emit("handler-publish");
         }
-      })
-
+      });
     },
-    sendInformation () {
+    sendInformation() {
       if (this.textarea) {
-        console.log(this.textarea)
+        console.log(this.textarea);
       }
     }
   }
-}
+};
 </script>

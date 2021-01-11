@@ -86,8 +86,7 @@
             <vs-tabs v-model="tab.value">
                 <vs-tab label="Muro" v-on="clickTag(tab.value)">
                     <div class="tab-content-wall">
-                        <Wall></Wall>
-                        <WallComment></WallComment>
+                        <Wall :subjectId="this.subjectId"></Wall>
                     </div>
                 </vs-tab>
                 <vs-tab label="Clases">
@@ -113,8 +112,8 @@
 </template>
 
 <script>
-import Wall from '../components/Wall'
-import WallComment from '../components/WallComment'
+import Wall from './Wall'
+
 import Collapse from '../components/Collapse'
 
 import CardCount from '../components/CardCount'
@@ -125,11 +124,12 @@ import EvaluationForm from './EvaluationForm'
 import WorkPracticeForm from './WorkPracticeForm'
 import Classes from './Classes'
 import { mapGetters } from 'vuex'
+
 export default {
   name: 'Subject',
   components: {
     Wall,
-    WallComment,
+
     Classes,
     CardCount,
     Collapse,
@@ -138,6 +138,7 @@ export default {
     TaskForm,
     EvaluationForm,
     WorkPracticeForm
+
   },
   props: {
     subject: String,
