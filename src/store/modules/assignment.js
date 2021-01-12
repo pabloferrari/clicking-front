@@ -42,7 +42,7 @@ const mutations = {
   setMyAssignments (state, myAssignments) {
     state.myAssignments = myAssignments
   },
-  setAssignmentDetail(state, assignmentDetail) {
+  setAssignmentDetail (state, assignmentDetail) {
     state.assignmentDetail = assignmentDetail
   }
 }
@@ -58,11 +58,31 @@ const actions = {
       assignment_status_id: 1,
       score: assignment.score,
       groupqty: assignment.groupqty,
-      student_assignments: assignment.classroom_students
+      student_assignments: assignment.classroom_students,
+      file: assignment.file
     }
 
     Object.keys(newAssignment).forEach(key => newAssignment[key] === undefined && delete newAssignment[key])
-    await AssignmentService.create(newAssignment)
+
+    console.log(newAssignment)
+
+    const formData = new FormData()
+    formData.append('title', newAssignment.title)
+    formData.append('description', newAssignment.description)
+    formData.append('class_id', newAssignment.class_id)
+    formData.append('limit_date', newAssignment.limit_date)
+    formData.append('assignment_type_id', newAssignment.assignment_type_id)
+    formData.append('assignment_status_id', newAssignment.assignment_status_id)
+    formData.append('score', newAssignment.score)
+    formData.append('groupqty', newAssignment.groupqty)
+    formData.append('student_assignments[0]', newAssignment.student_assignments)
+    formData.append('file', newAssignment.file)
+
+    console.log(' nuevo objeto ')
+
+    console.log(formData)
+
+    await AssignmentService.create(formData)
       .then((response) => {
 
         const assignmentData = {

@@ -45,7 +45,15 @@
 
             <div class="vx-row">
                 <div class="vx-col w-full">
-                    <vs-button
+                    <label>Adjuntar Archivo <br>
+                      <input
+                        type="file"
+                        id="file"
+                        ref="file"
+                        v-on:change="handleFileUpload()"
+                      />
+                    </label>
+                    <!-- <vs-button
                         size="small"
                         color="primary"
                         type="border"
@@ -53,7 +61,7 @@
                         icon="icon-paperclip"
                         class="w-full sm:w-auto"
                         >Adjuntar</vs-button
-                    >
+                    > -->
                 </div>
             </div>
 
@@ -237,7 +245,6 @@ export default {
       description: 'Cursando',
       value1: '',
       datetime: null,
-
       selectedDefault: null,
       configdateTimePicker: {
         enableTime: true,
@@ -252,7 +259,8 @@ export default {
         courses: [],
         class_id: null,
         limit_date: null,
-        classroom_students: []
+        classroom_students: [],
+        file: null
       },
       classesData: [],
       classList: [],
@@ -277,7 +285,6 @@ export default {
         })
       })
     },
-
     save () {
       this.create()
     },
@@ -292,8 +299,8 @@ export default {
             'assignment/createAssignment',
             payload
           )
-          this.closeModal()
-          this.clearFields()
+          //this.closeModal()
+          //this.clearFields()
         }
       })
     },
@@ -303,7 +310,10 @@ export default {
       })
       this.$validator.reset()
     },
-    update () {}
+    update () {},
+    handleFileUpload () {
+      this.form.file = this.$refs.file.files[0]
+    }
   }
 }
 </script>
