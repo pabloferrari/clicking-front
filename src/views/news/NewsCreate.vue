@@ -94,9 +94,7 @@ export default {
           this.$store
             .dispatch('news/createNews', payload)
             .then(response => {
-
               this.$emit('close-modal')
-              console.log(response)
             })
             .catch(err => {
               console.log(err)

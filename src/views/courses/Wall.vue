@@ -1,78 +1,66 @@
 <template>
   <div id="form-model" class="grid-layout-container alignment-block">
-    <div class="vx-row my-4">
-      <div class="vx-col w-full">
-        <p class="primary">Noticias</p>
-      </div>
-    </div>
-    <!-- Input text for send post -->
-    <div class="vx-row" v-permission="['institution']">
-      <InputTypping ref="InputTypping" @handler-publish="showModalPublish()"></InputTypping>
+
+    <!-- Input text for send comment on Wall -->
+    <div class="vx-row" v-permission="['institution','teacher']">
+      <InputTypping ref="InputTypping" @handler-publish="sendCommment()"></InputTypping>
     </div>
     <!-- List of Posts Publish Institutions -->
     <div class="vx-row my-4">
-      <vx-card v-if="this.dataList.length > 0" >
-          <ListInformation v-for="(posts, index) in this.dataList"  :key="index" :data="posts"  ></ListInformation>
-      </vx-card>
-      <vx-card v-else>
-        <h4 class="text-center">No se encontraron resultados</h4>
+      <vx-card>
+        <ListInformation v-for="(posts, index) in this.dataList" :key="index" :data="posts" :componentDynamic="mountComponentComment" :componentDynamicProps="posts.comments"  ></ListInformation>
       </vx-card>
     </div>
-    <!-- Popup Publish Create -->
-    <vs-prompt
-      @accept="accept"
-      title="Crear Noticia"
-      accept-text="Guardar"
-      cancel-text="Cancelar"
-      :active.sync="activePrompt"
-    >
-      <NewsCreate
-      @close-modal="closeModal()"
-      :description="this.description"
-      ref="NewsCreate"></NewsCreate>
-    </vs-prompt>
+
   </div>
 </template>
 
 <script>
 import InputTypping from '../components/Posts/InputTypping'
-import NewsCreate from './NewsCreate'
 import ListInformation from '../components/Posts/List'
+import CommentResponse from '../components/Posts/CommentResponse'
 import { mapGetters } from 'vuex'
 import  moment  from 'moment'
 
 export default {
-  name: 'News',
+  name: 'Wall',
   components: {
-    NewsCreate,
+
     InputTypping,
     ListInformation
+  },
+  props: {
+    subjectId: String
   },
   data () {
     return {
       activePrompt: false,
       dataList: [],
-      description: ''
+      description: '',
+      mountComponentComment: CommentResponse
     }
   },
   computed: {
     ...mapGetters({
-      storeNews: 'news/getNews'
+      storeComments: 'comment/getComments'
     })
+
+
   },
   watch: {
-    storeNews (data) {
+    storeComments (data) {
       const rows = []
       data.map((element) => {
         rows.push({
-          title: element.title,
-          description: element.description,
-          date:  this.formatDateTime(element.date),
+          title: 'Comentario',
+          description: element.comment,
+          image: element.user.image ? element.user.image : '',
           user: element.user.name,
-          image: element.user.image ? element.user.image : ''
+          date: '',
+          comments: element.comment_child
         })
       })
-
+      // console.log(rows)
       this.dataList = rows
     }
   },
@@ -83,16 +71,26 @@ export default {
       // console.log()
       // this.description = ''
     },
-    showModalPublish () {
-      this.activePrompt = true
-      this.description = this.$refs.InputTypping.textarea
+    sendCommment () {
+      const payload = {
+        comment: this.$refs.InputTypping.textarea,
+        model_id: this.subjectId,
+        model_name: 'courses'
+      }
+      this.$store.dispatch('comment/createComment', payload).then((response) => {
+        console.log(response)
+        this.$refs.InputTypping.textarea = ''
+        this.description  = ''
+      }).catch((errr) => console.log(errr))
+      // console.log(payload)
+      // this.description = this.$refs.InputTypping.textarea
       // console.log(this.$refs.InputTypping.textarea)
     },
     closeModal () {
       this.activePrompt = false
     },
     getNews () {
-      this.$store.dispatch('news/getNewsData')
+      this.$store.dispatch('comment/getCommentsData')
     },
     formatDateTime (datetime) {
       if (!datetime) {
