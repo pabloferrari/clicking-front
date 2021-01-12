@@ -11,8 +11,11 @@
     </div>
     <!-- List of Posts Publish Institutions -->
     <div class="vx-row my-4">
-      <vx-card>
-        <ListInformation v-for="(posts, index) in this.dataList" :key="index" :data="posts"  ></ListInformation>
+      <vx-card v-if="this.dataList.length > 0" >
+          <ListInformation v-for="(posts, index) in this.dataList"  :key="index" :data="posts"  ></ListInformation>
+      </vx-card>
+      <vx-card v-else>
+        <h4 class="text-center">No se encontraron resultados</h4>
       </vx-card>
     </div>
     <!-- Popup Publish Create -->

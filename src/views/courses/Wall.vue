@@ -8,7 +8,7 @@
     <!-- List of Posts Publish Institutions -->
     <div class="vx-row my-4">
       <vx-card>
-        <ListInformation v-for="(posts, index) in this.dataList" :key="index" :data="posts" :componentDynamic="mountComponentComment"  ></ListInformation>
+        <ListInformation v-for="(posts, index) in this.dataList" :key="index" :data="posts" :componentDynamic="mountComponentComment" :componentDynamicProps="posts.comments"  ></ListInformation>
       </vx-card>
     </div>
 
@@ -27,8 +27,7 @@ export default {
   components: {
 
     InputTypping,
-    ListInformation,
-    CommentResponse
+    ListInformation
   },
   props: {
     subjectId: String
@@ -45,6 +44,8 @@ export default {
     ...mapGetters({
       storeComments: 'comment/getComments'
     })
+
+
   },
   watch: {
     storeComments (data) {
@@ -55,9 +56,11 @@ export default {
           description: element.comment,
           image: element.user.image ? element.user.image : '',
           user: element.user.name,
-          date: ''
+          date: '',
+          comments: element.comment_child
         })
       })
+      // console.log(rows)
       this.dataList = rows
     }
   },
