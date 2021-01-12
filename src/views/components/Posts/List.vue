@@ -28,7 +28,7 @@
         </li>
       </ul>
     </div>
-    <component :is="this.componentDynamic" v-bind="componentDynamicProps"></component>
+    <component :is="this.componentDynamic" v-bind="{childData:componentDynamicProps}"></component>
   </div>
   <!-- </vx-card> -->
   <!-- </div> -->
@@ -40,8 +40,13 @@ export default {
   props: {
     data: Object,
     componentDynamic: Object,
-    componentDynamicProps: Object
+    componentDynamicProps: Array
   },
+
+  mounted () {
+    // console.log(this.componentDynamicProps)
+  },
+
   data () {
     return {
       commentResponse: null

@@ -30,26 +30,26 @@
 
 <script>
 export default {
-  name: "InputTypping",
+  name: 'InputTypping',
 
-  data() {
+  data () {
     return {
-      textarea: ""
-    };
+      textarea: ''
+    }
   },
   methods: {
-    handlerPublish() {
+    handlerPublish () {
       this.$validator.validateAll().then(result => {
         if (result) {
-          this.$emit("handler-publish");
+          this.$emit('handler-publish')
         }
-      });
+      })
     },
-    sendInformation() {
+    sendInformation () {
       if (this.textarea) {
-        console.log(this.textarea);
+        // console.log(this.textarea)
       }
     }
   }
-};
+}
 </script>
