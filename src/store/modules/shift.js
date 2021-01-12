@@ -60,18 +60,18 @@ const actions = {
       console.log(error)
     }
   },
-  // async deleteCountry ({ state, commit, dispatch }, id) {
-  //   try {
-  //     await CountryService.delete(id)
-  //     const index = state.countries.findIndex(x => x.id === id)
-  //     const countries =  [... state.countries]
-  //     countries.splice(index, 1)
-  //     commit('setCountries', countries)
-  //     dispatch('notification/success', {title: 'Eliminado exitoso....', text: 'se ha eliminado correctamente.'}, { root: true })
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // },
+  async deleteShift ({ state, commit, dispatch }, id) {
+    try {
+      await ShiftService.delete(id)
+      const index = state.shifts.findIndex(x => x.id === id)
+      const shifts =  [... state.shifts]
+      shifts.splice(index, 1)
+      commit('setShifts', shifts)
+      dispatch('notification/success', {title: 'Eliminado exitoso....', text: 'se ha eliminado correctamente.'}, { root: true })
+    } catch (error) {
+      console.log(error)
+    }
+  },
   async getShifts ({commit}) {
     try {
       const shiftsData = await ShiftService.getAll()

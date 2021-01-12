@@ -43,6 +43,27 @@ export default [
     permissions: ['admin']
   },
   {
+    url: null,
+    name: 'Configuración',
+    slug: 'settings',
+    icon: 'SettingsIcon',
+    submenu: [
+      {
+        url: '/subjects',
+        name: 'Materias',
+        slug: 'subjects',
+        permissions: []
+      },
+      {
+        url: '/shifts',
+        name: 'Turnos',
+        slug: 'shifts',
+        permissions: []
+      }
+    ],
+    permissions: ['institution']
+  },
+  {
     url: '/institutions',
     name: 'Instituciones',
     slug: 'institutions',

@@ -39,39 +39,39 @@ const actions = {
     SubjectService.create(subject).then((response) => {
       const subjects = Object.assign([], state.subjects)
       subjects.push(response.data)
-      commit('setSubjects', subject)
+      commit('setSubjects', subjects)
       dispatch('notification/success', {title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.'}, { root: true })
     }).catch((err) => {
       console.log(err)
     })
   },
-  // async updateShift ({ state, commit, dispatch }, shift) {
-  //   try {
-  //     const shiftEdit = await ShiftService.update(shift.id, shift)
-  //     const newValue = state.shifts.map((value) => {
-  //       if (value.id === shiftEdit.data.id) {
-  //         value = Object.assign({}, shiftEdit.data)
-  //       }
-  //       return value
-  //     })
-  //     commit('setShifts', newValue)
-  //     dispatch('notification/success', {title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.'}, { root: true })
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // },
-  // async deleteCountry ({ state, commit, dispatch }, id) {
-  //   try {
-  //     await CountryService.delete(id)
-  //     const index = state.countries.findIndex(x => x.id === id)
-  //     const countries =  [... state.countries]
-  //     countries.splice(index, 1)
-  //     commit('setCountries', countries)
-  //     dispatch('notification/success', {title: 'Eliminado exitoso....', text: 'se ha eliminado correctamente.'}, { root: true })
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // },
+  async updateSubject ({ state, commit, dispatch }, subject) {
+    try {
+      const subjectEdit = await SubjectService.update(subject.id, subject)
+      const newValue = state.subjects.map((value) => {
+        if (value.id === subjectEdit.data.id) {
+          value = Object.assign({}, subjectEdit.data)
+        }
+        return value
+      })
+      commit('setSubject', newValue)
+      dispatch('notification/success', {title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.'}, { root: true })
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  async deleteSubject ({ state, commit, dispatch }, id) {
+    try {
+      await SubjectService.delete(id)
+      const index = state.subjects.findIndex(x => x.id === id)
+      const subjects =  [... state.subjects]
+      subjects.splice(index, 1)
+      commit('setSubjects', subjects)
+      dispatch('notification/success', {title: 'Eliminado exitoso....', text: 'se ha eliminado correctamente.'}, { root: true })
+    } catch (error) {
+      console.log(error)
+    }
+  },
   async getSubjects ({commit}) {
     try {
       const subjectsData = await SubjectService.getAll()

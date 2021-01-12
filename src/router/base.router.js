@@ -18,6 +18,22 @@ export default [
     }
   },
   {
+    path: '/subjects',
+    name: 'Materias',
+    component: () => import('../views/subjects/Subjects.vue'),
+    meta: {
+      permissions: ['institution']
+    }
+  },
+  {
+    path: '/shifts',
+    name: 'Turnos',
+    component: () => import('../views/shifts/Shifts.vue'),
+    meta: {
+      permissions: ['institution']
+    }
+  },
+  {
     path: '/provinces',
     name: 'Provincias',
     component: () => import('../views/provinces/Provinces.vue'),
