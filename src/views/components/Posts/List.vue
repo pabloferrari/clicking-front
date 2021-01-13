@@ -5,7 +5,7 @@
     <div class="">
       <p class="ml-1 p-3">
         <feather-icon icon="ClockIcon" svgClasses="h-4 w-4 m-0" />
-        {{ data.date }}
+        {{  data.date }}
       </p>
       <p class="p-3 ml-2 font-bold text-title">{{ data.title }}</p>
       <p class="p-3 ml-2">
@@ -28,7 +28,7 @@
         </li>
       </ul>
     </div>
-    <component
+    <component v-if="componentDynamic"
     :is="this.componentDynamic"
     v-bind="{
       childData:componentDynamicProps,
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'ListInformation',
   props: {

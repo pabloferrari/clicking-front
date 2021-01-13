@@ -58,11 +58,11 @@ export default {
           description: element.comment,
           image: element.user.image ? element.user.image : '',
           user: element.user.name,
-          date: '',
+          date: this.formatDateTime(element.created_at),
           comments: element.comment_child
         })
       })
-      // console.log(rows)
+
       this.dataList = rows
     }
   },
@@ -80,7 +80,7 @@ export default {
         model_name: 'courses'
       }
       this.$store.dispatch('comment/createComment', payload).then((response) => {
-        console.log(response)
+        // console.log(response)
         this.$refs.InputTypping.textarea = ''
         this.description  = ''
       }).catch((errr) => console.log(errr))
@@ -91,7 +91,7 @@ export default {
     closeModal () {
       this.activePrompt = false
     },
-    getNews () {
+    getComments () {
       this.$store.dispatch('comment/getCommentsData')
     },
     formatDateTime (datetime) {
@@ -103,7 +103,7 @@ export default {
   },
 
   mounted () {
-    this.getNews()
+    this.getComments()
   }
 }
 </script>

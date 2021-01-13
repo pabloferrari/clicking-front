@@ -18,21 +18,30 @@ const getters = {
 
 
 const mutations = {
-  updatedComment (state, comment) {
+  updatedComment(state, comment) {
     state.comment = comment
   },
 
-  setComments (state, comments) {
+  updatedCommentChild(state, comment) {
+    const commentChildClone = Object.assign([], state.comments)
+    const commentNew = commentChildClone.map((e) => {
+      e.comment_child.push(comment)
+      return e
+    })
+    state.comments = commentNew
+  },
+
+  setComments(state, comments) {
     state.comments = comments
   },
 
-  setComment (state, comment) {
+  setComment(state, comment) {
     state.comment = comment
   }
 }
 
 const actions = {
-  createComment ({ commit, state, dispatch }, comment) {
+  createComment({ commit, state, dispatch }, comment) {
     return new Promise((resolve, reject) => {
       const newComment = {
         comment: comment.comment,
@@ -41,10 +50,24 @@ const actions = {
         model_name: comment.model_name
 
       }
+
       CommentService.create(newComment).then((response) => {
         const comments = Object.assign([], state.comments)
         comments.push(response.data)
-        commit('setComments', comments)
+        if (newComment.children_id) {
+          const newCommentData = {
+            children_id: response.data.children_id,
+            comment: response.data.comment,
+            id: response.data.id,
+            model_id: response.data.model_id,
+            model_name: response.data.model_name,
+            user: response.data.user
+          }
+          commit('updatedCommentChild', newCommentData)
+        } else {
+          commit('setComments', comments)
+        }
+
         dispatch('notification/success', { title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.' }, { root: true })
         resolve(comments)
 
@@ -55,7 +78,7 @@ const actions = {
     })
 
   },
-  async getCommentsData ({ commit }) {
+  async getCommentsData({ commit }) {
     try {
       const commentsData = await CommentService.getAll()
       commit('setComments', commentsData.data)

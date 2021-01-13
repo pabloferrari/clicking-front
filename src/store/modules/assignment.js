@@ -56,15 +56,13 @@ const actions = {
       limit_date: assignment.limit_date,
       assignment_type_id: assignment.id,
       assignment_status_id: 1,
-      score: assignment.score,
-      groupqty: assignment.groupqty,
+      score: assignment.score ? assignment.score : 0,
+      groupqty: assignment.groupqty ? assignment.groupqty : 0,
       student_assignments: assignment.classroom_students,
       file: assignment.file
     }
 
     Object.keys(newAssignment).forEach(key => newAssignment[key] === undefined && delete newAssignment[key])
-
-    console.log(newAssignment)
 
     const formData = new FormData()
     formData.append('title', newAssignment.title)
@@ -75,16 +73,14 @@ const actions = {
     formData.append('assignment_status_id', newAssignment.assignment_status_id)
     formData.append('score', newAssignment.score)
     formData.append('groupqty', newAssignment.groupqty)
-    formData.append('student_assignments[0]', newAssignment.student_assignments)
     formData.append('file', newAssignment.file)
-
-    console.log(' nuevo objeto ')
-
-    console.log(formData)
+    for (let i = 0; i < newAssignment.student_assignments.length; i++) {
+      formData.append('student_assignments[]', newAssignment.student_assignments[i])
+    }
+    //formData.append('student_assignments[0]', newAssignment.student_assignments )
 
     await AssignmentService.create(formData)
       .then((response) => {
-
         const assignmentData = {
           classId: response.data.class.id,
           title: response.data.title,

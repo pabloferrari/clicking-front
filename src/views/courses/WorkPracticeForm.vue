@@ -1,5 +1,5 @@
 <template>
-    <div class="vx-row">
+    <div class="vx-row" id="WorkPraticeForm">
         <!-- LEFT DATA FORM -->
         <div class="vx-col lg:block lg:w-1/2 mb-auto mx-auto self-center mt-8">
             <div class="vx-card__title mb-8">
@@ -45,6 +45,11 @@
 
             <div class="vx-row">
                 <div class="vx-col w-full">
+                   <!-- <FilePond
+                      id="file"
+                      ref="file"
+                      v-on:change="handleFileUpload()"
+                   /> -->
                     <label>Adjuntar Archivo <br>
                       <input
                         type="file"
@@ -230,11 +235,19 @@
 import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
 
+// import vueFilePond from 'vue-filepond'
+// import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+
+// import 'filepond/dist/filepond.min.css'
+// import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
+
+
 export default {
   name: 'WorkPraticeForm',
   components: {
     // AvatarList,
     flatPickr
+    // FilePond: vueFilePond(FilePondPluginImagePreview)
   },
   props: {
     title: null,
@@ -299,8 +312,8 @@ export default {
             'assignment/createAssignment',
             payload
           )
-          //this.closeModal()
-          //this.clearFields()
+          this.closeModal()
+          this.clearFields()
         }
       })
     },

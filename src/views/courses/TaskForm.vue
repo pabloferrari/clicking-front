@@ -1,5 +1,5 @@
 <template>
-    <div class="vx-row">
+    <div class="vx-row" id="TaskForm">
         <!-- LEFT DATA FORM -->
         <div class="vx-col lg:block lg:w-1/2 mb-auto mx-auto self-center mt-8">
             <div class="vx-card__title mb-8">
@@ -45,7 +45,15 @@
 
             <div class="vx-row">
                 <div class="vx-col w-full">
-                    <vs-button
+                    <label>Adjuntar Archivo <br>
+                      <input
+                        type="file"
+                        id="file"
+                        ref="file"
+                        v-on:change="handleFileUpload()"
+                      />
+                    </label>
+                    <!-- <vs-button
                         size="small"
                         color="primary"
                         type="border"
@@ -53,7 +61,7 @@
                         icon="icon-paperclip"
                         class="w-full sm:w-auto"
                         >Adjuntar</vs-button
-                    >
+                    > -->
                 </div>
             </div>
 
@@ -204,7 +212,8 @@ export default {
         courses: [],
         class_id: '',
         limit_date: '',
-        classroom_students: []
+        classroom_students: [],
+        file: null
       },
       classesData: [],
       classList: [],
@@ -256,7 +265,10 @@ export default {
       this.$validator.reset()
     },
 
-    update () {}
+    update () {},
+    handleFileUpload () {
+      this.form.file = this.$refs.file.files[0]
+    }
   },
 
   mounted () {

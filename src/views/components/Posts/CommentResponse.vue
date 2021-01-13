@@ -7,6 +7,8 @@
           v-for="(comment, index) in this.childData"
           :key="index"
           :comment="comment.comment"
+          :img="comment.user.image"
+          :user="comment.user.name"
         ></CommentChild>
         <!-- </div> -->
         <div class="chat__input flex p-4">
@@ -42,7 +44,10 @@ export default {
   props: {
     avatarImg: String,
     childData: Array,
-    modelId: String,
+    modelId: {
+      type:String,
+      required:false
+    },
     childrenId: Number,
     modelName: String
   },
@@ -63,12 +68,12 @@ export default {
         children_id: this.childrenId,
         model_name: this.modelName
       }
-      console.log(payload)
+      //console.log(payload)
 
       this.$store
         .dispatch('comment/createComment', payload)
         .then(response => {
-          console.log(response)
+          //console.log(response)
           this.comment = ''
         })
         .catch(err => console.log(err))
