@@ -23,14 +23,14 @@ const errorInterceptor = async (error) => {
       console.error(error.response.status, error.message)
       store.dispatch('notification/danger', {title: 'Nothing to display', text: 'Data Not Found'})
       break
-  
+
     case 401:
       store.dispatch('notification/danger', {title: 'Por favor inicie sesion nuvamente', text: 'ha expirado la sesion'})
       localStorage.removeItem('token')
       localStorage.removeItem('userAuth')
       router.push('/pages/login')
       break
-  
+
     // eslint-disable-next-line no-case-declarations
     case 422:
       const title = 'Unprocessable Entity'
@@ -52,7 +52,7 @@ const errorInterceptor = async (error) => {
 
 const responseInterceptor = (response) => {
   switch (response.status) {
-  case 200: 
+  case 200:
     return response.data
   default:
     return response
