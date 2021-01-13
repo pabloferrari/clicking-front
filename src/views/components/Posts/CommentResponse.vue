@@ -41,35 +41,41 @@ export default {
 
   props: {
     avatarImg: String,
-    childData: Array
+    childData: Array,
+    modelId: String,
+    childrenId: Number,
+    modelName: String
   },
   components: {
     CommentChild
   },
-  data() {
+  data () {
     return {
       comment: ''
     }
   },
   methods: {
-    handlerSubmit(e) {
+    handlerSubmit (e) {
+      e.preventDefault()
       const payload = {
         comment: this.comment,
-        model_id: 18,
-        model_name: 'courses'
+        model_id: this.modelId,
+        children_id: this.childrenId,
+        model_name: this.modelName
       }
-      e.preventDefault()
+      console.log(payload)
+
       this.$store
         .dispatch('comment/createComment', payload)
         .then(response => {
-          // console.log(response)
+          console.log(response)
           this.comment = ''
         })
         .catch(err => console.log(err))
       // console.log(this.comment)
     }
   },
-  mounted() {
+  mounted () {
     // console.log(this.childData.comments)
   }
 }

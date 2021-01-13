@@ -37,6 +37,7 @@ const actions = {
       const newComment = {
         comment: comment.comment,
         model_id: comment.model_id,
+        children_id: comment.children_id,
         model_name: comment.model_name
 
       }

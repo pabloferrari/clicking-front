@@ -26,7 +26,7 @@ export default {
   props: {
     comment: String
   },
-  mounted() {
+  mounted () {
     console.log(this.comment)
   }
 }

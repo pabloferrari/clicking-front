@@ -21,7 +21,7 @@
     </vs-prompt>
     <!-- Modal -->
 
-    <DataTable 
+    <DataTable
     :rowList="subjects"
     :btnCreateShow="true"
     :btnCreateTitle="'Añadir Materia'"
@@ -42,90 +42,90 @@ import { mapGetters } from 'vuex'
 import DataTable from '../components/DataTable'
 
 export default {
-    name: 'subjects',
-    components: {
-        SubjectsCreate,
-        DataTable
-    },
-    data () {
-        return {
-            subjectsList: [],
-            activePrompt: false,
-            activePromptDelete: false,
-            actionModal: '',
-            idDeleted: null,
-            iscreated: null,
-            subject: null,
-            columnDefs: [
-                {
-                    headerName: 'Acciones',
-                    field: 'id',
-                    type: 'actionColumn',
-                    cellRendererParams: {
-                        buttonSearch: false,
-                        // actionSearch: (id) => { /** action **/ },
-                        buttonEdit: true,
-                        actionEdit: (id) => {
-                            this.getData(id)
-                            this.showModal(false) 
-                        },
-                        buttonDelete: true,
-                        actionDelete: (id) => { this.idDeleted = id; this.showModalConfirm() }
-                    }
-                },
-                {
-                    headerName: 'id',
-                    field: 'id'
-                },
-                {
-                    headerName: 'Materia',
-                    field: 'name'
-                }
-            ]
+  name: 'subjects',
+  components: {
+    SubjectsCreate,
+    DataTable
+  },
+  data () {
+    return {
+      subjectsList: [],
+      activePrompt: false,
+      activePromptDelete: false,
+      actionModal: '',
+      idDeleted: null,
+      iscreated: null,
+      subject: null,
+      columnDefs: [
+        {
+          headerName: 'Acciones',
+          field: 'id',
+          type: 'actionColumn',
+          cellRendererParams: {
+            buttonSearch: false,
+            // actionSearch: (id) => { /** action **/ },
+            buttonEdit: true,
+            actionEdit: (id) => {
+              this.getData(id)
+              this.showModal(false)
+            },
+            buttonDelete: true,
+            actionDelete: (id) => { this.idDeleted = id; this.showModalConfirm() }
+          }
+        },
+        {
+          headerName: 'ID',
+          field: 'id'
+        },
+        {
+          headerName: 'Materia',
+          field: 'name'
         }
-    },
-    methods: {
-        showModal (iscreated) {
-            this.subject = (!iscreated) ? this.subject : null
-            this.actionModal = (iscreated) ? 'Añadir' : 'Editar'
-            this.iscreated = iscreated
-            this.activePrompt = true
-        },
-        showModalConfirm () {
-            this.activePromptDelete = true
-        },
-        getData (id) {
-            this.subject = Object.assign({}, this.$store.state.subject.subjects.find(x => x.id === id))
-        },
-        accept () {
-            this.activePrompt = true
-            this.$refs.SubjectsCreate.save()
-        },
-        acceptDelete () {
-            this.$store.dispatch('subject/deleteSubject', this.idDeleted)
-            this.idDeleted = null
-        },
-        getSubjects () {
-            this.$store.dispatch('subject/getSubjects')
-        },
-        onFirstDataRendered (params) {
-            params.api.sizeColumnsToFit()
-        },
-        closeModal () {
-            this.activePrompt = false
-        }
-    },
-    mounted () {
-        this.getSubjects()
-    },
-    watch: {
-        subjects (data) {
-            this.rowData = data
-        }
-    },
-    computed: {
-        ...mapGetters({ subjects: 'subject/getSubjects' })
+      ]
     }
+  },
+  methods: {
+    showModal (iscreated) {
+      this.subject = (!iscreated) ? this.subject : null
+      this.actionModal = (iscreated) ? 'Añadir' : 'Editar'
+      this.iscreated = iscreated
+      this.activePrompt = true
+    },
+    showModalConfirm () {
+      this.activePromptDelete = true
+    },
+    getData (id) {
+      this.subject = Object.assign({}, this.$store.state.subject.subjects.find(x => x.id === id))
+    },
+    accept () {
+      this.activePrompt = true
+      this.$refs.SubjectsCreate.save()
+    },
+    acceptDelete () {
+      this.$store.dispatch('subject/deleteSubject', this.idDeleted)
+      this.idDeleted = null
+    },
+    getSubjects () {
+      this.$store.dispatch('subject/getSubjects')
+    },
+    onFirstDataRendered (params) {
+      params.api.sizeColumnsToFit()
+    },
+    closeModal () {
+      this.activePrompt = false
+    }
+  },
+  mounted () {
+    this.getSubjects()
+  },
+  watch: {
+    subjects (data) {
+      this.rowData = data
+    }
+  },
+  computed: {
+    ...mapGetters({ subjects: 'subject/getSubjects' })
+  }
 }
 </script>
 

@@ -28,7 +28,14 @@
         </li>
       </ul>
     </div>
-    <component :is="this.componentDynamic" v-bind="{childData:componentDynamicProps}"></component>
+    <component
+    :is="this.componentDynamic"
+    v-bind="{
+      childData:componentDynamicProps,
+      modelId:modelProps.modelId,
+      childrenId:modelProps.childrenId,
+      modelName:modelProps.modelName
+      }"></component>
   </div>
   <!-- </vx-card> -->
   <!-- </div> -->
@@ -40,11 +47,12 @@ export default {
   props: {
     data: Object,
     componentDynamic: Object,
-    componentDynamicProps: Array
+    componentDynamicProps: Array,
+    modelProps: Object
   },
 
   mounted () {
-    // console.log(this.componentDynamicProps)
+    console.log(this.componentDynamicProps)
   },
 
   data () {

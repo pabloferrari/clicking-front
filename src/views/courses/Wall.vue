@@ -8,7 +8,8 @@
     <!-- List of Posts Publish Institutions -->
     <div class="vx-row my-4">
       <vx-card>
-        <ListInformation v-for="(posts, index) in this.dataList" :key="index" :data="posts" :componentDynamic="mountComponentComment" :componentDynamicProps="posts.comments"  ></ListInformation>
+        <ListInformation v-for="(posts, index) in this.dataList" :key="index" :data="posts" :componentDynamic="mountComponentComment" :componentDynamicProps="posts.comments"
+        :modelProps="{modelId:subjectId,childrenId:posts.id,modelName:'courses'}" ></ListInformation>
       </vx-card>
     </div>
 
@@ -52,6 +53,7 @@ export default {
       const rows = []
       data.map((element) => {
         rows.push({
+          id: element.id,
           title: 'Comentario',
           description: element.comment,
           image: element.user.image ? element.user.image : '',
