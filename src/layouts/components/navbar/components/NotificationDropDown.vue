@@ -1,18 +1,18 @@
 <template>
   <!-- NOTIFICATIONS -->
   <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">
-    <feather-icon icon="BellIcon" class="cursor-pointer mt-1 sm:mr-6 mr-2" :badge="unreadNotifications.length" />
+    <feather-icon icon="BellIcon" class="cursor-pointer mt-1 sm:mr-6 mr-2" :badge="notifList.length" />
 
     <vs-dropdown-menu class="notification-dropdown dropdown-custom vx-navbar-dropdown">
 
       <div class="notification-top text-center p-5 bg-primary text-white">
-        <h3 class="text-white">{{ unreadNotifications.length }} New</h3>
-        <p class="opacity-75">App Notifications</p>
+        <h3 class="text-white">{{ notifList.length }} Notificaciones</h3>
+        <!-- <p class="opacity-75">App Notifications</p> -->
       </div>
 
       <component :is="scrollbarTag" ref="mainSidebarPs" class="scroll-area--nofications-dropdown p-0 mb-10" :settings="settings" :key="$vs.rtl">
         <ul class="bordered-items">
-          <li v-for="ntf in unreadNotifications" :key="ntf.index" class="flex justify-between px-4 py-4 notification cursor-pointer">
+          <!-- <li v-for="ntf in unreadNotifications" :key="ntf.index" class="flex justify-between px-4 py-4 notification cursor-pointer">
             <div class="flex items-start">
               <feather-icon :icon="ntf.icon" :svgClasses="[`text-${ntf.category}`, 'stroke-current mr-1 h-6 w-6']"></feather-icon>
               <div class="mx-2">
@@ -21,6 +21,16 @@
               </div>
             </div>
             <small class="mt-1 whitespace-no-wrap">{{ elapsedTime(ntf.time) }}</small>
+          </li> -->
+          <li v-for="ntf in notifList" :key="`notif_${ntf.id}`" class="flex justify-between px-4 py-4 notification cursor-pointer" v-on:click="goTo(ntf.url)">
+            <div class="flex items-start">
+              <feather-icon :icon="'AlertOctagonIcon'" :svgClasses="[`text-success`, 'stroke-current mr-1 h-6 w-6']"></feather-icon>
+              <div class="mx-2">
+                <span class="font-medium block notification-title" :class="[`text-success`]">{{ ntf.title }}</span>
+                <small>{{ ntf.text }}</small>
+              </div>
+            </div>
+            <small class="mt-1 whitespace-no-wrap">{{ elapsedTime(ntf.created_at) }}</small>
           </li>
         </ul>
       </component>
@@ -42,7 +52,7 @@
         border-solid
         d-theme-border-grey-light
         cursor-pointer">
-        <span>View All Notifications</span>
+        <span>Ver todas las notificaciones</span>
       </div>
     </vs-dropdown-menu>
   </vs-dropdown>
@@ -102,7 +112,8 @@ export default {
     }
   },
   computed: {
-    scrollbarTag () { return this.$store.getters.scrollbarTag }
+    scrollbarTag () { return this.$store.getters.scrollbarTag },
+    notifList () { return this.$store.state.notification.notificationsCk }
   },
   methods: {
     elapsedTime (startTime) {
@@ -126,18 +137,18 @@ export default {
       const years   = timeDiff
 
       if (years > 0) {
-        return `${years + (years > 1 ? ' Years ' : ' Year ')}ago`
+        return `Hace ${years + (years > 1 ? ' años ' : ' año ')}`
       } else if (days > 0) {
-        return `${days + (days > 1 ? ' Days ' : ' Day ')}ago`
+        return `Hace ${days + (days > 1 ? ' Dias ' : ' dia ')}`
       } else if (hours > 0) {
-        return `${hours + (hours > 1 ? ' Hrs ' : ' Hour ')}ago`
+        return `Hace ${hours + (hours > 1 ? ' Horas ' : ' Hora ')}`
       } else if (minutes > 0) {
-        return `${minutes + (minutes > 1 ? ' Mins ' : ' Min ')}ago`
+        return `Hace ${minutes + (minutes > 1 ? ' Minutos ' : ' Minuto ')}`
       } else if (seconds > 0) {
-        return seconds + (seconds > 1 ? ' sec ago' : 'just now')
+        return `Hace ${seconds}` + (seconds > 1 ? ' segundos' : ' ahora')
       }
 
-      return 'Just Now'
+      return 'Ahora'
     },
     // Method for creating dummy notification time
     randomDate ({ hr, min, sec }) {
@@ -148,7 +159,17 @@ export default {
       if (sec) date.setSeconds(date.getSeconds() - sec)
 
       return date
+    },
+    getNotifications() {
+      this.$store.dispatch('notification/getNotifications')
+    },
+    goTo(url) {
+      console.log(`GoTo -> ${url}`);
+      window.open(url, '_blank');
     }
+  },
+  mounted() {
+    this.getNotifications()
   }
 }
 
