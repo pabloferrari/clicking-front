@@ -166,10 +166,17 @@ export default {
     goTo(url) {
       console.log(`GoTo -> ${url}`);
       window.open(url, '_blank');
+    },
+    todo: function(){
+      const self = this;
+      this.intervalid1 = setInterval(function(){
+          self.getNotifications();
+      }, 5000);
     }
   },
   mounted() {
     this.getNotifications()
+    this.todo()
   }
 }
 
