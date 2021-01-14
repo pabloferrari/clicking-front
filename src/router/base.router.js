@@ -139,7 +139,7 @@ export default [
     name: 'Curso Materia Asignaciones',
     component: () => import('../views/courses/Subject.vue'),
     meta: {
-      permissions: ['admin', 'institution', 'teacher']
+      permissions: ['admin', 'institution', 'teacher', 'student']
     },
     props: true
   },
