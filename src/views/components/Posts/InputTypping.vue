@@ -24,6 +24,7 @@
       <div class="">
         <vs-button @click="handlerPublish()" size="small">Publicar</vs-button>
       </div>
+
     </div>
   </vx-card>
 </template>
@@ -42,6 +43,8 @@ export default {
       this.$validator.validateAll().then(result => {
         if (result) {
           this.$emit('handler-publish')
+          this.$validator.reset()
+          this.textarea = ''
         }
       })
     },

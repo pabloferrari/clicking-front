@@ -12,22 +12,20 @@
         {{ data.description }}
       </p>
     </div>
-    <div class="flex p-3 ml-2">
-      <ul class="user-comments-list">
+    <div class="flex p-3 ml-3 mt-1 pb-0">
+      <ul class="user-comments-list ">
         <li class="commented-user flex items-center mb-4">
           <div class="mr-3">
             <vs-avatar class="m-0" size="30px" :src="data.image" />
           </div>
           <div class="leading-tight">
             <p class="font-bold text-title">{{ data.user }}</p>
-            <!-- <span class="text-xs"
-                  >Lorem ipsum dolor sit, amet consectetur adipisicing
-                  eli.</span
-                > -->
+
           </div>
         </li>
       </ul>
     </div>
+    <div class="border-bottom-comment mb-3"></div>
     <component v-if="componentDynamic"
     :is="this.componentDynamic"
     v-bind="{
@@ -72,5 +70,10 @@ export default {
 }
 .text-title {
   color: #22215b;
+}
+.border-bottom-comment {
+  border-bottom: 1px solid #ccc;
+  width: 95%;
+  margin: 0 auto;
 }
 </style>

@@ -81,8 +81,12 @@ export default {
       }
       this.$store.dispatch('comment/createComment', payload).then((response) => {
         // console.log(response)
-        this.$refs.InputTypping.textarea = ''
-        this.description  = ''
+        if (response) {
+          this.description  = ''
+          // this.$refs.InputTypping.textarea = ''
+          // this.$refs.InputTypping.textarea.reset()
+
+        }
       }).catch((errr) => console.log(errr))
       // console.log(payload)
       // this.description = this.$refs.InputTypping.textarea

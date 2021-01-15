@@ -18,30 +18,37 @@ const getters = {
 
 
 const mutations = {
-  updatedComment(state, comment) {
+  updatedComment (state, comment) {
     state.comment = comment
   },
 
-  updatedCommentChild(state, comment) {
+  updatedCommentChild (state, comment) {
     const commentChildClone = Object.assign([], state.comments)
     const commentNew = commentChildClone.map((e) => {
-      e.comment_child.push(comment)
+      if (e.comment_child.length > 0) {
+        const commentChildCompare = e.comment_child.find((element) => element.children_id === comment.children_id)
+        if (commentChildCompare) {
+          e.comment_child.push(comment)
+        }
+      } else {
+        e.comment_child.push(comment)
+      }
       return e
     })
     state.comments = commentNew
   },
 
-  setComments(state, comments) {
+  setComments (state, comments) {
     state.comments = comments
   },
 
-  setComment(state, comment) {
+  setComment (state, comment) {
     state.comment = comment
   }
 }
 
 const actions = {
-  createComment({ commit, state, dispatch }, comment) {
+  createComment ({ commit, state, dispatch }, comment) {
     return new Promise((resolve, reject) => {
       const newComment = {
         comment: comment.comment,
@@ -78,7 +85,7 @@ const actions = {
     })
 
   },
-  async getCommentsData({ commit }) {
+  async getCommentsData ({ commit }) {
     try {
       const commentsData = await CommentService.getAll()
       commit('setComments', commentsData.data)
