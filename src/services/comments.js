@@ -8,6 +8,9 @@ class CommentService {
   get (id) {
     return service.get(`/${this.entity}/${id}`)
   }
+  getCommentByAssignment (id) {
+    return service.get(`/${this.entity}/byAssignment/${id}`)
+  }
   create (data) {
     return service.post(`/${this.entity}`, data)
   }

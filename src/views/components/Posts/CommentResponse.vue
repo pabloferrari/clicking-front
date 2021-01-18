@@ -48,7 +48,10 @@ export default {
       type:String,
       required:false
     },
-    childrenId: Number,
+    childrenId: {
+      type:String,
+      required:false
+    },
     modelName: String
   },
   components: {
@@ -73,8 +76,11 @@ export default {
       this.$store
         .dispatch('comment/createComment', payload)
         .then(response => {
+          if (response) {
+
+            this.comment = ''
+          }
           //console.log(response)
-          this.comment = ''
         })
         .catch(err => console.log(err))
       // console.log(this.comment)

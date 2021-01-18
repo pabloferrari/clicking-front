@@ -25,7 +25,7 @@
         </li>
       </ul>
     </div>
-    <div class="border-bottom-comment mb-3"></div>
+    <div  v-if="componentDynamic" class="border-bottom-comment mb-3"></div>
     <component v-if="componentDynamic"
     :is="this.componentDynamic"
     v-bind="{

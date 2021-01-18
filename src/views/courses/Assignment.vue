@@ -102,11 +102,26 @@
             ></ButtonCardAction>
           </vx-card>
         </div>
-        <!-- <div class="flex w-full my-2">
+        <div class="flex w-full my-2">
           <vx-card>
             <div class="body-card p-2">
-              <h2 class="text-title">Comentarios</h2>
-              <div class="flex p-3 ml-2">
+              <h4 class="text-title font-bold pb-4">Comentarios</h4>
+              <div class="" v-for="(comments, index) in this.dataList" :key="index">
+                <CommentChild :comment="comments.comment" :user="comments.username" :img="comments.image"></CommentChild>
+
+                <div v-if="comments.child.length > 0" >
+                  <CommentChild v-for="(child ,indexChild) in comments.child" :key="indexChild" :comment="child.comment" :user="child.user.name" :img="child.user.image"></CommentChild>
+                </div>
+              </div>
+              <CommentResponse
+                :avatarImg="avartarImage"
+                :modelName="'assignments'"
+                :modelId="id"
+                :childrenId="this.commentId"
+              ></CommentResponse>
+              <!-- <ListInformation v-for="(posts, index) in this.dataList" :key="index" :data="posts" :componentDynamic="mountComponentComment" :componentDynamicProps="posts.comments"
+            :modelProps="{modelId:id,childrenId:posts.id,modelName:'assignments'}" ></ListInformation> -->
+              <!-- <div class="flex p-3 ml-2">
                 <ul class="user-comments-list">
                   <li class="commented-user flex items-center mb-4">
                     <div class="mr-3">
@@ -121,8 +136,8 @@
                     </div>
                   </li>
                 </ul>
-              </div>
-              <div class="flex mb-3">
+              </div> -->
+              <!-- <div class="flex mb-3">
                 <div class="w-full ml-2">
                   <div class="chat__input flex p-4">
                     <div class="">
@@ -141,10 +156,10 @@
                     />
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </vx-card>
-        </div> -->
+        </div>
       </div>
     </div>
 
@@ -271,16 +286,19 @@
 </template>
 
 <script>
+
+import CommentResponse from '../components/Posts/CommentResponse'
 import ListIcon from '../components/icons/ListIcon'
 import PencilAssignmentlIcon from '../components/icons/PencilAssignmentlIcon'
 import CheckAssignmentIcon from '../components/icons/CheckAssignmentIcon'
-
+import ListInformation from '../components/Posts/List'
 import moment from 'moment'
 import AttachDocumentList from '../components/SectionAttach/AttachDocumentList'
 import ButtonCardAction from '../components/Buttons/ButtonCardAction'
 import CardAvatar from '../components/Avatars/CardAvatar'
 import { mapGetters } from 'vuex'
 import ButtonDropDown from '../components/ButtonDropDown.vue'
+import CommentChild from '../components/Posts/CommentChild'
 export default {
   name: 'Assignment',
   props: {
@@ -293,7 +311,10 @@ export default {
     CheckAssignmentIcon,
     AttachDocumentList,
     ButtonCardAction,
-    ButtonDropDown
+    ButtonDropDown,
+    ListInformation,
+    CommentResponse,
+    CommentChild
   },
   data () {
     return {
@@ -301,11 +322,14 @@ export default {
       acceptDelete: false,
       correctReAsign: false,
       acceptGiveBack: false,
+      dataList:[],
+      commentId:'',
+      mountComponentComment: CommentResponse,
       activePromptReAsign: false,
       activePromptCorrect: false,
       activePromptGiveBack: false,
       activePromptDelete: false,
-      commentResponse: '',
+      // commentResponse: '',
       assignment: [],
       titleAssignment: 'Titulo Asignacion',
       documentData: [
@@ -323,7 +347,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ storeAssignment: 'assignment/getAssignmentDetail' })
+    ...mapGetters({
+      storeAssignment: 'assignment/getAssignmentDetail',
+      storeComments: 'comment/getCommentsAssignment'
+    }),
+
+    avartarImage () {
+      return this.$store.state.auth.authUser.image
+    }
   },
   watch: {
     storeAssignment (data) {
@@ -339,6 +370,33 @@ export default {
         }
       }
       //console.log(this.assignment)
+    },
+    storeComments ({comments}) {
+      const rows = []
+      if (comments) {
+
+        rows.push({
+          comment: comments.comment,
+          username:comments.username,
+          image: comments.image,
+          child:comments.child
+        })
+        this.commentId = comments.id.toString()
+        this.dataList = rows
+      }
+      // const newData = Object.assign([], data)
+      // newData.comments.map((element) => {
+
+      //   rows.push({
+      //     comment: element.comment,
+      //     username:element.username,
+      //     image: element.image,
+      //     child: element.child
+      //   })
+      // })
+      console.log(this.dataList)
+      // }
+
     }
   },
   methods: {
@@ -376,6 +434,9 @@ export default {
     getAssignment () {
       this.$store.dispatch('assignment/getMyAssignmentsDetailData', this.id)
     },
+    getCommentsAssignment () {
+      this.$store.dispatch('comment/getCommentByAssignmentData', this.id)
+    },
     formatDateTime (datetime) {
       if (!datetime) {
         return null
@@ -398,6 +459,7 @@ export default {
   },
   mounted () {
     this.getAssignment()
+    this.getCommentsAssignment()
   }
 }
 </script>

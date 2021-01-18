@@ -9,7 +9,7 @@
     <div class="vx-row my-4">
       <vx-card>
         <ListInformation v-for="(posts, index) in this.dataList" :key="index" :data="posts" :componentDynamic="mountComponentComment" :componentDynamicProps="posts.comments"
-        :modelProps="{modelId:subjectId,childrenId:posts.id,modelName:'courses'}" ></ListInformation>
+        :modelProps="{modelId:subjectId,childrenId:posts.id.toString(),modelName:'courses'}" ></ListInformation>
       </vx-card>
     </div>
 

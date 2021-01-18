@@ -27,7 +27,7 @@ export default {
     img: String
   },
   mounted () {
-    console.log(this.comment)
+    console.log('si')
   }
 }
 </script>
