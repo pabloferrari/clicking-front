@@ -106,11 +106,25 @@
           <vx-card>
             <div class="body-card p-2">
               <h4 class="text-title font-bold pb-4">Comentarios</h4>
-              <div class="" v-for="(comments, index) in this.dataList" :key="index">
-                <CommentChild :comment="comments.comment" :user="comments.username" :img="comments.image"></CommentChild>
+              <div
+                class=""
+                v-for="(comments, index) in this.dataList"
+                :key="index"
+              >
+                <CommentChild
+                  :comment="comments.comment"
+                  :user="comments.username"
+                  :img="comments.image"
+                ></CommentChild>
 
-                <div v-if="comments.child.length > 0" >
-                  <CommentChild v-for="(child ,indexChild) in comments.child" :key="indexChild" :comment="child.comment" :user="child.user.name" :img="child.user.image"></CommentChild>
+                <div v-if="comments.child.length > 0">
+                  <CommentChild
+                    v-for="(child, indexChild) in comments.child"
+                    :key="indexChild"
+                    :comment="child.comment"
+                    :user="child.user.name"
+                    :img="child.user.image"
+                  ></CommentChild>
                 </div>
               </div>
               <CommentResponse
@@ -193,6 +207,7 @@
             :key="index"
           >
             <CardAvatar
+              @active-card="activeCard(student)"
               :name="student.classroomstudents.student.name"
               v-if="student.assignmentstatus.id == 1"
               :avatar="student.classroomstudents.student.user.image"
@@ -286,7 +301,6 @@
 </template>
 
 <script>
-
 import CommentResponse from '../components/Posts/CommentResponse'
 import ListIcon from '../components/icons/ListIcon'
 import PencilAssignmentlIcon from '../components/icons/PencilAssignmentlIcon'
@@ -316,14 +330,14 @@ export default {
     CommentResponse,
     CommentChild
   },
-  data () {
+  data() {
     return {
       correct: false,
       acceptDelete: false,
       correctReAsign: false,
       acceptGiveBack: false,
-      dataList:[],
-      commentId:'',
+      dataList: [],
+      commentId: '',
       mountComponentComment: CommentResponse,
       activePromptReAsign: false,
       activePromptCorrect: false,
@@ -352,13 +366,14 @@ export default {
       storeComments: 'comment/getCommentsAssignment'
     }),
 
-    avartarImage () {
+    avartarImage() {
       return this.$store.state.auth.authUser.image
     }
   },
   watch: {
-    storeAssignment (data) {
+    storeAssignment(data) {
       this.assignment = {}
+      // console.log(data)
       if (data) {
         this.assignment = {
           title: data.title,
@@ -366,41 +381,36 @@ export default {
           description: data.description,
           assignmentType: data.assignmenttype.id,
           teacher: data.class.course.teacher.name,
+          user_id: data.class.course.teacher.user_id,
           students: data.studentsassignment
         }
       }
       //console.log(this.assignment)
     },
-    storeComments ({comments}) {
+    storeComments({ comments }) {
+      console.log(comments)
       const rows = []
       if (comments) {
-
         rows.push({
           comment: comments.comment,
-          username:comments.username,
+          username: comments.username,
           image: comments.image,
-          child:comments.child
+          child: comments.child
         })
         this.commentId = comments.id.toString()
         this.dataList = rows
       }
-      // const newData = Object.assign([], data)
-      // newData.comments.map((element) => {
-
-      //   rows.push({
-      //     comment: element.comment,
-      //     username:element.username,
-      //     image: element.image,
-      //     child: element.child
-      //   })
-      // })
-      console.log(this.dataList)
-      // }
-
     }
   },
   methods: {
-    itemsDropdown () {
+    activeCard({ classroomstudents }) {
+      const params = {
+        id: this.id,
+        userId: classroomstudents.student.user.id
+      }
+      this.$store.dispatch('comment/getCommentByAssignmentData', params)
+    },
+    itemsDropdown() {
       return [
         {
           id: 1,
@@ -420,44 +430,49 @@ export default {
       ]
     },
 
-    deleteAssignment () {
+    deleteAssignment() {
       this.activePromptDelete = true
       console.log('eliminando')
     },
-    editAssignment () {
+    editAssignment() {
       console.log('editAssignment')
     },
-    reAssignAssignment () {
+    reAssignAssignment() {
       this.activePromptReAsign = true
       console.log('reAssignAssignment')
     },
-    getAssignment () {
+    getAssignment() {
       this.$store.dispatch('assignment/getMyAssignmentsDetailData', this.id)
     },
-    getCommentsAssignment () {
-      this.$store.dispatch('comment/getCommentByAssignmentData', this.id)
+    getCommentsAssignment() {
+      console.log(this.assignment)
+      const params = {
+        id: this.id,
+        userId: ''
+      }
+      this.$store.dispatch('comment/getCommentByAssignmentData', params)
     },
-    formatDateTime (datetime) {
+    formatDateTime(datetime) {
       if (!datetime) {
         return null
       }
       return moment(String(datetime)).format('DD/MM/YYYY hh:mm A')
     },
-    renderIcon (type) {
+    renderIcon(type) {
       switch (type) {
-      case 1: // Tasks
-        return ListIcon
-        break
-      case 2: // Evaluations
-        return CheckAssignmentIcon
-        break
-      case 3: // Work Practice
-        return PencilAssignmentlIcon
-        break
+        case 1: // Tasks
+          return ListIcon
+          break
+        case 2: // Evaluations
+          return CheckAssignmentIcon
+          break
+        case 3: // Work Practice
+          return PencilAssignmentlIcon
+          break
       }
     }
   },
-  mounted () {
+  mounted() {
     this.getAssignment()
     this.getCommentsAssignment()
   }

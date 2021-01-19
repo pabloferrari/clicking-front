@@ -2,22 +2,22 @@ import service from './service'
 
 class CommentService {
   entity = 'comments';
-  getAll () {
+  getAll() {
     return service.get(`/${this.entity}`)
   }
-  get (id) {
+  get(id) {
     return service.get(`/${this.entity}/${id}`)
   }
-  getCommentByAssignment (id) {
-    return service.get(`/${this.entity}/byAssignment/${id}`)
+  getCommentByAssignment(id, userId) {
+    return service.get(`/${this.entity}/byAssignment/${id}/${userId}`)
   }
-  create (data) {
+  create(data) {
     return service.post(`/${this.entity}`, data)
   }
-  update (id, data) {
+  update(id, data) {
     return service.put(`/${this.entity}/${id}`, data)
   }
-  delete (id) {
+  delete(id) {
     return service.delete(`/${this.entity}/${id}`)
   }
 }
