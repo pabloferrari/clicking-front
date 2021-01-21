@@ -46,14 +46,27 @@
             <div class="vx-row">
                 <div class="vx-col w-full">
                     <label>Adjuntar Archivo <br>
-                      <input
+                      <!-- <input
                         type="file"
                         id="file"
                         ref="file"
                         v-on:change="handleFileUpload()"
-                      />
+                      /> -->
+                      <file-pond
+                        name="file"
+                        ref="file"
+                        class-name="my-pond"
+                        label-idle="Arrastrar y soltar aquí..."
+                        allow-multiple="true"
+                        max-files="4"
+                        instant-upload="false"
+                        v-on:updatefiles="handleFileUpload"
+                        />
                     </label>
-                    <!-- <vs-button
+                    <!--
+                      v-bind:files="myFiles"
+                      v-on:init="handleFilePondInit"
+                      <vs-button
                         size="small"
                         color="primary"
                         type="border"
@@ -184,11 +197,21 @@
 import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
 
+//import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.js'
+//import FilePondPluginImagePreview from 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.js'
+
+import vueFilePond from 'vue-filepond'
+import 'filepond/dist/filepond.min.css'
+//import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
+
+const FilePond = vueFilePond()
+
 export default {
   name: 'TaskForm',
   components: {
     // AvatarList,
-    flatPickr
+    flatPickr,
+    FilePond
   },
   props: {
     title: null,
@@ -213,7 +236,7 @@ export default {
         class_id: '',
         limit_date: '',
         classroom_students: [],
-        file: null
+        file: []
       },
       classesData: [],
       classList: [],
@@ -266,8 +289,10 @@ export default {
     },
 
     update () {},
-    handleFileUpload () {
-      this.form.file = this.$refs.file.files[0]
+    handleFileUpload (files) {
+      //this.form.file = this.$refs.file.files[0]
+      console.log('Devuelto Files: ', files)
+      this.form.file = files.map(files => files.file)
     }
   },
 

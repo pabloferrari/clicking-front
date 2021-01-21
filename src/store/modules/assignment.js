@@ -73,7 +73,13 @@ const actions = {
     formData.append('assignment_status_id', newAssignment.assignment_status_id)
     formData.append('score', newAssignment.score)
     formData.append('groupqty', newAssignment.groupqty)
-    formData.append('file', newAssignment.file)
+
+    for (let i = 0; i < newAssignment.file.length; i++) {
+      const file = newAssignment.file[i]
+      formData.append(`files[${  i  }]`, file)
+    }
+    //formData.append('file', newAssignment.file)
+
     for (let i = 0; i < newAssignment.student_assignments.length; i++) {
       formData.append('student_assignments[]', newAssignment.student_assignments[i])
     }
