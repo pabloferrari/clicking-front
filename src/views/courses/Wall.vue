@@ -1,18 +1,29 @@
 <template>
   <div id="form-model" class="grid-layout-container alignment-block">
-
     <!-- Input text for send comment on Wall -->
-    <div class="vx-row" v-permission="['institution','teacher']">
-      <InputTypping ref="InputTypping" @handler-publish="sendCommment()"></InputTypping>
+    <div class="vx-row" v-permission="['institution', 'teacher']">
+      <InputTypping
+        ref="InputTypping"
+        @handler-publish="sendCommment()"
+      ></InputTypping>
     </div>
     <!-- List of Posts Publish Institutions -->
     <div class="vx-row my-4">
       <vx-card>
-        <ListInformation v-for="(posts, index) in this.dataList" :key="index" :data="posts" :componentDynamic="mountComponentComment" :componentDynamicProps="posts.comments"
-        :modelProps="{modelId:subjectId,childrenId:posts.id.toString(),modelName:'courses'}" ></ListInformation>
+        <ListInformation
+          v-for="(posts, index) in this.dataList"
+          :key="index"
+          :data="posts"
+          :componentDynamic="mountComponentComment"
+          :componentDynamicProps="posts.child"
+          :modelProps="{
+            modelId: subjectId,
+            childrenId: posts.id.toString(),
+            modelName: 'courses',
+          }"
+        ></ListInformation>
       </vx-card>
     </div>
-
   </div>
 </template>
 
@@ -21,12 +32,11 @@ import InputTypping from '../components/Posts/InputTypping'
 import ListInformation from '../components/Posts/List'
 import CommentResponse from '../components/Posts/CommentResponse'
 import { mapGetters } from 'vuex'
-import  moment  from 'moment'
+import moment from 'moment'
 
 export default {
   name: 'Wall',
   components: {
-
     InputTypping,
     ListInformation
   },
@@ -45,25 +55,35 @@ export default {
     ...mapGetters({
       storeComments: 'comment/getComments'
     })
-
-
   },
   watch: {
     storeComments (data) {
-      const rows = []
-      data.map((element) => {
-        rows.push({
-          id: element.id,
+      const rowsCourses = []
+
+      console.log(data)
+      data.map((Elementcourse) => {
+      // if (element.courses) {
+
+        rowsCourses.push({
+          id: Elementcourse.id,
           title: 'Comentario',
-          description: element.comment,
-          image: element.user.image ? element.user.image : '',
-          user: element.user.name,
-          date: this.formatDateTime(element.created_at),
-          comments: element.comment_child
+          description: Elementcourse.comment,
+          image: Elementcourse.user.image ? Elementcourse.user.image : '',
+          user: Elementcourse.user.name,
+          date: this.formatDateTime(Elementcourse.created_at),
+          child: Elementcourse.child
+
         })
+
       })
 
-      this.dataList = rows
+
+      // if (element.courses) {
+
+
+      // }
+      console.log(rowsCourses)
+      this.dataList = rowsCourses
     }
   },
   methods: {
@@ -79,15 +99,17 @@ export default {
         model_id: this.subjectId,
         model_name: 'courses'
       }
-      this.$store.dispatch('comment/createComment', payload).then((response) => {
-        // console.log(response)
-        if (response) {
-          this.description  = ''
-          // this.$refs.InputTypping.textarea = ''
-          // this.$refs.InputTypping.textarea.reset()
-
-        }
-      }).catch((errr) => console.log(errr))
+      this.$store
+        .dispatch('comment/createComment', payload)
+        .then(response => {
+          // console.log(response)
+          if (response) {
+            this.description = ''
+            // this.$refs.InputTypping.textarea = ''
+            // this.$refs.InputTypping.textarea.reset()
+          }
+        })
+        .catch(errr => console.log(errr))
       // console.log(payload)
       // this.description = this.$refs.InputTypping.textarea
       // console.log(this.$refs.InputTypping.textarea)
@@ -95,8 +117,8 @@ export default {
     closeModal () {
       this.activePrompt = false
     },
-    getComments () {
-      this.$store.dispatch('comment/getCommentsData')
+    getCommentByCourse () {
+      this.$store.dispatch('comment/getCommentByCourseData', this.subjectId)
     },
     formatDateTime (datetime) {
       if (!datetime) {
@@ -107,7 +129,7 @@ export default {
   },
 
   mounted () {
-    this.getComments()
+    this.getCommentByCourse()
   }
 }
 </script>

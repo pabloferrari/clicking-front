@@ -32,7 +32,8 @@
       childData:componentDynamicProps,
       modelId:modelProps.modelId,
       childrenId:modelProps.childrenId,
-      modelName:modelProps.modelName
+      modelName:modelProps.modelName,
+      activeComment:true
       }"></component>
   </div>
   <!-- </vx-card> -->

@@ -20,41 +20,40 @@ const getters = {
 
 
 const mutations = {
-  updatedComment (state, comment) {
+  updatedComment(state, comment) {
     state.comment = comment
   },
 
-  updatedCommentChild (state, comment) {
+  updatedCommentChild(state, comments) {
     const commentChildClone = Object.assign([], state.comments)
-    const commentNew = commentChildClone.map((e) => {
-      if (e.comment_child.length > 0) {
-        const commentChildCompare = e.comment_child.find((element) => element.children_id === comment.children_id)
-        if (commentChildCompare) {
-          e.comment_child.push(comment)
-
-        }
-      } else {
-        e.comment_child.push(comment)
+    const newComments = commentChildClone.map((element) => {
+      const commentCurrent = element.child.find((child) => child.children_id === comments.children_id)
+      if (commentCurrent) {
+        element.child.push(comments)
+      } else if (element.id === comments.children_id) {
+        element.child.push(comments)
       }
-      return e
+      return element
+
     })
-    state.comments = commentNew
+    state.comments = newComments
   },
 
-  setComments (state, comments) {
+  setComments(state, comments) {
+
     state.comments = comments
   },
-  setCommentsAsignment (state, commentsAssignment) {
+  setCommentsAsignment(state, commentsAssignment) {
     state.commentsAssignment = commentsAssignment
   },
 
-  setComment (state, comment) {
-    state.comment = comment
+  setComment(state, comment) {
+    state.comments = comment
   }
 }
 
 const actions = {
-  createComment ({ commit, state, dispatch }, comment) {
+  createComment({ commit, state, dispatch }, comment) {
     return new Promise((resolve, reject) => {
       const newComment = {
         comment: comment.comment,
@@ -63,27 +62,16 @@ const actions = {
         model_name: comment.model_name
 
       }
-
       CommentService.create(newComment).then((response) => {
-        const comments = Object.assign([], state.comments)
-        comments.push(response.data)
         if (newComment.children_id) {
-          const newCommentData = {
-            children_id: response.data.children_id,
-            comment: response.data.comment,
-            id: response.data.id,
-            model_id: response.data.model_id,
-            model_name: response.data.model_name,
-            user: response.data.user
-          }
-          commit('updatedCommentChild', newCommentData)
+          commit('updatedCommentChild', response.data)
         } else {
+          const comments = Object.assign([], state.comments)
+          comments.push(response.data)
           commit('setComments', comments)
         }
-
+        resolve(response.data)
         dispatch('notification/success', { title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.' }, { root: true })
-        resolve(comments)
-
       }).catch((err) => {
         reject(err)
         console.log(err)
@@ -91,7 +79,47 @@ const actions = {
     })
 
   },
-  async getCommentsData ({ commit }) {
+
+  async createCommentFromAssignment({ commit, state, dispatch }, comment) {
+    return new Promise((resolve, reject) => {
+      // console.log('hola', comment)
+      const newComment = {
+        comment: comment.comment,
+        model_id: comment.model_id,
+        children_id: comment.children_id,
+        model_name: comment.model_name,
+        to_user_id: comment.to_user_id
+
+      }
+
+      CommentService.create(newComment).then((response) => {
+        const comments = Object.assign([], state.commentsAssignment)
+        comments.push(response.data)
+        // console.log(response.data)
+        //   comments.push({
+        //     comment: response.data.comment,
+        //     user: response.data.user
+        // if (newComment.children_id) {
+        // const newCommentData = {
+        //   comment: response.data.comment,
+        //   user: response.data.user
+        // }
+        commit('setCommentsAsignment', comments)
+        //   commit('updatedCommentChild', newCommentData)
+        // } else {
+        //   commit('setComments', comments)
+        dispatch('notification/success', { title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.' }, { root: true })
+        resolve(response.data)
+
+
+      }).catch((err) => {
+        reject(err)
+        console.log(err)
+      })
+    })
+  },
+
+  async getCommentsData({ commit }) {
     try {
       const commentsData = await CommentService.getAll()
       commit('setComments', commentsData.data)
@@ -99,11 +127,21 @@ const actions = {
       console.log(error)
     }
   },
-  async getCommentByAssignmentData ({ commit }, { id, userId}) {
+  async getCommentByAssignmentData({ commit }, { id, userId }) {
     try {
-      console.log(id, userId)
       const commentsData = await CommentService.getCommentByAssignment(id, userId)
-      commit('setCommentsAsignment', commentsData.data)
+      // console.log(commentsData)
+      const comments = Object.assign([], commentsData.data)
+      commit('setCommentsAsignment', comments)
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  async getCommentByCourseData({ commit }, id) {
+    try {
+      const commentsData = await CommentService.getCommentByCourse(id)
+      const comments = Object.assign([], commentsData.data)
+      commit('setComments', comments)
     } catch (error) {
       console.log(error)
     }

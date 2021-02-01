@@ -1,5 +1,5 @@
 <template>
-  <div class="student-list-card" @click="onActiveCard">
+  <div class="student-list-card " @click="onActiveCard">
     <vs-avatar
       class="student-list-avatar"
       size="large"
@@ -20,10 +20,10 @@ export default {
     avatar: String
   },
   methods: {
-    imageEmpty(image) {
+    imageEmpty (image) {
       return image === null ? image : ''
     },
-    onActiveCard() {
+    onActiveCard () {
       this.$emit('active-card')
     }
   }

@@ -113,8 +113,8 @@
               >
                 <CommentChild
                   :comment="comments.comment"
-                  :user="comments.username"
-                  :img="comments.image"
+                  :user="comments.user.name"
+                  :img="comments.user.image"
                 ></CommentChild>
 
                 <div v-if="comments.child.length > 0">
@@ -129,9 +129,11 @@
               </div>
               <CommentResponse
                 :avatarImg="avartarImage"
+                :activeComment="isStudent =='student'? true : this.activeCommentAssignment"
                 :modelName="'assignments'"
                 :modelId="id"
                 :childrenId="this.commentId"
+                :userStudentId="this.userStudentId"
               ></CommentResponse>
               <!-- <ListInformation v-for="(posts, index) in this.dataList" :key="index" :data="posts" :componentDynamic="mountComponentComment" :componentDynamicProps="posts.comments"
             :modelProps="{modelId:id,childrenId:posts.id,modelName:'assignments'}" ></ListInformation> -->
@@ -207,7 +209,9 @@
             :key="index"
           >
             <CardAvatar
+            :class="student.classroomstudents.student.user.id == activeClassCard ? 'active-card': ''"
               @active-card="activeCard(student)"
+              class="active-card-assig"
               :name="student.classroomstudents.student.name"
               v-if="student.assignmentstatus.id == 1"
               :avatar="student.classroomstudents.student.user.image"
@@ -330,7 +334,7 @@ export default {
     CommentResponse,
     CommentChild
   },
-  data() {
+  data () {
     return {
       correct: false,
       acceptDelete: false,
@@ -338,11 +342,14 @@ export default {
       acceptGiveBack: false,
       dataList: [],
       commentId: '',
+      userStudentId: '',
       mountComponentComment: CommentResponse,
       activePromptReAsign: false,
       activePromptCorrect: false,
       activePromptGiveBack: false,
       activePromptDelete: false,
+      activeCommentAssignment: false,
+      activeClassCard:'',
       // commentResponse: '',
       assignment: [],
       titleAssignment: 'Titulo Asignacion',
@@ -364,14 +371,23 @@ export default {
     ...mapGetters({
       storeAssignment: 'assignment/getAssignmentDetail',
       storeComments: 'comment/getCommentsAssignment'
+      // storeComment: 'comment/getComments'
     }),
 
-    avartarImage() {
+    avartarImage () {
+      console.log(this.$store.state.auth.authUser)
       return this.$store.state.auth.authUser.image
+    },
+
+    isStudent () {
+      return this.$store.state.auth.authUser.roles[0].slug
     }
   },
   watch: {
-    storeAssignment(data) {
+    // storeComment (data) {
+    //   console.log(data)
+    // },
+    storeAssignment (data) {
       this.assignment = {}
       // console.log(data)
       if (data) {
@@ -387,30 +403,37 @@ export default {
       }
       //console.log(this.assignment)
     },
-    storeComments({ comments }) {
-      console.log(comments)
+    storeComments (comments) {
       const rows = []
+      console.log(comments)
       if (comments) {
-        rows.push({
-          comment: comments.comment,
-          username: comments.username,
-          image: comments.image,
-          child: comments.child
+        comments.map((element) => {
+
+          rows.push({
+            id: element.id,
+            comment: element.comment,
+            user: element.user,
+            image: element.image,
+            child: element.child
+          })
+          this.commentId = element.id.toString()
         })
-        this.commentId = comments.id.toString()
-        this.dataList = rows
       }
+      this.dataList = rows
     }
   },
   methods: {
-    activeCard({ classroomstudents }) {
+    activeCard ({ classroomstudents }) {
+      this.activeCommentAssignment = true
       const params = {
         id: this.id,
         userId: classroomstudents.student.user.id
       }
+      this.activeClassCard = params.userId
+      this.userStudentId = params.userId.toString()
       this.$store.dispatch('comment/getCommentByAssignmentData', params)
     },
-    itemsDropdown() {
+    itemsDropdown () {
       return [
         {
           id: 1,
@@ -430,49 +453,49 @@ export default {
       ]
     },
 
-    deleteAssignment() {
+    deleteAssignment () {
       this.activePromptDelete = true
       console.log('eliminando')
     },
-    editAssignment() {
+    editAssignment () {
       console.log('editAssignment')
     },
-    reAssignAssignment() {
+    reAssignAssignment () {
       this.activePromptReAsign = true
       console.log('reAssignAssignment')
     },
-    getAssignment() {
+    getAssignment () {
       this.$store.dispatch('assignment/getMyAssignmentsDetailData', this.id)
     },
-    getCommentsAssignment() {
-      console.log(this.assignment)
+    getCommentsAssignment () {
+      // console.log(this.assignment)
       const params = {
         id: this.id,
         userId: ''
       }
       this.$store.dispatch('comment/getCommentByAssignmentData', params)
     },
-    formatDateTime(datetime) {
+    formatDateTime (datetime) {
       if (!datetime) {
         return null
       }
       return moment(String(datetime)).format('DD/MM/YYYY hh:mm A')
     },
-    renderIcon(type) {
+    renderIcon (type) {
       switch (type) {
-        case 1: // Tasks
-          return ListIcon
-          break
-        case 2: // Evaluations
-          return CheckAssignmentIcon
-          break
-        case 3: // Work Practice
-          return PencilAssignmentlIcon
-          break
+      case 1: // Tasks
+        return ListIcon
+        break
+      case 2: // Evaluations
+        return CheckAssignmentIcon
+        break
+      case 3: // Work Practice
+        return PencilAssignmentlIcon
+        break
       }
     }
   },
-  mounted() {
+  mounted () {
     this.getAssignment()
     this.getCommentsAssignment()
   }
@@ -498,6 +521,11 @@ export default {
   border: solid 2px #fff;
   border-radius: 30px !important;
   box-sizing: border-box;
+}
+.active-card {
+   border: solid 2px #567df4;
+  outline: none;
+
 }
 .active-card-assig:hover {
   border: solid 2px #567df4;

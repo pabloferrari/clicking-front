@@ -11,6 +11,9 @@ class CommentService {
   getCommentByAssignment(id, userId) {
     return service.get(`/${this.entity}/byAssignment/${id}/${userId}`)
   }
+  getCommentByCourse(id) {
+    return service.get(`/${this.entity}/byCourse/${id}`)
+  }
   create(data) {
     return service.post(`/${this.entity}`, data)
   }
