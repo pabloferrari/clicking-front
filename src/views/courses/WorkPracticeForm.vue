@@ -45,33 +45,23 @@
 
             <div class="vx-row">
                 <div class="vx-col w-full">
-                   <!-- <FilePond
-                      id="file"
-                      ref="file"
-                      v-on:change="handleFileUpload()"
-                   /> -->
-                    <label>Adjuntar Archivo <br>
-                      <input
-                        type="file"
-                        id="file"
+                   <label>Adjuntar Archivo <br>
+                      <file-pond
+                        name="file"
                         ref="file"
-                        v-on:change="handleFileUpload()"
-                      />
+                        class-name="my-pond"
+                        label-idle="Arrastrar y soltar aquí..."
+                        allow-multiple="true"
+                        max-files="5"
+                        instant-upload="false"
+                        v-on:updatefiles="handleFileUpload"
+                        />
                     </label>
-                    <!-- <vs-button
-                        size="small"
-                        color="primary"
-                        type="border"
-                        icon-pack="feather"
-                        icon="icon-paperclip"
-                        class="w-full sm:w-auto"
-                        >Adjuntar</vs-button
-                    > -->
                 </div>
             </div>
 
             <br /><br /><br /><br />
-            <div class="vx-row relative h-32">
+            <div class="vx-row relative">
                 <div
                     class="vx-col w-full mb-2 flex flex-wrap justify-end sm:flex-row absolute bottom-0 right-0 left-15"
                 >
@@ -238,15 +228,19 @@ import 'flatpickr/dist/flatpickr.css'
 // import vueFilePond from 'vue-filepond'
 // import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 
-// import 'filepond/dist/filepond.min.css'
+import vueFilePond from 'vue-filepond'
+import 'filepond/dist/filepond.min.css'
+
 // import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
 
+const FilePond = vueFilePond()
 
 export default {
   name: 'WorkPraticeForm',
   components: {
     // AvatarList,
-    flatPickr
+    flatPickr,
+    FilePond
     // FilePond: vueFilePond(FilePondPluginImagePreview)
   },
   props: {
@@ -273,7 +267,7 @@ export default {
         class_id: null,
         limit_date: null,
         classroom_students: [],
-        file: null
+        file: []
       },
       classesData: [],
       classList: [],
@@ -319,13 +313,15 @@ export default {
     },
     clearFields () {
       Object.keys(this.form).forEach((element) => {
-        this.form[element] = ''
+        //this.form[element] = ''
+        this.form[element] = (Array.isArray(this.form[element])) ? [] : ''
       })
       this.$validator.reset()
     },
     update () {},
-    handleFileUpload () {
-      this.form.file = this.$refs.file.files[0]
+    handleFileUpload (files) {
+      //this.form.file = this.$refs.file.files[0]
+      this.form.file = files.map(files => files.file)
     }
   }
 }
@@ -343,7 +339,7 @@ export default {
 div .vs-popup--content {
     padding: 0 !important;
     margin: 0 !important;
-    overflow-x: hidden !important;
+    /* overflow-x: hidden !important; */
 }
 
 .vs-popup--content {
@@ -353,5 +349,11 @@ div .vs-popup--content {
 
 .text-title {
     color: #22215b;
+}
+
+div .filepond--wrapper {
+    height: 255px;
+    max-height: 150px;
+    overflow-y: auto;
 }
 </style>

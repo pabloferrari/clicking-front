@@ -46,40 +46,22 @@
             <div class="vx-row">
                 <div class="vx-col w-full">
                     <label>Adjuntar Archivo <br>
-                      <!-- <input
-                        type="file"
-                        id="file"
-                        ref="file"
-                        v-on:change="handleFileUpload()"
-                      /> -->
                       <file-pond
                         name="file"
                         ref="file"
                         class-name="my-pond"
                         label-idle="Arrastrar y soltar aquí..."
                         allow-multiple="true"
-                        max-files="4"
+                        max-files="5"
                         instant-upload="false"
                         v-on:updatefiles="handleFileUpload"
                         />
                     </label>
-                    <!--
-                      v-bind:files="myFiles"
-                      v-on:init="handleFilePondInit"
-                      <vs-button
-                        size="small"
-                        color="primary"
-                        type="border"
-                        icon-pack="feather"
-                        icon="icon-paperclip"
-                        class="w-full sm:w-auto"
-                        >Adjuntar</vs-button
-                    > -->
                 </div>
             </div>
 
-            <br /><br /><br /><br />
-            <div class="vx-row relative h-32">
+            <br /><br />
+            <div class="vx-row relative "><!--h-32-->
                 <div
                     class="vx-col w-full mb-2 flex flex-wrap justify-end sm:flex-row absolute bottom-0 right-0 left-15"
                 >
@@ -243,7 +225,6 @@ export default {
       studentsCourse: []
     }
   },
-
   methods: {
     getDataForm (data) {
       this.clearFields()
@@ -283,7 +264,8 @@ export default {
     },
     clearFields () {
       Object.keys(this.form).forEach((element) => {
-        this.form[element] = ''
+        //this.form[element] = ''
+        this.form[element] = (Array.isArray(this.form[element])) ? [] : ''
       })
       this.$validator.reset()
     },
@@ -314,7 +296,7 @@ export default {
 div .vs-popup--content {
     padding: 0 !important;
     margin: 0 !important;
-    overflow-x: hidden !important;
+    /*overflow-x: hidden !important;*/
 }
 
 .vs-popup--content {
@@ -324,5 +306,11 @@ div .vs-popup--content {
 
 .text-title {
     color: #22215b;
+}
+
+div .filepond--wrapper {
+    height: 255px;
+    max-height: 150px;
+    overflow-y: auto;
 }
 </style>
