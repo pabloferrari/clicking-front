@@ -60,18 +60,16 @@ export default {
   components: {
     CommentChild
   },
-  data() {
+  data () {
     return {
       comment: '',
       childs: this.childData,
       modelNameType:
-        this.modelName === 'courses'
-          ? 'createComment'
-          : 'createCommentFromAssignment'
+        this.modelName === 'courses' ? 'createComment' : 'createCommentFromAssignment'
     }
   },
   methods: {
-    handlerSubmit(e) {
+    handlerSubmit (e) {
       e.preventDefault()
       const payload = {
         comment: this.comment,
@@ -93,7 +91,7 @@ export default {
       // console.log(this.comment)
     }
   },
-  mounted() {
+  mounted () {
     // console.log(this.childData.comments)
   }
 }

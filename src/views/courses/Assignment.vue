@@ -129,7 +129,9 @@
               </div>
               <CommentResponse
                 :avatarImg="avartarImage"
-                :activeComment="isStudent =='student'? true : this.activeCommentAssignment"
+                :activeComment="
+                  isStudent == 'student' ? true : this.activeCommentAssignment
+                "
                 :modelName="'assignments'"
                 :modelId="id"
                 :childrenId="this.commentId"
@@ -209,7 +211,11 @@
             :key="index"
           >
             <CardAvatar
-            :class="student.classroomstudents.student.user.id == activeClassCard ? 'active-card': ''"
+              :class="
+                student.classroomstudents.student.user.id == activeClassCard
+                  ? 'active-card'
+                  : ''
+              "
               @active-card="activeCard(student)"
               class="active-card-assig"
               :name="student.classroomstudents.student.name"
@@ -223,34 +229,29 @@
 
     <!-- Dialog Modal Button Corregir -->
     <vs-prompt
-      @accept="correct"
+      @accept="correctAssignment"
       title="Corregir"
       accept-text="Guardar"
       cancel-text="Cancelar"
       :active.sync="activePromptCorrect"
     >
-      <div class="vx-row">
-        <div class="vx-col flex w-full">
-          <vs-select
-            label="Estado"
-            class="mt-5 w-full"
-            name="item-plan"
-            v-validate="'required'"
-          >
-            <!-- <vs-select-item key="" value="" text="seleccione plan" /> -->
-            <vs-select-item value="1" text="Aprobado" />
-          </vs-select>
-        </div>
-        <div class="vx-col flex w-full">
-          <vs-input
-            class="w-full"
-            label-placeholder="Escribe un comentario"
-            name="name"
-            v-validate="'required'"
-            :danger="errors.has('name')"
-          />
-        </div>
-      </div>
+      <AssignmentEvaluationProcess
+        v-permission="['teacher']"
+        ref="AssignmentEvaluationProcess"
+        :assignmentId="parseInt(id)"
+        :classRoomStudentId="classRoomStudentId"
+        v-if="
+          this.assignment.assignmentType === 2 ||
+          this.assignment.assignmentType === 3
+        "
+      ></AssignmentEvaluationProcess>
+      <AssignmentTasksProcess
+        ref="AssignmentTasksProcess"
+        v-permission="['teacher']"
+        :assignmentId="parseInt(id)"
+        :classRoomStudentId="classRoomStudentId"
+        v-if="this.assignment.assignmentType === 1"
+      ></AssignmentTasksProcess>
     </vs-prompt>
     <!-- / Dialog Modal Button Corregir -->
 
@@ -305,6 +306,8 @@
 </template>
 
 <script>
+
+
 import CommentResponse from '../components/Posts/CommentResponse'
 import ListIcon from '../components/icons/ListIcon'
 import PencilAssignmentlIcon from '../components/icons/PencilAssignmentlIcon'
@@ -317,6 +320,8 @@ import CardAvatar from '../components/Avatars/CardAvatar'
 import { mapGetters } from 'vuex'
 import ButtonDropDown from '../components/ButtonDropDown.vue'
 import CommentChild from '../components/Posts/CommentChild'
+import AssignmentEvaluationProcess from './AssignmentEvaluationProcess.vue'
+import AssignmentTasksProcess from './AssignmentTasksProcess.vue'
 export default {
   name: 'Assignment',
   props: {
@@ -332,7 +337,9 @@ export default {
     ButtonDropDown,
     ListInformation,
     CommentResponse,
-    CommentChild
+    CommentChild,
+    AssignmentEvaluationProcess,
+    AssignmentTasksProcess
   },
   data () {
     return {
@@ -350,6 +357,7 @@ export default {
       activePromptDelete: false,
       activeCommentAssignment: false,
       activeClassCard:'',
+      classRoomStudentId:'',
       // commentResponse: '',
       assignment: [],
       titleAssignment: 'Titulo Asignacion',
@@ -429,6 +437,7 @@ export default {
         id: this.id,
         userId: classroomstudents.student.user.id
       }
+      this.classRoomStudentId = classroomstudents.id
       this.activeClassCard = params.userId
       this.userStudentId = params.userId.toString()
       this.$store.dispatch('comment/getCommentByAssignmentData', params)
@@ -451,6 +460,14 @@ export default {
           action: this.deleteAssignment
         }
       ]
+    },
+
+    correctAssignment () {
+      if(this.assignment.assignmentType === 1) {
+        this.$refs.AssignmentTasksProcess.save()
+      }else{
+        this.$refs.AssignmentEvaluationProcess.save()
+      }
     },
 
     deleteAssignment () {
@@ -523,9 +540,8 @@ export default {
   box-sizing: border-box;
 }
 .active-card {
-   border: solid 2px #567df4;
+  border: solid 2px #567df4;
   outline: none;
-
 }
 .active-card-assig:hover {
   border: solid 2px #567df4;
