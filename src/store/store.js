@@ -42,6 +42,7 @@ import assignment from './modules/assignment'
 import assignmentGroup from './modules/assignmentGroup'
 import news from './modules/news'
 import comment from './modules/comment'
+import library from './modules/library'
 
 Vue.use(Vuex)
 
@@ -70,7 +71,8 @@ export default new Vuex.Store({
     assignment,
     assignmentGroup,
     news,
-    comment
+    comment,
+    library
   },
   getters,
   mutations,

@@ -111,5 +111,12 @@ export default [
     slug: 'news',
     icon: 'FileTextIcon',
     permissions: ['institution', 'teacher', 'student']
+  },
+  {
+    url: '/library',
+    name: 'Biblioteca',
+    slug: 'library',
+    icon: 'BookOpenIcon',
+    permissions: ['teacher']
   }
 ]

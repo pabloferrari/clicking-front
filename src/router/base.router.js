@@ -185,6 +185,22 @@ export default [
     meta: {
       permissions: ['institution', 'teacher', 'student']
     }
+  },
+  {
+    path: '/news',
+    name: 'Noticias',
+    component: () => import('../views/news/News.vue'),
+    meta: {
+      permissions: ['institution', 'teacher', 'student']
+    }
+  },
+  {
+    path: '/library',
+    name: 'Biblioteca',
+    component: () => import('../views/library/'),
+    meta: {
+      permissions: ['teacher']
+    }
   }
 
   // {
