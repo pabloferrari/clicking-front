@@ -113,7 +113,7 @@ export default {
   },
   computed: {
     scrollbarTag () { return this.$store.getters.scrollbarTag },
-    notifList () { return this.$store.state.notification.notificationsCk }
+    notifList () { return this.$store.state.customNotification.notifications }
   },
   methods: {
     elapsedTime (startTime) {
@@ -161,7 +161,7 @@ export default {
       return date
     },
     getNotifications() {
-      this.$store.dispatch('notification/getNotifications')
+      this.$store.dispatch('customNotification/getNotifications')
     },
     goTo(url) {
       console.log(`GoTo -> ${url}`);
@@ -176,7 +176,7 @@ export default {
   },
   mounted() {
     this.getNotifications()
-    this.todo()
+    // this.todo()
   }
 }
 

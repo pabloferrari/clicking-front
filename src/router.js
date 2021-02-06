@@ -77,7 +77,6 @@ function checkRoutePermissions (permission) {
   if (permission && permission instanceof Array) {
     if (permission.length > 0) {
       const permissionRoles = permission
-      console.log('permissionRoles', permissionRoles, roles)
       const hasPermission = roles.some(role => {
         return permissionRoles.includes(role)
       })

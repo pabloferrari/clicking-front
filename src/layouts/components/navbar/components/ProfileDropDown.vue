@@ -13,7 +13,7 @@
       </div>
 
       <vs-dropdown-menu class="vx-navbar-dropdown">
-        <ul style="min-width: 9rem">
+        <ul style="min-width:9rem;font-weight:bold;">
 
           <!-- <li class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white">
             <feather-icon icon="UserIcon" svgClasses="w-4 h-4" />
@@ -41,6 +41,13 @@
           </li> -->
 
           <!-- <vs-divider class="m-1" /> -->
+          <li class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
+            @click="ticket">
+            <feather-icon icon="HelpCircleIcon" svgClasses="w-4 h-4" />
+            <span class="ml-2">Ayuda</span>
+          </li>
+
+          <vs-divider class="m-1" />
 
           <li
             class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
@@ -70,6 +77,9 @@ export default {
       localStorage.removeItem('token')
       // This is just for demo Purpose. If user clicks on logout -> redirect
       this.$router.push('/pages/login').catch(() => {})
+    },
+    ticket () {
+      this.$router.push('/tickets').catch(() => {})
     }
   }
 }

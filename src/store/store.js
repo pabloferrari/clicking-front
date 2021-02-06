@@ -18,6 +18,7 @@ import actions from './actions'
 
 import auth from './modules/auth'
 import notification from './modules/notification'
+import customNotification from './modules/customNotification'
 
 import country from './modules/country'
 import institution from './modules/institution'
@@ -41,6 +42,7 @@ import bigBlueButton from './modules/bigBlueButton'
 import assignment from './modules/assignment'
 import assignmentGroup from './modules/assignmentGroup'
 import news from './modules/news'
+import tickets from './modules/tickets'
 import comment from './modules/comment'
 import library from './modules/library'
 
@@ -58,6 +60,7 @@ export default new Vuex.Store({
     admin,
     student,
     notification,
+    customNotification,
     plan,
     province,
     classroom,
@@ -71,6 +74,7 @@ export default new Vuex.Store({
     assignment,
     assignmentGroup,
     news,
+    tickets,
     comment,
     library
   },

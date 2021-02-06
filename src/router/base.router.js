@@ -187,11 +187,11 @@ export default [
     }
   },
   {
-    path: '/news',
-    name: 'Noticias',
-    component: () => import('../views/news/News.vue'),
+    path: '/tickets',
+    name: 'Ayuda',
+    component: () => import('../views/tickets/Tickets.vue'),
     meta: {
-      permissions: ['institution', 'teacher', 'student']
+      permissions: ['admin', 'institution', 'teacher', 'student']
     }
   },
   {
