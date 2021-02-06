@@ -74,6 +74,10 @@ require('./assets/css/iconfont.css')
 // Note: In latest version you have to add it separately
 // import 'vue-select/dist/vue-select.css';
 
+// CALENDAR
+import 'fullcalendar/dist/fullcalendar.css'
+import FullCalendar from 'vue-full-calendar'
+Vue.use(FullCalendar)
 
 Vue.config.productionTip = false
 

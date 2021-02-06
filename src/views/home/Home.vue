@@ -4,6 +4,7 @@
       <p class="primary">Hola, {{ activeUserInfo.name }}!</p>
     </div>
 
+    <full-calendar :events="events"></full-calendar>
     <!-- <div class="donuts__chart">
       <DonutsChart></DonutsChart>
     </div> -->
@@ -12,13 +13,36 @@
 
 <script>
 // import DonutsChart from '../components/Analytics/DonutsChart'
+
+import { FullCalendar } from 'vue-full-calendar';
+
+
 export default {
   name: 'home',
-  // components: {
-  //   DonutsChart
-  // },
+  components: {
+    FullCalendar,
+    // DonutsChart
+  },
   data() {
-    return {}
+    return {
+      events: [
+        {
+            title  : 'event1',
+            start  : '2021-01-01',
+        },
+        {
+            title  : 'event2',
+            start  : '2021-01-05',
+            end    : '2021-01-07',
+        },
+        {
+            title  : 'event3',
+            start  : '2021-01-09T12:30:00',
+            allDay : false,
+        },
+      ]
+    }
+    
   },
   computed: {
     activeUserInfo() {
