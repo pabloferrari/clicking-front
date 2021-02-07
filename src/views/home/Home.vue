@@ -4,7 +4,7 @@
       <p class="primary">Hola, {{ activeUserInfo.name }}!</p>
     </div>
 
-    <full-calendar :events="events"></full-calendar>
+    <calendar :events="events"></calendar>
     <!-- <div class="donuts__chart">
       <DonutsChart></DonutsChart>
     </div> -->
@@ -14,13 +14,13 @@
 <script>
 // import DonutsChart from '../components/Analytics/DonutsChart'
 
-import { FullCalendar } from 'vue-full-calendar';
+import calendar from '../components/Calendar';
 
 
 export default {
   name: 'home',
   components: {
-    FullCalendar,
+    calendar
     // DonutsChart
   },
   data() {
