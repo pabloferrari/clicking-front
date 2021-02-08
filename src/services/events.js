@@ -7,6 +7,11 @@ class EventsService {
   getAll () {
     return service.get(`/${this.entity}`)
   }
+
+  getEventTypes() {
+    return service.get(`/event-types`)
+  }
+
   get (id) {
     return service.get(`/${this.entity}/${id}`)
   }
