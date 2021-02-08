@@ -8,10 +8,13 @@
           class="mt-5 w-full"
           name="Puntos"
           v-validate="'required'"
-          :danger="errors.has('Puntos')"
         >
+          <vs-select-item key="" value="" text="seleccione puntaje" />
           <vs-select-item v-for="n in 10" :key="n" :value="n" :text="n" />
         </vs-select>
+        <span class="text-danger text-sm" v-show="errors.has('Puntos')">{{
+          errors.first("Puntos")
+        }}</span>
       </div>
       <div class="vx-col flex w-full">
         <vs-input
@@ -43,6 +46,7 @@ export default {
   },
   methods: {
     save() {
+      console.log('entro')
       this.$validator.validateAll().then(result => {
         if (result) {
           const payload = {

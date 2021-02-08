@@ -20,15 +20,18 @@
 
           <vs-input
             class="flex-1"
-            icon-pack="feather"
-            icon="icon-send"
-            icon-no-border
-            icon-after
             :disabled="!activeComment"
             placeholder="Añadir comentario..."
             v-on:keyup.enter="handlerSubmit"
             v-model="comment"
           />
+          <vs-button
+            type="border"
+            color="primary"
+            @click="handlerSubmit"
+            icon-pack="feather"
+            icon="icon-send"
+          ></vs-button>
         </div>
       </div>
     </div>

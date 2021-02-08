@@ -269,7 +269,7 @@
 
     <!-- Dialog Modal Button Delete -->
     <vs-prompt
-      @accept="acceptDelete"
+      @accept="acceptDeleteAssignment"
       title="Elminar Asignación"
       text="esta seguro de eliminar?"
       accept-text="Guardar"
@@ -346,7 +346,7 @@ export default {
       correct: false,
       acceptDelete: false,
       correctReAsign: false,
-      acceptGiveBack: false,
+      // acceptGiveBack: false,
       dataList: [],
       commentId: '',
       userStudentId: '',
@@ -472,7 +472,35 @@ export default {
 
     deleteAssignment () {
       this.activePromptDelete = true
+
+
+    },
+    acceptDeleteAssignment() {
+      this.$store.dispatch('assignment/deleteAssignment',this.id).then((result) => {
+        if(result.deleted) {
+          this.$router.push('/courses')
+        }
+      }).catch((err) => console.log(err))
       console.log('eliminando')
+    },
+    acceptGiveBack() {
+      const payload = {
+        score: 0,
+
+        assignment_id: this.id,
+        classroom_student_id: this.classRoomStudentId ,
+        assignment_status_id:1
+      }
+
+      this.$store
+        .dispatch('assignment/createAssignmentStudent', payload)
+        .then(response => {
+          console.log(response)
+          //this.$emit('close-modal')
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     editAssignment () {
       console.log('editAssignment')

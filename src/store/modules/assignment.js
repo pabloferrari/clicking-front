@@ -128,6 +128,26 @@ const actions = {
 
     })
   },
+  deleteAssignment({ commit, state, dispatch }, id) {
+    return new Promise((resolve, reject) => {
+      AssignmentService.delete(id).then((response) => {
+        // commit('setAssignmentDetail', response.data)
+        dispatch(
+          'notification/success',
+          {
+            title: 'Elimiando exitoso....',
+            text: 'se ha actualizado correctamente.'
+          },
+          { root: true })
+        resolve(response)
+
+      }).catch((err) => {
+        reject(err)
+        console.log(err)
+      })
+
+    })
+  },
 
   async createCourseClass({ commit, state, dispatch }, courseClass) {
     await CourseClassService.create(courseClass)

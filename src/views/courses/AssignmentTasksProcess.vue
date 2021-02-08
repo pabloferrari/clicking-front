@@ -11,6 +11,9 @@
         <vs-select-item value="1" text="Aprobado" />
         <vs-select-item value="0" text="Reprobado" />
       </vs-select>
+      <span class="text-danger text-sm" v-show="errors.has('Estado')">{{
+        errors.first("Estado")
+      }}</span>
     </div>
     <div class="vx-col flex w-full">
       <vs-input
