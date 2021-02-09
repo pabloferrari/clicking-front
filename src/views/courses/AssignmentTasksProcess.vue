@@ -52,7 +52,7 @@ export default {
             comment:this.comment,
             assignment_id: this.assignmentId,
             classroom_student_id: this.classRoomStudentId,
-            assignment_status_id: (this.state === '1') ? 2 : 3
+            assignment_status_id: (this.state === '1') ? 3 : 0
           }
 
           this.$store

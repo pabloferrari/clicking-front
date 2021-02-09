@@ -54,7 +54,7 @@ export default {
             comment:this.comment,
             assignment_id: this.assignmentId,
             classroom_student_id: this.classRoomStudentId,
-            assignment_status_id:2
+            assignment_status_id:3
           }
 
           this.$store
