@@ -117,6 +117,6 @@ export default [
     name: 'Biblioteca',
     slug: 'library',
     icon: 'BookOpenIcon',
-    permissions: ['teacher']
+    permissions: ['teacher', 'student']
   }
 ]

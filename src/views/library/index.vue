@@ -5,14 +5,36 @@
         <p class="primary">Biblioteca</p>
       </div>
     </div>
-    <div class="vx-row my-4">
-      <vx-card v-if="this.dataList.length > 0" >
-          <ListInformation v-for="(posts, index) in this.dataList"  :key="index" :data="posts"  ></ListInformation>
-      </vx-card>
-      <vx-card v-else>
-        <h4 class="text-center">No se encontraron resultados</h4>
-      </vx-card>
+    <div class="grid justify-items-end my-6">
+      <vs-button
+        color="primary"
+        size="small"
+        v-permission="['teacher']"
+        class="font-semibold btn-right"
+        icon="icon-plus"
+        icon-pack="feather"
+        type="border"
+        @click="activePrompt = true"
+        >Crear Articulo</vs-button
+      >
     </div>
+    <vx-card>
+      <div class="">
+        <div class="w-full mt-3 rounded-lg">
+          <div class="w-full" v-if="dataLibraries.length > 0">
+            <CardLibrary
+              v-for="(libraries, index) in dataLibraries"
+              :key="index"
+              :data="libraries"
+            ></CardLibrary>
+          </div>
+          <div v-else class="w-full text-center">
+            <h4>No se encontraron resultados</h4>
+          </div>
+        </div>
+      </div>
+    </vx-card>
+
     <!-- Popup Publish Create -->
     <vs-prompt
       @accept="accept"
@@ -21,29 +43,31 @@
       cancel-text="Cancelar"
       :active.sync="activePrompt"
     >
-      <!-- <NewsCreate
-      @close-modal="closeModal()"
-      :description="this.description"
-      ref="NewsCreate"></NewsCreate> -->
+      <CreateLibrary
+        ref="CreateLibrary"
+        @close-modal="closeModal()"
+      ></CreateLibrary>
     </vs-prompt>
   </div>
 </template>
 
 <script>
 // import NewsCreate from './NewsCreate'
-import ListInformation from '../components/Posts/List'
+// import ListInformation from '../components/Posts/List'
 import { mapGetters } from 'vuex'
-
+import moment from 'moment'
+import CardLibrary from './CardLibrary'
+import CreateLibrary from './CreateLibrary'
 export default {
   name: 'Library',
   components: {
-    // NewsCreate,
-    ListInformation
+    CardLibrary,
+    CreateLibrary
   },
   data () {
     return {
       activePrompt: false,
-      dataList: [],
+      dataLibraries: [],
       article: '',
       description: ''
     }
@@ -58,26 +82,29 @@ export default {
       const rows = []
       data.map((element) => {
         rows.push({
-          article: element.article,
-          description: element.description
+          title: element.article,
+          description: element.description,
+          date:this.formatDateTime(element.created_at)
         })
       })
 
-      this.dataList = rows
+      this.dataLibraries = rows
     }
   },
   methods: {
     accept () {
       this.activePrompt = true
-      this.$refs.NewsCreate.save()
+      this.$refs.CreateLibrary.save()
       // console.log()
       // this.description = ''
     },
-    showModalPublish () {
-      this.activePrompt = true
-      this.description = this.$refs.InputTypping.textarea
-      // console.log(this.$refs.InputTypping.textarea)
+    formatDateTime (datetime) {
+      if (!datetime) {
+        return null
+      }
+      return moment(String(datetime)).format('DD/MM/YYYY hh:mm A')
     },
+
     closeModal () {
       this.activePrompt = false
     },
@@ -103,5 +130,11 @@ export default {
   display: flex;
   align-items: center;
   color: #567df4;
+}
+
+.border-bottom-comment {
+  border-bottom: 1px solid #ccc;
+  width: 95%;
+  margin: 0 auto;
 }
 </style>
