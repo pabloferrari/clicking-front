@@ -98,6 +98,7 @@
             </div>
             <ButtonCardAction
               @handle-correct="activePromptCorrect = true"
+              @handle-deliver="activePromptDeliver = true"
               @handle-give-back="activePromptGiveBack = true"
             ></ButtonCardAction>
           </vx-card>
@@ -255,6 +256,17 @@
     </vs-prompt>
     <!-- / Dialog Modal Button Corregir -->
 
+    <!-- Dialog Modal Button Deliver-->
+    <vs-prompt
+      @accept="acceptDeliver"
+      title="Entregar"
+      text="esta seguro de entregar?"
+      accept-text="Guardar"
+      cancel-text="Cancelar"
+      :active.sync="activePromptDeliver"
+    >
+    </vs-prompt>
+    <!-- / Dialog Modal Button Deliver-->
     <!-- Dialog Modal Button Give Back -->
     <vs-prompt
       @accept="acceptGiveBack"
@@ -352,6 +364,7 @@ export default {
       userStudentId: '',
       mountComponentComment: CommentResponse,
       activePromptReAsign: false,
+      activePromptDeliver: false,
       activePromptCorrect: false,
       activePromptGiveBack: false,
       activePromptDelete: false,
@@ -385,6 +398,9 @@ export default {
     avartarImage () {
       console.log(this.$store.state.auth.authUser)
       return this.$store.state.auth.authUser.image
+    },
+    userId() {
+      return this.$store.state.auth.authUser.id
     },
 
     isStudent () {
@@ -496,6 +512,28 @@ export default {
         .dispatch('assignment/createAssignmentStudent', payload)
         .then(response => {
           console.log(response)
+          //this.$emit('close-modal')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    acceptDeliver() {
+      const {classroomstudents} = this.assignment.students.find((element) => element.classroomstudents.student.user.id === this.userId)
+      const payload = {
+        score: 0,
+        assignment_id: this.id,
+        classroom_student_id: classroomstudents.id,
+        assignment_status_id:2
+      }
+
+      this.$store
+        .dispatch('assignment/createAssignmentStudent', payload)
+        .then(response => {
+          if(response) {
+             this.$router.push('/courses')
+          }
+          // console.log(response)
           //this.$emit('close-modal')
         })
         .catch(err => {
