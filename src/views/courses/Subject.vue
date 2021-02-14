@@ -1,10 +1,14 @@
 <template>
-    <div class="subjects">
-        <div class="vx-row">
-            <div class="vx-col w-1/2">
-                <p class="primary">{{ subject }}</p>
-            </div>
-            <div class="vx-col w-1/2" style="display: contents;">
+  <div class="subjects">
+    <div class="vx-row">
+      <div class="vx-col w-full">
+        <div class="flex justify-between">
+          <div class="w-1/2">
+            <p class="primary">{{ subject }}</p>
+          </div>
+
+          <div class="justify-end">
+            <div class="flex mt-2">
               <ButtonPath
                 size="small"
                 :path="this.path"
@@ -12,103 +16,108 @@
                 type="border"
                 icon-pack="feather"
                 icon="icon-search"
+                class="mx-2"
                 buttonTitle="Listado de Alumnos"
-                v-permission="['teacher','institution','student']"
+                v-permission="['teacher', 'institution', 'student']"
               ></ButtonPath>
 
               <ButtonPath
                 size="small"
                 color="dark"
                 type="border"
+                :path="this.pathFolders"
                 icon-pack="feather"
                 icon="icon-folder"
                 buttonTitle="Carpeta de Clase"
-                v-permission="['teacher','institution','student']"
+                v-permission="['teacher', 'institution', 'student']"
               ></ButtonPath>
             </div>
+          </div>
         </div>
-        <CardCount :cardCount="this.cardCountCourseClass()"></CardCount>
-
-        <div
-            class="flex flex-wrap justify-end mt-1"
-            @click="activePromptClasses = true"
-        >
-            <ButtonRight
-                class="btn-right"
-                v-permission="['teacher']"
-                buttonTitle="Crear Clase"
-            ></ButtonRight>
-        </div>
-
-        <!-- Popup Course -->
-        <vs-prompt
-            @accept="saveclass"
-            title="Crear Clase"
-            accept-text="Guardar"
-            cancel-text="Cancelar"
-            :active.sync="activePromptClasses"
-        >
-            <Classes
-                @close-modal-class="closeModalClass(false)"
-                :courseId="this.subjectId"
-                ref="Classes"
-            ></Classes>
-        </vs-prompt>
-
-        <!-- START MODAL -->
-        <vs-popup title="" :active.sync="itemOne" class="rounded-lg">
-            <TaskForm
-                @close-modal="itemOne = false"
-                ref="TaskForm"
-                title="Crear Tarea"
-            ></TaskForm>
-        </vs-popup>
-
-        <vs-popup title="" :active.sync="itemTwo">
-            <EvaluationForm
-                @close-modal="itemTwo = false"
-                ref="EvaluationForm"
-                title="Crear Evaluación"
-            ></EvaluationForm>
-        </vs-popup>
-
-        <vs-popup title="" :active.sync="itemThree">
-            <WorkPracticeForm
-                ref="WorkPracticeForm"
-                @close-modal="itemThree = false"
-                title="Crear Trabajo Práctico"
-            ></WorkPracticeForm>
-        </vs-popup>
-
-        <!-- END MODAL -->
-
-        <div class="mt-0">
-            <vs-tabs v-model="tab.value">
-                <vs-tab label="Muro" v-on="clickTag(tab.value)">
-                    <div class="tab-content-wall">
-                        <Wall :subjectId="this.subjectId"></Wall>
-                    </div>
-                </vs-tab>
-                <vs-tab label="Clases">
-                    <div class="tab-content-classes">
-                        <div>
-                            <Collapse
-                                v-if="this.classesList.length > 0"
-                                :DropDownList="this.DropDownList"
-                                :classesList="this.classesList"
-                                :courseStudents="this.courseStudents"
-                            ></Collapse>
-                            <div v-else>
-                                <p class="font-semibold text-center">
-                                    No se encontraron resultados
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </vs-tab>
-            </vs-tabs>
-        </div>
+      </div>
     </div>
+    <CardCount :cardCount="this.cardCountCourseClass()"></CardCount>
+
+    <div
+      class="flex flex-wrap justify-end mt-1"
+      @click="activePromptClasses = true"
+    >
+      <ButtonRight
+        class="btn-right-subject"
+        v-permission="['teacher']"
+        buttonTitle="Crear Clase"
+      ></ButtonRight>
+    </div>
+
+    <!-- Popup Course -->
+    <vs-prompt
+      @accept="saveclass"
+      title="Crear Clase"
+      accept-text="Guardar"
+      cancel-text="Cancelar"
+      :active.sync="activePromptClasses"
+    >
+      <Classes
+        @close-modal-class="closeModalClass(false)"
+        :courseId="this.subjectId"
+        ref="Classes"
+      ></Classes>
+    </vs-prompt>
+
+    <!-- START MODAL -->
+    <vs-popup title="" :active.sync="itemOne" class="rounded-lg">
+      <TaskForm
+        @close-modal="itemOne = false"
+        ref="TaskForm"
+        title="Crear Tarea"
+      ></TaskForm>
+    </vs-popup>
+
+    <vs-popup title="" :active.sync="itemTwo">
+      <EvaluationForm
+        @close-modal="itemTwo = false"
+        ref="EvaluationForm"
+        title="Crear Evaluación"
+      ></EvaluationForm>
+    </vs-popup>
+
+    <vs-popup title="" :active.sync="itemThree">
+      <WorkPracticeForm
+        ref="WorkPracticeForm"
+        @close-modal="itemThree = false"
+        title="Crear Trabajo Práctico"
+      ></WorkPracticeForm>
+    </vs-popup>
+
+    <!-- END MODAL -->
+
+    <div class="mt-0">
+      <vs-tabs v-model="tab.value">
+        <vs-tab label="Muro" v-on="clickTag(tab.value)">
+          <div class="tab-content-wall">
+            <Wall :subjectId="this.subjectId"></Wall>
+          </div>
+        </vs-tab>
+        <vs-tab label="Clases">
+          <div class="tab-content-classes">
+            <div>
+              <Collapse
+                v-if="this.classesList.length > 0"
+                :DropDownList="this.DropDownList"
+                :classesList="this.classesList"
+                :courseStudents="this.courseStudents"
+              ></Collapse>
+              <div v-else>
+                <p class="font-semibold text-center">
+                  No se encontraron resultados
+                </p>
+              </div>
+            </div>
+          </div>
+        </vs-tab>
+      </vs-tabs>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -161,6 +170,9 @@ export default {
       path: `/courses/${this.subject
         .split(' ')
         .join('-')}/students-list/${this.subjectId}`,
+      pathFolders:`/courses/${this.subject
+        .split(' ')
+        .join('-')}/folders/${this.subjectId}`,
       DropDownList: [
         {
           id: 1,
@@ -349,29 +361,29 @@ export default {
 
 <style lang="scss" scoped>
 .primary {
-    font-family: Gilroy;
-    font-style: normal;
-    font-weight: 800;
-    font-size: 28px;
-    line-height: 44px;
-    display: flex;
-    align-items: center;
-    color: #567df4;
+  font-family: Gilroy;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 44px;
+  display: flex;
+  align-items: center;
+  color: #567df4;
 }
 </style>
 
 <style lang="css">
-.con-vs-popup .vs-popup {
-    width: 800px !important;
-    height: 540px;
-}
-.btn-right {
-    position: absolute;
-    right: 1rem;
-    z-index: 999;
+/*.con-vs-popup .vs-popup {
+  width: 800px !important;
+  height: 540px;
+}*/
+.btn-right-subject {
+  position: absolute;
+  right: 1rem;
+  z-index: 999;
 }
 .btnStudentList {
-    border: 1px solid #22215b;
-    border-radius: 8px;
+  border: 1px solid #22215b;
+  border-radius: 8px;
 }
 </style>

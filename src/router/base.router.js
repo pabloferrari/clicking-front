@@ -144,6 +144,24 @@ export default [
     props: true
   },
   {
+    path: '/courses/:subject/folders/:courseId',
+    name: 'Curso - Carpeta Clase',
+    component: () => import('../views/folders/Folders.vue'),
+    meta: {
+      permissions: ['institution', 'teacher', 'student']
+    },
+    props: true
+  },
+  {
+    path: '/courses/folders/files/:folderId',
+    name: 'Curso - Archivos - Carpeta Clase',
+    component: () => import('../views/folders/FolderFiles.vue'),
+    meta: {
+      permissions: ['institution', 'teacher', 'student']
+    },
+    props: true
+  },
+  {
     path: '/classrooms',
     name: 'Salones',
     component: () => import('../views/classroom/Classroom.vue'),

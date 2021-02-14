@@ -45,7 +45,7 @@ export default {
 
   methods: {
     countAvatar () {
-      const count = this.studentData.length - 3 < 0 ? `${this.studentData.length}` : `+ ${this.studentData.length - 3}`
+      const count = this.studentData.length - 3 < 0 ? `${this.studentData.length}` : ` ${this.studentData.length - 3}`
       return count
     },
 
