@@ -213,8 +213,14 @@
           v-for="(student, index) in this.assignment.students"
           :key="index"
         >
-          <div v-if="student.assignmentstatus.id == 2">
+          <div v-if="student.assignmentstatus.id == 3">
             <CardAvatar
+              :class="
+                student.classroomstudents.student.user.id == activeClassCard
+                  ? 'active-card'
+                  : ''
+              "
+              @active-card="activeCard(student)"
               :name="student.classroomstudents.student.name"
               :avatar="student.classroomstudents.student.user.image"
             ></CardAvatar>
@@ -435,19 +441,19 @@ export default {
     // },
     storeAssignment (data) {
       this.assignment = {}
-      // console.log(data)
+      // console.log(data.assignment)
       if (data) {
         this.assignment = {
-          title: data.title,
-          limitDate: this.formatDateTime(data.limit_date),
-          description: data.description,
-          assignmentType: data.assignmenttype.id,
-          teacher: data.class.course.teacher.name,
-          user_id: data.class.course.teacher.user_id,
+          title: data.assignment.title,
+          limitDate: this.formatDateTime(data.assignment.limit_date),
+          description: data.assignment.description,
+          assignmentType: data.assignment.assignmenttype.id,
+          teacher: data.assignment.class.course.teacher.name,
+          user_id: data.assignment.class.course.teacher.user_id,
           students: data.studentsassignment
         }
       }
-      //console.log(this.assignment)
+
     },
     storeFileTeacher (data) {
       this.assignment = {}
@@ -458,7 +464,7 @@ export default {
     },
     storeComments (comments) {
       const rows = []
-      console.log(comments)
+
       if (comments) {
         comments.map((element) => {
 

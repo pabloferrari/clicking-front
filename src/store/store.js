@@ -46,6 +46,7 @@ import news from './modules/news'
 import tickets from './modules/tickets'
 import comment from './modules/comment'
 import library from './modules/library'
+import folder from './modules/folder'
 
 Vue.use(Vuex)
 
@@ -78,6 +79,7 @@ export default new Vuex.Store({
     tickets,
     comment,
     library,
+    folder,
     calendar
   },
   getters,

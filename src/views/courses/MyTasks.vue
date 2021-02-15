@@ -8,29 +8,29 @@
     <CardWelcome :cardsWelcome="this.getCourseAssignments()"> </CardWelcome>
     <div class="mt-0">
       <vs-tabs>
-        <vs-tab  label="Pendiente" @click="getMyAssignments()" >
-          <div class="tab-content-courses " v-if="this.cardStatus.length > 0">
-            <div  v-for="(assignment, index) in this.cardStatus" :key="index" >
+        <vs-tab label="Pendiente" @click="getMyAssignments()">
+          <div class="tab-content-courses" v-if="this.cardStatus.length > 0">
+            <div v-for="(assignment, index) in this.cardStatus" :key="index">
               <CardStatus :data="assignment"></CardStatus>
             </div>
           </div>
           <div v-else>
-                <p class="font-semibold text-center">
-                  No se encontraron resultados
-                </p>
-              </div>
+            <p class="font-semibold text-center">
+              No se encontraron resultados
+            </p>
+          </div>
         </vs-tab>
         <vs-tab label="Completado" @click="getMyAssignmentsComplete()">
           <div class="tab-content-workshop" v-if="this.cardStatus.length > 0">
-            <div v-for="(assignment, index) in this.cardStatus" :key="index" >
+            <div v-for="(assignment, index) in this.cardStatus" :key="index">
               <CardStatus :data="assignment"></CardStatus>
             </div>
           </div>
           <div v-else>
-                <p class="font-semibold text-center">
-                  No se encontraron resultados
-                </p>
-              </div>
+            <p class="font-semibold text-center">
+              No se encontraron resultados
+            </p>
+          </div>
         </vs-tab>
       </vs-tabs>
     </div>
@@ -148,7 +148,7 @@ export default {
     getMyAssignmentsComplete () {
       const params = {
         id: 1, // Id Tasks
-        status: 2 // assingment Status Pending
+       status: 3 // assingment Status Complete
       }
       this.$store.dispatch('assignment/getMyAssignmentsData', params)
 
