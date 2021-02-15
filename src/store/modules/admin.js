@@ -113,7 +113,7 @@ const actions = {
   async getAdmins ({commit}) {
     try {
       const adminsData = await AdminService.getAll()
-      console.log(`ADMIN ->`, adminsData.data);
+      console.log('ADMIN ->', adminsData.data)
       commit('setAdmins', adminsData.data)
     } catch (error) {
       console.log(error)

@@ -32,7 +32,7 @@ export default {
     correct () {
       this.$emit('handle-correct')
     },
-    deliver() {
+    deliver () {
       this.$emit('handle-deliver')
     },
     giveBack () {

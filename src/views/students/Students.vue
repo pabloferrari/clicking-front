@@ -74,7 +74,7 @@ export default {
     StudentsCreate,
     DataTable
   },
-  data() {
+  data () {
     return {
       rowData: [],
 
@@ -126,30 +126,30 @@ export default {
     }
   },
   methods: {
-    showModal(iscreated) {
+    showModal (iscreated) {
       this.student = !iscreated ? this.student : null
       this.actionModal = iscreated ? 'Añadir' : 'Editar'
       this.iscreated = iscreated
       this.activePrompt = true
     },
-    showModalConfirm() {
+    showModalConfirm () {
       this.activePromptDelete = true
     },
-    getData(id) {
+    getData (id) {
       this.student = Object.assign(
         {},
         this.$store.state.student.students.find(x => x.id === id)
       )
     },
-    accept() {
+    accept () {
       this.activePrompt = true
       this.$refs.StudentsCreate.save()
     },
-    acceptDelete() {
+    acceptDelete () {
       this.$store.dispatch('student/deleteStudent', this.idDeleted)
       this.idDeleted = null
     },
-    getStudents() {
+    getStudents () {
       if (!this.institutionID) {
         this.$store.dispatch('student/getStudents')
       } else {
@@ -160,18 +160,18 @@ export default {
       }
     },
 
-    onFirstDataRendered(params) {
+    onFirstDataRendered (params) {
       params.api.sizeColumnsToFit()
     },
-    closeModal() {
+    closeModal () {
       this.activePrompt = false
     }
   },
-  mounted() {
+  mounted () {
     this.getStudents()
   },
   watch: {
-    students(data) {
+    students (data) {
       const studentData = []
       data.map(e => {
         studentData.push({

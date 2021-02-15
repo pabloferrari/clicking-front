@@ -38,14 +38,14 @@ export default {
     assignmentId: Number,
     classRoomStudentId: Number
   },
-  data() {
+  data () {
     return {
       score:'',
       comment:''
     }
   },
   methods: {
-    save() {
+    save () {
       console.log('entro')
       this.$validator.validateAll().then(result => {
         if (result) {

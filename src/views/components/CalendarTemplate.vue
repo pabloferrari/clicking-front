@@ -182,79 +182,79 @@ import moduleCalendar from '../../store/modules/calendar.js'
 import { mapGetters } from 'vuex'
 import Datepicker from 'vuejs-datepicker'
 import { es, en, he } from 'vuejs-datepicker/src/locale'
-import moment from 'moment';
+import moment from 'moment'
 
 export default {
   components: {
     CalendarView,
     CalendarViewHeader,
-    Datepicker,
+    Datepicker
   },
   data () {
     return {
-        showDate: moment(String(new Date())).format('DD/MM/YYYY'),
-        showDate: new Date(),
-        disabledFrom: false,
-        locale: es,
-        id: 0,
-        title: '',
-        startDate: '',
-        endDate: '',
-        labelLocal: 'none',
-        month: 2,
+      showDate: moment(String(new Date())).format('DD/MM/YYYY'),
+      showDate: new Date(),
+      disabledFrom: false,
+      locale: es,
+      id: 0,
+      title: '',
+      startDate: '',
+      endDate: '',
+      labelLocal: 'none',
+      month: 2,
 
-        langHe: he,
-        langEn: en,
+      langHe: he,
+      langEn: en,
 
-        url: '',
-        calendarView: 'month',
+      url: '',
+      calendarView: 'month',
 
-        activePromptAddEvent: false,
-        activePromptEditEvent: false,
+      activePromptAddEvent: false,
+      activePromptEditEvent: false,
 
-        calendarViewTypes: [
-            {
-                label: 'month',
-                val: 'month'
-            },
-            {
-                label: 'Week',
-                val: 'week'
-            },
-            {
-                label: 'Year',
-                val: 'year'
-            }
-        ],
-
-        eventos: [
-          {
-            title  : 'event1',
-            start  : '2021-02-01',
-          },
-          {
-            title  : 'event2',
-            start  : '2021-02-05',
-            end    : '2021-02-07',
-          },
-          {
-            title  : 'event3',
-            start  : '2021-02-09T12:30:00',
-            allDay : false,
-          }
-			  ],
-        config: {
-          locale: 'es',
+      calendarViewTypes: [
+        {
+          label: 'month',
+          val: 'month'
         },
+        {
+          label: 'Week',
+          val: 'week'
+        },
+        {
+          label: 'Year',
+          val: 'year'
+        }
+      ],
 
-        eventTypes: []
-        // id - A unique identifier for the item. This is required and must be unique.
-        // startDate - The date the item starts on the calendar. This must be either passed as a JavaScript date object or as a string following an ISO-like form of "yyyy-mm-dd HH:MM:SS" (time is optional, and within time, minutes and seconds are both optional).
-        // endDate - The date the item ends on the calendar. Defaults to the same date as startDate. This must be either passed as a JavaScript date object, or as a string following an ISO-like form of yyyy-mm-dd HH:MM:SS (time is optional, and within time, minutes and seconds are both optional).
-        // title - The name of the item shown on the calendar. Defaults to "Untitled".
-        // url - The URL associated with the item. The component has no built-in action associated with this, but it does add a "hasUrl" class to the item. To "follow" the URL, you'll need to listen for the click-item event and take the appropriate action.
-        // classes - An array of strings with any additional CSS classes you wish to assign to the item.
-        // style - A string with any additional CSS styles you wish to apply to the item.
+      eventos: [
+        {
+          title  : 'event1',
+          start  : '2021-02-01'
+        },
+        {
+          title  : 'event2',
+          start  : '2021-02-05',
+          end    : '2021-02-07'
+        },
+        {
+          title  : 'event3',
+          start  : '2021-02-09T12:30:00',
+          allDay : false
+        }
+			  ],
+      config: {
+        locale: 'es'
+      },
+
+      eventTypes: []
+      // id - A unique identifier for the item. This is required and must be unique.
+      // startDate - The date the item starts on the calendar. This must be either passed as a JavaScript date object or as a string following an ISO-like form of "yyyy-mm-dd HH:MM:SS" (time is optional, and within time, minutes and seconds are both optional).
+      // endDate - The date the item ends on the calendar. Defaults to the same date as startDate. This must be either passed as a JavaScript date object, or as a string following an ISO-like form of yyyy-mm-dd HH:MM:SS (time is optional, and within time, minutes and seconds are both optional).
+      // title - The name of the item shown on the calendar. Defaults to "Untitled".
+      // url - The URL associated with the item. The component has no built-in action associated with this, but it does add a "hasUrl" class to the item. To "follow" the URL, you'll need to listen for the click-item event and take the appropriate action.
+      // classes - An array of strings with any additional CSS classes you wish to assign to the item.
+      // style - A string with any additional CSS styles you wish to apply to the item.
     }
   },
   computed: {
@@ -339,9 +339,9 @@ export default {
     //   this.$store.dispatch('calendar/eventDragged', {event, date})
     // },
     // thisMonth(d, h, m) {
-		// 	const t = new Date()
-		// 	return new Date(t.getFullYear(), t.getMonth(), d, h || 0, m || 0)
-		// },
+    // 	const t = new Date()
+    // 	return new Date(t.getFullYear(), t.getMonth(), d, h || 0, m || 0)
+    // },
   },
   created () {
     // this.$store.registerModule('calendar', moduleCalendar)
@@ -365,7 +365,7 @@ export default {
     //     })
     //     this.eventTypes = rows
     // }
-  },
+  }
 }
 </script>
 

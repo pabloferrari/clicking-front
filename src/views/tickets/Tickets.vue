@@ -99,24 +99,24 @@ export default {
   },
   watch: {
     storeTickets (data) {
-        const rows = []
-        data.map((element) => {
-            const newRow = {
-                message: element.message,
-                status: element.status.name,
-                date:  this.formatDateTime(element.created_at),
-                user: element.user.name,
-                email: element.user.email
-            }
-            console.log(`element -> `, newRow);
-            rows.push(newRow)
-        })
-        this.dataList = rows
+      const rows = []
+      data.map((element) => {
+        const newRow = {
+          message: element.message,
+          status: element.status.name,
+          date:  this.formatDateTime(element.created_at),
+          user: element.user.name,
+          email: element.user.email
+        }
+        console.log('element -> ', newRow)
+        rows.push(newRow)
+      })
+      this.dataList = rows
     }
   },
   methods: {
     getTickets () {
-        this.$store.dispatch('tickets/getTickets')
+      this.$store.dispatch('tickets/getTickets')
     },
     formatDateTime (datetime) {
       if (!datetime) {
@@ -125,16 +125,16 @@ export default {
       return moment(String(datetime)).format('DD/MM hh:mm A')
     },
     createTicket () {
-        this.$validator.validateAll().then((result) => {
-            if (result) {
-                const payload = { message: this.message };
-                console.log(`Payload -> ${JSON.stringify(payload)}`);
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          const payload = { message: this.message }
+          console.log(`Payload -> ${JSON.stringify(payload)}`)
 
-                this.$store.dispatch('tickets/createTicket', payload)
-                this.message = '';
-            }
-        })
-    },
+          this.$store.dispatch('tickets/createTicket', payload)
+          this.message = ''
+        }
+      })
+    }
   },
 
   mounted () {

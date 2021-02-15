@@ -20,11 +20,11 @@ const getters = {
 
 
 const mutations = {
-  updatedComment(state, comment) {
+  updatedComment (state, comment) {
     state.comment = comment
   },
 
-  updatedCommentChild(state, comments) {
+  updatedCommentChild (state, comments) {
     const commentChildClone = Object.assign([], state.comments)
     const newComments = commentChildClone.map((element) => {
       const commentCurrent = element.child.find((child) => child.children_id === comments.children_id)
@@ -39,21 +39,21 @@ const mutations = {
     state.comments = newComments
   },
 
-  setComments(state, comments) {
+  setComments (state, comments) {
 
     state.comments = comments
   },
-  setCommentsAsignment(state, commentsAssignment) {
+  setCommentsAsignment (state, commentsAssignment) {
     state.commentsAssignment = commentsAssignment
   },
 
-  setComment(state, comment) {
+  setComment (state, comment) {
     state.comments = comment
   }
 }
 
 const actions = {
-  createComment({ commit, state, dispatch }, comment) {
+  createComment ({ commit, state, dispatch }, comment) {
     return new Promise((resolve, reject) => {
       const newComment = {
         comment: comment.comment,
@@ -80,7 +80,7 @@ const actions = {
 
   },
 
-  async createCommentFromAssignment({ commit, state, dispatch }, comment) {
+  async createCommentFromAssignment ({ commit, state, dispatch }, comment) {
     return new Promise((resolve, reject) => {
       // console.log('hola', comment)
       const newComment = {
@@ -119,7 +119,7 @@ const actions = {
     })
   },
 
-  async getCommentsData({ commit }) {
+  async getCommentsData ({ commit }) {
     try {
       const commentsData = await CommentService.getAll()
       commit('setComments', commentsData.data)
@@ -127,7 +127,7 @@ const actions = {
       console.log(error)
     }
   },
-  async getCommentByAssignmentData({ commit }, { id, userId }) {
+  async getCommentByAssignmentData ({ commit }, { id, userId }) {
     try {
       const commentsData = await CommentService.getCommentByAssignment(id, userId)
       // console.log(commentsData)
@@ -137,7 +137,7 @@ const actions = {
       console.log(error)
     }
   },
-  async getCommentByCourseData({ commit }, id) {
+  async getCommentByCourseData ({ commit }, id) {
     try {
       const commentsData = await CommentService.getCommentByCourse(id)
       const comments = Object.assign([], commentsData.data)

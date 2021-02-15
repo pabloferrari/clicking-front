@@ -29,7 +29,6 @@
 </template>
 
 
-
 <script>
 export default {
   name:'AssignmentTasksProcess',
@@ -37,14 +36,14 @@ export default {
     assignmentId: Number,
     classRoomStudentId: Number
   },
-  data() {
+  data () {
     return {
       comment: '',
       state:''
     }
   },
   methods: {
-    save() {
+    save () {
       this.$validator.validateAll().then(result => {
         if (result) {
           const payload = {

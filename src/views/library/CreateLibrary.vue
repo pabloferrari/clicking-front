@@ -48,7 +48,7 @@
 export default {
   name:'CreateLibrary',
 
-  data() {
+  data () {
     return {
       form: {
         title: '',

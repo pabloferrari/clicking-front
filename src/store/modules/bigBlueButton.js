@@ -53,32 +53,32 @@ const actions = {
   async create ({commit, state, dispatch}, meeting) {
     
     try {
-        const newMeeting = {
-            meeting_type: meeting.meeting_type,
-            model: meeting.model,
-            model_id: meeting.model_id,
-            title: meeting.title
-        }
-        const meetingResp = await BigBlueButtonService.create(newMeeting)
+      const newMeeting = {
+        meeting_type: meeting.meeting_type,
+        model: meeting.model,
+        model_id: meeting.model_id,
+        title: meeting.title
+      }
+      const meetingResp = await BigBlueButtonService.create(newMeeting)
         
-        commit('setError', true)
-        commit('setMeeting', meetingResp.meeting)
-        commit('setMeetingInfo', meetingResp.meetingInfo)
-        commit('setMeetingUrl', meetingResp.meetingUrl)
-        commit('setUsers', meetingResp.users)
-        dispatch(
-            'notification/success',
-            {title: 'Meeting Generada....',
-            text: ''},
-            { root: true }
-        )
+      commit('setError', true)
+      commit('setMeeting', meetingResp.meeting)
+      commit('setMeetingInfo', meetingResp.meetingInfo)
+      commit('setMeetingUrl', meetingResp.meetingUrl)
+      commit('setUsers', meetingResp.users)
+      dispatch(
+        'notification/success',
+        {title: 'Meeting Generada....',
+          text: ''},
+        { root: true }
+      )
 
     } catch (error) {
 
     //   commit('setError',false);
       console.log(error)
     }
-  },
+  }
 
 //   async updateAdmin ({ state, commit, dispatch }, admin) {
 //     try {

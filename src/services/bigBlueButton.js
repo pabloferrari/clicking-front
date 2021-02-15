@@ -3,15 +3,15 @@ import service from './service'
 class BigBlueButtonService {
   entity = 'bigbluebutton';
 
-//   getAll () {
-//     return service.get(`/${this.entity}`)
-//   }
-//   get (id) {
-//     return service.get(`/${this.entity}/${id}`)
-//   }
-//   getAdminByInstitution (id) {
-//     return service.get(`/${this.entity}/byInstitution/${id}`)
-//   }
+  //   getAll () {
+  //     return service.get(`/${this.entity}`)
+  //   }
+  //   get (id) {
+  //     return service.get(`/${this.entity}/${id}`)
+  //   }
+  //   getAdminByInstitution (id) {
+  //     return service.get(`/${this.entity}/byInstitution/${id}`)
+  //   }
   create (data) {
     return service.post(`/${this.entity}/create-meeting`, data)
   }

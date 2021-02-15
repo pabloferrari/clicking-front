@@ -14,7 +14,7 @@
 <script>
 // import DonutsChart from '../components/Analytics/DonutsChart'
 
-import calendar from '../components/Calendar';
+import calendar from '../components/Calendar'
 
 
 export default {
@@ -23,19 +23,19 @@ export default {
     calendar
     // DonutsChart
   },
-  data() {
+  data () {
     return {
       
     }
     
   },
   computed: {
-    activeUserInfo() {
+    activeUserInfo () {
       return this.$store.state.auth.authUser
     }
   },
   methods: {},
-  mounted() {}
+  mounted () {}
 }
 </script>
 

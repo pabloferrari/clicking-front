@@ -69,7 +69,7 @@ export default {
 
     InstitutionsCreate
   },
-  data() {
+  data () {
     return {
       idDeleted: null,
       iscreated: null,
@@ -133,60 +133,60 @@ export default {
     }
   },
   methods: {
-    showModal(iscreated) {
+    showModal (iscreated) {
       this.institution = !iscreated ? this.institution : null
       this.actionModal = iscreated ? 'Añadir' : 'Editar'
       this.iscreated = iscreated
       this.activePrompt = true
       this.idEdit = !iscreated ? this.idEdit : null
     },
-    showModalConfirm() {
+    showModalConfirm () {
       this.activePromptDelete = true
     },
 
-    getData(id) {
+    getData (id) {
       this.idEdit = id
       this.institution = Object.assign(
         {},
         this.$store.state.institution.institutions.find(x => x.id === id)
       )
     },
-    accept() {
+    accept () {
       this.activePrompt = true
       this.$refs.InstitutionsCreate.save()
     },
-    acceptDelete() {
+    acceptDelete () {
       this.$store.dispatch('institution/deleteInstitution', this.idDeleted)
       this.idDeleted = null
     },
-    getInstitutions() {
+    getInstitutions () {
       this.$store.dispatch('institution/getInstitutions')
     },
-    getPlans() {
+    getPlans () {
       this.$store.dispatch('plan/getPlans')
     },
-    getCities() {
+    getCities () {
       this.$store.dispatch('city/getCities')
     },
-    getCountries() {
+    getCountries () {
       this.$store.dispatch('country/getCountries')
     },
-    onFirstDataRendered(params) {
+    onFirstDataRendered (params) {
       params.api.sizeColumnsToFit()
     },
-    closeModal() {
+    closeModal () {
       this.iscreated = false
       this.activePrompt = false
       this.idEdit = null
     }
   },
-  mounted() {
+  mounted () {
     this.getInstitutions()
     this.getPlans()
     this.getCountries()
   },
   watch: {
-    institutions(data) {
+    institutions (data) {
       const rows = []
       data.map(value => {
         console.log(value)
@@ -202,10 +202,10 @@ export default {
       })
       this.rowData = rows
     },
-    storeCountries(data) {
+    storeCountries (data) {
       this.countries = data
     },
-    storePlans(data) {
+    storePlans (data) {
       this.plans = data
     }
   },

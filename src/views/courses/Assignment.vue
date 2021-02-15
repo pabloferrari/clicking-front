@@ -24,6 +24,7 @@
         class="flex justify-between my-8 md:w-3/4 lg:w-3/4 sm:w-full xs:w-full"
       >
         <div class="vx-col mx-4 w-full">
+          <!-- List Card Teacher-->
           <vx-card class="body-card">
             <div class="flex">
               <div class="vx-col flex mb-1 w-1/2">
@@ -57,36 +58,42 @@
                 {{ this.assignment.description }}
               </p>
             </div>
+
             <div>
-              <div class="flex">
-                <div
-                  class="flex bg-white p-2 rounded-2xl md:w-1/5 sm:w-1/5 lg:w-1/5 mx-2"
-                >
-                  <div class="text-right">
-                    <strong>PDF</strong>
+              <div class="">
+                <div class="vx-row">
+                  <!-- Cards -->
+                  <div
+                    class="bg-white p-2 rounded-2xl md:w-1/5 sm:w-1/5 lg:w-1/5 m-2 border-gray"
+                    v-for="(data, index) in documentDataTeacher" :key="index"
+                  >
+                    <div class="text-right">
+                      <strong>{{data.type}}</strong>
+                    </div>
+
+                    <p>
+                      {{data.title}}
+                    </p>
+
+                    <br/>
+                    <div class="text-left">
+                      <a :href="baseUrl + data.url" target="__blank">Ver</a>
+
+                    </div>
                   </div>
-                  <div class="text-left">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </div>
-                </div>
-                <div
-                  class="flex bg-white p-2 rounded-2xl md:w-1/5 sm:w-1/5 lg:w-1/5"
-                >
-                  <div class="text-right">
-                    <strong>PDF</strong>
-                  </div>
-                  <div class="text-left">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </div>
+
                 </div>
               </div>
+
             </div>
+
           </vx-card>
         </div>
       </div>
 
       <div class="md:w-1/4 lg:1/2 sm:w-full xs:w-full">
         <div class="flex justify-end">
+          <!-- List Card Student-->
           <vx-card>
             <h2 class="font-bold text-title pb-4">Trabajo</h2>
             <div class="" v-for="(data, index) in documentData" :key="index">
@@ -94,8 +101,22 @@
                 :dataAttach="data"
                 :displayIcon="false"
                 :displayRemove="true"
-              ></AttachDocumentList>
+              >
+              </AttachDocumentList>
             </div>
+
+            <div class="vx-col w-full">
+              <file-pond
+                  name="file"
+                  ref="file"
+                  class-name="my-pond"
+                  label-idle="Arrastrar y soltar aquí..."
+                  allow-multiple="true"
+                  instant-upload="false"
+                  v-on:updatefiles="handleFileUpload"
+                />
+            </div>
+
             <ButtonCardAction
               @handle-correct="activePromptCorrect = true"
               @handle-deliver="activePromptDeliver = true"
@@ -334,6 +355,13 @@ import ButtonDropDown from '../components/ButtonDropDown.vue'
 import CommentChild from '../components/Posts/CommentChild'
 import AssignmentEvaluationProcess from './AssignmentEvaluationProcess.vue'
 import AssignmentTasksProcess from './AssignmentTasksProcess.vue'
+
+
+import vueFilePond from 'vue-filepond'
+import 'filepond/dist/filepond.min.css'
+
+const FilePond = vueFilePond()
+
 export default {
   name: 'Assignment',
   props: {
@@ -351,15 +379,18 @@ export default {
     CommentResponse,
     CommentChild,
     AssignmentEvaluationProcess,
-    AssignmentTasksProcess
+    AssignmentTasksProcess,
+    FilePond
   },
   data () {
     return {
+      baseUrl: process.env.VUE_APP_BASE_URL_STORAGE,
       correct: false,
       acceptDelete: false,
       correctReAsign: false,
       // acceptGiveBack: false,
       dataList: [],
+      file: [],
       commentId: '',
       userStudentId: '',
       mountComponentComment: CommentResponse,
@@ -374,24 +405,15 @@ export default {
       // commentResponse: '',
       assignment: [],
       titleAssignment: 'Titulo Asignacion',
-      documentData: [
-        {
-          id: 1,
-          title: 'Numero Reales',
-          type: 'PDF'
-        },
-        {
-          id: 2,
-          title: 'Numero Primos',
-          type: 'Imagen'
-        }
-      ]
+      documentData: [],
+      documentDataTeacher: []
     }
   },
   computed: {
     ...mapGetters({
       storeAssignment: 'assignment/getAssignmentDetail',
-      storeComments: 'comment/getCommentsAssignment'
+      storeComments: 'comment/getCommentsAssignment',
+      storeFileTeacher: 'assignment/setAssignmentFileTeacher'
       // storeComment: 'comment/getComments'
     }),
 
@@ -399,7 +421,7 @@ export default {
       console.log(this.$store.state.auth.authUser)
       return this.$store.state.auth.authUser.image
     },
-    userId() {
+    userId () {
       return this.$store.state.auth.authUser.id
     },
 
@@ -427,6 +449,13 @@ export default {
       }
       //console.log(this.assignment)
     },
+    storeFileTeacher (data) {
+      this.assignment = {}
+
+      if (data) {
+        this.documentDataTeacher = data
+      }
+    },
     storeComments (comments) {
       const rows = []
       console.log(comments)
@@ -447,6 +476,9 @@ export default {
     }
   },
   methods: {
+    handleFileUpload (files) {
+      this.file = files.map(files => files.file)
+    },
     activeCard ({ classroomstudents }) {
       this.activeCommentAssignment = true
       const params = {
@@ -479,9 +511,9 @@ export default {
     },
 
     correctAssignment () {
-      if(this.assignment.assignmentType === 1) {
+      if (this.assignment.assignmentType === 1) {
         this.$refs.AssignmentTasksProcess.save()
-      }else{
+      } else {
         this.$refs.AssignmentEvaluationProcess.save()
       }
     },
@@ -491,20 +523,20 @@ export default {
 
 
     },
-    acceptDeleteAssignment() {
-      this.$store.dispatch('assignment/deleteAssignment',this.id).then((result) => {
-        if(result.deleted) {
+    acceptDeleteAssignment () {
+      this.$store.dispatch('assignment/deleteAssignment', this.id).then((result) => {
+        if (result.deleted) {
           this.$router.push('/courses')
         }
       }).catch((err) => console.log(err))
       console.log('eliminando')
     },
-    acceptGiveBack() {
+    acceptGiveBack () {
       const payload = {
         score: 0,
 
         assignment_id: this.id,
-        classroom_student_id: this.classRoomStudentId ,
+        classroom_student_id: this.classRoomStudentId,
         assignment_status_id:1
       }
 
@@ -518,20 +550,31 @@ export default {
           console.log(err)
         })
     },
-    acceptDeliver() {
+    acceptDeliver () {
       const {classroomstudents} = this.assignment.students.find((element) => element.classroomstudents.student.user.id === this.userId)
-      const payload = {
-        score: 0,
-        assignment_id: this.id,
-        classroom_student_id: classroomstudents.id,
-        assignment_status_id:2
+      // const payload = {
+      //   score: 0,
+      //   assignment_id: this.id,
+      //   classroom_student_id: classroomstudents.id,
+      //   assignment_status_id:2
+      // }
+
+      const payload = new FormData()
+      payload.append('score', 0)
+      payload.append('assignment_id', this.id)
+      payload.append('classroom_student_id', classroomstudents.id)
+      payload.append('assignment_status_id', 2)
+
+      for (let i = 0; i < this.file.length; i++) {
+        const file = this.file[i]
+        payload.append(`files[${i}]`, file)
       }
 
       this.$store
         .dispatch('assignment/createAssignmentStudent', payload)
         .then(response => {
-          if(response) {
-             this.$router.push('/courses')
+          if (response) {
+            this.$router.push('/courses')
           }
           // console.log(response)
           //this.$emit('close-modal')
@@ -549,6 +592,9 @@ export default {
     },
     getAssignment () {
       this.$store.dispatch('assignment/getMyAssignmentsDetailData', this.id)
+    },
+    getFileTeacher () {
+      this.$store.dispatch('assignment/getMyFileTeacherData', this.id)
     },
     getCommentsAssignment () {
       // console.log(this.assignment)
@@ -579,8 +625,10 @@ export default {
     }
   },
   mounted () {
+
     this.getAssignment()
     this.getCommentsAssignment()
+    this.getFileTeacher()
   }
 }
 </script>
@@ -616,5 +664,8 @@ export default {
 }
 .text-title {
   color: #22215b;
+}
+div .border-gray{
+  border: 1px solid #9f9c9c8c;
 }
 </style>

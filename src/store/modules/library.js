@@ -19,21 +19,21 @@ const getters = {
 }
 
 const mutations = {
-  updatedLibrary(state, library) {
+  updatedLibrary (state, library) {
     state.library = library
   },
 
-  setLibraries(state, libraries) {
+  setLibraries (state, libraries) {
     state.libraries = libraries
   },
 
-  setLibrary(state, library) {
+  setLibrary (state, library) {
     state.library = library
   }
 }
 
 const actions = {
-  createLibrary({ commit, state, dispatch }, library) {
+  createLibrary ({ commit, state, dispatch }, library) {
     return new Promise((resolve, reject) => {
       LibraryService.create(library).then((response) => {
         const dataLibraries = Object.assign([], state.libraries)
@@ -54,7 +54,7 @@ const actions = {
 
     })
   },
-  async getLibraries({ commit }) {
+  async getLibraries ({ commit }) {
     try {
       const librariesData = await LibraryService.getAll()
       commit('setLibraries', librariesData.data)

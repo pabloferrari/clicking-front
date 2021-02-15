@@ -59,7 +59,7 @@ import { es } from 'vuejs-datepicker/src/locale'
 import moduleCalendar from '../../store/modules/calendar.js'
 import { mapGetters } from 'vuex'
 import Datepicker from 'vuejs-datepicker'
-import moment from 'moment';
+import moment from 'moment'
 
 export default {
   components: {
@@ -70,18 +70,18 @@ export default {
     return {
       events: [],
       config: {
-        locale: 'es',
+        locale: 'es'
       },
       es,
       eventTypes: [],
       // PROPS FROM CALLENDAR
       labelLocal: 0,
       activePromptAddEvent: true,
-      title: "",
+      title: '',
       startDate: new Date(),
       endDate: new Date(),
       url: 'https://pabloferrari.co',
-      disabledFrom: false,
+      disabledFrom: false
      
     }
   },
@@ -144,25 +144,25 @@ export default {
     eventDragged (event, date) {
       this.$store.dispatch('calendar/eventDragged', {event, date})
     },
-    thisMonth(d, h, m) {
-			const t = new Date()
-			return new Date(t.getFullYear(), t.getMonth(), d, h || 0, m || 0)
-		},
+    thisMonth (d, h, m) {
+      const t = new Date()
+      return new Date(t.getFullYear(), t.getMonth(), d, h || 0, m || 0)
+    },
     getCalendarTypes () {
       this.$store.dispatch('calendar/getEventTypes')
     },
     getCalendarEvents () {
       this.$store.dispatch('calendar/getEvents')
     },
-    labelGetColor(id) {
-      const el = this.eventTypes.filter(e => e.id = id);
-      if(el.length == 1) return el[0].color;
-      return '';
+    labelGetColor (id) {
+      const el = this.eventTypes.filter(e => e.id = id)
+      if (el.length == 1) return el[0].color
+      return ''
     },
-    labelGetName(id) {
-      const el = this.eventTypes.filter(e => e.id = id);
-      if(el.length == 1) return el[0].name;
-      return '';
+    labelGetName (id) {
+      const el = this.eventTypes.filter(e => e.id = id)
+      if (el.length == 1) return el[0].name
+      return ''
     }
   },
   created () {
@@ -175,40 +175,40 @@ export default {
   },
   watch: {
     storeEventTypes (data) {
-        const rows = []
-        data.map((element) => {
-            const newRow = {
-                id: element.id,
-                name: element.name,
-                color: element.color
-            }
-            console.log(`eventTypes -> `, newRow);
-            rows.push(newRow)
-        })
-        this.eventTypes = rows
+      const rows = []
+      data.map((element) => {
+        const newRow = {
+          id: element.id,
+          name: element.name,
+          color: element.color
+        }
+        console.log('eventTypes -> ', newRow)
+        rows.push(newRow)
+      })
+      this.eventTypes = rows
     },
     storeEvents (data) {
-        const rows = []
-        data.map((element) => {
-            const newRow = {
-                id: element.id,
-                title: `${element.title} - ${element.type.name}`,
-                backgroundColor: element.type.color,
-                borderColor: element.type.color,
-                url: element.external_link,
-                textColor: '#000',
-                start: element.start_date,
-                end: element.end_date,
-            }
-            console.log(`events -> `, newRow);
-            rows.push(newRow)
-        })
-        this.events = rows
+      const rows = []
+      data.map((element) => {
+        const newRow = {
+          id: element.id,
+          title: `${element.title} - ${element.type.name}`,
+          backgroundColor: element.type.color,
+          borderColor: element.type.color,
+          url: element.external_link,
+          textColor: '#000',
+          start: element.start_date,
+          end: element.end_date
+        }
+        console.log('events -> ', newRow)
+        rows.push(newRow)
+      })
+      this.events = rows
     }
   },
-  mounted() {
-    this.getCalendarTypes();
-    this.getCalendarEvents();
+  mounted () {
+    this.getCalendarTypes()
+    this.getCalendarEvents()
   }
 }
 </script>

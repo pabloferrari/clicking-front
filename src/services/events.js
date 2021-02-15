@@ -8,8 +8,8 @@ class EventsService {
     return service.get(`/${this.entity}`)
   }
 
-  getEventTypes() {
-    return service.get(`/event-types`)
+  getEventTypes () {
+    return service.get('/event-types')
   }
 
   get (id) {

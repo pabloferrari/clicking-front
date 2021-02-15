@@ -12,7 +12,7 @@ class AdminService {
     return service.get(`/${this.entity}/byInstitution/${id}`)
   }
   create (data) {
-    return service.post(`/users`, data)
+    return service.post('/users', data)
   }
   update (id, data) {
     return service.put(`/users/${id}`, data)

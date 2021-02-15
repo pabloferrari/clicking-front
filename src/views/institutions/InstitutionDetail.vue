@@ -49,7 +49,7 @@ export default {
     Teachers,
     Students
   },
-  data() {
+  data () {
     return {
       title: ''
     }
@@ -58,11 +58,11 @@ export default {
     ...mapGetters({ storeInstitution: 'institution/getInstitution' })
   },
   methods: {
-    getInstution() {
+    getInstution () {
       this.$store.dispatch('institution/getInstitutionById', this.id)
     }
   },
-  mounted() {
+  mounted () {
     this.getInstution()
   }
 }

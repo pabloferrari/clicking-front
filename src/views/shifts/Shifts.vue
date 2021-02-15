@@ -65,7 +65,7 @@ export default {
     ShiftsCreate,
     DataTable
   },
-  data() {
+  data () {
     return {
       shiftsList: [],
       activePrompt: false,
@@ -106,44 +106,44 @@ export default {
     }
   },
   methods: {
-    showModal(iscreated) {
+    showModal (iscreated) {
       this.shift = !iscreated ? this.shift : null
       this.actionModal = iscreated ? 'Añadir' : 'Editar'
       this.iscreated = iscreated
       this.activePrompt = true
     },
-    showModalConfirm() {
+    showModalConfirm () {
       this.activePromptDelete = true
     },
-    getData(id) {
+    getData (id) {
       this.shift = Object.assign(
         {},
         this.$store.state.shift.shifts.find(x => x.id === id)
       )
     },
-    accept() {
+    accept () {
       this.activePrompt = true
       this.$refs.ShiftsCreate.save()
     },
-    acceptDelete() {
+    acceptDelete () {
       this.$store.dispatch('shift/deleteShift', this.idDeleted)
       this.idDeleted = null
     },
-    getCountries() {
+    getCountries () {
       this.$store.dispatch('shift/getShifts')
     },
-    onFirstDataRendered(params) {
+    onFirstDataRendered (params) {
       params.api.sizeColumnsToFit()
     },
-    closeModal() {
+    closeModal () {
       this.activePrompt = false
     }
   },
-  mounted() {
+  mounted () {
     this.getCountries()
   },
   watch: {
-    shifts(data) {
+    shifts (data) {
       this.rowData = data
     }
   },

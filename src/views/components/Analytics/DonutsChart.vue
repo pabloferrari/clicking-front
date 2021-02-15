@@ -65,7 +65,7 @@ export default {
     VueApexCharts,
     ChangeTimeDurationDropdown
   },
-  data() {
+  data () {
     return {
       sessionsData: {},
       sessionsByDeviceDonut: {
@@ -121,7 +121,7 @@ export default {
   },
 
   methods: {},
-  mounted() {
+  mounted () {
     // console.log(this.$http)
     // Sessions By Device
     //   this.$http

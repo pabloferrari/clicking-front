@@ -105,7 +105,7 @@ export default {
   data () {
     return {
       titleButton: 'Unirse a clase',
-    //   titleButton: 'clase grabada',
+      //   titleButton: 'clase grabada',
       showDetails: '',
       collapseBodyProp: null,
       dataStudents: [],
@@ -131,18 +131,18 @@ export default {
       // this.collapseBodyProp = data;
     },
     startMeeting (classes) {
-        this.buttonDisabled = true;
-        const payload = { meeting_type: 8, model: 'class', model_id: classes.id, title: `${classes.title}: ${classes.description}` }
-        this.$store.dispatch('bigBlueButton/create', payload)
+      this.buttonDisabled = true
+      const payload = { meeting_type: 8, model: 'class', model_id: classes.id, title: `${classes.title}: ${classes.description}` }
+      this.$store.dispatch('bigBlueButton/create', payload)
     },
-    getMeetingData() {
+    getMeetingData () {
 
     }
   },
   watch: {
     '$store.state.bigBlueButton.users' (val) {
-      this.users = val;
-      this.buttonDisabled = false;
+      this.users = val
+      this.buttonDisabled = false
     }
   }
 }

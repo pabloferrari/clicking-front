@@ -21,7 +21,7 @@ const getters = {
   },
   getNotification: state => {
     return state.notification
-  },
+  }
 }
 
 const mutations = {

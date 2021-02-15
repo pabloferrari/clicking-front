@@ -145,7 +145,7 @@ export default {
       } else if (minutes > 0) {
         return `Hace ${minutes + (minutes > 1 ? ' Minutos ' : ' Minuto ')}`
       } else if (seconds > 0) {
-        return `Hace ${seconds}` + (seconds > 1 ? ' segundos' : ' ahora')
+        return `Hace ${seconds}${  seconds > 1 ? ' segundos' : ' ahora'}`
       }
 
       return 'Ahora'
@@ -160,21 +160,21 @@ export default {
 
       return date
     },
-    getNotifications() {
+    getNotifications () {
       this.$store.dispatch('customNotification/getNotifications')
     },
-    goTo(url) {
-      console.log(`GoTo -> ${url}`);
-      window.open(url, '_blank');
+    goTo (url) {
+      console.log(`GoTo -> ${url}`)
+      window.open(url, '_blank')
     },
-    todo: function(){
-      const self = this;
-      this.intervalid1 = setInterval(function(){
-          self.getNotifications();
-      }, 5000);
+    todo () {
+      const self = this
+      this.intervalid1 = setInterval(function () {
+        self.getNotifications()
+      }, 5000)
     }
   },
-  mounted() {
+  mounted () {
     this.getNotifications()
     // this.todo()
   }

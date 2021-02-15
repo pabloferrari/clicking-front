@@ -170,7 +170,7 @@ export default {
     countriesList: null,
     idEdit: null
   },
-  data() {
+  data () {
     return {
       form: {
         id: null,
@@ -187,11 +187,11 @@ export default {
       citiesList: null
     }
   },
-  mounted() {
+  mounted () {
     this.setData()
   },
   methods: {
-    setData() {
+    setData () {
       if (this.institution) {
         if (this.idEdit) {
           const institution = Object.assign(
@@ -217,14 +217,14 @@ export default {
         }
       }
     },
-    save() {
+    save () {
       if (!this.isCreate) {
         this.update()
       } else {
         this.create()
       }
     },
-    create() {
+    create () {
       this.$validator.validateAll().then(result => {
         if (result) {
           const payload = this.form
@@ -239,7 +239,7 @@ export default {
         }
       })
     },
-    update() {
+    update () {
       this.$validator.validateAll().then(result => {
         if (result) {
           const payload = this.form
@@ -254,12 +254,12 @@ export default {
         }
       })
     },
-    changeCountry(id) {
+    changeCountry (id) {
       const country = this.countriesList.find(x => x.id === id)
 
       this.provinceList = country.provinces
     },
-    changeProvince(id) {
+    changeProvince (id) {
       const provinces = this.provinceList.find(x => x.id === id)
       this.citiesList = provinces.cities
     }

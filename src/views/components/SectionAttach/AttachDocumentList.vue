@@ -52,20 +52,20 @@ export default {
     CheckAssignmentIcon
   },
   methods: {
-    renderIcon(type) {
+    renderIcon (type) {
       switch (type) {
-        case 1: // Tasks
-          return ListIcon
-          break
-        case 2: // Evaluations
-          return CheckAssignmentIcon
-          break
-        case 3: // Work Practice
-          return PencilAssignmentlIcon
-          break
+      case 1: // Tasks
+        return ListIcon
+        break
+      case 2: // Evaluations
+        return CheckAssignmentIcon
+        break
+      case 3: // Work Practice
+        return PencilAssignmentlIcon
+        break
       }
     },
-    deleteAttach(id) {
+    deleteAttach (id) {
       // this.dataAttach.splice(id, 1)
 
       // this.dataAttach.splice(dataAttach, 1)
