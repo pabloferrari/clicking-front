@@ -2,7 +2,7 @@
   <div id="form-form">
     <form action="form" method="post">
       <div class="vx-row mb-2">
-        <div class="vx-col w-full">
+        <div class="vx-col w-1/2">
           <vs-input
             class="w-full"
             label-placeholder="Nombre"
@@ -15,9 +15,8 @@
             errors.first("name")
           }}</span>
         </div>
-      </div>
-      <div class="vx-row mb-2">
-        <div class="vx-col w-full">
+
+        <div class="vx-col w-1/2">
           <vs-input
             class="w-full"
             label-placeholder="Email"
@@ -32,7 +31,7 @@
         </div>
       </div>
       <div class="vx-row mb-2">
-        <div class="vx-col w-full">
+        <div class="vx-col w-1/2">
           <vs-input
             class="w-full"
             label-placeholder="Telefono"
@@ -40,9 +39,8 @@
             :danger="errors.has('phone')"
           />
         </div>
-      </div>
-      <div class="vx-row mb-2">
-        <div class="vx-col w-full">
+
+        <div class="vx-col w-1/2">
           <vs-input
             class="w-full"
             label-placeholder="CUIT"
@@ -52,7 +50,7 @@
         </div>
       </div>
       <div class="vx-row mb-2">
-        <div class="vx-col w-full">
+        <div class="vx-col w-1/2">
           <vs-select
             v-model="form.dataPlans"
             label="Plan"
@@ -72,10 +70,8 @@
             errors.first("item-plan")
           }}</span>
         </div>
-      </div>
 
-      <div class="vx-row mb-2">
-        <div class="vx-col w-full">
+        <div class="vx-col w-1/2">
           <vs-select
             v-model="form.dataCountries"
             @change="changeCountry($event)"
@@ -99,7 +95,7 @@
       </div>
 
       <div class="vx-row mb-2">
-        <div class="vx-col w-full">
+        <div class="vx-col w-1/2">
           <vs-select
             v-model="form.dataProvinces"
             @change="changeProvince($event)"
@@ -125,10 +121,8 @@
             errors.first("Provincia")
           }}</span>
         </div>
-      </div>
 
-      <div class="vx-row mb-8">
-        <div class="vx-col w-full">
+        <div class="vx-col w-1/2">
           <vs-select
             v-model="form.dataCities"
             label="Ciudad"
@@ -153,6 +147,21 @@
       <div class="vx-row mb-2">
         <div class="vx-col w-full">
           <vs-checkbox v-model="form.active">Activo</vs-checkbox>
+        </div>
+      </div>
+
+      <div class="vx-row relative h-32">
+        <div
+          class="vx-col w-full mb-2 flex flex-wrap justify-end sm:flex-row absolute bottom-0 right-0 left-15"
+        >
+          <vs-button
+            color="primary"
+            type="flat"
+            @click="closeModal"
+            class="w-full sm:w-auto mb-8 sm:mb-auto mt-3 sm:mt-auto cancel-btn"
+            >Cancelar</vs-button
+          >
+          <vs-button @click="accept" class="w-full sm:w-auto">Crear</vs-button>
         </div>
       </div>
     </form>
@@ -191,6 +200,14 @@ export default {
     this.setData()
   },
   methods: {
+    accept() {
+      //this.activePrompt = true
+      this.save()
+      // this.$refs.InstitutionsCreate.save()
+    },
+    closeModal() {
+      this.$emit('close-modal')
+    },
     setData() {
       if (this.institution) {
         if (this.idEdit) {

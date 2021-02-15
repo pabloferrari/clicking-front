@@ -105,18 +105,19 @@ export default [
     icon: 'HomeIcon',
     permissions: ['institution']
   },
-  {
-    url: '/news',
-    name: 'Noticias',
-    slug: 'news',
-    icon: 'FileTextIcon',
-    permissions: ['institution', 'teacher', 'student']
-  },
+
   {
     url: '/library',
     name: 'Biblioteca',
     slug: 'library',
     icon: 'BookOpenIcon',
     permissions: ['teacher', 'student']
+  },
+  {
+    url: '/news',
+    name: 'Noticias',
+    slug: 'news',
+    icon: 'FileTextIcon',
+    permissions: ['institution', 'teacher', 'student']
   }
 ]

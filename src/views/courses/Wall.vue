@@ -63,30 +63,30 @@ export default {
       console.log(data)
       data.map((Elementcourse) => {
       // if (element.courses) {
-
         rowsCourses.push({
           id: Elementcourse.id,
           title: 'Comentario',
           description: Elementcourse.comment,
           image: Elementcourse.user.image ? Elementcourse.user.image : '',
           user: Elementcourse.user.name,
+          dateOrder:Elementcourse.created_at,
           date: this.formatDateTime(Elementcourse.created_at),
           child: Elementcourse.child
 
         })
-
       })
-
-
-      // if (element.courses) {
-
-
-      // }
-      console.log(rowsCourses)
-      this.dataList = rowsCourses
+      const parseCourse = rowsCourses.sort((a, b) => new Date(b.dateOrder )> new Date(a.dateOrder) ? 1: -1);
+      this.dataList = parseCourse
     }
   },
   methods: {
+    arraySort(data) {
+      data.sort((a,b) => {
+        const date1 = new Date(a.date)
+        const date2 = new Date(b.date)
+        return date1 - date2
+      })
+    },
     accept () {
       this.activePrompt = true
       this.$refs.NewsCreate.save()

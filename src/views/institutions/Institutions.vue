@@ -9,25 +9,29 @@
     </div>
 
     <!-- Modal -->
-    <vs-prompt
+    <vs-popup :title="`${actionModal} Institución`" :active.sync="activePrompt">
+      <InstitutionsCreate
+        ref="InstitutionsCreate"
+        :isCreate="this.iscreated"
+        :countriesList="this.storeCountries"
+        :plansList="this.storePlans"
+        :institution="this.institution"
+        :idEdit="this.idEdit"
+        @close-modal="closeModal()"
+      />
+    </vs-popup>
+    <!-- <vs-prompt
       @accept="accept"
-      :title="`${actionModal} Institución`"
+
       accept-text="Guardar"
       cancel-text="Cancelar"
-      :active.sync="activePrompt"
+      :
+      class="vs-custom-width"
     >
       <div class="con-exemple-prompt">
-        <InstitutionsCreate
-          ref="InstitutionsCreate"
-          :isCreate="this.iscreated"
-          :countriesList="this.storeCountries"
-          :plansList="this.storePlans"
-          :institution="this.institution"
-          :idEdit="this.idEdit"
-          @close-modal="closeModal()"
-        />
+
       </div>
-    </vs-prompt>
+    </vs-prompt> -->
     <!-- Modal -->
 
     <!-- Modal -->
@@ -229,5 +233,9 @@ export default {
   display: flex;
   align-items: center;
   color: #567df4;
+}
+
+.vs-custom-width {
+  max-width: 650px !important;
 }
 </style>

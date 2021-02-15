@@ -50,9 +50,16 @@
                 </p>
               </vs-chip>
 
-          <div class="mb-2 p-1" v-if=" dataCollapseBody.assignmenttype.group_enabled ===1">
-            <ButtonDropDown :dataSelected="[]" :items="this.dataDropDown(dataCollapseBody)"></ButtonDropDown>
-          </div>
+              <div
+                class="mb-2 p-1"
+                v-if="dataCollapseBody.assignmenttype.group_enabled === 1"
+              >
+                <ButtonDropDown
+                  permission="['teacher']"
+                  :dataSelected="[]"
+                  :items="this.dataDropDown(dataCollapseBody)"
+                ></ButtonDropDown>
+              </div>
             </div>
           </div>
         </div>
@@ -60,40 +67,34 @@
     </div>
 
     <!-- START MODAL -->
-        <vs-prompt
-            @accept="saveGroup"
-            title="Armar Grupos"
-            cancel-text="Cancelar"
-            accept-text="Crear"
-            :active.sync="itemOne"
+    <vs-prompt
+      @accept="saveGroup"
+      title="Armar Grupos"
+      cancel-text="Cancelar"
+      accept-text="Crear"
+      :active.sync="itemOne"
+    >
+      <div class="" v-for="i in this.form.groupqty" :key="i">
+        <label class="typo__label">Grupo {{ i }}</label>
+        <multiselect
+          @select="addTagMultiSelect"
+          @remove="removeTagMultiSelect"
+          v-model="form.student_id[i]"
+          :options="dataStudentsList"
+          :multiple="true"
+          :close-on-select="false"
+          :clear-on-select="false"
+          :preserve-search="true"
+          :placeholder="'Asignar Alumnos ' + i"
+          label="name"
+          track-by="id"
+          selectLabel="Seleccionar"
+          deselectLabel="Quitar"
         >
-
-            <div
-                  class=""
-                  v-for="i in this.form.groupqty"
-                  :key="i"
-              >
-              <label class="typo__label">Grupo {{i}}</label>
-              <multiselect
-                  @select="addTagMultiSelect"
-                  @remove="removeTagMultiSelect"
-                  v-model="form.student_id[i]"
-                  :options="dataStudentsList"
-                  :multiple="true"
-                  :close-on-select="false"
-                  :clear-on-select="false"
-                  :preserve-search="true"
-                  :placeholder="'Asignar Alumnos ' + i"
-                  label="name"
-                  track-by="id"
-                  selectLabel="Seleccionar"
-                  deselectLabel="Quitar"
-                  >
-              </multiselect>
-              <br />
-          </div>
-        </vs-prompt>
-
+        </multiselect>
+        <br />
+      </div>
+    </vs-prompt>
   </div>
 </template>
 
