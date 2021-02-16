@@ -37,7 +37,7 @@
 <script>
 import InputTypping from '../components/Posts/InputTypping'
 import NewsCreate from './NewsCreate'
-import ListInformation from '../components/Posts/List'
+import ListInformation from '../components/Posts/ListNews'
 import { mapGetters } from 'vuex'
 import  moment  from 'moment'
 
@@ -52,7 +52,8 @@ export default {
     return {
       activePrompt: false,
       dataList: [],
-      description: ''
+      description: '',
+      baseUrl: process.env.VUE_APP_BASE_URL_STORAGE
     }
   },
   computed: {
@@ -69,7 +70,8 @@ export default {
           description: element.description,
           date:  this.formatDateTime(element.date),
           user: element.user.name,
-          image: element.user.image ? element.user.image : ''
+          image: element.user.image ? element.user.image : '',
+          url: element.file_news ? this.baseUrl + element.file_news.url : '#'
         })
       })
 

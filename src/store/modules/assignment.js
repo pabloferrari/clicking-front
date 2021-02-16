@@ -6,7 +6,8 @@ const state = {
   assignments: [],
   myAssignments: [],
   assignmentDetail: [],
-  assignmentFileTeacher: []
+  assignmentFileTeacher: [],
+  assignmentFileStudent: []
 }
 
 
@@ -16,6 +17,7 @@ const getters = {
   getMyAssignments: state => { return state.myAssignments },
   getAssignmentDetail: state => { return state.assignmentDetail },
   setAssignmentFileTeacher: state => { return state.assignmentFileTeacher },
+  setAssignmentFileStudent: state => { return state.assignmentFileStudent },
   getAssignmentsId: state => id => {
     return state.assignments.find(
       assignments => assignments.id === id
@@ -49,6 +51,9 @@ const mutations = {
   },
   setAssignmentFileTeacher (state, assignment) {
     state.assignmentFileTeacher = assignment
+  },
+  setAssignmentFileStudent (state, assignment) {
+    state.assignmentFileStudent = assignment
   }
 }
 
@@ -197,13 +202,38 @@ const actions = {
         commit('setAssignmentDetail', response.data)
       }).catch((err) => console.log(err))
   },
-  async getMyFileTeacherData ({ commit }, id) {
-    await AssignmentService.getAssignmentsFileTeacher(id)
+  async getMyFileTeacherData ({ commit }, { id, user_id }) {
+    await AssignmentService.getAssignmentsFileTeacher(id, user_id)
       .then((response) => {
         commit('setAssignmentFileTeacher', response.data)
       }).catch((err) => console.log(err))
-  }
+  },
+  async getMyFileStudentData ({ commit }, { id, user_id }) {
+    await AssignmentService.getAssignmentsFileStudent(id, user_id)
+      .then((response) => {
+        commit('setAssignmentFileStudent', response.data)
+      }).catch((err) => console.log(err))
+  },
+  deleteFileStudent ({ commit, state, dispatch }, { id, assignment_id, user_id}) {
+    return new Promise((resolve, reject) => {
+      AssignmentService.deleteFileStudent(id, assignment_id, user_id).then((response) => {
+        commit('setAssignmentFileStudent', response.data)
+        dispatch(
+          'notification/success',
+          {
+            title: 'Elimiando exitoso....',
+            text: 'se ha actualizado correctamente.'
+          },
+          { root: true })
+        resolve(response)
 
+      }).catch((err) => {
+        reject(err)
+        console.log(err)
+      })
+
+    })
+  }
 }
 
 

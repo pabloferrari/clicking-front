@@ -31,28 +31,38 @@
       </div>
     </div>
     <div class="w-full p-2">
-      <vs-button
-        color="primary"
-        size="small"
-        class="font-semibold btn-right"
-        icon="icon-plus"
-        icon-pack="feather"
-        type="border"
-        >Adjuntar</vs-button
-      >
+       <file-pond
+              name="file"
+              ref="file"
+              class-name="my-pond"
+              label-idle="Arrastrar y soltar aquí..."
+              allow-multiple="false"
+              max-files="1"
+              instant-upload="false"
+              v-on:updatefiles="handleFileUpload"
+            />
     </div>
   </div>
 </template>
 
 <script>
+
+import vueFilePond from 'vue-filepond'
+import 'filepond/dist/filepond.min.css'
+
+const FilePond = vueFilePond()
+
 export default {
   name:'CreateLibrary',
-
+  components: {
+    FilePond
+  },
   data () {
     return {
       form: {
         title: '',
-        article: ''
+        article: '',
+        file: []
       }
     }
   },
@@ -67,7 +77,17 @@ export default {
     create () {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          const payload = this.form
+          //const payload = this.form
+
+          const payload = new FormData()
+          payload.append('article', this.form.article)
+          payload.append('description', this.form.description)
+
+          for (let i = 0; i < this.form.file.length; i++) {
+            const file = this.form.file[i]
+            payload.append(`files[${i}]`, file)
+          }
+
           this.$store.dispatch(
             'library/createLibrary',
             payload
@@ -75,6 +95,9 @@ export default {
           this.closeModalClass()
         }
       })
+    },
+    handleFileUpload (files) {
+      this.form.file = files.map(files => files.file)
     }
   }
 

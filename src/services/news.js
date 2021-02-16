@@ -11,7 +11,7 @@ class NewsService {
     return service.get(`/${this.entity}/${id}`)
   }
   create (data) {
-    return service.post(`/${this.entity}`, data)
+    return service.post(`/${this.entity}`, data, { headers: { 'Content-Type': 'multipart/form-data', 'Access-Control-Allow-Origin': '*' } })
   }
   update (id, data) {
     return service.put(`/${this.entity}/${id}`, data)

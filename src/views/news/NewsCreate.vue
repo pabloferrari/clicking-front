@@ -41,17 +41,39 @@
       <div class="vx-col w-full mb-2">
         <vs-checkbox v-model="form.public">Publico</vs-checkbox>
       </div>
+      <div class="w-full p-2">
+        <label for="" class="vs-select--label">Adjuntar Imagen</label>
+       <file-pond
+              name="file"
+              ref="file"
+              class-name="my-pond"
+              label-idle="Arrastrar y soltar aquí..."
+              accepted-file-types="image/jpeg, image/png, image/jpg"
+              allow-multiple="false"
+              max-files="1"
+              instant-upload="false"
+              v-on:updatefiles="handleFileUpload"
+            />
+    </div>
+  </div>
     </div>
   </div>
 </template>
 
 <script>
+
+import vueFilePond from 'vue-filepond'
+import 'filepond/dist/filepond.min.css'
+
+const FilePond = vueFilePond()
+
 import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
 export default {
   name: 'NewsCreate',
   components: {
-    flatPickr
+    flatPickr,
+    FilePond
   },
   props: {
     description: String
@@ -63,7 +85,8 @@ export default {
         title: '',
         date: null,
         public:1,
-        description:''
+        description:'',
+        file: []
       },
       datetime: null,
 
@@ -81,16 +104,26 @@ export default {
       console.log(create)
 
     },
-
     create () {
       this.$validator.validateAll().then(result => {
         // console.log(result)
         if (result) {
-          const payload = Object.assign(
-            this.form, {
-              description: this.description
-            }
-          )
+          // const payload = Object.assign(
+          //   this.form, {
+          //     description: this.description
+          //   }
+          // )
+          const payload = new FormData()
+          payload.append('title', this.form.title)
+          payload.append('date', this.form.date)
+          payload.append('public', this.form.public)
+          payload.append('description', this.description)
+
+          for (let i = 0; i < this.form.file.length; i++) {
+            const file = this.form.file[i]
+            payload.append(`files[${i}]`, file)
+          }
+
           this.$store
             .dispatch('news/createNews', payload)
             .then(response => {
@@ -101,6 +134,9 @@ export default {
             })
         }
       })
+    },
+    handleFileUpload (files) {
+      this.form.file = files.map(files => files.file)
     }
   }
 }

@@ -84,7 +84,8 @@ export default {
         rows.push({
           title: element.article,
           description: element.description,
-          date:this.formatDateTime(element.created_at)
+          date:this.formatDateTime(element.created_at),
+          url: element.url
         })
       })
 

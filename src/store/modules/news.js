@@ -34,13 +34,14 @@ const mutations = {
 const actions = {
   createNews ({ commit, state, dispatch }, newData) {
     return new Promise((resolve, reject) => {
-      const newPayload = {
-        title: newData.title,
-        description: newData.description,
-        date: newData.date,
-        public: newData.public
-      }
-      NewsService.create(newPayload).then((response) => {
+      // const newPayload = {
+      //   title: newData.title,
+      //   description: newData.description,
+      //   date: newData.date,
+      //   public: newData.public,
+      //   files: newData.files
+      // }
+      NewsService.create(newData).then((response) => {
         const news = Object.assign([], state.news)
         news.push(response.data)
         commit('setNews', news)

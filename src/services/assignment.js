@@ -18,20 +18,26 @@ class AssignmentService {
   getAssignmentsDetail (id) {
     return service.get(`/${this.entity}/detail/${id}`)
   }
-  getAssignmentsFileTeacher (id) {
-    return service.get(`/${this.entity}/file-teacher/${id}`)
+  getAssignmentsFileTeacher (id, user_id) {
+    return service.get(`/${this.entity}/file-teacher/${id}/${user_id}`, { headers: { 'Content-Type': 'multipart/form-data', 'Access-Control-Allow-Origin': '*' } })
+  }
+  getAssignmentsFileStudent (id, user_id) {
+    return service.get(`/${this.entity}/file-student/${id}/${user_id}`, { headers: { 'Content-Type': 'multipart/form-data', 'Access-Control-Allow-Origin': '*' } })
   }
   create (data) {
     return service.post(`/${this.entity}`, data, { headers: { 'Content-Type': 'multipart/form-data', 'Access-Control-Allow-Origin': '*' } })
   }
   createAssignmentStudent (data) {
-    return service.post('/assignment-students', data)
+    return service.post('/assignment-students', data, { headers: { 'Content-Type': 'multipart/form-data', 'Access-Control-Allow-Origin': '*' }})
   }
   update (id, data) {
     return service.put(`/${this.entity}/${id}`, data, { headers: { 'Content-Type': 'multipart/form-data', 'Access-Control-Allow-Origin': '*' } })
   }
   delete (id) {
     return service.delete(`/${this.entity}/${id}`)
+  }
+  deleteFileStudent (id, assignment_id, user_id) {
+    return service.delete(`/${this.entity}/delete-file-student/${id}/${assignment_id}/${user_id}`)
   }
 }
 

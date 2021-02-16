@@ -72,12 +72,12 @@
                     </div>
 
                     <p>
-                      {{data.title}}
+                       {{ data.url.toUpperCase().split(".")[1]  }}
                     </p>
 
                     <br/>
                     <div class="text-left">
-                      <a :href="baseUrl + data.url" target="__blank">Ver</a>
+                      <a :href="baseUrl + data.url" target="__blank">Ver {{ data.url.toUpperCase().split(".")[1]  }}</a>
 
                     </div>
                   </div>
@@ -96,16 +96,21 @@
           <!-- List Card Student-->
           <vx-card>
             <h2 class="font-bold text-title pb-4">Trabajo</h2>
-            <div class="" v-for="(data, index) in documentData" :key="index">
-              <AttachDocumentList
+            <div class="" v-for="(data, index) in documentDataStudent" :key="index" >
+              <AttachDocumentCustomList
                 :dataAttach="data"
                 :displayIcon="false"
                 :displayRemove="true"
+                v-on:student-file-id="getFileStudentId"
               >
-              </AttachDocumentList>
+              </AttachDocumentCustomList>
+               <!-- <div class="text-left">
+                  <a :href="baseUrl + data.url" target="__blank">Ver</a>
+
+                </div> -->
             </div>
 
-            <div class="vx-col w-full">
+            <div class="vx-col w-full" v-permission="['student']">
               <file-pond
                   name="file"
                   ref="file"
@@ -354,6 +359,7 @@ import CheckAssignmentIcon from '../components/icons/CheckAssignmentIcon'
 import ListInformation from '../components/Posts/List'
 import moment from 'moment'
 import AttachDocumentList from '../components/SectionAttach/AttachDocumentList'
+import AttachDocumentCustomList from '../components/SectionAttach/AttachDocumentCustomList'
 import ButtonCardAction from '../components/Buttons/ButtonCardAction'
 import CardAvatar from '../components/Avatars/CardAvatar'
 import { mapGetters } from 'vuex'
@@ -379,6 +385,7 @@ export default {
     PencilAssignmentlIcon,
     CheckAssignmentIcon,
     AttachDocumentList,
+    AttachDocumentCustomList,
     ButtonCardAction,
     ButtonDropDown,
     ListInformation,
@@ -411,7 +418,7 @@ export default {
       // commentResponse: '',
       assignment: [],
       titleAssignment: 'Titulo Asignacion',
-      documentData: [],
+      documentDataStudent: [],
       documentDataTeacher: []
     }
   },
@@ -419,7 +426,8 @@ export default {
     ...mapGetters({
       storeAssignment: 'assignment/getAssignmentDetail',
       storeComments: 'comment/getCommentsAssignment',
-      storeFileTeacher: 'assignment/setAssignmentFileTeacher'
+      storeFileTeacher: 'assignment/setAssignmentFileTeacher',
+      storeFileStudent: 'assignment/setAssignmentFileStudent'
       // storeComment: 'comment/getComments'
     }),
 
@@ -456,10 +464,17 @@ export default {
 
     },
     storeFileTeacher (data) {
-      this.assignment = {}
+      this.documentDataTeacher = {}
 
       if (data) {
         this.documentDataTeacher = data
+      }
+    },
+    storeFileStudent (data) {
+      this.documentDataStudent = {}
+
+      if (data) {
+        this.documentDataStudent = data
       }
     },
     storeComments (comments) {
@@ -482,10 +497,33 @@ export default {
     }
   },
   methods: {
+    getFileStudentId (id) {
+      // console.log('return id hijo', id)
+      this.setDeleteFileStudent(id)
+    },
+    setDeleteFileStudent (id) {
+
+      const payload = {
+        id,
+        assignment_id: this.id,
+        user_id: this.userId // students
+      }
+
+      this.$store
+        .dispatch('assignment/deleteFileStudent', payload)
+        .then(response => {
+          console.log(response)
+          //this.$emit('close-modal')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     handleFileUpload (files) {
       this.file = files.map(files => files.file)
     },
     activeCard ({ classroomstudents }) {
+      this.commentId = ''
       this.activeCommentAssignment = true
       const params = {
         id: this.id,
@@ -495,6 +533,7 @@ export default {
       this.activeClassCard = params.userId
       this.userStudentId = params.userId.toString()
       this.$store.dispatch('comment/getCommentByAssignmentData', params)
+      this.getFileStudent(this.userStudentId)
     },
     itemsDropdown () {
       return [
@@ -570,6 +609,9 @@ export default {
       payload.append('assignment_id', this.id)
       payload.append('classroom_student_id', classroomstudents.id)
       payload.append('assignment_status_id', 2)
+      //payload.append('user_id', '')
+
+      //console.log('this.file ', this.file)
 
       for (let i = 0; i < this.file.length; i++) {
         const file = this.file[i]
@@ -600,7 +642,19 @@ export default {
       this.$store.dispatch('assignment/getMyAssignmentsDetailData', this.id)
     },
     getFileTeacher () {
-      this.$store.dispatch('assignment/getMyFileTeacherData', this.id)
+
+      const payload = {
+        id: this.id,
+        user_id: this.assignment.user_id
+      }
+      this.$store.dispatch('assignment/getMyFileTeacherData', payload)
+    },
+    getFileStudent (userId) {
+      const payload = {
+        id: this.id,
+        user_id: userId ? userId : this.userId
+      }
+      this.$store.dispatch('assignment/getMyFileStudentData', payload)
     },
     getCommentsAssignment () {
       // console.log(this.assignment)
@@ -631,10 +685,12 @@ export default {
     }
   },
   mounted () {
-
     this.getAssignment()
     this.getCommentsAssignment()
     this.getFileTeacher()
+    if (this.$store.state.auth.authUser.roles[0].slug === 'student') {
+      this.getFileStudent()
+    }
   }
 }
 </script>
@@ -671,7 +727,36 @@ export default {
 .text-title {
   color: #22215b;
 }
-div .border-gray{
+/* div .border-gray{
   border: 1px solid #9f9c9c8c;
+} */
+div .border-gray{
+  width: 100px;
+  height: 100px;
+  left: 339px;
+  top: 506px;
+
+  /* White */
+  background: #FFFFFF;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 30px;
+}
+div .border-gray p {
+  position: relative;
+  float: right;
+  margin-right: 10px;
+
+  font-family: Gilroy;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 140.1%;
+  /* or 20px */
+  color: rgba(34, 33, 91, 0.6);
+}
+div .border-gray a {
+  margin-top: 20px;
+  text-align: center;
+  display: block;
 }
 </style>
