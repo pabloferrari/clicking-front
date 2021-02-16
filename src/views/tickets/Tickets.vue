@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    
+
     <div class="flex">
       <div class="w-full">
         <vs-textarea
@@ -48,9 +48,9 @@
             ref="dataTable"
         >
         </DataTable>
-        
+
     </div>
-    
+
   </div>
 </template>
 
@@ -116,7 +116,14 @@ export default {
   },
   methods: {
     getTickets () {
-      this.$store.dispatch('tickets/getTickets')
+
+      const { roles } = this.$store.state.auth.authUser
+      const role = roles[0]
+      if (role && (role.id == 1 || role.id == 2)) {
+        this.$store.dispatch('tickets/getTickets')
+      } else {
+        console.log(`Role: ${role.name}`)
+      }
     },
     formatDateTime (datetime) {
       if (!datetime) {
