@@ -71,7 +71,7 @@ export default {
           date:  this.formatDateTime(element.date),
           user: element.user.name,
           image: element.user.image ? element.user.image : '',
-          url: element.file_news ? this.baseUrl + element.file_news.url : '#'
+          url: element.file_news ? element.file_news.url : '#'
         })
       })
 
