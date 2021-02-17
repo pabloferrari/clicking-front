@@ -1,16 +1,15 @@
 <template>
   <div>
-    {{ eventTypes }}
 
-    <div class="vx-col w-1/3 items-center sm:flex hidden">
+    <div class="vx-col w-1/6 items-center sm:flex hidden">
       <vs-button icon-pack="feather" icon="icon-plus" @click="promptAddNewEvent(new Date())">Add</vs-button>
     </div>
-    
-    <full-calendar 
-      :events="events" 
+
+    <full-calendar
+      :events="events"
       :config="config"
     ></full-calendar>
-  
+
 
     <vs-prompt
       class="calendar-event-dialog"
@@ -21,7 +20,7 @@
       :active.sync="activePromptAddEvent">
 
       <div class="calendar__label-container flex">
-        
+
         <vs-chip v-if="labelLocal != 0" class="text-white" :style="`background-color: ${labelGetColor(labelLocal)};`">{{ labelGetName(labelLocal) }}</vs-chip>
 
         <vs-dropdown vs-custom-content vs-trigger-click class="ml-auto my-2 cursor-pointer">
@@ -47,7 +46,7 @@
       </div>
       <vs-input name="event-url" v-validate="'url'" class="w-full mt-6" label-placeholder="Event URL" v-model="url" :color="!errors.has('event-url') ? 'success' : 'danger'"></vs-input>
     </vs-prompt>
-  
+
   </div>
 </template>
 
@@ -76,13 +75,13 @@ export default {
       eventTypes: [],
       // PROPS FROM CALLENDAR
       labelLocal: 0,
-      activePromptAddEvent: true,
+      activePromptAddEvent: false,
       title: '',
       startDate: new Date(),
       endDate: new Date(),
-      url: 'https://pabloferrari.co',
+      url: 'https://meet.google.com',
       disabledFrom: false
-     
+
     }
   },
   computed: {
@@ -103,7 +102,7 @@ export default {
       // obj.classes = `event-${  this.labelColor(this.labelLocal)}`
       // this.$store.dispatch('calendar/addEvent', obj)
     },
-    
+
     clearFields () {
       this.title = this.endDate = this.url = ''
       this.id = 0

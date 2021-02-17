@@ -4,7 +4,9 @@
       <p class="primary">Hola, {{ activeUserInfo.name }}!</p>
     </div>
 
-    <calendar></calendar>
+    <div class="vx-col w-3/5 ">
+      <calendar></calendar>
+    </div>
     <!-- <div class="donuts__chart">
       <DonutsChart></DonutsChart>
     </div> -->
@@ -25,9 +27,9 @@ export default {
   },
   data () {
     return {
-      
+
     }
-    
+
   },
   computed: {
     activeUserInfo () {
