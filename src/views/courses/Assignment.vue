@@ -77,7 +77,7 @@
 
                     <br/>
                     <div class="text-left">
-                      <a :href="baseUrl + data.url" target="__blank">Ver {{ data.url.toUpperCase().split(".")[1]  }}</a>
+                      <a :href="data.url" target="__blank">Ver Tarea</a>
 
                     </div>
                   </div>
