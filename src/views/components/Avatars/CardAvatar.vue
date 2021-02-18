@@ -1,5 +1,5 @@
 <template>
-  <div class="student-list-card " @click="onActiveCard">
+  <div class="student-list-card" @click="onActiveCard">
     <vs-avatar
       class="student-list-avatar"
       size="large"
@@ -7,6 +7,16 @@
     />
     <div class="student-list-name">
       {{ name }}
+      <!-- <div class="text-right"> -->
+      <!-- </div> -->
+      <div class="flex justify-end text-status">
+        <small
+          :class="
+            'text-right text-status ' + this.colorStatus(idAssignmentStatus)
+          "
+          >{{ nameStatus }}</small
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -17,11 +27,30 @@ export default {
   props: {
     cardsStudent: [],
     name: String,
-    avatar: String
+    avatar: String,
+    nameStatus: String,
+    idAssignmentStatus:Number
   },
   methods: {
     imageEmpty (image) {
       return image === null ? image : ''
+    },
+    colorStatus(id) {
+      console.log(id)
+      switch(id)  {
+        case 1:
+          return 'text-danger'
+          break
+        case 2:
+          return 'text-primary'
+          break
+        case 3:
+          return 'text-success'
+          break
+          case 4:
+            return 'text-purple'
+            break
+      }
     },
     onActiveCard () {
       this.$emit('active-card')
@@ -57,6 +86,10 @@ export default {
   font-style: normal;
   font-weight: 800;
   font-size: 20px;
+  width: 70%;
   line-height: 25px;
+}
+.text-status {
+  margin-top: -0.9rem;
 }
 </style>

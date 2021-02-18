@@ -65,28 +65,25 @@
                   <!-- Cards -->
                   <div
                     class="bg-white p-2 rounded-2xl md:w-1/5 sm:w-1/5 lg:w-1/5 m-2 border-gray"
-                    v-for="(data, index) in documentDataTeacher" :key="index"
+                    v-for="(data, index) in documentDataTeacher"
+                    :key="index"
                   >
                     <div class="text-right">
-                      <strong>{{data.type}}</strong>
+                      <strong>{{ data.type }}</strong>
                     </div>
 
                     <p>
-                       {{ data.url.toUpperCase().split(".")[1]  }}
+                      {{ data.url.toUpperCase().split(".")[1] }}
                     </p>
 
-                    <br/>
+                    <br />
                     <div class="text-left">
                       <a :href="data.url" target="__blank">Ver Tarea</a>
-
                     </div>
                   </div>
-
                 </div>
               </div>
-
             </div>
-
           </vx-card>
         </div>
       </div>
@@ -96,7 +93,11 @@
           <!-- List Card Student-->
           <vx-card>
             <h2 class="font-bold text-title pb-4">Trabajo</h2>
-            <div class="" v-for="(data, index) in documentDataStudent" :key="index" >
+            <div
+              class=""
+              v-for="(data, index) in documentDataStudent"
+              :key="index"
+            >
               <AttachDocumentCustomList
                 :dataAttach="data"
                 :displayIcon="false"
@@ -104,7 +105,7 @@
                 v-on:student-file-id="getFileStudentId"
               >
               </AttachDocumentCustomList>
-               <!-- <div class="text-left">
+              <!-- <div class="text-left">
                   <a :href="baseUrl + data.url" target="__blank">Ver</a>
 
                 </div> -->
@@ -112,14 +113,14 @@
 
             <div class="vx-col w-full" v-permission="['student']">
               <file-pond
-                  name="file"
-                  ref="file"
-                  class-name="my-pond"
-                  label-idle="Arrastrar y soltar aquí..."
-                  allow-multiple="true"
-                  instant-upload="false"
-                  v-on:updatefiles="handleFileUpload"
-                />
+                name="file"
+                ref="file"
+                class-name="my-pond"
+                label-idle="Arrastrar y soltar aquí..."
+                allow-multiple="true"
+                instant-upload="false"
+                v-on:updatefiles="handleFileUpload"
+              />
             </div>
 
             <ButtonCardAction
@@ -220,6 +221,8 @@
         >
           <div v-if="student.assignmentstatus.id == 3">
             <CardAvatar
+              :nameStatus="student.assignmentstatus.name"
+              :idAssignmentStatus="student.assignmentstatus.id"
               :class="
                 student.classroomstudents.student.user.id == activeClassCard
                   ? 'active-card'
@@ -252,7 +255,12 @@
               @active-card="activeCard(student)"
               class="active-card-assig"
               :name="student.classroomstudents.student.name"
-              v-if="student.assignmentstatus.id == 1"
+              :nameStatus="student.assignmentstatus.name"
+              :idAssignmentStatus="student.assignmentstatus.id"
+              v-if="
+                student.assignmentstatus.id === 1 ||
+                student.assignmentstatus.id === 2
+              "
               :avatar="student.classroomstudents.student.user.image"
             ></CardAvatar>
           </div>
@@ -336,13 +344,24 @@
           <vs-select
             label="Reasignar a"
             class="mt-5 w-full"
-            name="item-plan"
+            name="Reasignar"
+            v-model="studentCorrectId"
             v-validate="'required'"
+            :danger="errors.has('Reasignar')"
           >
-            <!-- <vs-select-item key="" value="" text="seleccione plan" /> -->
-            <vs-select-item value="1" text="todos los estudiantes" />
+            <vs-select-item key="" value="" text="seleccione un estudiante" />
+            <vs-select-item
+              v-for="(student, index) in this.studentCorrect"
+              :key="index"
+              :value="student.classroomstudents.id"
+              :text="student.classroomstudents.student.name"
+            />
           </vs-select>
         </div>
+
+        <span class="text-danger text-sm" v-show="errors.has('Reasignar')">{{
+          errors.first("Reasignar")
+        }}</span>
       </div>
     </vs-prompt>
     <!-- / Dialog Modal Button ReAsign -->
@@ -400,9 +419,11 @@ export default {
       baseUrl: process.env.VUE_APP_BASE_URL_STORAGE,
       correct: false,
       acceptDelete: false,
-      correctReAsign: false,
+
+      studentCorrectId: '',
       // acceptGiveBack: false,
       dataList: [],
+      studentCorrect: [],
       file: [],
       commentId: '',
       userStudentId: '',
@@ -444,13 +465,12 @@ export default {
     }
   },
   watch: {
-    // storeComment (data) {
-    //   console.log(data)
-    // },
+
     storeAssignment (data) {
       this.assignment = {}
       // console.log(data.assignment)
       if (data) {
+        this.studentCorrect = data.studentsassignment.filter((e) => e.assignmentstatus.id ===3)
         this.assignment = {
           title: data.assignment.title,
           limitDate: this.formatDateTime(data.assignment.limit_date),
@@ -522,7 +542,8 @@ export default {
     handleFileUpload (files) {
       this.file = files.map(files => files.file)
     },
-    activeCard ({ classroomstudents }) {
+    activeCard ({ classroomstudents,assignmentstatus }) {
+      console.log(classroomstudents,assignmentstatus)
       this.commentId = ''
       this.activeCommentAssignment = true
       const params = {
@@ -595,6 +616,30 @@ export default {
           console.log(err)
         })
     },
+    correctReAsign () {
+      this.$validator.validateAll().then(result => {
+
+        if (result) {
+          const payload = {
+            score: 0,
+            assignment_id: this.id,
+            classroom_student_id: this.studentCorrectId,
+            assignment_status_id:1
+          }
+        this.$store
+          .dispatch('assignment/createAssignmentStudent', payload)
+          .then(response => {
+            console.log(response)
+            //this.$emit('close-modal')
+          })
+          .catch(err => {
+
+            console.log(err)
+          })
+        }
+      })
+
+    },
     acceptDeliver () {
       const {classroomstudents} = this.assignment.students.find((element) => element.classroomstudents.student.user.id === this.userId)
       // const payload = {
@@ -619,7 +664,7 @@ export default {
       }
 
       this.$store
-        .dispatch('assignment/createAssignmentStudent', payload)
+        .dispatch('assignment/createAssignmentStudentMultipartForm', payload)
         .then(response => {
           if (response) {
             this.$router.push('/courses')
@@ -730,14 +775,14 @@ export default {
 /* div .border-gray{
   border: 1px solid #9f9c9c8c;
 } */
-div .border-gray{
+div .border-gray {
   width: 100px;
   height: 100px;
   left: 339px;
   top: 506px;
 
   /* White */
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
 }

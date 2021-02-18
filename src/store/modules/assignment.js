@@ -27,13 +27,13 @@ const getters = {
 
 
 const mutations = {
-  setAssignments (state, assignments) {
+  setAssignments(state, assignments) {
     state.assignments = assignments
   },
-  setAssignment (state, assignment) {
+  setAssignment(state, assignment) {
     state.assignment = assignment
   },
-  updatedAssignment (state, assignment) {
+  updatedAssignment(state, assignment) {
     const assignmentClone = Object.assign([], state.assignments)
     const newAssignment = assignmentClone.map((e) => {
       if (e.id === assignment.classId) {
@@ -43,22 +43,22 @@ const mutations = {
     })
     state.assignments = newAssignment
   },
-  setMyAssignments (state, myAssignments) {
+  setMyAssignments(state, myAssignments) {
     state.myAssignments = myAssignments
   },
-  setAssignmentDetail (state, assignmentDetail) {
+  setAssignmentDetail(state, assignmentDetail) {
     state.assignmentDetail = assignmentDetail
   },
-  setAssignmentFileTeacher (state, assignment) {
+  setAssignmentFileTeacher(state, assignment) {
     state.assignmentFileTeacher = assignment
   },
-  setAssignmentFileStudent (state, assignment) {
+  setAssignmentFileStudent(state, assignment) {
     state.assignmentFileStudent = assignment
   }
 }
 
 const actions = {
-  async createAssignment ({ commit, dispatch }, assignment) {
+  async createAssignment({ commit, dispatch }, assignment) {
     const newAssignment = {
       title: assignment.titleTask,
       description: assignment.description,
@@ -119,7 +119,26 @@ const actions = {
       }).catch((err) => console.log(err))
   },
 
-  createAssignmentStudent ({ commit, state, dispatch }, assignmentStudent) {
+  createAssignmentStudent({ commit, state, dispatch }, assignmentStudent) {
+    return new Promise((resolve, reject) => {
+      AssignmentService.createAssignmentStudentJson(assignmentStudent).then((response) => {
+        commit('setAssignmentDetail', response.data)
+        dispatch(
+          'notification/success',
+          {
+            title: 'Guardado exitoso....',
+            text: 'se ha actualizado correctamente.'
+          },
+          { root: true })
+        resolve(response)
+      }).catch((err) => {
+        reject(err)
+        console.log(err)
+      })
+
+    })
+  },
+  createAssignmentStudentMultipartForm({ commit, state, dispatch }, assignmentStudent) {
     return new Promise((resolve, reject) => {
       AssignmentService.createAssignmentStudent(assignmentStudent).then((response) => {
         commit('setAssignmentDetail', response.data)
@@ -138,7 +157,7 @@ const actions = {
 
     })
   },
-  deleteAssignment ({ commit, state, dispatch }, id) {
+  deleteAssignment({ commit, state, dispatch }, id) {
     return new Promise((resolve, reject) => {
       AssignmentService.delete(id).then((response) => {
         // commit('setAssignmentDetail', response.data)
@@ -159,7 +178,7 @@ const actions = {
     })
   },
 
-  async createCourseClass ({ commit, state, dispatch }, courseClass) {
+  async createCourseClass({ commit, state, dispatch }, courseClass) {
     await CourseClassService.create(courseClass)
       .then((response) => {
         const assignments = Object.assign([], state.assignments)
@@ -177,44 +196,44 @@ const actions = {
 
   },
 
-  async getAssignmentsByCourseData ({ commit }, id) {
+  async getAssignmentsByCourseData({ commit }, id) {
     await AssignmentService.getAssignmentsByCourse(id)
       .then((response) => {
         commit('setAssignments', response.data)
       }).catch((err) => console.log(err))
   },
-  async getAssignmentsById ({ commit }, id) {
+  async getAssignmentsById({ commit }, id) {
     await AssignmentService.get(id)
       .then((response) => {
         commit('setAssignment', response.data)
       }).catch((err) => console.log(err))
   },
-  async getMyAssignmentsData ({ commit }, { id, status }) {
+  async getMyAssignmentsData({ commit }, { id, status }) {
     // console.log(params)
     await AssignmentService.getMyAssignments(id, status)
       .then((response) => {
         commit('setMyAssignments', response.data)
       }).catch((err) => console.log(err))
   },
-  async getMyAssignmentsDetailData ({ commit }, id) {
+  async getMyAssignmentsDetailData({ commit }, id) {
     await AssignmentService.getAssignmentsDetail(id)
       .then((response) => {
         commit('setAssignmentDetail', response.data)
       }).catch((err) => console.log(err))
   },
-  async getMyFileTeacherData ({ commit }, { id, user_id }) {
+  async getMyFileTeacherData({ commit }, { id, user_id }) {
     await AssignmentService.getAssignmentsFileTeacher(id, user_id)
       .then((response) => {
         commit('setAssignmentFileTeacher', response.data)
       }).catch((err) => console.log(err))
   },
-  async getMyFileStudentData ({ commit }, { id, user_id }) {
+  async getMyFileStudentData({ commit }, { id, user_id }) {
     await AssignmentService.getAssignmentsFileStudent(id, user_id)
       .then((response) => {
         commit('setAssignmentFileStudent', response.data)
       }).catch((err) => console.log(err))
   },
-  deleteFileStudent ({ commit, state, dispatch }, { id, assignment_id, user_id}) {
+  deleteFileStudent({ commit, state, dispatch }, { id, assignment_id, user_id }) {
     return new Promise((resolve, reject) => {
       AssignmentService.deleteFileStudent(id, assignment_id, user_id).then((response) => {
         commit('setAssignmentFileStudent', response.data)
