@@ -1,7 +1,7 @@
 <template>
   <div class="flex backgroud-internal my-3">
     <div class="w-1/12 m-16">
-      <a title="Clic para ver" :href="baseUrl + data.url" target="__blank"> <strong class="p-5 text-title">{{ data.url.toUpperCase().split(".")[1]  }} </strong> </a>
+      <a title="Clic para ver" :href="data.url" target="__blank"> <strong class="p-5 text-title">VER</strong> </a>
     </div>
     <div class="w-full">
       <p class="ml-1 pt-4 text-title">

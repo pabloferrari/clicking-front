@@ -33,7 +33,7 @@
         </div>
         <div class="grid justify-items-end">
           <div class="w-2/6 p-4">
-            <div class="rounded-full h-10 p-4" @click="handleRouter(data.id)">
+            <div class="rounded-full h-10 p-4" style="cursor: pointer;" @click="handleRouter(data.id)">
               <vs-chip class="bg-white" >
                 <feather-icon
                   :icon="this.parseStatus(data.typeStatusId)"
