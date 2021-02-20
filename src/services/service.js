@@ -25,7 +25,9 @@ const errorInterceptor = async (error) => {
       break
 
     case 401:
-      store.dispatch('notification/danger', {title: 'Por favor inicie sesion nuvamente', text: 'ha expirado la sesion'})
+      const titleAuth = error.response.data && error.response.data.message == 'email or password incorrect' ? 'Email y/o contraseña incorrecta' : 'Por favor inicie sesion nuvamente';
+      const textAuth = error.response.data && error.response.data.message == 'email or password incorrect' ? 'Verifique los datos ingresados' : 'Por favor inicie sesion nuvamente';
+      store.dispatch('notification/danger', { title: titleAuth, text: textAuth })
       localStorage.removeItem('token')
       localStorage.removeItem('userAuth')
       router.push('/pages/login')
