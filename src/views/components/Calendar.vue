@@ -18,6 +18,7 @@
       :is-valid="validForm"
       :active.sync="activePromptAddEvent">
 
+      {{ guestsFinder }}
       <div class="calendar__label-container flex">
 
         <vs-chip v-if="labelLocal != 0" class="text-white" :style="`background-color: ${eventTypeColor};`">{{ eventTypeName }}</vs-chip>
@@ -64,6 +65,8 @@
       <vs-input name="external_link" class="w-full mt-6" label-placeholder="URL" v-model="form.external_link" :color="!errors.has('event-url') ? 'success' : 'danger'"></vs-input>
       
       <vs-input name="notes" class="w-full mt-6" label-placeholder="Notas" v-model="form.notes" :color="!errors.has('event-url') ? 'success' : 'danger'"></vs-input>
+
+      <vs-input name="guestsFinder" class="w-full mt-6" label-placeholder="Invitados" @input="findGuests" v-model="guestsFinder"></vs-input>
 
     </vs-prompt>
 
@@ -166,13 +169,16 @@ export default {
       },
       eventTypeColor: '',
       eventTypeName: '',
-      currentEvent: {}
+      currentEvent: {},
+      guestsFinder: "",
+      guestsList: []
     }
   },
   computed: {
     ...mapGetters({
       storeEvents: 'calendar/getEvents',
-      storeEventTypes: 'calendar/getEventTypes'
+      storeEventTypes: 'calendar/getEventTypes',
+      storeUserList: 'calendar/getUsers',
     }),
     validForm () {
       return this.form.title !== '' && this.form.start_date !== '' && this.form.end_date !== '' && Date.parse(this.parseDate(this.form.end_date)) - Date.parse(this.parseDate(this.form.start_date)) >= 0 && this.form.event_type_id != 0
@@ -239,6 +245,12 @@ export default {
     promptShowEvent () {
       console.log(this.currentEvent);
       this.activePromptShowEvent = true
+    },
+
+    findGuests() {
+
+      console.log('findGuests');
+      this.$store.dispatch('calendar/getUsers', this.guestsFinder);
     },
 
     addNewEventDialog (date) {
@@ -338,7 +350,15 @@ export default {
         rows.push(newRow)
       })
       this.events = rows
-    }
+    },
+    storeUserList (data) {
+      const rows = []
+      data.map(element => {
+        console.log(`user`, element);
+        rows.push(element)
+      })
+      this.guestsList = rows
+    },
   },
   mounted () {
     this.getCalendarTypes()

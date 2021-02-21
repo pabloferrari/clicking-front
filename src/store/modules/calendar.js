@@ -6,7 +6,8 @@ const state = {
   eventTypes: [],
     
   // Simple Calendar State
-  events: []
+  events: [],
+  userList: []
 }
   
 
@@ -17,6 +18,10 @@ const getters = {
   },
   getEventTypes: (state) => {
     return state.eventTypes
+  },
+
+  getUsers: (state) => {
+    return state.userList
   }
 }
 
@@ -42,22 +47,17 @@ const mutations = {
     state.events = newsData
   },
 
-  setEventTypes (state, labels) {
-    state.eventTypes = labels
+  setEventTypes (state, eventTypes) {
+    state.eventTypes = eventTypes
+  },
+
+  setUserList (state, users) {
+    state.userList = users
   }
 }
 
 const actions = {
-  // addEvent ({ commit }, event) {
-  //     return new Promise((resolve, reject) => {
-  //       axios.post('/api/apps/calendar/events/', {event})
-  //         .then((response) => {
-  //           commit('ADD_EVENT', Object.assign(event, {id: response.data.id}))
-  //           resolve(response)
-  //         })
-  //         .catch((error) => { reject(error) })
-  //     })
-  // },
+  
   addEvent ({ commit, state, dispatch }, event) {
     EventService.create(event)
       .then((response) => {
@@ -155,6 +155,15 @@ const actions = {
     try {
       const events = await EventService.getAll()
       commit('setEvents', events.data)
+    } catch (error) {
+      console.log(error)
+    }
+  },
+
+  async getUsers ({ commit }, filter) {
+    try {
+      const users = await EventService.findUser(filter)
+      commit('setUserList', users)
     } catch (error) {
       console.log(error)
     }
