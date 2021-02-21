@@ -2,7 +2,7 @@
   <div>
 
     <div class="vx-col w-1/6 items-center sm:flex hidden">
-      <vs-button icon-pack="feather" icon="icon-plus" @click="promptAddNewEvent(new Date())">Add</vs-button>
+      <vs-button size="small" icon-pack="feather" @click="promptAddNewEvent(new Date())">Crear Evento</vs-button>
     </div>
 
     <full-calendar
@@ -67,6 +67,49 @@
 
     </vs-prompt>
 
+    <vs-prompt
+      class="calendar-event-dialog"
+      :title="currentEvent.title"
+      v-if="activePromptShowEvent"
+      :active.sync="activePromptShowEvent">
+
+      <div class="calendar__label-container flex">
+        <vs-chip class="text-white" :style="`background-color: ${currentEvent.type.color};`">{{ currentEvent.type.name }}</vs-chip>
+      </div>
+
+      <div class="my-4">
+        
+        <flat-pickr
+          class="w-full"
+          :config="configdateTimePicker"
+          v-model="form.start_date"
+          placeholder="Fecha Inicio"
+          name="Fecha Inicio"
+          v-validate="'required'"
+          :danger="errors.has('Fecha Inicio')"
+        />
+        
+      </div>
+      <div class="my-4">
+        
+        <flat-pickr
+          class="w-full"
+          :config="configdateTimePicker"
+          v-model="form.end_date"
+          placeholder="Fecha Final"
+          name="Fecha Final"
+          v-validate="'required'"
+          :danger="errors.has('Fecha Final')"
+        />
+        
+      </div>
+      <vs-input name="external_link" class="w-full mt-6" label-placeholder="URL" v-model="form.external_link" :color="!errors.has('event-url') ? 'success' : 'danger'"></vs-input>
+      
+      <vs-input name="notes" class="w-full mt-6" label-placeholder="Notas" v-model="form.notes" :color="!errors.has('event-url') ? 'success' : 'danger'"></vs-input>
+
+      <h3>Invitados</h3>
+    </vs-prompt>
+
   </div>
 </template>
 
@@ -91,18 +134,21 @@ export default {
     flatPickr
   },
   data () {
-
     const now = new Date();
     return {
       events: [],
       config: {
-        locale: 'es'
+        locale: 'es',
+        slotMinTime: "07:00:00",
+        scrollTime: "07:00:00",
+        eventClick: this.eventClick
       },
       es,
       eventTypes: [],
       // PROPS FROM CALLENDAR
       labelLocal: 0,
       activePromptAddEvent: false,
+      activePromptShowEvent: false,
       disabledFrom: false,
       configdateTimePicker: {
         enableTime: true,
@@ -119,7 +165,8 @@ export default {
         
       },
       eventTypeColor: '',
-      eventTypeName: ''
+      eventTypeName: '',
+      currentEvent: {}
     }
   },
   computed: {
@@ -128,23 +175,14 @@ export default {
       storeEventTypes: 'calendar/getEventTypes'
     }),
     validForm () {
-
-      console.log('title ', this.form.title !== '')
-      console.log('start_date ', this.form.start_date !== '', this.form.start_date, this.dateToDateTime(this.parseDate(this.form.start_date)))
-      console.log('end_date ', this.form.end_date !== '', this.form.end_date, this.dateToDateTime(this.parseDate(this.form.end_date)))
-      console.log('diff ', Date.parse(this.form.start_date) - Date.parse(this.form.end_date) >= 0, (Date.parse(this.form.start_date) - Date.parse(this.form.end_date)))
-      
-      return this.form.title !== ''   
-        && this.form.start_date !== '' 
-        && this.form.end_date !== '' 
-        && Date.parse(this.parseDate(this.form.end_date)) - Date.parse(this.parseDate(this.form.start_date)) >= 0 
-        && this.form.event_type_id != 0
+      return this.form.title !== '' && this.form.start_date !== '' && this.form.end_date !== '' && Date.parse(this.parseDate(this.form.end_date)) - Date.parse(this.parseDate(this.form.start_date)) >= 0 && this.form.event_type_id != 0
     },
     disabledDatesTo () {
       return { to: new Date(this.startDate) }
     }
   },
   methods: {
+    
     parseDate(date) {
       // this function has to return format Y-m-d H:i
       const isValid = new Date(date);
@@ -156,44 +194,65 @@ export default {
       return new Date(`${dmy[2]}-${dmy[1]}-${dmy[0]} ${hours}`);
 
     },
+
     dateToDateTime(date) {
+      // this function parse it the Javascript Date to DATETIME
       return `${date.getFullYear()}-${this.parseNumber(date.getMonth()+1)}-${this.parseNumber(date.getDate())} ${this.parseNumber(date.getHours())}:${this.parseNumber(date.getMinutes())}`;
     },
+    
     parseNumber(num) {
       return num < 10 ? `0${num}` : `${num}`;
     },
+    
     setEventType(eventType) {
       this.eventTypeColor = eventType.color;
       this.eventTypeName = eventType.name;
       this.labelLocal = eventType.id;
       this.form.event_type_id = eventType.id;
     },
+    
     addEvent () {
-      const obj = { title: this.form.title, event_type: this.form.event_type_id, start_date: this.dateToDateTime(this.parseDate(this.form.start_date)), end_date: this.dateToDateTime(this.parseDate(this.form.end_date)), external_link: this.form.external_link, notes: this.form.notes }
-      console.log(`New Event -> ${JSON.stringify(obj)}`);
-      // obj.classes = `event-${  this.labelColor(this.labelLocal)}`
-      // this.$store.dispatch('calendar/addEvent', obj)
+      const payload = { title: this.form.title, event_type: this.form.event_type_id, start_date: this.dateToDateTime(this.parseDate(this.form.start_date)), end_date: this.dateToDateTime(this.parseDate(this.form.end_date)), external_link: this.form.external_link, notes: this.form.notes }
+      this.$store.dispatch('calendar/addEvent', payload);
+      this.clearFields()
+    },
+
+    eventClick(event) {
+      console.log(event);
+      const currentEvent = this.events.filter(e => e.id == event.id);
+      this.currentEvent = currentEvent[0].data;
+      console.log(`Current -> ${JSON.stringify(currentEvent[0])}`);
+      this.promptShowEvent()
     },
 
     clearFields () {
-      // this.title = this.endDate = this.url = ''
+      this.form.title = this.form.notes = this.form.url = ''
       // this.id = 0
       // this.labelLocal = 0
     },
+
     promptAddNewEvent (date) {
       this.disabledFrom = false
       this.addNewEventDialog(date)
     },
+
+    promptShowEvent () {
+      console.log(this.currentEvent);
+      this.activePromptShowEvent = true
+    },
+
     addNewEventDialog (date) {
       this.clearFields()
-      this.startDate = date
-      this.endDate = date
+      this.form.start_date = new Date()
+      this.form.end_date = new Date(new Date().getTime() + 30*60000)
       this.activePromptAddEvent = true
     },
+
     openAddNewEvent (date) {
       this.disabledFrom = true
       this.addNewEventDialog(date)
     },
+
     openEditEvent (event) {
       const e = this.$store.getters['calendar/getEvent'](event.id)
       this.id = e.id
@@ -204,39 +263,34 @@ export default {
       this.labelLocal = e.label
       this.activePromptEditEvent = true
     },
+
     editEvent () {
       const obj = { id: this.id, title: this.title, startDate: this.startDate, endDate: this.endDate, label: this.labelLocal, url: this.url }
       obj.classes = `event-${  this.labelColor(this.labelLocal)}`
       this.$store.dispatch('calendar/editEvent', obj)
     },
+
     removeEvent () {
       this.$store.dispatch('calendar/removeEvent', this.id)
     },
+
     eventDragged (event, date) {
       this.$store.dispatch('calendar/eventDragged', {event, date})
     },
+
     thisMonth (d, h, m) {
       const t = new Date()
       return new Date(t.getFullYear(), t.getMonth(), d, h || 0, m || 0)
     },
+
     getCalendarTypes () {
       this.$store.dispatch('calendar/getEventTypes')
     },
+
     getCalendarEvents () {
       this.$store.dispatch('calendar/getEvents')
     },
-    labelGetColor (id) {
-      const el = this.eventTypes.filter(e => e.id = id)
-      if (el.length == 1) return el[0].color
-      return ''
-    },
-    labelGetName (id) {
 
-      console.log(`labelGetName(${id})`);
-      const el = this.eventTypes.filter(e => e.id = id)
-      if (el.length == 1) return el[0].name
-      return ''
-    }
   },
   created () {
     // this.$store.registerModule('calendar', moduleCalendar)
@@ -277,9 +331,10 @@ export default {
           url: element.external_link,
           textColor: '#000',
           start: element.start_date,
-          end: element.end_date
+          end: element.end_date,
+          id: element.id,
+          data: element
         }
-        console.log('events -> ', newRow)
         rows.push(newRow)
       })
       this.events = rows

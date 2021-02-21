@@ -58,6 +58,26 @@ const actions = {
   //         .catch((error) => { reject(error) })
   //     })
   // },
+  addEvent ({ commit, state, dispatch }, event) {
+    EventService.create(event)
+      .then((response) => {
+        const events = Object.assign([], state.events)
+        events.push(response)
+
+        commit('setEvents', events)
+        dispatch(
+          'notification/success',
+          {
+            title: 'Nuevo evento',
+            text: 'Se ha generado correctamente.'
+          },
+          { root: true }
+        )
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
   // fetchEvents ({ commit }) {
   //     return new Promise((resolve, reject) => {
   //         EventService.getAll()
