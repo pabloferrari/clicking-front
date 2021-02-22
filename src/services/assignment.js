@@ -18,6 +18,9 @@ class AssignmentService {
   getAssignmentsDetail(id) {
     return service.get(`/${this.entity}/detail/${id}`)
   }
+  getAssignmentDetailStudentById(id) {
+    return service.get(`/${this.entity}/detail/student/${id}`)
+  }
   getAssignmentsFileTeacher(id, user_id) {
     return service.get(`/${this.entity}/file-teacher/${id}/${user_id}`, { headers: { 'Content-Type': 'multipart/form-data', 'Access-Control-Allow-Origin': '*' } })
   }

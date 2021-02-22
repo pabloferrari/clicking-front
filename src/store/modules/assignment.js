@@ -221,6 +221,12 @@ const actions = {
         commit('setAssignmentDetail', response.data)
       }).catch((err) => console.log(err))
   },
+  async getAssignmentDetailStudentByIdData({ commit }, id) {
+    await AssignmentService.getAssignmentDetailStudentById(id)
+      .then((response) => {
+        commit('setAssignmentDetail', response.data)
+      }).catch((err) => console.log(err))
+  },
   async getMyFileTeacherData({ commit }, { id, user_id }) {
     await AssignmentService.getAssignmentsFileTeacher(id, user_id)
       .then((response) => {

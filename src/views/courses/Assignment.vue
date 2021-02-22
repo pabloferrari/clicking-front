@@ -93,12 +93,10 @@
           <!-- List Card Student-->
           <vx-card>
             <h2 class="font-bold text-title pb-4">Trabajo</h2>
-            <div
-              class=""
-              v-for="(data, index) in documentDataStudent"
-              :key="index"
-            >
+            <div class="" v-if="documentDataStudent.length > 0">
               <AttachDocumentCustomList
+                v-for="(data, index) in documentDataStudent"
+                :key="index"
                 :dataAttach="data"
                 :displayIcon="false"
                 :displayRemove="true"
@@ -110,6 +108,7 @@
 
                 </div> -->
             </div>
+            <div class="text-center" v-else>No se encontraron resultados</div>
 
             <div class="vx-col w-full" v-permission="['student']">
               <file-pond
@@ -124,6 +123,7 @@
             </div>
 
             <ButtonCardAction
+              :assignmentStatus="parseInt(assignmentStatus)"
               @handle-correct="activePromptCorrect = true"
               @handle-deliver="activePromptDeliver = true"
               @handle-give-back="activePromptGiveBack = true"
@@ -165,44 +165,6 @@
                 :childrenId="this.commentId"
                 :userStudentId="this.userStudentId"
               ></CommentResponse>
-              <!-- <ListInformation v-for="(posts, index) in this.dataList" :key="index" :data="posts" :componentDynamic="mountComponentComment" :componentDynamicProps="posts.comments"
-            :modelProps="{modelId:id,childrenId:posts.id,modelName:'assignments'}" ></ListInformation> -->
-              <!-- <div class="flex p-3 ml-2">
-                <ul class="user-comments-list">
-                  <li class="commented-user flex items-center mb-4">
-                    <div class="mr-3">
-                      <vs-avatar class="m-0" size="30px" />
-                    </div>
-                    <div class="leading-tight">
-                      <p class="font-bold text-title">Auther Red</p>
-                      <span class="text-xs"
-                        >Lorem ipsum dolor sit, amet consectetur adipisicing
-                        eli.</span
-                      >
-                    </div>
-                  </li>
-                </ul>
-              </div> -->
-              <!-- <div class="flex mb-3">
-                <div class="w-full ml-2">
-                  <div class="chat__input flex p-4">
-                    <div class="">
-                      <div class="mr-3 ml-2">
-                        <vs-avatar class="m-0" size="30px" />
-                      </div>
-                    </div>
-                    <vs-input
-                      class="flex-1"
-                      icon-pack="feather"
-                      icon="icon-send"
-                      icon-no-border
-                      icon-after
-                      placeholder="Type Your Message"
-                      v-model="commentResponse"
-                    />
-                  </div>
-                </div>
-              </div> -->
             </div>
           </vx-card>
         </div>
@@ -219,7 +181,12 @@
           v-for="(student, index) in this.assignment.students"
           :key="index"
         >
-          <div v-if="student.assignmentstatus.id == 3">
+          <div
+            v-if="
+              student.assignmentstatus.id == 3 ||
+              student.assignmentstatus.id === 2
+            "
+          >
             <CardAvatar
               :nameStatus="student.assignmentstatus.name"
               :idAssignmentStatus="student.assignmentstatus.id"
@@ -257,10 +224,7 @@
               :name="student.classroomstudents.student.name"
               :nameStatus="student.assignmentstatus.name"
               :idAssignmentStatus="student.assignmentstatus.id"
-              v-if="
-                student.assignmentstatus.id === 1 ||
-                student.assignmentstatus.id === 2
-              "
+              v-if="student.assignmentstatus.id === 1"
               :avatar="student.classroomstudents.student.user.image"
             ></CardAvatar>
           </div>
@@ -419,6 +383,7 @@ export default {
       baseUrl: process.env.VUE_APP_BASE_URL_STORAGE,
       correct: false,
       acceptDelete: false,
+      assignmentStatus: '',
 
       studentCorrectId: '',
       // acceptGiveBack: false,
@@ -468,8 +433,10 @@ export default {
 
     storeAssignment (data) {
       this.assignment = {}
-      // console.log(data.assignment)
+
+
       if (data) {
+        this.assignmentStatus = data.studentsassignment[0].assignmentstatus.id
         this.studentCorrect = data.studentsassignment.filter((e) => e.assignmentstatus.id ===3)
         this.assignment = {
           title: data.assignment.title,
@@ -543,7 +510,8 @@ export default {
       this.file = files.map(files => files.file)
     },
     activeCard ({ classroomstudents,assignmentstatus }) {
-      console.log(classroomstudents,assignmentstatus)
+      this.assignmentStatus =assignmentstatus.id
+
       this.commentId = ''
       this.activeCommentAssignment = true
       const params = {
@@ -686,6 +654,9 @@ export default {
     getAssignment () {
       this.$store.dispatch('assignment/getMyAssignmentsDetailData', this.id)
     },
+    getAssignmentDetailStudentByIdData () {
+      this.$store.dispatch('assignment/getAssignmentDetailStudentByIdData', this.id)
+    },
     getFileTeacher () {
 
       const payload = {
@@ -730,11 +701,14 @@ export default {
     }
   },
   mounted () {
-    this.getAssignment()
     this.getCommentsAssignment()
     this.getFileTeacher()
     if (this.$store.state.auth.authUser.roles[0].slug === 'student') {
       this.getFileStudent()
+      this.getAssignmentDetailStudentByIdData()
+    }else{
+
+      this.getAssignment()
     }
   }
 }
