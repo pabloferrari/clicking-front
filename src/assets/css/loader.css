@@ -77,3 +77,28 @@
     opacity: 1;
   }
 }
+
+.badge {
+  display: inline-block;
+  font-size: 85%;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  vertical-align: baseline;
+  -webkit-transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,background 0s,border 0s,-webkit-box-shadow .15s ease-in-out;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,background 0s,border 0s,-webkit-box-shadow .15s ease-in-out;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,background 0s,border 0s;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,background 0s,border 0s,-webkit-box-shadow .15s ease-in-out;
+  color: #fff;
+  padding: .3rem .5rem;
+  text-align: center;
+  border-radius: .358rem;
+}
+
+.badge.primary{background-color: #7367f0;}
+.badge-secondary{background-color:#82868b;}
+.badge-success{background-color:#28c76f;}
+.badge-danger{background-color:#ea5455;}
+.badge-warning{background-color:#ff9f43;}
+.badge-info{background-color:#00cfe8;}
+.badge-dark{background-color:#4b4b4b;}

@@ -18,7 +18,6 @@
       :is-valid="validForm"
       :active.sync="activePromptAddEvent">
 
-      {{ guestsFinder }} {{ form.guests }}
       <div class="calendar__label-container flex">
 
         <vs-chip v-if="labelLocal != 0" class="text-white" :style="`background-color: ${eventTypeColor};`">{{ eventTypeName }}</vs-chip>
@@ -98,43 +97,29 @@
         <vs-chip class="text-white" :style="`background-color: ${currentEvent.type.color};`">{{ currentEvent.type.name }}</vs-chip>
       </div>
 
-      <div class="my-4">
-        
-        <flat-pickr
-          class="w-full"
-          :config="configdateTimePicker"
-          v-model="form.start_date"
-          placeholder="Fecha Inicio"
-          name="Fecha Inicio"
-          v-validate="'required'"
-          :danger="errors.has('Fecha Inicio')"
-        />
-        
-      </div>
-      <div class="my-4">
-        
-        <flat-pickr
-          class="w-full"
-          :config="configdateTimePicker"
-          v-model="form.end_date"
-          placeholder="Fecha Final"
-          name="Fecha Final"
-          v-validate="'required'"
-          :danger="errors.has('Fecha Final')"
-        />
-        
-      </div>
-      <vs-input name="external_link" class="w-full mt-6" label-placeholder="URL" v-model="form.external_link" :color="!errors.has('event-url') ? 'success' : 'danger'"></vs-input>
-      
-      <vs-input name="notes" class="w-full mt-6" label-placeholder="Notas" v-model="form.notes" :color="!errors.has('event-url') ? 'success' : 'danger'"></vs-input>
+      <div class="eventItem"> Comienza: <span class="itemAlignRight">{{ parseMoment(currentEvent.start_date, 'DD-MM-YYYY hh:mm') }} hs.</span></div>
 
-      <h3>Invitados</h3>
+      <div class="eventItem"> Finaliza: <span class="itemAlignRight">{{ parseMoment(currentEvent.end_date, 'DD-MM-YYYY hh:mm') }} hs.</span></div>
+
+      <div class="eventItem"> Link: <span class="itemAlignRight">{{ currentEvent.external_link }}</span></div>
+
+      <div class="eventItem"> Notas: <span class="itemAlignRight">{{ currentEvent.notes }}</span></div>
+      
+      <div class="eventItem">Invitados</div>
+
+      <ul class="guestList">
+        <li v-for="(user, index) in currentEvent.users" :key="index">
+          {{ user.user.name }} <b-badge :variant="getUserTypeColor(user.user)"> {{ getUserType(user.user) }} </b-badge>
+        </li>
+      </ul>
+
     </vs-prompt>
 
   </div>
 </template>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
 
 <script>
 
@@ -152,7 +137,7 @@ import moment from 'moment'
 
 import vSelect from 'vue-select'
 import Multiselect from 'vue-multiselect'
-
+import { BBadge } from 'bootstrap-vue'
 
 export default {
   components: {
@@ -160,7 +145,8 @@ export default {
     Datepicker,
     flatPickr,
     'v-select': vSelect,
-    Multiselect
+    Multiselect,
+    BBadge,
   },
   data () {
     const now = new Date();
@@ -236,7 +222,31 @@ export default {
     parseNumber(num) {
       return num < 10 ? `0${num}` : `${num}`;
     },
+
+    parseMoment(date, format) {
+      const validDate = new Date(date.replace(/-/g,"/"));
+      return moment(validDate).format(format);
+    },
+
+    getUserType(user) {
+      if(user.student) return 'estudiante';
+      if(user.teacher) return 'profesor';
+      return 'administrador';
+    },
     
+    getUserTypeColor(user) {
+      if(user.student) return 'success';
+      if(user.teacher) return 'warning';
+      return 'danger';
+      // <b-badge variant="primary">Primary</b-badge>
+      // <b-badge>Secondary</b-badge>
+      // <b-badge variant="success">Success</b-badge>
+      // <b-badge variant="danger">Danger</b-badge>
+      // <b-badge variant="warning">Warning</b-badge>
+      // <b-badge variant="info">Info</b-badge>
+      // <b-badge variant="dark">Dark</b-badge>
+    },
+
     setEventType(eventType) {
       this.eventTypeColor = eventType.color;
       this.eventTypeName = eventType.name;
@@ -245,7 +255,7 @@ export default {
     },
     
     addEvent () {
-      const payload = { title: this.form.title, event_type: this.form.event_type_id, start_date: this.dateToDateTime(this.parseDate(this.form.start_date)), end_date: this.dateToDateTime(this.parseDate(this.form.end_date)), external_link: this.form.external_link, notes: this.form.notes }
+      const payload = { title: this.form.title, event_type: this.form.event_type_id, start_date: this.dateToDateTime(this.parseDate(this.form.start_date)), end_date: this.dateToDateTime(this.parseDate(this.form.end_date)), external_link: this.form.external_link, notes: this.form.notes, guests: this.form.guests }
       this.$store.dispatch('calendar/addEvent', payload);
       this.clearFields()
     },
@@ -397,4 +407,47 @@ export default {
 
 <style lang="scss">
 @import "@/assets/scss/vuexy/apps/simple-calendar.scss";
+
+.eventItem {
+  padding: 5px;
+}
+
+.itemAlignRight {
+  text-align: right;
+  float: right;
+}
+
+.guestList {
+  padding-left: 25px;
+}
+
+.guestLitsEmail {
+  font-style: italic;
+  font-size: 10px;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 85%;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  vertical-align: baseline;
+  -webkit-transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,background 0s,border 0s,-webkit-box-shadow .15s ease-in-out;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,background 0s,border 0s,-webkit-box-shadow .15s ease-in-out;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,background 0s,border 0s;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,background 0s,border 0s,-webkit-box-shadow .15s ease-in-out;
+  color: #fff;
+  padding: .3rem .5rem;
+  text-align: center;
+  border-radius: .358rem;
+}
+
+.badge.primary{background-color: #7367f0;}
+.badge-secondary{background-color:#82868b;}
+.badge-success{background-color:#28c76f;}
+.badge-danger{background-color:#ea5455;}
+.badge-warning{background-color:#ff9f43;}
+.badge-info{background-color:#00cfe8;}
+.badge-dark{background-color:#4b4b4b;}
 </style>
