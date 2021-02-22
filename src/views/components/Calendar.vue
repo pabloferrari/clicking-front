@@ -18,7 +18,7 @@
       :is-valid="validForm"
       :active.sync="activePromptAddEvent">
 
-      {{ guestsFinder }}
+      {{ guestsFinder }} {{ form.guests }}
       <div class="calendar__label-container flex">
 
         <vs-chip v-if="labelLocal != 0" class="text-white" :style="`background-color: ${eventTypeColor};`">{{ eventTypeName }}</vs-chip>
@@ -66,7 +66,25 @@
       
       <vs-input name="notes" class="w-full mt-6" label-placeholder="Notas" v-model="form.notes" :color="!errors.has('event-url') ? 'success' : 'danger'"></vs-input>
 
-      <vs-input name="guestsFinder" class="w-full mt-6" label-placeholder="Invitados" @input="findGuests" v-model="guestsFinder"></vs-input>
+      <vs-input name="guestsFinder" class="w-full mt-6" label-placeholder="Buscar invitado" @input="findGuests" v-model="guestsFinder"></vs-input>
+
+      <vs-select
+        v-model="form.guests"
+        label="Asignar A"
+        multiple
+        :dir="$vs.rtl ? 'rtl' : 'ltr'"
+        class="selectExample w-full sm:w-auto mt-5"
+        name="Asignar A"
+        v-validate="'required'"
+        :danger="errors.has('Asignar A')"
+        >
+          <vs-select-item
+            :key="index"
+            :value="guest.id"
+            :text="guest.name"
+            v-for="(guest, index) in this.guestsList"
+          />
+        </vs-select>
 
     </vs-prompt>
 
@@ -116,6 +134,8 @@
   </div>
 </template>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
 <script>
 
 import flatPickr from 'vue-flatpickr-component'
@@ -130,11 +150,17 @@ import { mapGetters } from 'vuex'
 import Datepicker from 'vuejs-datepicker'
 import moment from 'moment'
 
+import vSelect from 'vue-select'
+import Multiselect from 'vue-multiselect'
+
+
 export default {
   components: {
     FullCalendar,
     Datepicker,
-    flatPickr
+    flatPickr,
+    'v-select': vSelect,
+    Multiselect
   },
   data () {
     const now = new Date();
@@ -165,6 +191,7 @@ export default {
         notes: '',
         start_date: now,
         end_date: new Date(now.getTime() + 30*60000),
+        guests: []
         
       },
       eventTypeColor: '',
@@ -354,8 +381,9 @@ export default {
     storeUserList (data) {
       const rows = []
       data.map(element => {
-        console.log(`user`, element);
-        rows.push(element)
+        const type = element.student ? ` estudiante ` : (element.teacher ? ` teacher ` : ` admin `);
+        const row = { id: element.id, name: `${element.name} - ${type}` };
+        rows.push(row)
       })
       this.guestsList = rows
     },
