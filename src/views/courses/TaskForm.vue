@@ -142,6 +142,7 @@
         </div>
       </div>
       <div class="">
+      {{form.classroom_students}}
         <vs-select
           v-model="form.classroom_students"
           label="Asignar A"

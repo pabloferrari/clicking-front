@@ -24,6 +24,9 @@ class EventsService {
   delete (id) {
     return service.delete(`/${this.entity}/${id}`)
   }
+  findUser(filter) {
+    return service.get(`/get-users-institution/${filter}`)
+  }
 }
 
 export default new EventsService()
