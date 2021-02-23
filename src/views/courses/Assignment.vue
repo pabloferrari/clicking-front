@@ -99,7 +99,8 @@
                 :key="index"
                 :dataAttach="data"
                 :displayIcon="false"
-                :displayRemove="true"
+                :assignmentStatus="assignmentStatus"
+                :permission="rolUser"
                 v-on:student-file-id="getFileStudentId"
               >
               </AttachDocumentCustomList>
@@ -123,10 +124,11 @@
             </div>
 
             <ButtonCardAction
-              :assignmentStatus="parseInt(assignmentStatus)"
               @handle-correct="activePromptCorrect = true"
               @handle-deliver="activePromptDeliver = true"
               @handle-give-back="activePromptGiveBack = true"
+              :permission="rolUser"
+              :assignmentStatus="parseInt(assignmentStatus)"
             ></ButtonCardAction>
           </vx-card>
         </div>
@@ -424,7 +426,9 @@ export default {
     userId () {
       return this.$store.state.auth.authUser.id
     },
-
+    rolUser() {
+      return this.$store.state.auth.authUser.roles[0].slug
+    },
     isStudent () {
       return this.$store.state.auth.authUser.roles[0].slug
     }
@@ -510,8 +514,8 @@ export default {
       this.file = files.map(files => files.file)
     },
     activeCard ({ classroomstudents,assignmentstatus }) {
-      this.assignmentStatus =assignmentstatus.id
-
+      this.assignmentStatus = ''
+    this.assignmentStatusSelected(assignmentstatus.id)
       this.commentId = ''
       this.activeCommentAssignment = true
       const params = {
@@ -524,6 +528,11 @@ export default {
       this.$store.dispatch('comment/getCommentByAssignmentData', params)
       this.getFileStudent(this.userStudentId)
     },
+
+    assignmentStatusSelected(status) {
+      this.assignmentStatus  = status
+    },
+
     itemsDropdown () {
       return [
         {
