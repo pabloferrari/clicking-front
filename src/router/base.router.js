@@ -217,7 +217,7 @@ export default [
     name: 'Biblioteca',
     component: () => import('../views/library/'),
     meta: {
-      permissions: ['teacher', 'student']
+      permissions: ['teacher', 'student', 'institution']
     }
   }
 
