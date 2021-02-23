@@ -2,7 +2,10 @@
   <div class="card__action__group">
     <div
       class="vx-col w-full my-2"
-      v-if="assignmentStatus === 2 || assignmentStatus === 3"
+      v-if="
+        assignmentStatus === 2 ||
+        (assignmentStatus === 3 && permission === 'teacher')
+      "
       v-permission="['teacher']"
     >
       <vs-button class="w-full" @click="giveBack()" type="border"
@@ -12,7 +15,7 @@
 
     <div
       class="vx-col w-full"
-      v-if="assignmentStatus === 1"
+      v-if="assignmentStatus === 1 && permission === 'student'"
       v-permission="['student']"
     >
       <vs-button @click="deliver()" class="w-full">Entregar</vs-button>
@@ -20,7 +23,7 @@
     <div
       class="vx-col w-full"
       v-permission="['teacher']"
-      v-if="assignmentStatus === 2"
+      v-if="assignmentStatus === 2 && permission === 'teacher'"
     >
       <vs-button @click="correct()" class="w-full">Corregir</vs-button>
     </div>
@@ -31,7 +34,8 @@
 export default {
   name:'ButtonCardAction',
   props: {
-    assignmentStatus: Number
+    assignmentStatus: Number,
+    permission: String
   },
 
   methods: {

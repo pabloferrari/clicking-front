@@ -15,17 +15,20 @@
 
             <div class="divide-y m-2">
               <h6 class="text-title text-left font-bold mr-2">
-                {{ dataAttach.url.toUpperCase().split(".")[1]  }}
+                {{ dataAttach.url.toUpperCase().split(".")[1] }}
               </h6>
-               <div class="text-left">
-                  <a :href="baseUrl + dataAttach.url" target="__blank">Ver</a>
-                  <!-- <p class="text-left">{{ dataAttach.type }}</p> -->
-                </div>
+              <div class="text-left">
+                <a :href="baseUrl + dataAttach.url" target="__blank">Ver</a>
+                <!-- <p class="text-left">{{ dataAttach.type }}</p> -->
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="items-end mb-2" v-if="displayRemove">
+        <div
+          class="items-end mb-2"
+          v-if="assignmentStatus === 1 && permission === 'student'"
+        >
           <feather-icon
             icon="XIcon"
             @click="deleteAttach(dataAttach.id)"
@@ -51,8 +54,10 @@ export default {
   },
   props: {
     displayIcon: Boolean,
-    displayRemove: Boolean,
-    dataAttach: Object
+
+    dataAttach: Object,
+    assignmentStatus: Number,
+    permission: String
   },
   components: {
     ListIcon,
