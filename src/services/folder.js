@@ -4,24 +4,24 @@ import service from './service'
 class FolderService {
   entity = 'folders'
 
-  getAll() {
+  getAll () {
     return service.get(`/${this.entity}`)
   }
 
-  getFolderByCourse(id) {
+  getFolderByCourse (id) {
     return service.get(`/${this.entity}/byCourse/${id}`)
   }
 
-  get(id) {
+  get (id) {
     return service.get(`/${this.entity}/${id}`)
   }
-  create(data) {
-    return service.post(`/${this.entity}`, data)
+  create (data) {
+    return service.post(`/${this.entity}`, data, { headers: { 'Content-Type': 'multipart/form-data', 'Access-Control-Allow-Origin': '*' } })
   }
-  update(id, data) {
+  update (id, data) {
     return service.put(`/${this.entity}/${id}`, data)
   }
-  delete(id) {
+  delete (id) {
     return service.delete(`/${this.entity}/${id}`)
   }
 }

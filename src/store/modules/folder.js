@@ -19,27 +19,27 @@ const getters = {
 
 
 const mutations = {
-  updatedfolder(state, folder) {
+  updatedfolder (state, folder) {
     state.folder = folder
   },
 
-  setfolders(state, folders) {
+  setfolders (state, folders) {
     state.folders = folders
   },
 
-  setfolder(state, folder) {
+  setfolder (state, folder) {
     state.folder = folder
   }
 }
 
 const actions = {
-  createFolder({ commit, state, dispatch }, folder) {
+  createFolder ({ commit, state, dispatch }, folder) {
     return new Promise((resolve, reject) => {
-      const newFolder = {
-        name: folder.name,
-        course_id: folder.course_id,
-      }
-      FolderService.create(newFolder).then((response) => {
+      // const newFolder = {
+      //   name: folder.name,
+      //   course_id: folder.course_id
+      // }
+      FolderService.create(folder).then((response) => {
         const folders = Object.assign([], state.folders)
         folders.push(response.data)
         commit('setfolders', folders)
@@ -53,12 +53,12 @@ const actions = {
     })
   },
 
-  updateFolder({ state, commit, dispatch }, folder) {
+  updateFolder ({ state, commit, dispatch }, folder) {
     return new Promise((resolve, reject) => {
       const editFolder = {
         id: folder.id,
         name: folder.name,
-        course_id: folder.course_id,
+        course_id: folder.course_id
 
       }
       FolderService.update(folder.id, editFolder).then((response) => {
@@ -80,7 +80,7 @@ const actions = {
     })
 
   },
-  async deleteFolder({ state, commit, dispatch }, id) {
+  async deleteFolder ({ state, commit, dispatch }, id) {
     try {
       await FolderService.delete(id)
       const index = state.folders.findIndex(x => x.id === id)
@@ -92,7 +92,7 @@ const actions = {
       console.log(error)
     }
   },
-  async getFolderData({ commit }) {
+  async getFolderData ({ commit }) {
     try {
       const foldersData = await FolderService.getAll()
       commit('setfolders', foldersData.data)
@@ -100,7 +100,7 @@ const actions = {
       console.log(error)
     }
   },
-  async getFolderByCourse({ commit }, id) {
+  async getFolderByCourse ({ commit }, id) {
     try {
       const foldersData = await FolderService.getFolderByCourse(id)
       commit('setfolders', foldersData.data)

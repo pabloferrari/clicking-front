@@ -17,31 +17,39 @@
     </div>
 
     <div class="w-full p-2">
-      <vs-button
-        color="primary"
-        size="small"
-        class="font-semibold btn-right"
-        icon="icon-plus"
-        icon-pack="feather"
-        type="border"
-        >Adjuntar</vs-button
-      >
+      <file-pond
+        name="file"
+        ref="file"
+        class-name="my-pond"
+        label-idle="Arrastrar y soltar aquí..."
+        allow-multiple="true"
+        instant-upload="false"
+        v-on:updatefiles="handleFileUpload"
+      />
     </div>
   </div>
 </template>
 
 <script>
+
+import vueFilePond from 'vue-filepond'
+import 'filepond/dist/filepond.min.css'
+
+const FilePond = vueFilePond()
+
 export default {
   name:'FolderCreate',
   props: {
     courseId: Number
   },
-
-  data() {
+  components: {
+    FilePond
+  },
+  data () {
     return {
       form: {
-        name: ''
-
+        name: '',
+        file: []
       }
     }
   },
@@ -56,10 +64,19 @@ export default {
     create () {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          const payload = {
-            name: this.form.name,
-            course_id: this.courseId
+          // const payload = {
+          //   name: this.form.name,
+          //   course_id: this.courseId
+          // }
+          const payload = new FormData()
+          payload.append('name', this.form.name)
+          payload.append('course_id', this.courseId)
+
+          for (let i = 0; i < this.form.file.length; i++) {
+            const file = this.form.file[i]
+            payload.append(`files[${i}]`, file)
           }
+
           this.$store.dispatch(
             'folder/createFolder',
             payload
@@ -67,6 +84,9 @@ export default {
           this.closeModalClass()
         }
       })
+    },
+    handleFileUpload (files) {
+      this.form.file = files.map(files => files.file)
     }
   }
 
