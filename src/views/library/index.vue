@@ -9,7 +9,7 @@
       <vs-button
         color="primary"
         size="small"
-        v-permission="['teacher']"
+        v-permission="['teacher', 'institution']"
         class="font-semibold btn-right"
         icon="icon-plus"
         icon-pack="feather"
