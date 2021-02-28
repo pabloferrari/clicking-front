@@ -63,11 +63,6 @@
                             <p class="font-semibold text-center">
                                 No se encontraron resultados
                             </p>
-                            <!-- <CardList
-                :cardData="this.workshop"
-                description=" Alumnos cursando"
-              >
-              </CardList> -->
                         </div>
                     </div>
                 </vs-tab>

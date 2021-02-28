@@ -19,7 +19,7 @@
       <span class="mb-4">
         <p class="ml-3 font-bold text-color-title-avatar">Alumnos</p>
         <small class="ml-3 text-color-legend font-medium"
-          >{{ this.countAvatar() }} {{ description }}</small
+          >{{ description }}</small
         >
       </span>
     </div>
