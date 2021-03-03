@@ -34,7 +34,7 @@ export default {
     name:String
   },
   methods: {
-    handlerClick(id) {
+    handlerClick (id) {
       console.log(id)
       if (id) {
         const path = `/courses/folders/files/${id}`

@@ -88,14 +88,14 @@ export default {
     courseId: String,
     subject: String
   },
-  data() {
+  data () {
     return {
       dataFolders: [],
       activePrompt: false,
       actionModal: '',
       path: `/courses/${this.subject
         .split(' ')
-        .join('-')}/${this.courseId}`,
+        .join('-')}/${this.courseId}`
 
     }
   },
@@ -108,8 +108,8 @@ export default {
   },
 
   watch: {
-    storeFolderCourse(data) {
-      if(data.length > 0) {
+    storeFolderCourse (data) {
+      if (data.length > 0) {
         this.dataFolders = data
       }
     }
@@ -117,24 +117,24 @@ export default {
 
 
   methods: {
-    acceptFolder() {
+    acceptFolder () {
       this.activePrompt = true
       this.$refs.FolderCreate.save()
     },
-    closeModal(){
+    closeModal () {
       this.activePrompt = false
     },
-    openModal() {
+    openModal () {
       this.activePrompt = true
-      this.actionModal= 'Crear'
+      this.actionModal = 'Crear'
     },
 
-    getFolderByCourse() {
-      this.$store.dispatch('folder/getFolderByCourse',this.courseId)
+    getFolderByCourse () {
+      this.$store.dispatch('folder/getFolderByCourse', this.courseId)
     }
   },
 
-  mounted() {
+  mounted () {
     this.getFolderByCourse()
   }
 }
@@ -153,5 +153,4 @@ export default {
   color: #567df4;
 }
 </style>
-
 
