@@ -11,6 +11,7 @@
 import Vue from 'vue'
 import VxTooltip from './layouts/components/vx-tooltip/VxTooltip.vue'
 import VxCard  from './components/vx-card/VxCard.vue'
+import VxCardInverse  from './components/vx-card-inverse/VxCardInverse.vue'
 import VxList  from './components/vx-list/VxList.vue'
 import VxBreadcrumb  from './layouts/components/VxBreadcrumb.vue'
 import FeatherIcon  from './components/FeatherIcon.vue'
@@ -18,6 +19,7 @@ import VxInputGroup  from './components/vx-input-group/VxInputGroup.vue'
 
 Vue.component(VxTooltip.name, VxTooltip)
 Vue.component(VxCard.name, VxCard)
+Vue.component(VxCardInverse.name, VxCardInverse)
 Vue.component(VxList.name, VxList)
 Vue.component(VxBreadcrumb.name, VxBreadcrumb)
 Vue.component(FeatherIcon.name, FeatherIcon)

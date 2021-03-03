@@ -53,6 +53,7 @@ export default {
   },
   methods: {
     renderIcon (type) {
+      console.log('renderIcon', type);
       switch (type) {
       case 1: // Tasks
         return ListIcon

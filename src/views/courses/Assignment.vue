@@ -104,14 +104,10 @@
                 v-on:student-file-id="getFileStudentId"
               >
               </AttachDocumentCustomList>
-              <!-- <div class="text-left">
-                  <a :href="baseUrl + data.url" target="__blank">Ver</a>
-
-                </div> -->
             </div>
             <div class="text-center" v-else>No se encontraron resultados</div>
 
-            <div class="vx-col w-full" v-permission="['student']">
+            <div class="vx-col w-full" v-permission="['student']" v-if="documentDataStudent.length == 0">
               <file-pond
                 name="file"
                 ref="file"
@@ -247,10 +243,7 @@
         ref="AssignmentEvaluationProcess"
         :assignmentId="parseInt(id)"
         :classRoomStudentId="classRoomStudentId"
-        v-if="
-          this.assignment.assignmentType === 2 ||
-          this.assignment.assignmentType === 3
-        "
+        v-if="this.assignment.assignmentType === 2 || this.assignment.assignmentType === 3"
       ></AssignmentEvaluationProcess>
       <AssignmentTasksProcess
         ref="AssignmentTasksProcess"
@@ -618,7 +611,7 @@ export default {
 
     },
     acceptDeliver () {
-      const {classroomstudents} = this.assignment.students.find((element) => element.classroomstudents.student.user.id === this.userId)
+      const { classroomstudents } = this.assignment.students.find((element) => element.classroomstudents.student.user.id === this.userId)
       // const payload = {
       //   score: 0,
       //   assignment_id: this.id,

@@ -2,7 +2,8 @@ import StudentService from '../../services/students'
 
 const state = {
   student: {},
-  students: []
+  students: [],
+  studentRatings: [],
 }
 
 const getters = {
@@ -12,27 +13,33 @@ const getters = {
   getStudents: (state) => {
     return state.students
   },
+  getStudentRatings: (state) => {
+    return state.studentRatings
+  },
   getStudentId: (state) => (id) => {
     return state.students.find((students) => students.id === id)
   }
 }
 
 const mutations = {
-  updatedStudent (state, student) {
+  updatedStudent(state, student) {
     state.student = student
   },
 
-  setStudents (state, students) {
+  setStudents(state, students) {
     state.students = students
   },
+  setStudentRatings(state, studentRatings) {
+    state.studentRatings = studentRatings
+  },
 
-  setStudent (state, student) {
+  setStudent(state, student) {
     state.student = student
   }
 }
 
 const actions = {
-  async createStudent ({ commit, state, dispatch }, student) {
+  async createStudent({ commit, state, dispatch }, student) {
     try {
       const newStudent = {
         name: student.name,
@@ -62,7 +69,7 @@ const actions = {
     }
   },
 
-  async updateStudent ({ state, commit, dispatch }, student) {
+  async updateStudent({ state, commit, dispatch }, student) {
     try {
       const editstudent = {
         id: student.id,
@@ -92,7 +99,7 @@ const actions = {
       console.log(error)
     }
   },
-  async deleteStudent ({ state, commit, dispatch }, id) {
+  async deleteStudent({ state, commit, dispatch }, id) {
     try {
       await StudentService.delete(id)
       const index = state.students.findIndex((x) => x.id === id)
@@ -111,7 +118,7 @@ const actions = {
       console.log(error)
     }
   },
-  async getStudents ({ commit }) {
+  async getStudents({ commit }) {
     try {
       const studentsData = await StudentService.getAll()
       commit('setStudents', studentsData.data)
@@ -119,7 +126,15 @@ const actions = {
       console.log(error)
     }
   },
-  async getStudentsByInstitution ({ commit }, id) {
+  async getStudentRatingsData({ commit }, id) {
+    try {
+      const studentsData = await StudentService.getRatingStudent(id)
+      commit('setStudentRatings', studentsData.data)
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  async getStudentsByInstitution({ commit }, id) {
     try {
       const studentsData = await StudentService.getStudentsByInstitution(id)
       commit('setStudents', studentsData.data)

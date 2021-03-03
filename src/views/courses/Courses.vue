@@ -12,7 +12,7 @@
         <vs-tab label="Cursos" @click="getCourses()">
           <div class="tab-content-courses">
             <div>
-              <CardList :cardData="this.courses" description="cursando">
+              <CardList :cardData="courses" description="cursando">
               </CardList>
             </div>
           </div>
@@ -21,8 +21,8 @@
           <div class="tab-content-workshop">
             <div>
               <CardList
-                v-if="this.workshop.length > 0"
-                :cardData="this.workshop"
+                v-if="workshop.length > 0"
+                :cardData="workshop"
                 description="cursando"
               >
               </CardList>
@@ -125,6 +125,7 @@ export default {
       if (Curso) {
         const courseData = []
         Curso.map((element) => {
+          console.log(element);
           courseData.push({
             title: element.subject.name,
             subtitle: `${element.classroom.name} - ${element.classroom.shift.name}`,
@@ -135,6 +136,7 @@ export default {
             avatarData: element.classroom.classroom_students
           })
         })
+        console.log('courseData', courseData);
         this.courses = courseData
       }
     },

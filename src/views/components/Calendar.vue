@@ -1,14 +1,41 @@
 <template>
   <div>
 
-    <div class="vx-col w-1/6 items-center sm:flex hidden">
-      <vs-button size="small" icon-pack="feather" @click="promptAddNewEvent(new Date())">Crear Evento</vs-button>
-    </div>
+    <div class="vx-row">
 
-    <full-calendar
-      :events="events"
-      :config="config"
-    ></full-calendar>
+      <div class="vx-col md:w-4/6">
+        <vx-card
+            class="title-card active-card my-1"
+            :title="'Calendario'"
+          >
+          <div class="vx-col w-1/6 items-center sm:flex hidden">
+            <vs-button size="small" icon-pack="feather" @click="promptAddNewEvent(new Date())">Crear Evento</vs-button>
+          </div>
+          <full-calendar
+            :events="events"
+            :config="config"
+          ></full-calendar>
+        </vx-card>
+      </div>
+
+      <div class="vx-col">
+        <vx-card
+          class="title-card active-card my-1"
+          :title="'Proximos Eventos'"
+        >
+          <vx-card-inverse
+            class="title-card active-card my-1"
+            v-for="(event, index) in nextEvents"
+            :key="index"
+            :title="event.title"
+            :supratitle="event.start"
+          >
+          </vx-card-inverse>
+          
+        </vx-card>
+      </div>
+
+    </div>
       
     <vs-prompt
       class="calendar-event-dialog"
@@ -104,6 +131,8 @@
       <div class="eventItem"> Link: <span class="itemAlignRight">{{ currentEvent.external_link }}</span></div>
 
       <div class="eventItem"> Notas: <span class="itemAlignRight">{{ currentEvent.notes }}</span></div>
+
+      <div class="eventItem"> Creador: <span class="itemAlignRight">{{ currentEvent.creator.name }}</span></div>
       
       <div class="eventItem">Invitados</div>
 
@@ -152,6 +181,7 @@ export default {
     const now = new Date();
     return {
       events: [],
+      nextEvents: [],
       config: {
         locale: 'es',
         slotMinTime: "07:00:00",
@@ -190,6 +220,7 @@ export default {
   computed: {
     ...mapGetters({
       storeEvents: 'calendar/getEvents',
+      storeNextEvents: 'calendar/getNextEvents',
       storeEventTypes: 'calendar/getEventTypes',
       storeUserList: 'calendar/getUsers',
     }),
@@ -285,8 +316,6 @@ export default {
     },
 
     findGuests() {
-
-      console.log('findGuests');
       this.$store.dispatch('calendar/getUsers', this.guestsFinder);
     },
 
@@ -387,6 +416,25 @@ export default {
         rows.push(newRow)
       })
       this.events = rows
+    },
+    storeNextEvents(data) {
+      const rows = []
+      data.map((element) => {
+        const newRow = {
+          id: element.id,
+          title: `${element.title} - ${element.type.name}`,
+          backgroundColor: element.type.color,
+          borderColor: element.type.color,
+          url: element.external_link,
+          textColor: '#000',
+          start: element.start_date,
+          end: element.end_date,
+          id: element.id,
+          data: element
+        }
+        rows.push(newRow)
+      })
+      this.nextEvents = rows
     },
     storeUserList (data) {
       const rows = []

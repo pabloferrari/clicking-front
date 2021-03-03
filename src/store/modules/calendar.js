@@ -7,6 +7,7 @@ const state = {
     
   // Simple Calendar State
   events: [],
+  nextEvents: [],
   userList: []
 }
   
@@ -15,6 +16,9 @@ const getters = {
   // getEvent: state => (eventId) => state.events.find((event) => event.id === eventId),
   getEvents: (state) => {
     return state.events
+  },
+  getNextEvents: (state) => {
+    return state.nextEvents
   },
   getEventTypes: (state) => {
     return state.eventTypes
@@ -26,25 +30,13 @@ const getters = {
 }
 
 const mutations = {
-  // ADD_EVENT (state, event) {
-  //     state.events.push(event)
-  // },
-  // SET_EVENTS (state, events) {
-  //     state.events = events
-  // },
-  // SET_LABELS (state, labels) {
-  //     state.eventLabels = labels
-  // },
-  // UPDATE_EVENT (state, event) {
-  //     const eventIndex = state.events.findIndex((e) => e.id === event.id)
-  //     Object.assign(state.events[eventIndex], event)
-  // },
-  // REMOVE_EVENT (state, eventId) {
-  //     const eventIndex = state.events.findIndex((e) => e.id === eventId)
-  //     state.events.splice(eventIndex, 1)
-  // },
-  setEvents (state, newsData) {
-    state.events = newsData
+  
+  setEvents (state, eventsData) {
+    state.events = eventsData
+  },
+
+  setNextEvents (state, nextEventsData) {
+    state.nextEvents = nextEventsData
   },
 
   setEventTypes (state, eventTypes) {
@@ -155,6 +147,7 @@ const actions = {
     try {
       const events = await EventService.getAll()
       commit('setEvents', events.data)
+      commit('setNextEvents', events.next)
     } catch (error) {
       console.log(error)
     }

@@ -8,7 +8,19 @@
     <CardWelcome :cardsWelcome="this.getCourseAssignments()"> </CardWelcome>
     <div class="mt-0">
       <vs-tabs>
-        <vs-tab label="Pendiente" @click="getMyAssignments()">
+        <vs-tab label="Pendiente" @click="getMyAssignmentsPending()">
+          <div class="tab-content-courses" v-if="this.cardStatus.length > 0">
+            <div v-for="(assignment, index) in this.cardStatus" :key="index">
+              <CardStatus :data="assignment"></CardStatus>
+            </div>
+          </div>
+          <div v-else>
+            <p class="font-semibold text-center">
+              No se encontraron resultados
+            </p>
+          </div>
+        </vs-tab>
+        <vs-tab label="Entregado" @click="getMyAssignmentsInProcess()">
           <div class="tab-content-courses" v-if="this.cardStatus.length > 0">
             <div v-for="(assignment, index) in this.cardStatus" :key="index">
               <CardStatus :data="assignment"></CardStatus>
@@ -88,7 +100,6 @@ export default {
         })
       })
       this.cardStatus = myAssignmentData
-      console.log(data)
     },
     storeCourseAssignmentsCount (data) {
       const defaultCourseAssignment = {
@@ -106,7 +117,8 @@ export default {
   },
   methods: {
     parseStatus (data, field) {
-      return  [... new Set(data.map((e) => e.assignmentstatus[field]))]
+      const flt = data.filter((e) => e.itsme);
+      return  [... new Set(flt.map((e) => e.assignmentstatus[field]))]
     },
     getCourseAssignments () {
       return [
@@ -137,10 +149,18 @@ export default {
       ]
     },
 
-    getMyAssignments () {
+    getMyAssignmentsPending () {
       const params = {
         id: 3, //  Id Work Pratices
         status: 1 // assingment Status Pending
+      }
+      this.$store.dispatch('assignment/getMyAssignmentsData', params)
+
+    },
+    getMyAssignmentsInProcess () {
+      const params = {
+        id: 3, //  Id Work Pratices
+        status: 2 // assingment Status Pending
       }
       this.$store.dispatch('assignment/getMyAssignmentsData', params)
 
@@ -159,7 +179,7 @@ export default {
   },
   mounted () {
     this.getCoursesAssignmentsCount()
-    this.getMyAssignments()
+    this.getMyAssignmentsPending()
   }
 }
 </script>

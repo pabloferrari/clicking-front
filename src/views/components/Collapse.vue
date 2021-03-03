@@ -104,7 +104,7 @@ export default {
   },
   data () {
     return {
-      titleButton: 'Unirse a clase',
+      titleButton: 'Clase grabada',
       //   titleButton: 'clase grabada',
       showDetails: '',
       collapseBodyProp: null,

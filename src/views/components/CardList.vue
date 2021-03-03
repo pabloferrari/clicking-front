@@ -8,7 +8,7 @@
       :subtitle="card.subtitle"
       :buttonTitle="card.buttonTitle"
       :path="card.path"
-      :description="description"
+      :description="(card.avatarData.length > 3 ? `+` + (card.avatarData.length - 3) + ' ' + description : '')"
       :dataAvatar="card.avatarData"
     >
     </Card>
