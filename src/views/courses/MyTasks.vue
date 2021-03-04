@@ -11,7 +11,7 @@
         <vs-tab label="Pendiente" @click="getMyAssignmentsPending()">
           <div class="tab-content-courses" v-if="this.cardStatus.length > 0">
             <div v-for="(assignment, index) in this.cardStatus" :key="index">
-              <CardStatus :data="assignment"></CardStatus>
+              <CardStatus :data="assignment" :status="1"></CardStatus>
             </div>
           </div>
           <div v-else>
@@ -23,7 +23,7 @@
         <vs-tab label="Entregado" @click="getMyAssignmentsInProcess()">
           <div class="tab-content-courses" v-if="this.cardStatus.length > 0">
             <div v-for="(assignment, index) in this.cardStatus" :key="index">
-              <CardStatus :data="assignment"></CardStatus>
+              <CardStatus :data="assignment" :status="2"></CardStatus>
             </div>
           </div>
           <div v-else>
@@ -35,7 +35,7 @@
         <vs-tab label="Completado" @click="getMyAssignmentsComplete()">
           <div class="tab-content-workshop" v-if="this.cardStatus.length > 0">
             <div v-for="(assignment, index) in this.cardStatus" :key="index">
-              <CardStatus :data="assignment"></CardStatus>
+              <CardStatus :data="assignment" :status="3"></CardStatus>
             </div>
           </div>
           <div v-else>
@@ -81,6 +81,7 @@ export default {
     storeMyAssignments (data) {
       const myAssignmentData = []
       data.map((element) => {
+        console.log(element.studentsassignment);
         const statusName = this.parseStatus(element.studentsassignment, 'name')
         const statusId = this.parseStatus(element.studentsassignment, 'id')
         let classrooms = ''
@@ -118,7 +119,10 @@ export default {
   },
   methods: {
     parseStatus (data, field) {
-      const flt = data.filter((e) => e.itsme);
+      let flt = data.filter((e) => e.itsme);
+      if(this.$store.state.auth.authUser.roles[0].name == 'Teacher') 
+      flt = data;
+
       return  [... new Set(flt.map((e) => e.assignmentstatus[field]))]
     },
     getCourseAssignments () {

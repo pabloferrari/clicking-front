@@ -10,9 +10,7 @@
             >
               <ListIcon v-if="data.type == 1"></ListIcon>
               <CheckAssignmentIcon v-if="data.type == 2"> </CheckAssignmentIcon>
-              <PencilAssignmentlIcon
-                v-if="data.type == 3"
-              ></PencilAssignmentlIcon>
+              <PencilAssignmentlIcon v-if="data.type == 3"></PencilAssignmentlIcon>
             </div>
             <div class="w-2/3 px-4 py-4">
               <p class="m-2">
@@ -36,7 +34,7 @@
             <div class="rounded-full h-10 p-4" style="cursor: pointer;" @click="handleRouter(data.id)">
               <vs-chip class="bg-white" >
                 <feather-icon
-                  :icon="this.parseStatus(data.typeStatusId)"
+                  :icon="this.parseStatus(status)"
                   :svgClasses="'h-5 w-8 '+this.classColor"
                 >
                 </feather-icon>
@@ -67,7 +65,8 @@ export default {
     CheckAssignmentIcon
   },
   props: {
-    data: Object
+    data: Object,
+    status: Number
   },
   data () {
     return {
