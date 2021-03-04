@@ -29,7 +29,7 @@
             <div class="flex">
               <div class="vx-col flex mb-1 w-1/2">
                 <vs-avatar
-                  src="https://avatars2.githubusercontent.com/u/31676496?s=460&v=4"
+                  :src="this.assignment.teacherImage"
                   size=""
                   class="border-2 border-white border-solid -m-1"
                 ></vs-avatar>
@@ -441,6 +441,7 @@ export default {
           description: data.assignment.description,
           assignmentType: data.assignment.assignmenttype.id,
           teacher: data.assignment.class.course.teacher.name,
+          teacherImage: data.assignment.class.course.teacher.user.image || require('@/assets/images/portrait/small/incognito.png'),
           user_id: data.assignment.class.course.teacher.user_id,
           students: data.studentsassignment
         }

@@ -5,11 +5,10 @@
       <p class="font-semibold">{{ activeUserInfo.name }}</p>
       <!-- <small>Available</small> -->
     </div>
-
+ 
     <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">
-
       <div class="con-img ml-3">
-        <img v-if="defaultUser.photoURL" key="onlineImg" :src="defaultUser.photoURL" alt="user-img" width="50" height="50" class="rounded-full shadow-md cursor-pointer block" />
+        <img key="onlineImg" :src="activeUserInfo.image || defaultUser.photoURL" alt="user-img" width="50" height="50" class="rounded-full shadow-md cursor-pointer block" />
       </div>
 
       <vs-dropdown-menu class="vx-navbar-dropdown">
