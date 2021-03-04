@@ -195,17 +195,31 @@
 
       <div class="eventItem">
         Creador:
-        <span class="itemAlignRight">{{ currentEvent.creator.name }}</span>
+        <span class="itemAlignRight">
+          <vs-avatar
+            :src="currentEvent.creator.image || require('@/assets/images/portrait/small/incognito.png')"
+            size="30px"
+            class="border-2 border-white border-solid -m-1"
+          ></vs-avatar>
+          {{ currentEvent.creator.name }}
+        </span>
       </div>
 
       <div class="eventItem">Invitados</div>
 
       <ul class="guestList">
         <li v-for="(user, index) in currentEvent.users" :key="index">
-          {{ user.user.name }}
-          <b-badge :variant="getUserTypeColor(user.user)">
-            {{ getUserType(user.user) }}
-          </b-badge>
+          <vs-avatar
+            :src="user.user.image || require('@/assets/images/portrait/small/incognito.png')"
+            size="30px"
+            class="border-2 border-white border-solid -m-1"
+          ></vs-avatar>
+          <span style="padding: 5px;">
+            {{ user.user.name }}
+            <b-badge :variant="getUserTypeColor(user.user)">
+              {{ getUserType(user.user) }}
+            </b-badge>
+          </span>
         </li>
       </ul>
     </vs-prompt>

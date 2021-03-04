@@ -104,13 +104,9 @@ export default {
     },
     create () {
       this.$validator.validateAll().then(result => {
-        // console.log(result)
+        
         if (result) {
-          // const payload = Object.assign(
-          //   this.form, {
-          //     description: this.description
-          //   }
-          // )
+          
           const payload = new FormData()
           payload.append('title', this.form.title)
           payload.append('date', this.form.date)
