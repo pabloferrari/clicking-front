@@ -99,6 +99,14 @@ export default [
     }
   },
   {
+    path: '/ratings',
+    name: 'Mis Calificaciones',
+    component: () => import('../views/ratings/RatingStudents.vue'),
+    meta: {
+      permissions: ['student']
+    }
+  },
+  {
     path: '/courses/tasks',
     name: 'Mis Cursos - Asignación Tarea',
     component: () => import('../views/courses/MyTasks.vue'),

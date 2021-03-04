@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     imageEmpty (image) {
-      return image === null ? image : ''
+      return image !== null ? image : ''
     },
     colorStatus (id) {
       switch (id)  {

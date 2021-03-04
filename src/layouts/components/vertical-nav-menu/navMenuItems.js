@@ -99,6 +99,13 @@ export default [
     permissions: ['teacher', 'student']
   },
   {
+    url: '/ratings',
+    name: 'Calificaciones',
+    slug: 'courses',
+    icon: 'CheckIcon',
+    permissions: ['student']
+  },
+  {
     url: '/classrooms',
     name: 'Salones',
     slug: 'classroom',

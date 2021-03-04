@@ -41,7 +41,6 @@ const mutations = {
 const actions = {
   async login ({ commit }, credentials) {
     try {
-      console.log(`login -> ${JSON.stringify(credentials)}`);
       commit('setAuthLoading', true)
       const auth = await authService.login(credentials)
       localStorage.setItem('userAuth', JSON.stringify(auth.data.user))
@@ -51,7 +50,6 @@ const actions = {
       router.push('/')
     } catch (error) {
       commit('setAuthLoading', false)
-      console.log(error)
     }
   }
 }

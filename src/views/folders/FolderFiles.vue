@@ -40,7 +40,7 @@
             </div>
           </div>
         </div>
-        <div class="inline text-right" v-for="index in 24" :key="index">
+        <div class="inline text-right" v-for="index in 3" :key="index">
           <div class="w-1/6 h-24 inline-block bg-white mx-2 my-2 rounded-lg">
             <strong class="p-2 text-title">PDF</strong>
           </div>
@@ -63,7 +63,6 @@ export default {
     FolderIcon
   },
   props: {
-
     folderId: String
   },
   data () {
