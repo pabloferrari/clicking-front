@@ -75,13 +75,15 @@ export default {
 
         })
       })
-      const parseCourse = rowsCourses.sort((a, b) => new Date(b.dateOrder )> new Date(a.dateOrder) ? 1: -1);
+      const parseCourse = rowsCourses.sort((a, b) => {
+        return new Date(b.dateOrder) > new Date(a.dateOrder) ? 1 : -1
+      })
       this.dataList = parseCourse
     }
   },
   methods: {
-    arraySort(data) {
-      data.sort((a,b) => {
+    arraySort (data) {
+      data.sort((a, b) => {
         const date1 = new Date(a.date)
         const date2 = new Date(b.date)
         return date1 - date2

@@ -117,7 +117,7 @@ export default {
   },
   methods: {
     parseStatus (data, field) {
-      const flt = data.filter((e) => e.itsme);
+      const flt = data.filter((e) => e.itsme)
       return  [... new Set(flt.map((e) => e.assignmentstatus[field]))]
     },
     getCourseAssignments () {
@@ -168,7 +168,7 @@ export default {
     getMyAssignmentsComplete () {
       const params = {
         id: 3, // Id Work Pratices
-       status: 3 // assingment Status Complete
+        status: 3 // assingment Status Complete
       }
       this.$store.dispatch('assignment/getMyAssignmentsData', params)
 

@@ -247,7 +247,7 @@ export default {
           const payload = this.form
           this.$store
             .dispatch('institution/createInstitution', payload)
-            .then(response => {
+            .then(() => {
               this.$emit('close-modal')
             })
             .catch(err => {
@@ -262,7 +262,7 @@ export default {
           const payload = this.form
           this.$store
             .dispatch('institution/updateInstitution', payload)
-            .then(response => {
+            .then(() => {
               this.$emit('close-modal')
             })
             .catch(err => {

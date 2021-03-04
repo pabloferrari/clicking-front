@@ -30,11 +30,10 @@ export default {
   },
   props: {
     name: String,
-    folderId: Number,
-    name:String
+    folderId: Number
   },
   methods: {
-    handlerClick(id) {
+    handlerClick (id) {
       console.log(id)
       if (id) {
         const path = `/courses/folders/files/${id}`

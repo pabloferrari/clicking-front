@@ -219,6 +219,14 @@ export default [
     meta: {
       permissions: ['teacher', 'student', 'institution']
     }
+  },
+  {
+    path: '/my-notes',
+    name: 'MyNotes',
+    component: () => import('../views/notes/MyNotes.vue'),
+    meta: {
+      permissions: ['admin', 'institution', 'teacher', 'student']
+    }
   }
 
   // {

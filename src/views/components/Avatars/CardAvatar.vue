@@ -35,21 +35,16 @@ export default {
     imageEmpty (image) {
       return image === null ? image : ''
     },
-    colorStatus(id) {
-      console.log(id)
-      switch(id)  {
-        case 1:
-          return 'text-danger'
-          break
-        case 2:
-          return 'text-primary'
-          break
-        case 3:
-          return 'text-success'
-          break
-          case 4:
-            return 'text-purple'
-            break
+    colorStatus (id) {
+      switch (id)  {
+      case 1:
+        return 'text-danger'
+      case 2:
+        return 'text-primary'
+      case 3:
+        return 'text-success'
+      case 4:
+        return 'text-purple'
       }
     },
     onActiveCard () {

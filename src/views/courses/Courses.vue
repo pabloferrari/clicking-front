@@ -125,7 +125,7 @@ export default {
       if (Curso) {
         const courseData = []
         Curso.map((element) => {
-          console.log(element);
+          console.log(element)
           courseData.push({
             title: element.subject.name,
             subtitle: `${element.classroom.name} - ${element.classroom.shift.name}`,
@@ -136,7 +136,7 @@ export default {
             avatarData: element.classroom.classroom_students
           })
         })
-        console.log('courseData', courseData);
+        console.log('courseData', courseData)
         this.courses = courseData
       }
     },

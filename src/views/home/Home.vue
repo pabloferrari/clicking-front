@@ -4,7 +4,7 @@
       <p class="primary">Hola, {{ activeUserInfo.name }}!</p>
     </div>
 
-    <div class="vx-col w-3/5 ">
+    <div class="vx-col w-100 ">
       <calendar></calendar>
     </div>
     <!-- <div class="donuts__chart">

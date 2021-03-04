@@ -54,14 +54,12 @@
               instant-upload="false"
               v-on:updatefiles="handleFileUpload"
             />
-    </div>
-  </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-
 import vueFilePond from 'vue-filepond'
 import 'filepond/dist/filepond.min.css'
 
@@ -126,7 +124,7 @@ export default {
 
           this.$store
             .dispatch('news/createNews', payload)
-            .then(response => {
+            .then(() => {
               this.$emit('close-modal')
             })
             .catch(err => {

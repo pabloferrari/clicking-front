@@ -53,17 +53,13 @@ export default {
   },
   methods: {
     renderIcon (type) {
-      console.log('renderIcon', type);
       switch (type) {
       case 1: // Tasks
         return ListIcon
-        break
       case 2: // Evaluations
         return CheckAssignmentIcon
-        break
       case 3: // Work Practice
         return PencilAssignmentlIcon
-        break
       }
     },
     deleteAttach (id) {

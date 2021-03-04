@@ -99,8 +99,8 @@ export default {
           if (admin) {
             this.form.id = this.idEdit
             this.form.name = admin.name
-            this.form.email = admin.email,
-            this.form.institution_id = this.institutionId,
+            this.form.email = admin.email
+            this.form.institution_id = this.institutionId
             this.form.active = admin.active
           }
         }

@@ -1,7 +1,7 @@
 <template>
     <div id="simple-calendar-app">
         <div class="vx-card no-scroll-content">
-    
+
             <calendar-view
                 ref="calendar"
                 class="theme-default"
@@ -58,11 +58,11 @@
                                     >{{ view.label }}</vs-button>
                             </template>
                         </div>
-                    
+
                     </div>
 
                     <div class="vx-row sm:flex hidden mt-4">
-                    
+
                         <div class="vx-col w-full flex">
                             <div class="flex flex-wrap sm:justify-start justify-center">
                                 <div v-for="(type, index) in eventTypes" :key="index" class="flex items-center mr-4 mb-2">
@@ -71,13 +71,13 @@
                                 </div>
                             </div>
                         </div>
-                    
+
                     </div>
-                    
+
                 </div>
 
             </calendar-view>
-        
+
         </div>
 
         <vs-prompt
@@ -170,7 +170,7 @@
             <vs-input name="event-url" v-validate="'url'" class="w-full mt-6" label-placeholder="Event URL" v-model="url" :color="!errors.has('event-url') ? 'success' : 'danger'"></vs-input>
 
         </vs-prompt>
-  
+
     </div>
 </template>
 
@@ -178,8 +178,6 @@
 
 import { CalendarView, CalendarViewHeader } from 'vue-simple-calendar'
 require('vue-simple-calendar/static/css/default.css')
-import moduleCalendar from '../../store/modules/calendar.js'
-import { mapGetters } from 'vuex'
 import Datepicker from 'vuejs-datepicker'
 import { es, en, he } from 'vuejs-datepicker/src/locale'
 import moment from 'moment'
@@ -193,7 +191,6 @@ export default {
   data () {
     return {
       showDate: moment(String(new Date())).format('DD/MM/YYYY'),
-      showDate: new Date(),
       disabledFrom: false,
       locale: es,
       id: 0,
@@ -242,7 +239,7 @@ export default {
           start  : '2021-02-09T12:30:00',
           allDay : false
         }
-			  ],
+      ],
       config: {
         locale: 'es'
       },

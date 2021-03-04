@@ -66,17 +66,17 @@ export default {
 
     folderId: String
   },
-  data() {
+  data () {
     return {
       activePrompt: false,
       actionModal: '',
-      path: '',
+      path: ''
 
     }
   },
 
   methods: {
-    acceptFolder() {
+    acceptFolder () {
 
     }
   }

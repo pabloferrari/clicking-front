@@ -68,7 +68,7 @@ export default {
           )
           this.$store
             .dispatch('news/createNews', payload)
-            .then(response => {
+            .then(() => {
               this.$emit('close-modal')
             })
             .catch(err => {

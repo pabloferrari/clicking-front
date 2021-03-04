@@ -419,7 +419,7 @@ export default {
     userId () {
       return this.$store.state.auth.authUser.id
     },
-    rolUser() {
+    rolUser () {
       return this.$store.state.auth.authUser.roles[0].slug
     },
     isStudent () {
@@ -434,7 +434,7 @@ export default {
 
       if (data) {
         this.assignmentStatus = data.studentsassignment[0].assignmentstatus.id
-        this.studentCorrect = data.studentsassignment.filter((e) => e.assignmentstatus.id ===3)
+        this.studentCorrect = data.studentsassignment.filter((e) => e.assignmentstatus.id === 3)
         this.assignment = {
           title: data.assignment.title,
           limitDate: this.formatDateTime(data.assignment.limit_date),
@@ -506,9 +506,9 @@ export default {
     handleFileUpload (files) {
       this.file = files.map(files => files.file)
     },
-    activeCard ({ classroomstudents,assignmentstatus }) {
+    activeCard ({ classroomstudents, assignmentstatus }) {
       this.assignmentStatus = ''
-    this.assignmentStatusSelected(assignmentstatus.id)
+      this.assignmentStatusSelected(assignmentstatus.id)
       this.commentId = ''
       this.activeCommentAssignment = true
       const params = {
@@ -522,7 +522,7 @@ export default {
       this.getFileStudent(this.userStudentId)
     },
 
-    assignmentStatusSelected(status) {
+    assignmentStatusSelected (status) {
       this.assignmentStatus  = status
     },
 
@@ -596,16 +596,16 @@ export default {
             classroom_student_id: this.studentCorrectId,
             assignment_status_id:1
           }
-        this.$store
-          .dispatch('assignment/createAssignmentStudent', payload)
-          .then(response => {
-            console.log(response)
+          this.$store
+            .dispatch('assignment/createAssignmentStudent', payload)
+            .then(response => {
+              console.log(response)
             //this.$emit('close-modal')
-          })
-          .catch(err => {
+            })
+            .catch(err => {
 
-            console.log(err)
-          })
+              console.log(err)
+            })
         }
       })
 
@@ -692,13 +692,10 @@ export default {
       switch (type) {
       case 1: // Tasks
         return ListIcon
-        break
       case 2: // Evaluations
         return CheckAssignmentIcon
-        break
       case 3: // Work Practice
         return PencilAssignmentlIcon
-        break
       }
     }
   },
@@ -708,7 +705,7 @@ export default {
     if (this.$store.state.auth.authUser.roles[0].slug === 'student') {
       this.getFileStudent()
       this.getAssignmentDetailStudentByIdData()
-    }else{
+    } else {
 
       this.getAssignment()
     }

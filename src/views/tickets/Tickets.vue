@@ -116,10 +116,9 @@ export default {
   },
   methods: {
     getTickets () {
-
       const { roles } = this.$store.state.auth.authUser
       const role = roles[0]
-      if (role && (role.id == 1 || role.id == 2)) {
+      if (role && (role.id === 1 || role.id === 2)) {
         this.$store.dispatch('tickets/getTickets')
       } else {
         console.log(`Role: ${role.name}`)

@@ -69,13 +69,10 @@ export default {
       switch (type) {
       case 1: // Tasks
         return ListIcon
-        break
       case 2: // Evaluations
         return CheckAssignmentIcon
-        break
       case 3: // Work Practice
         return PencilAssignmentlIcon
-        break
       }
     },
     deleteAttach (id) {

@@ -43,6 +43,8 @@ import calendar from './modules/calendar'
 import assignment from './modules/assignment'
 import assignmentGroup from './modules/assignmentGroup'
 import news from './modules/news'
+import notes from './modules/notes'
+import noteContents from './modules/noteContents'
 import tickets from './modules/tickets'
 import comment from './modules/comment'
 import library from './modules/library'
@@ -80,7 +82,9 @@ export default new Vuex.Store({
     comment,
     library,
     folder,
-    calendar
+    calendar,
+    notes,
+    noteContents
   },
   getters,
   mutations,

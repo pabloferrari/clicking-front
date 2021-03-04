@@ -83,7 +83,7 @@ export default {
       data.map((element) => {
         const statusName = this.parseStatus(element.studentsassignment, 'name')
         const statusId = this.parseStatus(element.studentsassignment, 'id')
-        console.log(`Status -> ${JSON.stringify(statusId)}`);
+        console.log(`Status -> ${JSON.stringify(statusId)}`)
         let classrooms = ''
         if (element.class.course.classroom) {
           classrooms = `${element.class.course.classroom.name} - ${element.class.course.classroom.shift.name}`
@@ -118,7 +118,7 @@ export default {
   },
   methods: {
     parseStatus (data, field) {
-      const flt = data.filter((e) => e.itsme);
+      const flt = data.filter((e) => e.itsme)
       return  [... new Set(flt.map((e) => e.assignmentstatus[field]))]
     },
     getCourseAssignments () {

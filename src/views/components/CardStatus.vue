@@ -86,12 +86,9 @@ export default {
       case 1:
         this.classColor = 'text-red'
         return 'ClockIcon'
-        break
       case 2:
         this.classColor = 'text-primary'
         return 'CheckIcon'
-        break
-
       default:
         break
       }

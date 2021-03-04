@@ -119,5 +119,12 @@ export default [
     slug: 'news',
     icon: 'FileTextIcon',
     permissions: ['institution', 'teacher', 'student']
+  },
+  {
+    url: '/my-notes',
+    name: 'Mis Anotaciones',
+    slug: 'my-notes',
+    icon: 'PenToolIcon',
+    permissions: ['admin', 'institution', 'teacher', 'student']
   }
 ]
