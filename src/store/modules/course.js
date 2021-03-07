@@ -1,17 +1,20 @@
 
+
 import CourseService from '../../services/course'
 
 const state = {
   course: {},
   courses: [],
   courseSubject: [],
-  courseAssignmentCount: []
+  courseAssignmentCount: [],
+  studentNotInCourse: [],
 }
 
 
 const getters = {
   getCourse: state => { return state.course },
   getCourses: state => { return state.courses },
+  getStudentNotInCourse: state => { return state.studentNotInCourse },
   getCourseSubject: state => { return state.courseSubject },
   getCourseAssignmentCount: state => { return state.courseAssignmentCount },
   getCourseId: state => id => {
@@ -23,30 +26,32 @@ const getters = {
 
 
 const mutations = {
-  updatedCourses (state, course) {
+  updatedCourses(state, course) {
     state.course = course
   },
 
-  setCourses (state, courses) {
+  setCourses(state, courses) {
     state.courses = courses
   },
 
-  setCourse (state, course) {
+  setCourse(state, course) {
     state.course = course
   },
 
-  setCourseSubject (state, courseSubject) {
+  setCourseSubject(state, courseSubject) {
     state.courseSubject = courseSubject
   },
-
-  setCourseAssignmentCount (state, courseAssignmentCount) {
+  setStudentNotInCourse(state, studentNotInCourse) {
+    state.studentNotInCourse = studentNotInCourse
+  },
+  setCourseAssignmentCount(state, courseAssignmentCount) {
     state.courseAssignmentCount = courseAssignmentCount
   }
 
 }
 
 const actions = {
-  async createCourse ({ commit, state, dispatch }, course) {
+  async createCourse({ commit, state, dispatch }, course) {
 
     try {
       const newCourse = {
@@ -80,6 +85,76 @@ const actions = {
       console.log(error)
     }
 
+  },
+
+  addStudentInCourse({ commit, state, dispatch }, course) {
+    const studentCourse = Object.assign([], course)
+    const student_id = studentCourse.students.map((element) => element.id)
+    const payload = {
+      course_id: course.course_id,
+      student_id
+    }
+    new Promise((resolve, reject) => {
+
+      CourseService.addStudentInCourse(payload).then((response) => {
+        console.log(response)
+        resolve(response)
+        commit('setCourses', response.data)
+        dispatch(
+          'notification/success',
+          {
+            title: 'Guardado exitoso....',
+            text: 'se ha actualizado correctamente.'
+          },
+          { root: true }
+        )
+      }).catch((err) => {
+        reject(err)
+        console.log(err)
+      })
+
+    })
+  },
+
+  async deleteStudentCourse({ state, commit, dispatch }, id) {
+    try {
+      await CourseService.deleteStudentCourse(id)
+      const index = Object.assign([], state.courses)
+      const i = []
+      const courseData = index.map((element) => {
+        const parser = []
+        if (element.classroom.classroom_students) {
+          const indexRemove = element.classroom.classroom_students.findIndex((x) => x.id === id)
+          const newA = [...element.classroom.classroom_students]
+          newA.splice(indexRemove, 1)
+          // console.log(newA)
+          // const clasr = element.classroom.classroom_students.push(newA)
+          // parser.push({
+          //   classroom: [...element.classroom],
+          //   coursetype: element.coursetype,
+          //   id: element.id,
+          //   subject: element.subject,
+          //   teacher: element.teacher
+          // })
+        }
+        return element
+      })
+      // console.log(courseData)
+      // // console.log(index)
+      // // const index = state.course.classroom.classroom_students.findIndex((x) => x.id === id)
+
+      // commit('setCourses', courseData)
+      dispatch(
+        'notification/success',
+        {
+          title: 'Eliminado exitoso....',
+          text: 'se ha eliminado correctamente.'
+        },
+        { root: true }
+      )
+    } catch (error) {
+      console.log(error)
+    }
   },
 
   // async updateCourse ({ state, commit, dispatch }, course) {
@@ -117,12 +192,12 @@ const actions = {
   // }
   //},
 
-  async getCourseById ({ commit }, id) {
+  async getCourseById({ commit }, id) {
     await CourseService.get(id)
       .then((response) => commit('setCourses', response.data))
       .catch((err) => console.log(err))
   },
-  async getMyCoursesData ({ commit }) {
+  async getMyCoursesData({ commit }) {
     await CourseService.getMyCourses()
       .then((response) => {
         commit('setCourses', response.data)
@@ -131,7 +206,7 @@ const actions = {
         console.log(err)
       })
   },
-  async getCoursesAssignmentsCountData ({ commit }) {
+  async getCoursesAssignmentsCountData({ commit }) {
     await CourseService.getCoursesAssignmentsCount()
       .then((response) => {
         commit('setCourseAssignmentCount', response.data)
@@ -140,7 +215,7 @@ const actions = {
         console.log(err)
       })
   },
-  async getCoursesClassroomData ({ commit }) {
+  async getCoursesClassroomData({ commit }) {
     try {
       const courseData = await CourseService.getAll()
       commit('setCourses', courseData.data)
@@ -148,10 +223,18 @@ const actions = {
       console.log(error)
     }
   },
-  async getCourseByClassroom ({ commit }, id) {
+  async getCourseByClassroom({ commit }, id) {
     try {
       const courseClassroomData = await CourseService.getByCourseClassroom(id)
       commit('setCourses', courseClassroomData.data)
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  async getStudentNotInCourseData({ commit }, id) {
+    try {
+      const studentNotInCourse = await CourseService.getStudentNotInCourse(id)
+      commit('setStudentNotInCourse', studentNotInCourse.data)
     } catch (error) {
       console.log(error)
     }

@@ -3,29 +3,38 @@ import service from './service'
 class CourseService {
   entity = 'courses'
 
-  getAll () {
+  getAll() {
     return service.get(`/${this.entity}`)
   }
-  get (id) {
+  get(id) {
     return service.get(`/${this.entity}/${id}`)
   }
-  getByCourseClassroom (id) {
+  getByCourseClassroom(id) {
     return service.get(`/${this.entity}/byClassroom/${id}`)
   }
-  getMyCourses () {
+  getMyCourses() {
     return service.get('/my-courses')
   }
-  getCoursesAssignmentsCount () {
+  getCoursesAssignmentsCount() {
     return service.get('/my-courses-assignments-count')
   }
-  create (data) {
+  addStudentInCourse(data) {
+    return service.post(`/${this.entity}/add-student-in-course`, data)
+  }
+  getStudentNotInCourse(id) {
+    return service.get(`/${this.entity}/student-not-in-course/${id}`)
+  }
+  create(data) {
     return service.post(`/${this.entity}`, data)
   }
-  update (id, data) {
+  update(id, data) {
     return service.put(`/${this.entity}/${id}`, data)
   }
-  delete (id) {
+  delete(id) {
     return service.delete(`/${this.entity}/${id}`)
+  }
+  deleteStudentCourse(id) {
+    return service.delete(`/${this.entity}/delete-student-course/${id}`)
   }
 
 }
