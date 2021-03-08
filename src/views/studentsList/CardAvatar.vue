@@ -9,6 +9,7 @@
       </div>
       <div class="justify-end my-2">
         <feather-icon
+          v-permission="['institution', 'teacher']"
           v-if="type === 'student'"
           icon="TrashIcon"
           svgClasses="h-5 w-5 m-4 hover:text-danger cursor-pointer"
