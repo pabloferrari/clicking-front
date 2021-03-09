@@ -38,6 +38,7 @@ import shift from './modules/shift'
 import subject from './modules/subject'
 import courseType from './modules/courseType'
 import bigBlueButton from './modules/bigBlueButton'
+import meeting from './modules/meeting'
 import calendar from './modules/calendar'
 
 import assignment from './modules/assignment'
@@ -75,6 +76,7 @@ export default new Vuex.Store({
     subject,
     courseType,
     bigBlueButton,
+    meeting,
     assignment,
     assignmentGroup,
     news,
