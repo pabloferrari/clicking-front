@@ -9,6 +9,7 @@
     <div class="vx-row" v-permission="['institution']">
       <InputTypping ref="InputTypping" @handler-publish="showModalPublish()"></InputTypping>
     </div>
+
     <!-- List of Posts Publish Institutions -->
     <div class="vx-row my-4">
       <vx-card v-if="this.dataList.length > 0" >
@@ -65,6 +66,7 @@ export default {
     storeNews (data) {
       const rows = []
       data.map((element) => {
+        console.log('user', element.user);
         rows.push({
           title: element.title,
           description: element.description,
