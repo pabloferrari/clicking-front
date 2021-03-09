@@ -103,109 +103,109 @@
 </template>
 
 <script>
-import StudentInCourseForm from "../studentsList/StudentInCourseForm";
-import { mapGetters } from "vuex";
-import CardAvatar from "./CardAvatar";
-import CardAvatarDetail from "./CardAvatarDetail";
+import StudentInCourseForm from '../studentsList/StudentInCourseForm'
+import { mapGetters } from 'vuex'
+import CardAvatar from './CardAvatar'
+import CardAvatarDetail from './CardAvatarDetail'
 
 export default {
-  name: "studentsList",
+  name: 'studentsList',
   props: {
     id: String,
-    title: String,
+    title: String
   },
   components: {
     CardAvatar,
     CardAvatarDetail,
-    StudentInCourseForm,
+    StudentInCourseForm
   },
-  data() {
+  data () {
     return {
       courseStudents: [],
 
       activePrompt: false,
       form: {
-        student_id: "",
+        student_id: ''
       },
       courseTeachers: [],
-      btnTitle: "Agregar Alumno",
+      btnTitle: 'Agregar Alumno',
       cardsDetail: {
-        name: "Docente",
+        name: 'Docente',
         description:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum ea dolore, voluptate modi optio repudiandae animi error? Praesentium quod harum, consequatur sequi expedita eveniet sunt libero doloremque debitis placeat ipsa.",
-        rol: "Docente",
-        avatar: "",
-      },
-    };
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum ea dolore, voluptate modi optio repudiandae animi error? Praesentium quod harum, consequatur sequi expedita eveniet sunt libero doloremque debitis placeat ipsa.',
+        rol: 'Docente',
+        avatar: ''
+      }
+    }
   },
   computed: {
     ...mapGetters({
-      storeCourseById: "course/getCourses",
-      storeStudentNotInCourse: "course/getStudentNotInCourse",
-    }),
+      storeCourseById: 'course/getCourses',
+      storeStudentNotInCourse: 'course/getStudentNotInCourse'
+    })
   },
   watch: {
-    storeStudentNotInCourse(data) {
-      console.log(data);
+    storeStudentNotInCourse (data) {
+      console.log(data)
     },
-    storeCourseById(data) {
+    storeCourseById (data) {
       if (data) {
         data.map((element) => {
           this.courseStudents = Object.assign(
             {},
             element.classroom.classroom_students
-          );
+          )
           this.courseTeachers = Object.assign(
             {},
             {
-              teacher: element.teacher,
+              teacher: element.teacher
             }
-          );
-        });
+          )
+        })
         // Load initial rol Teacher
-        this.elementActiveDetail(this.courseTeachers.teacher, "Docente");
+        this.elementActiveDetail(this.courseTeachers.teacher, 'Docente')
       }
-    },
+    }
   },
   methods: {
-    showModal() {
-      this.activePrompt = true;
+    showModal () {
+      this.activePrompt = true
     },
-    closeModal() {
-      this.activePrompt = false;
-      this.getStudentNotInCourse();
+    closeModal () {
+      this.activePrompt = false
+      this.getStudentNotInCourse()
     },
-    acceptStudentInCourse() {
-      this.$refs.StudentInCourse.create();
+    acceptStudentInCourse () {
+      this.$refs.StudentInCourse.create()
     },
-    getCourses() {
-      this.$store.dispatch("course/getCourseById", this.id);
+    getCourses () {
+      this.$store.dispatch('course/getCourseById', this.id)
     },
-    getStudentNotInCourse() {
-      this.$store.dispatch("course/getStudentNotInCourseData", this.id);
+    getStudentNotInCourse () {
+      this.$store.dispatch('course/getStudentNotInCourseData', this.id)
     },
 
-    elementActiveDetail(data, rol) {
+    elementActiveDetail (data, rol) {
       const {
         name,
-        user: { image, description },
-      } = data;
+        user: { image, description }
+      } = data
       this.cardsDetail = Object.assign(
         {},
         {
           name,
           description,
           avatar: image,
-          rol,
+          rol
         }
-      );
-    },
+      )
+    }
   },
-  mounted() {
-    this.getCourses();
-    this.getStudentNotInCourse();
-  },
-};
+  mounted () {
+    this.getCourses()
+    this.getStudentNotInCourse()
+  }
+}
 </script>
 
 <style lang="scss" scoped>

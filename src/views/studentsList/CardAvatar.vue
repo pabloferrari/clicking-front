@@ -21,23 +21,23 @@
 </template>
 <script>
 export default {
-  name: "CardAvatar",
+  name: 'CardAvatar',
   props: {
     cardsStudent: [],
     name: String,
     avatar: String,
     type: String,
-    id: Number,
+    id: Number
   },
   methods: {
-    deleteStudent(id) {
-      this.$store.dispatch("course/deleteStudentCourse", id);
+    deleteStudent (id) {
+      this.$store.dispatch('course/deleteStudentCourse', id)
     },
-    activeDetail() {
-      this.$emit("student-list-card");
-    },
-  },
-};
+    activeDetail () {
+      this.$emit('student-list-card')
+    }
+  }
+}
 </script>
 
 <style>

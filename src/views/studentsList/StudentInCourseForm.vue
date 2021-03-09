@@ -28,58 +28,58 @@
   </div>
 </template>
 
-,<script>
-import Multiselect from "vue-multiselect";
+<script>
+import Multiselect from 'vue-multiselect'
 export default {
-  name: "StudentInCourse",
+  name: 'StudentInCourse',
   components: {
-    Multiselect,
+    Multiselect
   },
   props: {
     courseId: String,
-    studentData: Array,
+    studentData: Array
   },
 
-  data() {
+  data () {
     return {
       form: {
-        student_id: [],
-      },
-    };
+        student_id: []
+      }
+    }
   },
 
   methods: {
-    addTagMultiSelect(searchQuery) {
-      return searchQuery;
+    addTagMultiSelect (searchQuery) {
+      return searchQuery
     },
-    removeTagMultiSelect(searchQuery) {
-      return searchQuery;
+    removeTagMultiSelect (searchQuery) {
+      return searchQuery
     },
 
-    create() {
+    create () {
       this.$validator
         .validateAll()
         .then((result) => {
-          console.log("hoal", result);
+          console.log('hoal', result)
           if (result) {
             const payload = {
               students: this.form.student_id,
-              course_id: this.courseId,
-            };
+              course_id: this.courseId
+            }
             this.$store
-              .dispatch("course/addStudentInCourse", payload)
+              .dispatch('course/addStudentInCourse', payload)
               .then(() => {
-                this.$emit("close-modal");
+                this.$emit('close-modal')
               })
               .catch((err) => {
-                console.log(err);
-              });
+                console.log(err)
+              })
           }
         })
         .catch((err) => {
-          console.log(err);
-        });
-    },
-  },
-};
+          console.log(err)
+        })
+    }
+  }
+}
 </script>
