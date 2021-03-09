@@ -9,6 +9,7 @@
 
 import navbarSearchAndPinList from '@/layouts/components/navbar/navbarSearchAndPinList'
 import themeConfig from '@/../themeConfig.js'
+// eslint-disable-next-line no-duplicate-imports
 import colors from '@/../themeConfig.js'
 
 // /////////////////////////////////////////////

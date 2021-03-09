@@ -3,19 +3,19 @@ import service from './service'
 class ClassroomStudentService {
   entity = 'classroom-students'
 
-  getAll() {
+  getAll () {
     return service.get(`/${this.entity}`)
   }
-  get(id) {
+  get (id) {
     return service.get(`/${this.entity}/${id}`)
   }
-  create(data) {
+  create (data) {
     return service.post(`/${this.entity}`, data)
   }
-  update(id, data) {
+  update (id, data) {
     return service.put(`/${this.entity}/${id}`, data)
   }
-  delete(id) {
+  delete (id) {
     return service.delete(`/${this.entity}/${id}`)
   }
 }

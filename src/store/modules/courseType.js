@@ -20,22 +20,22 @@ const getters = {
 
 
 const mutations = {
-  updatedCourseType(state, courseType) {
+  updatedCourseType (state, courseType) {
     state.courseType = courseType
   },
 
-  setCourseTypes(state, courseTypes) {
+  setCourseTypes (state, courseTypes) {
     state.courseTypes = courseTypes
   },
 
-  setCourseType(state, courseType) {
+  setCourseType (state, courseType) {
     state.courseType = courseType
   }
 
 }
 
 const actions = {
-  createCourseType({ commit, state, dispatch }, courseType) {
+  createCourseType ({ commit, state, dispatch }, courseType) {
     CourseTypeService.create(courseType).then((response) => {
       const courseTypes = Object.assign([], state.courseTypes)
       courseTypes.push(response.data)
@@ -72,7 +72,7 @@ const actions = {
   //     console.log(error)
   //   }
   // },
-  async getCourseTypesData({ commit }) {
+  async getCourseTypesData ({ commit }) {
     try {
       const courseTypesData = await CourseTypeService.getAll()
       commit('setCourseTypes', courseTypesData.data)

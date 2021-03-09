@@ -73,7 +73,7 @@ export default {
   },
   data () {
     return {
-      dataStudentRatings: [],
+      dataStudentRatings: []
     }
   },
   methods: {
@@ -82,11 +82,11 @@ export default {
       this.$store.dispatch('student/getStudentRatingsData')
     },
 
-    getCourseTypes() {
+    getCourseTypes () {
       this.$store.dispatch('courseType/getCourseTypesData')
     },
-    getRatingsData(id) {
-      this.$store.dispatch('student/getStudentRatingsData',id)
+    getRatingsData (id) {
+      this.$store.dispatch('student/getStudentRatingsData', id)
       // console.log(id)
     }
 
@@ -100,21 +100,21 @@ export default {
     //   console.log(data)
     // },
     ratings (data) {
-      const rows = []
+      // const rows = []
       const dataArray = []
-      for(const index in data) {
-          const keys = Object.keys(data[index])
-            dataArray.push({
-              title: index,
-              scores: data[index]
-            })
+      for (const index in data) {
+        // const keys = Object.keys(data[index])
+        dataArray.push({
+          title: index,
+          scores: data[index]
+        })
       }
       this.dataStudentRatings  = dataArray
       console.log(this.dataStudentRatings)
     }
   },
   computed: {
-    ...mapGetters({ ratings: 'student/getStudentRatings',courseTypes:'courseType/getCourseTypes' })
+    ...mapGetters({ ratings: 'student/getStudentRatings', courseTypes:'courseType/getCourseTypes' })
   }
 }
 </script>

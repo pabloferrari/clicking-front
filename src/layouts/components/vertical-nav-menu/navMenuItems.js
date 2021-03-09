@@ -132,6 +132,6 @@ export default [
     name: 'Mis Anotaciones',
     slug: 'my-notes',
     icon: 'PenToolIcon',
-    permissions: ['admin', 'institution', 'teacher', 'student']
+    permissions: ['institution', 'teacher', 'student']
   }
 ]

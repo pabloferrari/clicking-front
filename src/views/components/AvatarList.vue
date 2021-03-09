@@ -53,7 +53,7 @@ export default {
       const avatarParse = []
       if (this.dataAvatarList) {
         this.dataAvatarList.map((element) => {
-          console.log(`Get Avatar ${element.student.name} ${element.student.user.image}`);
+          console.log(`Get Avatar ${element.student.name} ${element.student.user.image}`)
           avatarParse.push({
             id: element.student.id,
             name: element.student.name,
