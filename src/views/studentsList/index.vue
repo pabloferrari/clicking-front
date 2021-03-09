@@ -64,7 +64,6 @@
           :name="element.student.name"
           :avatar="element.student.user.image"
           class="mt-5"
-          @delete-student="getCourses()"
           @student-list-card="elementActiveDetail(element.student, 'Alumno')"
         />
         <!-- :avatar="student.user.image" -->

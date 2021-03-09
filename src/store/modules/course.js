@@ -97,7 +97,7 @@ const actions = {
     new Promise((resolve, reject) => {
 
       CourseService.addStudentInCourse(payload).then((response) => {
-        console.log(response)
+
         resolve(response)
         commit('setCourses', response.data)
         dispatch(
@@ -119,31 +119,30 @@ const actions = {
   async deleteStudentCourse({ state, commit, dispatch }, id) {
     try {
       await CourseService.deleteStudentCourse(id)
-      const index = Object.assign([], state.courses)
-      const i = []
-      const courseData = index.map((element) => {
-        const parser = []
+      const courseState = Object.assign([], state.courses)
+      const courseStudentNew = courseState.map((element) => {
+
         if (element.classroom.classroom_students) {
           const indexRemove = element.classroom.classroom_students.findIndex((x) => x.id === id)
-          const newA = [...element.classroom.classroom_students]
-          newA.splice(indexRemove, 1)
-          // console.log(newA)
-          // const clasr = element.classroom.classroom_students.push(newA)
-          // parser.push({
-          //   classroom: [...element.classroom],
-          //   coursetype: element.coursetype,
-          //   id: element.id,
-          //   subject: element.subject,
-          //   teacher: element.teacher
-          // })
-        }
-        return element
-      })
-      // console.log(courseData)
-      // // console.log(index)
-      // // const index = state.course.classroom.classroom_students.findIndex((x) => x.id === id)
+          const newClassroomStudents = [...element.classroom.classroom_students]
+          newClassroomStudents.splice(indexRemove, 1)
 
-      // commit('setCourses', courseData)
+          return {
+            classroom: {
+              classroom_students: newClassroomStudents,
+              id: element.classroom.id,
+              institution_id: element.classroom.institution_id,
+              name: element.classroom.name
+            },
+            coursetype: element.coursetype,
+            id: element.id,
+            subject: element.subject,
+            teacher: element.teacher
+          }
+
+        }
+      })
+      commit('setCourses', courseStudentNew)
       dispatch(
         'notification/success',
         {

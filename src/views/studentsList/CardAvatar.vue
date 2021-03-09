@@ -19,7 +19,6 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   name: "CardAvatar",
@@ -33,8 +32,6 @@ export default {
   methods: {
     deleteStudent(id) {
       this.$store.dispatch("course/deleteStudentCourse", id);
-
-      this.$emit("delete-student");
     },
     activeDetail() {
       this.$emit("student-list-card");
