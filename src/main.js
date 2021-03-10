@@ -84,7 +84,7 @@ Vue.config.productionTip = false
 import VueSocketIOExt from 'vue-socket.io-extended';
 import io from 'socket.io-client';
 
-const socket = io.connect('https://clicking.app:9201');
+const socket = io.connect('https://clicking.app/socket');
 
 Vue.use(VueSocketIOExt, socket, { store });
 
