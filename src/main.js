@@ -81,6 +81,13 @@ Vue.use(FullCalendar)
 
 Vue.config.productionTip = false
 
+import VueSocketIOExt from 'vue-socket.io-extended';
+import io from 'socket.io-client';
+
+const socket = io.connect('http://localhost:9201');
+
+Vue.use(VueSocketIOExt, socket, { store });
+
 new Vue({
   router,
   store,
