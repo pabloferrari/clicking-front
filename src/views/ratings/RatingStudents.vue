@@ -41,9 +41,7 @@
                           data.score_student
                         }}</strong>
                         /
-                        <strong class="text-information">{{
-                          data.score_assignment
-                        }}</strong>
+                        <strong class="text-information">{{ data.score_assignment > 0 ? data.score_assignment : 10 }}</strong>
                       </div>
                     </div>
                   </div>
@@ -87,7 +85,6 @@ export default {
     },
     getRatingsData(id) {
       this.$store.dispatch('student/getStudentRatingsData',id)
-      // console.log(id)
     }
 
   },
@@ -96,25 +93,26 @@ export default {
     // this.getStudentRatings()
   },
   watch: {
-    // courseTypes(data) {
-    //   console.log(data)
-    // },
+    courseTypes(data) {
+      if(data.length > 0) {
+        this.getRatingsData(data[0].id);
+      }
+    },
     ratings (data) {
       const rows = []
       const dataArray = []
       for(const index in data) {
-          const keys = Object.keys(data[index])
-            dataArray.push({
-              title: index,
-              scores: data[index]
-            })
+        const keys = Object.keys(data[index])
+        dataArray.push({
+          title: index,
+          scores: data[index]
+        })
       }
       this.dataStudentRatings  = dataArray
-      console.log(this.dataStudentRatings)
     }
   },
   computed: {
-    ...mapGetters({ ratings: 'student/getStudentRatings',courseTypes:'courseType/getCourseTypes' })
+    ...mapGetters({ ratings: 'student/getStudentRatings', courseTypes:'courseType/getCourseTypes' })
   }
 }
 </script>
