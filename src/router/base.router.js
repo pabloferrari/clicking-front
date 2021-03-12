@@ -235,6 +235,14 @@ export default [
     meta: {
       permissions: ['admin', 'institution', 'teacher', 'student']
     }
+  },
+  {
+    path: '/configuration',
+    name: 'Config',
+    component: () => import('../views/config/Config.vue'),
+    meta: {
+      permissions: ['admin', 'institution', 'teacher', 'student']
+    }
   }
 
   // {

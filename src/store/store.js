@@ -49,6 +49,7 @@ import tickets from './modules/tickets'
 import comment from './modules/comment'
 import library from './modules/library'
 import folder from './modules/folder'
+import profile from './modules/profile'
 
 Vue.use(Vuex)
 
@@ -84,7 +85,8 @@ export default new Vuex.Store({
     folder,
     calendar,
     notes,
-    noteContents
+    noteContents,
+    profile
   },
   getters,
   mutations,
