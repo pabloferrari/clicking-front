@@ -66,7 +66,6 @@ export default {
     storeNews (data) {
       const rows = []
       data.map((element) => {
-        console.log('user', element.user)
         rows.push({
           title: element.title,
           description: element.description,

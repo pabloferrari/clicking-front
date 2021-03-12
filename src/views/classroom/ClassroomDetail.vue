@@ -108,6 +108,30 @@
                         </vs-select>
                     </div>
                 </div>
+                <div class="w-full p-2">
+                    <div class="">
+                        <vs-select
+                            v-model="form.course_type_id"
+                            label="Tipo de curso"
+                            class="mt-5 w-full"
+                            name="item-shift"
+                            v-validate="'required'"
+                        >
+                            <vs-select-item
+                                key=""
+                                value=""
+                                selected
+                                text="seleccionar curso"
+                            />
+                            <vs-select-item
+                                :key="item.id"
+                                :value="item.id"
+                                :text="item.name"
+                                v-for="item in this.courseTypesList"
+                            />
+                        </vs-select>
+                    </div>
+                </div>
             </div>
         </vs-prompt>
         <!-- Modal -->
@@ -144,16 +168,21 @@ export default {
     this.getClassroomCount()
     this.getTeachers()
     this.getSubjects()
+    this.getCourseTypes()
   },
   computed: {
     ...mapGetters({
       storeCourses: 'course/getCourses',
       storeClassroomCount: 'classroom/getClassroom',
       storeTeachers: 'teacher/getTeachers',
-      storeSubjects: 'subject/getSubjects'
+      storeSubjects: 'subject/getSubjects',
+      storeCourseTypesData:'courseType/getCourseTypes'
     })
   },
   methods: {
+    getCourseTypes() {
+      this.$store.dispatch('courseType/getCourseTypesData')
+    },
     clearFields () {
       this.form.subject_id = ''
       this.form.teacher_id = ''
@@ -240,6 +269,9 @@ export default {
     },
     storeSubjects (data) {
       this.subjects = data
+    },
+    storeCourseTypesData (data) { 
+      this.courseTypesList = data;
     }
   },
 
@@ -250,6 +282,7 @@ export default {
       subjects: '',
       activePrompt: false,
       activePromptSave: false,
+      courseTypesList: [],
       countClassroom: [],
       courses: [],
       workshop: [],

@@ -89,8 +89,6 @@
       ></WorkPracticeForm>
     </vs-popup>
 
-    <!-- END MODAL -->
-
     <div class="mt-0">
       <vs-tabs v-model="tab.value">
         <vs-tab label="Muro" v-on="clickTag(tab.value)">
@@ -138,7 +136,6 @@ export default {
   name: 'Subject',
   components: {
     Wall,
-
     Classes,
     CardCount,
     Collapse,
@@ -161,6 +158,8 @@ export default {
       ActiveModal: false,
       itemOne: false,
       activePromptClasses: false,
+      activePromptLink: true,
+      classId: null,
       class_: null,
       itemTwo: false,
       itemThree: false,
@@ -214,9 +213,19 @@ export default {
 
     },
 
+    saveLink () {
+      console.log('saveLink');
+
+    },
+
     closeModalClass (value) {
       this.activePromptClasses = value
     },
+
+    closeModalLink (value) {
+      this.activePromptLink = value
+    },
+
     tasksModal (e) {
       this.itemOne = true
       const dataTasks = Object.assign(this.courseStudents, {
@@ -309,7 +318,8 @@ export default {
 
     accept () {
       this.activePrompt = true
-    }
+    },
+
   },
 
   watch: {

@@ -58,7 +58,7 @@ const actions = {
         subject_id: course.subject_id,
         teacher_id: course.teacher_id,
         classroom_id: course.classroom_id,
-        course_type_id: 1 //course.courses
+        course_type_id: course.course_type_id
       }
       //console.log(newClassroom)
       await CourseService.create(newCourse)

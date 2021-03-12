@@ -31,18 +31,42 @@
                 <div class="items-end">
                   <div class="flex space-x-4">
                     <vs-button
+                      v-if="!isLive(classes.id)"
                       icon-pack="feather"
                       icon="icon-play"
                       color="primary"
                       type="border"
                       @click="startMeeting(classes)"
                       :disabled="buttonDisabled"
-                    >
-                      <span class="font-semibold">
-                        {{ titleButton }}
-                      </span></vs-button
-                    >
+                      >
+                        <span class="font-semibold">{{ titleButton }}</span>
+                    </vs-button>
 
+                    <vs-button
+                      v-if="isLive(classes.id)"
+                      icon-pack="feather"
+                      icon="icon-close"
+                      color="danger"
+                      type="border"
+                      @click="endMeeting()"
+                      >
+                        <span class="font-semibold">Finalizar clase</span>
+                    </vs-button>
+
+                    <vs-button
+                      v-if="isLive(classes.id)"
+                      icon-pack="feather"
+                      icon="icon-play"
+                      color="success"
+                      type="border"
+                      >
+                      <a 
+                        v-if="isLive(classes.id)"
+                        :href="meetingUrl" 
+                        target="__blank"> 
+                        <span class="font-semibold">Ingresar a la clase</span>
+                      </a>
+                    </vs-button>
                     <vs-button
                       color="primary"
                       type="border"
@@ -81,13 +105,31 @@
       <a :href="user.public_url" target="'_blank'"> {{ user.public_url }}</a
       ><br /><br />
     </div>
+
+
+    <!-- Popup Link -->
+    <vs-prompt
+      @accept="saveLink"
+      title="Cargar link de clase"
+      accept-text="Guardar"
+      cancel-text="Cancelar"
+      :active.sync="activePromptLink"
+    >
+      <LinkForm
+        @close-modal-class="closeModalLink(false)"
+        :classId="this.classId"
+        ref="LinkForm"
+      ></LinkForm>
+    </vs-prompt>
+    <!-- END MODAL -->
+
   </div>
 </template>
 
 <script>
 // import ListIcon from "../components/icons/ListIcon";
 import ButtonDropDown from './ButtonDropDown'
-
+import LinkForm from './LinkForm'
 import CollapseBody from './CollapseBody'
 export default {
   name: 'Collapse',
@@ -95,7 +137,8 @@ export default {
     // ListIcon,
     ButtonDropDown,
     // Toolbars,
-    CollapseBody
+    CollapseBody,
+    LinkForm
   },
   props: {
     classesList: Array,
@@ -104,13 +147,17 @@ export default {
   },
   data () {
     return {
-      titleButton: 'Clase grabada',
-      //   titleButton: 'clase grabada',
+      titleButton: 'Cargar link de clase',
+      liveMeeting: [],
+      meetingId: null,
+      meetingUrl: null,
       showDetails: '',
       collapseBodyProp: null,
       dataStudents: [],
       users: [],
-      buttonDisabled: false
+      buttonDisabled: false,
+      activePromptLink: false,
+      classId: null
     }
   },
   methods: {
@@ -120,8 +167,6 @@ export default {
     showModalClass (object, event) {
       const classId = object.id
       const assignmentId = event.id
-      console.log(event, classId, assignmentId)
-
       this.$emit('input', { classId, action: event.action })
     },
 
@@ -131,9 +176,25 @@ export default {
       // this.collapseBodyProp = data;
     },
     startMeeting (classes) {
-      this.buttonDisabled = true
-      const payload = { meeting_type: 8, model: 'class', model_id: classes.id, title: `${classes.title}: ${classes.description}` }
-      this.$store.dispatch('bigBlueButton/create', payload)
+      this.classId = classes.id;
+      this.activePromptLink = true;
+    },
+    endMeeting () {
+      this.$store.dispatch('meeting/finish', { id:this.meetingId });
+    },
+
+    isLive(id) {
+      const meet = this.liveMeeting.find(e => e.id == id);
+      if(!meet) return false;
+      return meet.live;
+    }, 
+
+    saveLink () {
+      this.$refs.LinkForm.saveLink();
+      // const meeting = this.$store.state.meeting.meeting;
+      // this.meetingId = meeting.id;
+      // this.meetingUrl = meeting.link;
+      // this.liveMeeting = true;
     },
     getMeetingData () {
 
@@ -143,7 +204,21 @@ export default {
     '$store.state.bigBlueButton.users' (val) {
       this.users = val
       this.buttonDisabled = false
+    },
+    '$store.state.meeting.meeting' (meeting) {
+      this.meetingId = meeting.id;
+      this.meetingUrl = meeting.link;
+      this.liveMeeting.forEach(c => {
+        if(c.id == meeting.model_id) c.live = true;
+        else c.live = false;
+      });
     }
+  },
+  mounted() {
+    this.liveMeeting = [];
+    this.$props.classesList.map(cl => {
+      this.liveMeeting.push({ id: cl.id, live: false });
+    })
   }
 }
 </script>

@@ -79,6 +79,15 @@ const actions = {
     } catch (error) {
       console.log(error)
     }
+  },
+
+  async getCourseTypes({ commit }) {
+    try {
+      const courseTypesData = await CourseTypeService.getAll()
+      commit('setCourseTypes', courseTypesData.data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 

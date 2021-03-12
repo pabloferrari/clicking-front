@@ -188,6 +188,7 @@
 import AvatarList from '../components/AvatarList'
 import vSelect from 'vue-select'
 import Multiselect from 'vue-multiselect'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'ClassroomForm',
@@ -214,7 +215,13 @@ export default {
       if (newVal) {
         this.clearFields()
       }
+    },
+    storeCourseTypesData (data) { 
+      this.courseTypesList = data;
     }
+  },
+  computed: {
+    ...mapGetters({ storeCourseTypesData:'courseType/getCourseTypes' })
   },
   methods: {
     clearFields () {
@@ -234,6 +241,9 @@ export default {
       } else {
         this.create()
       }
+    },
+    getCourseTypes() {
+      this.$store.dispatch('courseType/getCourseTypesData')
     },
     closeModal () {
       this.$emit('close-modal')
@@ -302,20 +312,20 @@ export default {
       //console.log(this.form.student_id)
     },
     create () {
-      //console.log("Creando...");
-      this.$validator.validateAll().then(result => {
-        if (result) {
+      // this.$validator.validateAll().then(result => {
+        // if (result) {
           const userAuth = localStorage.userAuth
           const parseJson = JSON.parse(userAuth)
           this.form.institution_id = parseJson.institution_id
           const payload = this.form
           this.$store.dispatch('classroom/createClassroom', payload)
-          //this.closeModal()
+          this.closeModal()
           this.clearFields()
-        } else {
-          console.log('input empty')
-        }
-      })
+      //   } else {
+      //     console.log('input empty')
+      //     console.log(this.form)
+      //   }
+      // })
     },
 
     update () {
@@ -323,6 +333,9 @@ export default {
       this.$store.dispatch('plan/updatePlan', payload)
       //this.$emit("close-modal");
     }
+  },
+  mounted () {
+    this.getCourseTypes()
   },
   data () {
     return {

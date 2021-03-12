@@ -1,7 +1,7 @@
 import service from './service'
 
-class BigBlueButtonService {
-  entity = 'bigbluebutton';
+class MeetingService {
+  entity = 'meeting';
 
   //   getAll () {
   //     return service.get(`/${this.entity}`)
@@ -13,7 +13,11 @@ class BigBlueButtonService {
   //     return service.get(`/${this.entity}/byInstitution/${id}`)
   //   }
   create (data) {
-    return service.post(`/${this.entity}/create-meeting-0`, data)
+    return service.post(`/create-meeting`, data)
+  }
+
+  finish (data) {
+    return service.post(`/end-meeting`, data)
   }
 //   update (id, data) {
 //     return service.put(`/users/${id}`, data)
@@ -23,4 +27,4 @@ class BigBlueButtonService {
 //   }
 }
 
-export default new BigBlueButtonService()
+export default new MeetingService()
