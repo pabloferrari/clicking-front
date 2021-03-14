@@ -41,7 +41,7 @@
             label-placeholder="Contraseña"
             v-model="form.password"
             name="contraseña"
-            v-validate="'required'"
+            v-validate="'required|min:8'"
             :danger="errors.has('contraseña')"
           />
           <span class="text-danger text-sm" v-show="errors.has('contraseña')">{{
