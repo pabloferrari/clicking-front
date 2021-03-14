@@ -38,7 +38,7 @@ const errorInterceptor = async (error) => {
     case 422:
       const title = 'Unprocessable Entity'
       let text = ''
-      const values = Object.values(error.response.data.error)
+      const values = Object.values(error.response.data.message)
       values.forEach(element => {
         console.log(element)
         text += `${element} <br>`
