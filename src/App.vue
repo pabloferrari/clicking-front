@@ -87,7 +87,8 @@ export default {
       
       this.$socket.client.on(notifuser, payload => {
           console.log(payload);
-          setTimeout(function() {
+          setTimeout(() => {
+            console.log(this);
             this.$store.dispatch('customNotification/getNotifications')
           }, 5000);
       })
@@ -108,7 +109,8 @@ export default {
       
       this.$socket.client.on(notifuser, payload => {
           console.log(payload);
-          setTimeout(function() {
+          setTimeout(() => {
+            console.log(this);
             this.$store.dispatch('customNotification/getNotifications')
           }, 5000);
       })
