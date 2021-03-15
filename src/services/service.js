@@ -36,11 +36,10 @@ const errorInterceptor = async (error) => {
 
     // eslint-disable-next-line no-case-declarations
     case 422:
-      const title = 'Unprocessable Entity'
+      const title = 'Error'
       let text = ''
       const values = Object.values(error.response.data.message)
       values.forEach(element => {
-        console.log(element)
         text += `${element} <br>`
       })
       store.dispatch('notification/danger', {title, text})

@@ -26,7 +26,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      notifications: 'notification/getNotifications'
+      notifications: 'notification/getNotifications',
+      authUser: 'auth/getUserAuth'
     })
   },
   watch: {
@@ -38,6 +39,24 @@ export default {
     },
     '$vs.rtl' (val) {
       document.documentElement.setAttribute('dir', val ? 'rtl' : 'ltr')
+    },
+    authUser (data) {
+      
+      const notifuser = `notification_${this.$store.state.auth.authUser.id}`;
+      const chatuser = `chat_${this.$store.state.auth.authUser.id}`;
+      
+      this.$socket.client.on(notifuser, payload => {
+          console.log(payload);
+          setTimeout(() => {
+            console.log(this);
+            this.$store.dispatch('customNotification/getNotifications')
+          }, 5000);
+      })
+      
+      this.$socket.client.on(chatuser, payload => {
+          console.log(payload);
+      })
+      
     }
   },
   methods: {
@@ -72,7 +91,6 @@ export default {
     },
     handleWindowResize () {
       this.$store.commit('UPDATE_WINDOW_WIDTH', window.innerWidth)
-      // Set --vh property
       document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`)
     },
     handleScroll () {
@@ -81,9 +99,7 @@ export default {
     openListener() {
       
       const notifuser = `notification_${this.$store.state.auth.authUser.id}`;
-      console.log(`NOTIFICATION LISTEN -> ${notifuser}`);
       const chatuser = `chat_${this.$store.state.auth.authUser.id}`;
-      console.log(`CHAT LISTEN -> ${chatuser}`);
       
       this.$socket.client.on(notifuser, payload => {
           console.log(payload);
@@ -98,31 +114,6 @@ export default {
       })
 
     }
-  },
-  watch: {
-    authUser (data) {
-      
-      const notifuser = `notification_${this.$store.state.auth.authUser.id}`;
-      console.log(`NOTIFICATION LISTEN -> ${notifuser}`);
-      const chatuser = `chat_${this.$store.state.auth.authUser.id}`;
-      console.log(`CHAT LISTEN -> ${chatuser}`);
-      
-      this.$socket.client.on(notifuser, payload => {
-          console.log(payload);
-          setTimeout(() => {
-            console.log(this);
-            this.$store.dispatch('customNotification/getNotifications')
-          }, 5000);
-      })
-      
-      this.$socket.client.on(chatuser, payload => {
-          console.log(payload);
-      })
-      
-    }
-  },
-  computed: {
-    ...mapGetters({ authUser: 'auth/getUserAuth' })
   },
   mounted () {
 
