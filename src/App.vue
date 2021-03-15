@@ -87,13 +87,19 @@ export default {
       
       this.$socket.client.on(notifuser, payload => {
           console.log(payload);
-          setTimeout(this.$store.dispatch('customNotification/getNotifications'), 5000);
+          setTimeout(function() {
+            console.log(`this.getNotifications();`);
+            this.getNotifications();
+          }, 5000);
       })
       
       this.$socket.client.on(chatuser, payload => {
           console.log(payload);
       })
 
+    },
+    getNotifications() {
+      this.$store.dispatch('customNotification/getNotifications')
     }
   },
   watch: {
@@ -106,7 +112,10 @@ export default {
       
       this.$socket.client.on(notifuser, payload => {
           console.log(payload);
-          this.$store.dispatch('customNotification/getNotifications')
+          setTimeout(function() {
+            console.log(`this.getNotifications();`);
+            this.getNotifications();
+          }, 5000);
       })
       
       this.$socket.client.on(chatuser, payload => {
