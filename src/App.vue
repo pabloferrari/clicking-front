@@ -77,7 +77,46 @@ export default {
     },
     handleScroll () {
       this.$store.commit('UPDATE_WINDOW_SCROLL_Y', window.scrollY)
+    }, 
+    openListener() {
+      
+      const notifuser = `notification_${this.$store.state.auth.authUser.id}`;
+      console.log(`NOTIFICATION LISTEN -> ${notifuser}`);
+      const chatuser = `chat_${this.$store.state.auth.authUser.id}`;
+      console.log(`CHAT LISTEN -> ${chatuser}`);
+      
+      this.$socket.client.on(notifuser, payload => {
+          console.log(payload);
+          setTimeout(this.$store.dispatch('customNotification/getNotifications'), 5000);
+      })
+      
+      this.$socket.client.on(chatuser, payload => {
+          console.log(payload);
+      })
+
     }
+  },
+  watch: {
+    authUser (data) {
+      
+      const notifuser = `notification_${this.$store.state.auth.authUser.id}`;
+      console.log(`NOTIFICATION LISTEN -> ${notifuser}`);
+      const chatuser = `chat_${this.$store.state.auth.authUser.id}`;
+      console.log(`CHAT LISTEN -> ${chatuser}`);
+      
+      this.$socket.client.on(notifuser, payload => {
+          console.log(payload);
+          this.$store.dispatch('customNotification/getNotifications')
+      })
+      
+      this.$socket.client.on(chatuser, payload => {
+          console.log(payload);
+      })
+      
+    }
+  },
+  computed: {
+    ...mapGetters({ authUser: 'auth/getUserAuth' })
   },
   mounted () {
 
@@ -87,18 +126,9 @@ export default {
     // Then we set the value in the --vh custom property to the root of the document
     document.documentElement.style.setProperty('--vh', `${vh}px`)
 
-    const notifuser = `notification_${this.$store.state.auth.authUser.id}`;
-    const chatuser = `chat_${this.$store.state.auth.authUser.id}`;
-    
-    this.$socket.client.on(notifuser, payload => {
-        console.log(payload);
-        this.$store.dispatch('customNotification/getNotifications')
-    })
-    
-    this.$socket.client.on(chatuser, payload => {
-        console.log(payload);
-    })
-
+    if(this.$store.state.auth) {
+      this.openListener();
+    }
     
   },
   async created () {
