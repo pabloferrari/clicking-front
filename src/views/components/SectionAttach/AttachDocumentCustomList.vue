@@ -18,7 +18,7 @@
                 {{ dataAttach.url.toUpperCase().split(".")[1] }}
               </h6>
               <div class="text-left">
-                <a :href="baseUrl + dataAttach.url" target="__blank">Ver</a>
+                <a :href="dataAttach.url" target="__blank">Ver</a>
                 <!-- <p class="text-left">{{ dataAttach.type }}</p> -->
               </div>
             </div>
