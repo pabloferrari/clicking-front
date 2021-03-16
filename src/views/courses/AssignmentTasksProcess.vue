@@ -47,11 +47,11 @@ export default {
       this.$validator.validateAll().then(result => {
         if (result) {
           const payload = {
-            score: 0,
+            score: (this.state === '1') ? 7 : 4,
             comment:this.comment,
             assignment_id: this.assignmentId,
             classroom_student_id: this.classRoomStudentId,
-            assignment_status_id: (this.state === '1') ? 3 : 0
+            assignment_status_id: 3
           }
 
           this.$store
