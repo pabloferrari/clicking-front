@@ -5,7 +5,7 @@
         <div class="items-start cursor" @click="handlerClick(folderId)">
           <FolderIcon></FolderIcon>
           <div class="items-start">
-            <h3 class="text-title font-bold">{{ name }}</h3>
+            <h3 class="text-title font-bold">{{ name }} </h3>
           </div>
         </div>
 

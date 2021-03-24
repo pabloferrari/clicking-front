@@ -43,7 +43,7 @@
         v-for="(folder, index) in this.dataFolders"
         :key="index"
         :folderId="folder.id"
-        :name="folder.name"
+        :name="folder.folders_name"
         class="vx-col mx-2 sm:w-1/8 md:w-1/4 lg:w-1/6 xl:w-1/6 p-2"
       ></FolderList>
       <!-- </div> -->
@@ -77,7 +77,7 @@ import FolderList from './FolderList'
 import FolderCreate from './FolderCreate'
 import { mapGetters } from 'vuex'
 export default {
-  name:'Folders',
+  name: 'Folders',
   components: {
     ButtonPath,
     FolderList,

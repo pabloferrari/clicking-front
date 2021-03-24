@@ -52,6 +52,21 @@ const actions = {
       })
     })
   },
+  createFileFolder ({ commit, state, dispatch }, folder) {
+    return new Promise((resolve, reject) => {
+      FolderService.createFileFolder(folder).then((response) => {
+        //const folders = Object.assign([], state.folders)
+        //folders.push(response.data)
+        commit('setfolders', response.data)
+        dispatch('notification/success', { title: 'Guardado exitoso....', text: 'se ha actualizado correctamente.' }, { root: true })
+        resolve()
+
+      }).catch((err) => {
+        reject(err)
+        console.log(err)
+      })
+    })
+  },
 
   updateFolder ({ state, commit, dispatch }, folder) {
     return new Promise((resolve, reject) => {
@@ -95,6 +110,14 @@ const actions = {
   async getFolderData ({ commit }) {
     try {
       const foldersData = await FolderService.getAll()
+      commit('setfolders', foldersData.data)
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  async getFolderDataId ({ commit }, id) {
+    try {
+      const foldersData = await FolderService.get(id)
       commit('setfolders', foldersData.data)
     } catch (error) {
       console.log(error)

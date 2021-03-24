@@ -7,7 +7,7 @@
             <div class="w-1/2">
               <div>
                 <FolderIcon></FolderIcon>
-                <p class="primary p-3 inline">Clase A</p>
+                <p class="primary p-3 inline"> {{ folders_name }} </p>
               </div>
             </div>
 
@@ -28,21 +28,56 @@
       </div>
     </div>
 
+
+    <!-- Modal -->
+    <vs-prompt
+      @accept="accept"
+      :title="`Adjuntar Archivo`"
+      accept-text="Guardar"
+      cancel-text="Cancelar"
+      :active.sync="activePrompt"
+    >
+      <div class="con-exemple-prompt">
+        <file-pond
+            name="file"
+            ref="file"
+            class-name="my-pond"
+            label-idle="Arrastrar y soltar aquí..."
+            allow-multiple="true"
+            instant-upload="false"
+            v-on:updatefiles="handleFileUpload"
+          />
+      </div>
+    </vs-prompt>
+    <!-- Modal -->
+
     <!-- Section Add and Get All Folders -->
 
     <div class="my-4">
       <div>
-        <div class="inline text-center">
+        <!-- <div class="inline text-center">
           <div class="w-1/6 h-24 inline-block bg-white mx-2 my-2 rounded-lg">
             <div class="">
               <feather-icon icon="PlusIcon" svgClasses="mb-5" />
               <strong class="text-title"> Subir articulo</strong>
             </div>
           </div>
+        </div> -->
+
+        <div class="inline text-right" >
+          <div class="w-1/6 h-24 inline-block bg-white mx-2 my-2 rounded-lg div-card-file" @click="showModal(true)">
+
+              <strong class="text-title">
+                +
+                Adjuntar Archivo
+              </strong>
+
+          </div>
         </div>
-        <div class="inline text-right" v-for="index in 3" :key="index">
-          <div class="w-1/6 h-24 inline-block bg-white mx-2 my-2 rounded-lg">
-            <strong class="p-2 text-title">PDF</strong>
+
+        <div class="inline text-right" v-for="(folder, index) in this.dataFoldersId" :key="index">
+          <div class="w-1/6 h-24 inline-block bg-white mx-2 my-2 rounded-lg div-card-file">
+          <a title="Clic para ver" :href="folder.url" target="__blank"> <strong class="p-2 text-title">{{ folder.name.toUpperCase().split(".")[folder.name.toUpperCase().split(".").length -1] }}</strong> </a>
           </div>
         </div>
       </div>
@@ -55,12 +90,20 @@
 import ButtonPath from '../components/ButtonPath'
 import FolderIcon from '../components/icons/FolderIcon'
 import FolderList from './FolderList'
+import { mapGetters } from 'vuex'
+
+import vueFilePond from 'vue-filepond'
+import 'filepond/dist/filepond.min.css'
+
+const FilePond = vueFilePond()
+
 export default {
   name:'FolderFiles',
   components: {
     ButtonPath,
     FolderList,
-    FolderIcon
+    FolderIcon,
+    FilePond
   },
   props: {
     folderId: String
@@ -69,15 +112,65 @@ export default {
     return {
       activePrompt: false,
       actionModal: '',
-      path: ''
-
+      folders_name: '',
+      path: '',
+      dataFoldersId: [],
+      form: {
+        name: '',
+        file: []
+      }
     }
   },
-
-  methods: {
-    acceptFolder () {
-
+  computed: {
+    ...mapGetters({
+      storeFolderId: 'folder/getFolders'
+    })
+  },
+  watch: {
+    storeFolderId (data) {
+      if (data.length > 0) {
+        this.folders_name = data[0].folders_name
+        this.dataFoldersId = data
+      }
     }
+  },
+  methods: {
+    getFolderById () {
+      this.$store.dispatch('folder/getFolderDataId', this.folderId)
+    },
+    handleFileUpload (files) {
+      this.form.file = files.map(files => files.file)
+    },
+    accept () {
+      console.log('Adjuntando archivo')
+
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          const payload = new FormData()
+          payload.append('folder_id', this.folderId)
+
+          for (let i = 0; i < this.form.file.length; i++) {
+            const file = this.form.file[i]
+            payload.append(`files[${i}]`, file)
+          }
+
+          this.$store.dispatch(
+            'folder/createFileFolder',
+            payload
+          )
+          //this.closeModalClass()
+        }
+      })
+
+    },
+    acceptFolder () { },
+    showModal (iscreated) {
+      console.log(iscreated)
+      this.activePrompt = true
+    }
+  },
+  mounted () {
+    this.getFolderById()
   }
 }
 </script>
@@ -98,6 +191,11 @@ export default {
 }
 .primary_inline {
   display: inline-block !important;
+}
+.div-card-file {
+  position: relative;
+  text-align: center;
+  padding-top: 34px;
 }
 </style>
 

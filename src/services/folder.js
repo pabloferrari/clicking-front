@@ -24,6 +24,9 @@ class FolderService {
   delete (id) {
     return service.delete(`/${this.entity}/${id}`)
   }
+  createFileFolder (data) {
+    return service.post(`/${this.entity}/addFileFolder`, data, { headers: { 'Content-Type': 'multipart/form-data', 'Access-Control-Allow-Origin': '*' } })
+  }
 }
 
 export default new FolderService()
