@@ -62,6 +62,11 @@ export default {
       this.$emit('close-modal')
     },
     create () {
+
+      if (this.form.file.length === 0) {
+        return false
+      }
+
       this.$validator.validateAll().then((result) => {
         if (result) {
           // const payload = {

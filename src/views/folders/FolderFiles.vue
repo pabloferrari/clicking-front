@@ -144,6 +144,10 @@ export default {
     accept () {
       console.log('Adjuntando archivo')
 
+      if (this.form.file.length === 0) {
+        return false
+      }
+
       this.$validator.validateAll().then((result) => {
         if (result) {
           const payload = new FormData()
