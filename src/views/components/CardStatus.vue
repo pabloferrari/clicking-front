@@ -4,10 +4,7 @@
       <div class="grid grid-cols-3 divide-x divide-gray-400">
         <div class="">
           <div class="flex content-between">
-            <div
-              class="m-6 p-2 rounded-full bg-white"
-              v-permission="['teacher', 'student']"
-            >
+            <div class="m-6 p-2 rounded-full bg-white" v-permission="['teacher', 'student']" >
               <ListIcon v-if="data.type == 1"></ListIcon>
               <CheckAssignmentIcon v-if="data.type == 2"> </CheckAssignmentIcon>
               <PencilAssignmentlIcon v-if="data.type == 3"></PencilAssignmentlIcon>
@@ -16,32 +13,25 @@
               <p class="m-2">
                 {{ data.name }}
               </p>
-              <h4 class="text-title font-bold">
-                {{ data.title }}
-              </h4>
+              <h4 class="text-title font-bold"> {{ data.title }}</h4>
             </div>
           </div>
         </div>
+        
         <div class="grid justify-items-center">
           <div class="w-2/3 p-6">
-            <p class="text-center">
-              {{ this.formatDateTime(data.limit_date) }}
-            </p>
+            <p class="text-center"> {{ this.formatDateTime(data.limit_date) }} </p>
           </div>
         </div>
         <div class="grid justify-items-end">
           <div class="w-2/6 p-4">
             <div class="rounded-full h-10 p-4" style="cursor: pointer;" @click="handleRouter(data.id)">
+              
               <vs-chip class="bg-white" >
-                <feather-icon
-                  :icon="this.parseStatus(status)"
-                  :svgClasses="'h-5 w-8 '+this.classColor"
-                >
-                </feather-icon>
-                <p :class="'text-center  font-bold '+this.classColor">
-                  {{ data.typeStatus }}
-                </p>
+                <feather-icon :icon="this.parseStatus(status)" :svgClasses="'h-5 w-8 '+this.classColor" ></feather-icon>
+                <p :class="'text-center  font-bold '+this.classColor"> {{ this.statusName(status) }} {{ this.getResumeTotals(data.totals, status) }} </p>
               </vs-chip>
+
             </div>
           </div>
         </div>
@@ -92,7 +82,22 @@ export default {
         break
       }
     },
-
+    statusName (status) {
+      switch (status) {
+        case 1: return 'Pendiente'
+        case 2: return 'En Corrección'
+        case 2: return 'Corregido'
+      }
+    },
+    getResumeTotals (totals, status) {
+      if (totals) {
+        switch (status) {
+          case 1: return `${totals.pending}/${totals.q}`
+          case 2: return `${totals.inProcess}/${totals.q}`
+          case 3: return `${totals.complete}/${totals.q}`
+        }
+      }
+    },
     formatDateTime (datetime) {
       if (!datetime) {
         return null

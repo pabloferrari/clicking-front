@@ -378,7 +378,7 @@ export default {
       baseUrl: process.env.VUE_APP_BASE_URL_STORAGE,
       correct: false,
       acceptDelete: false,
-      assignmentStatus: '',
+      assignmentStatus: 0,
 
       studentCorrectId: '',
       // acceptGiveBack: false,
@@ -433,9 +433,11 @@ export default {
 
 
       if (data) {
+        // console.log(`DATA -> ${JSON.stringify(data)}`);
+        // console.log(`STUDENT -> ${JSON.stringify(data.studentsassignment)}`);
         this.assignmentStatus = data.studentsassignment[0].assignmentstatus.id
         this.studentCorrect = data.studentsassignment.filter((e) => e.assignmentstatus.id === 3)
-        this.assignment = {
+        const assignmentData = {
           title: data.assignment.title,
           limitDate: this.formatDateTime(data.assignment.limit_date),
           description: data.assignment.description,
@@ -445,6 +447,8 @@ export default {
           user_id: data.assignment.class.course.teacher.user_id,
           students: data.studentsassignment
         }
+        // console.log(`assignmentData -> ${JSON.stringify(assignmentData.students)}`);
+        this.assignment = assignmentData;
       }
 
     },
@@ -512,10 +516,12 @@ export default {
       this.assignmentStatusSelected(assignmentstatus.id)
       this.commentId = ''
       this.activeCommentAssignment = true
+      console.log(`flag -> `, classroomstudents);
       const params = {
         id: this.id,
         userId: classroomstudents.student.user.id
       }
+      console.log(`params -> `, params);
       this.classRoomStudentId = classroomstudents.id
       this.activeClassCard = params.userId
       this.userStudentId = params.userId.toString()

@@ -81,7 +81,6 @@ export default {
     storeMyAssignments (data) {
       const myAssignmentData = []
       data.map((element) => {
-        console.log(element.studentsassignment)
         const statusName = this.parseStatus(element.studentsassignment, 'name')
         const statusId = this.parseStatus(element.studentsassignment, 'id')
         let classrooms = ''
@@ -98,7 +97,8 @@ export default {
           typeStatus: statusName[0],
           id:element.id,
           title: element.title,
-          limit_date: element.limit_date
+          limit_date: element.limit_date,
+          totals: element.totals
         })
       })
       this.cardStatus = myAssignmentData

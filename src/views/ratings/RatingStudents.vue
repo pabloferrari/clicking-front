@@ -22,7 +22,7 @@
                 <vx-card
                   v-for="(rating, index) in dataStudentRatings"
                   :key="index"
-                  class="vx-col mx-4 my-4 w-full pb-6 sm:w-1/8 md:w-1/4 lg:w-1/3 xl:w-1/5 text-information active-card"
+                  class="vx-col mx-4 my-4 w-full pb-6 sm:w-2/8 md:w-2/4 lg:w-2/4 xl:w-1/2 text-information active-card"
                 >
                   <h4 class="text-title-h4 pb-4">{{ rating.title }}</h4>
                   <div
@@ -31,18 +31,21 @@
                     :key="index2"
                   >
                     <div class="flex items-start my-2">
-                      <strong class="text-information"
-                        >{{ data.assignment_type }}
+                      <strong class="text-information">
+                        {{ data.date }}.  {{ data.assignment_type }}: {{ data.name_task }}
                       </strong>
                     </div>
                     <div class="">
-                      <div class="flex justify-end">
-                        <strong class="text-information">{{
-                          data.score_student
-                        }}</strong>
-                        /
-                        <strong class="text-information">{{ data.score_assignment > 0 ? data.score_assignment : 10 }}</strong>
+
+                      <div v-if="data.assignment_type == 'Tarea'" class="flex justify-end">
+                        <strong v-if="data.score_student >= 7" class="text-information">Aprobado</strong>
+                        <strong v-if="data.score_student < 7" class="text-information">Reprobado</strong>
                       </div>
+
+                      <div v-if="data.assignment_type != 'Tarea'" class="flex justify-end">
+                        <strong class="text-information">{{ data.score_student }}</strong> / <strong class="text-information">{{ data.score_assignment > 0 ? data.score_assignment : 10 }}</strong>
+                      </div>
+
                     </div>
                   </div>
                 </vx-card>
@@ -99,6 +102,7 @@ export default {
       }
     },
     ratings (data) {
+      console.log(JSON.stringify(data));
       // const rows = []
       const dataArray = []
       for (const index in data) {
