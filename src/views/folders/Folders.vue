@@ -16,6 +16,7 @@
                   class="mx-2"
                   icon-pack="feather"
                   icon="icon-plus"
+                  v-permission="['teacher']"
                   >Crear Carpeta</vs-button
                 >
                 <ButtonPath

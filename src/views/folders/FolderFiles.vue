@@ -64,7 +64,7 @@
           </div>
         </div> -->
 
-        <div class="inline text-right" >
+        <div class="inline text-right" v-permission="['teacher']">
           <div class="w-1/6 h-24 inline-block bg-white mx-2 my-2 rounded-lg div-card-file" @click="showModal(true)">
 
               <strong class="text-title">
