@@ -352,7 +352,8 @@ export default {
             id: element.id,
             title: element.title,
             description: element.description,
-            assignments: element.assignments
+            assignments: element.assignments,
+            folder: element.folder
           })
 
         })

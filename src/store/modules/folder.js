@@ -2,6 +2,7 @@ import FolderService from '../../services/folder'
 
 const state = {
   folder: {},
+  folderInfo: {},
   folders: [],
   activePrompt: false
 }
@@ -9,6 +10,7 @@ const state = {
 
 const getters = {
   getFolder: state => { return state.folder },
+  getFolderInfo: state => { return state.folderInfo },
   getFolders: state => { return state.folders },
   getFolderId: state => id => {
     return state.folders.find(
@@ -25,6 +27,10 @@ const mutations = {
 
   setfolders (state, folders) {
     state.folders = folders
+  },
+
+  setfolderInfo (state, info) {
+    state.folderInfo = info
   },
 
   setfolder (state, folder) {
@@ -119,6 +125,7 @@ const actions = {
     try {
       const foldersData = await FolderService.get(id)
       commit('setfolders', foldersData.data)
+      commit('setfolderInfo', foldersData.info)
     } catch (error) {
       console.log(error)
     }
