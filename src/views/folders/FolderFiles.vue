@@ -133,20 +133,21 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      storeFolderId: 'folder/getFolders'
-    })
+    ...mapGetters({ storeFolderId: 'folder/getFolders' })
   },
   watch: {
     storeFolderId (data) {
+      console.log(JSON.stringify(data), this.$store.state.folder.folderInfo);
+      this.folders_name = this.$store.state.folder.folderInfo.name;
+      this.path = `/courses/${this.$store.state.folder.folderInfo.subject}/${this.$store.state.folder.folderInfo.course_id}`;
       if (data.length > 0) {
-        this.folders_name = data[0].folders_name
-        this.dataFoldersId = data
+        this.dataFoldersId = data;
       }
     }
   },
   methods: {
     getFolderById () {
+      console.log(`getFolderById -> ${this.folderId}`);
       this.$store.dispatch('folder/getFolderDataId', this.folderId)
     },
     handleFileUpload (files) {

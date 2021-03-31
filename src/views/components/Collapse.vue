@@ -62,16 +62,18 @@
                       >
                       <a 
                         v-if="isLive(classes.id)"
-                        :href="meetingUrl" 
+                        :href="meetingUrl"
                         target="__blank"> 
                         <span class="font-semibold">Ingresar a la clase</span>
                       </a>
                     </vs-button>
                     <vs-button
+                      v-if="classes.folder"
                       color="primary"
                       type="border"
                       icon-pack="feather"
                       icon="icon-folder"
+                      @click="goToFolder(classes.folder.id)"
                     ></vs-button>
 
                     <ButtonDropDown
@@ -168,6 +170,10 @@ export default {
       const classId = object.id
       const assignmentId = event.id
       this.$emit('input', { classId, action: event.action })
+    },
+
+    goToFolder(id) {
+      this.$router.push(`/courses/folders/files/${id}`)
     },
 
     showContent () {
