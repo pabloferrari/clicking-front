@@ -10,10 +10,12 @@
         </div>
 
         <div class="cursor">
-          <feather-icon
-            icon="MoreVerticalIcon"
-            svgClasses="h-5 w-5 cursor-pointer"
-          />
+
+          <ButtonDropDown
+            :dataSelected="[]"
+            :items="this.itemsDropdown()"
+          ></ButtonDropDown>
+
         </div>
       </div>
     </div>
@@ -23,10 +25,13 @@
 
 <script>
 import FolderIcon from '../components/icons/FolderIcon'
+import ButtonDropDown from '../components/ButtonDropDown.vue'
+
 export default {
   name:'Folder',
   components: {
-    FolderIcon
+    FolderIcon,
+    ButtonDropDown
   },
   props: {
     name: String,
@@ -39,6 +44,18 @@ export default {
         const path = `/courses/folders/files/${id}`
         this.$router.push(path)
       }
+    },
+    itemsDropdown () {
+      return [
+        {
+          id: 1,
+          title: 'Eliminar (in process)',
+          action: this.delete
+        }
+      ]
+    },
+    delete () {
+      console.log('Deleting...')
     }
   }
 }

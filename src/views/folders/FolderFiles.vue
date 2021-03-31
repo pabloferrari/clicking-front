@@ -66,7 +66,7 @@
 
         <div class="inline text-right" v-permission="['teacher']">
           <div class="w-1/6 h-24 inline-block bg-white mx-2 my-2 rounded-lg div-card-file" @click="showModal(true)">
-
+               <div class="float-right-dropdown">&nbsp;</div>
               <strong class="text-title">
                 +
                 Adjuntar Archivo
@@ -76,8 +76,16 @@
         </div>
 
         <div class="inline text-right" v-for="(folder, index) in this.dataFoldersId" :key="index">
-          <div class="w-1/6 h-24 inline-block bg-white mx-2 my-2 rounded-lg div-card-file">
-          <a title="Clic para ver" :href="folder.url" target="__blank"> <strong class="p-2 text-title">{{ folder.name.toUpperCase().split(".")[folder.name.toUpperCase().split(".").length -1] }}</strong> </a>
+
+          <div class="w-1/6 h-24 inline-block bg-white mx-2 my-2 rounded-lg ">
+            <ButtonDropDown
+              :dataSelected="[]"
+              :items="itemsDropdown()"
+            ></ButtonDropDown>
+            <div class="div-card-file">
+              <a title="Clic para ver" :href="folder.url" target="__blank"> <strong class="p-2 text-title">{{ folder.name.toUpperCase().split(".")[folder.name.toUpperCase().split(".").length -1] }}</strong> </a>
+            </div>
+
           </div>
         </div>
       </div>
@@ -90,6 +98,8 @@
 import ButtonPath from '../components/ButtonPath'
 import FolderIcon from '../components/icons/FolderIcon'
 import FolderList from './FolderList'
+import ButtonDropDown from '../components/ButtonDropDown.vue'
+
 import { mapGetters } from 'vuex'
 
 import vueFilePond from 'vue-filepond'
@@ -103,7 +113,8 @@ export default {
     ButtonPath,
     FolderList,
     FolderIcon,
-    FilePond
+    FilePond,
+    ButtonDropDown
   },
   props: {
     folderId: String
@@ -171,6 +182,18 @@ export default {
     showModal (iscreated) {
       console.log(iscreated)
       this.activePrompt = true
+    },
+    itemsDropdown () {
+      return [
+        {
+          id: 1,
+          title: 'Eliminar (in process)',
+          action: this.delete
+        }
+      ]
+    },
+    delete () {
+      console.log('Deleting...')
     }
   },
   mounted () {
@@ -199,7 +222,15 @@ export default {
 .div-card-file {
   position: relative;
   text-align: center;
-  padding-top: 34px;
+  padding-top: 18px;
+  overflow: hidden;
 }
+.dropdown-button-container{
+  float: right;
+}
+.float-right-dropdown{
+  float: right;
+}
+
 </style>
 

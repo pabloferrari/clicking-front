@@ -448,7 +448,7 @@ export default {
           students: data.studentsassignment
         }
         // console.log(`assignmentData -> ${JSON.stringify(assignmentData.students)}`);
-        this.assignment = assignmentData;
+        this.assignment = assignmentData
       }
 
     },
@@ -516,12 +516,12 @@ export default {
       this.assignmentStatusSelected(assignmentstatus.id)
       this.commentId = ''
       this.activeCommentAssignment = true
-      console.log(`flag -> `, classroomstudents);
+      console.log('flag -> ', classroomstudents)
       const params = {
         id: this.id,
         userId: classroomstudents.student.user.id
       }
-      console.log(`params -> `, params);
+      console.log('params -> ', params)
       this.classRoomStudentId = classroomstudents.id
       this.activeClassCard = params.userId
       this.userStudentId = params.userId.toString()
