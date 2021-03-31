@@ -65,8 +65,8 @@
         </div> -->
 
         <div class="inline text-right" v-permission="['teacher']">
-          <div class="w-1/6 h-24 inline-block bg-white mx-2 my-2 rounded-lg div-card-file" @click="showModal(true)">
-               <div class="float-right-dropdown">&nbsp;</div>
+          <div class="w-1/6 h-24 inline-block bg-white mx-2 my-2 rounded-lg div-card-file-plus" @click="showModal(true)">
+              <div class="float-right-dropdown">&nbsp;</div>
               <strong class="text-title">
                 +
                 Adjuntar Archivo
@@ -224,6 +224,12 @@ export default {
   text-align: center;
   padding-top: 18px;
   overflow: hidden;
+  clear: both;
+}
+.div-card-file-plus{
+  position: relative;
+  text-align: center;
+  padding-top: 45px;
 }
 .dropdown-button-container{
   float: right;
