@@ -100,7 +100,6 @@ export default {
 .img-news img{
   border-radius: 15px;
   width: 100%;
-  height: 234px;
 }
 
 </style>
