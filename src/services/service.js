@@ -58,6 +58,7 @@ const errorInterceptor = async (error) => {
       const err = error.split('at');
       store.dispatch('notification/danger',  {title: `Ocurrió un error.`, text: `${err[0]}`})
     } else {
+      console.log(`errorInterceptor -> ${Object.keys(error)}`);
       store.dispatch('notification/danger',  {title: `Ocurrió un error.`, text: `Error de red.`})
     }
   }
