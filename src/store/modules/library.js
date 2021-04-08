@@ -35,17 +35,29 @@ const mutations = {
 const actions = {
   createLibrary ({ commit, state, dispatch }, library) {
     return new Promise((resolve, reject) => {
-      LibraryService.create(library).then((response) => {
+      LibraryService.create(library)
+      .then((response) => {
         const dataLibraries = Object.assign([], state.libraries)
         dataLibraries.push(response.data)
         commit('setLibraries', dataLibraries)
-        dispatch(
-          'notification/success',
-          {
-            title: 'Guardado exitoso....',
-            text: 'se ha actualizado correctamente.'
-          },
-          { root: true })
+        if(response.data) {
+          dispatch(
+            'notification/success',
+            {
+              title: 'Guardado exitoso....',
+              text: 'se ha actualizado correctamente.'
+            },
+            { root: true })  
+        } else {
+          dispatch(
+            'notification/danger',
+            {
+              title: 'Ocurrio un error',
+              text: 'Intente nuevamente.'
+            },
+            { root: true })
+        }
+        
         resolve(response)
       }).catch((err) => {
         reject(err)
