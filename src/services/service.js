@@ -52,6 +52,8 @@ const errorInterceptor = async (error) => {
     return Promise.reject(error)
   } else {
     console.log(`else errorInterceptor -> `, error);
+    const err = error.split('at');
+    store.dispatch('notification/danger',  {title: `Ocurrió un error.`, text: `${err[0]}`})
   }
 }
 
