@@ -46,9 +46,12 @@ const errorInterceptor = async (error) => {
       break
 
     default:
+      console.log(`errorInterceptor -> `, error);
       store.dispatch('notification/danger',  {title: `${error.response.status}`, text: error.message})
     }
     return Promise.reject(error)
+  } else {
+    console.log(`else errorInterceptor -> `, error);
   }
 }
 

@@ -88,10 +88,7 @@ export default {
             payload.append(`files[${i}]`, file)
           }
 
-          this.$store.dispatch(
-            'library/createLibrary',
-            payload
-          )
+          this.$store.dispatch('library/createLibrary', payload)
           this.closeModalClass()
         }
       })
