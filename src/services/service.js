@@ -4,7 +4,9 @@ import router from '../router'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL,
+  timeout: 1000000,
   headers: {
+    'Access-Control-Allow-Headers': '*',
     'Access-Control-Allow-Origin': '*'
   }
 })
@@ -46,9 +48,19 @@ const errorInterceptor = async (error) => {
       break
 
     default:
+      console.log(`errorInterceptor -> `, error);
       store.dispatch('notification/danger',  {title: `${error.response.status}`, text: error.message})
     }
     return Promise.reject(error)
+  } else {
+    console.log(`else errorInterceptor -> ${typeof error}`, error);
+    if(typeof error == 'string') {
+      const err = error.split('at');
+      store.dispatch('notification/danger',  {title: `Ocurrió un error.`, text: `${err[0]}`})
+    } else {
+      console.log(`errorInterceptor -> ${Object.keys(error)}`);
+      store.dispatch('notification/danger',  {title: 'Ocurrió un error.', text: 'Error de red.' })
+    }
   }
 }
 
