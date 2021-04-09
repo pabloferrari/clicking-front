@@ -75,12 +75,13 @@
           </div>
         </div>
 
-        <div class="inline text-right" v-for="(folder, index) in this.dataFoldersId" :key="index">
+        <!-- <div class="inline text-right" v-for="(folder, index) in this.dataFoldersId" :key="index"> -->
+        <div class="inline text-right" v-for="folder in dataFoldersId" :key="folder.id">
 
           <div class="w-1/6 h-24 inline-block bg-white mx-2 my-2 rounded-lg ">
             <ButtonDropDown
               :dataSelected="[]"
-              :items="itemsDropdown()"
+              :items="itemsDropdown(folder)"
             ></ButtonDropDown>
             <div class="div-card-file">
               <a title="Clic para ver" :href="folder.url" target="__blank"> <strong class="p-2 text-title">{{ folder.name.toUpperCase().split(".")[folder.name.toUpperCase().split(".").length -1] }}</strong> </a>
@@ -140,9 +141,9 @@ export default {
       //console.log(JSON.stringify(data), this.$store.state.folder.folderInfo)
       this.folders_name = this.$store.state.folder.folderInfo.name
       this.path = `/courses/${this.$store.state.folder.folderInfo.subject}/${this.$store.state.folder.folderInfo.course_id}`
-      if (data.length > 0) {
-        this.dataFoldersId = data
-      }
+      //if (data.length > 0) {
+      this.dataFoldersId = data
+      //}
     }
   },
   methods: {
@@ -184,17 +185,26 @@ export default {
       console.log(iscreated)
       this.activePrompt = true
     },
-    itemsDropdown () {
+    itemsDropdown (data) {
       return [
         {
-          id: 1,
+          id: data.id,
           title: 'Eliminar (in process)',
           action: this.delete
         }
       ]
     },
     delete (data) {
-      console.log('Deleting...', data)
+      //this.$emit('editNote', data.target.dataset.id.replace('u.', ''))
+      console.log('Deleting...', data.target.dataset.id)
+
+      const payload = {
+        id: data.target.dataset.id
+      }
+      this.$store.dispatch(
+        'folder/deleteFileFolder',
+        payload
+      )
     }
   },
   mounted () {

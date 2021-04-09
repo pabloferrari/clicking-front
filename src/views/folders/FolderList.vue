@@ -13,7 +13,7 @@
 
           <ButtonDropDown
             :dataSelected="[]"
-            :items="this.itemsDropdown()"
+            :items="this.itemsDropdown(folderId)"
           ></ButtonDropDown>
 
         </div>
@@ -45,17 +45,26 @@ export default {
         this.$router.push(path)
       }
     },
-    itemsDropdown () {
+    itemsDropdown (id) {
       return [
         {
-          id: 1,
+          id,
           title: 'Eliminar (in process)',
           action: this.delete
         }
       ]
     },
-    delete () {
-      console.log('Deleting...')
+    delete (data) {
+      //this.$emit('editNote', data.target.dataset.id.replace('u.', ''))
+      console.log('Deleting...', data.target.dataset.id)
+
+      const payload = {
+        id: data.target.dataset.id
+      }
+      this.$store.dispatch(
+        'folder/deleteCourseFolder',
+        payload
+      )
     }
   }
 }
