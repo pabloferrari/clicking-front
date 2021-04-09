@@ -83,7 +83,10 @@
               :items="itemsDropdown()"
             ></ButtonDropDown>
             <div class="div-card-file">
-              <a title="Clic para ver" :href="folder.url" target="__blank"> <strong class="p-2 text-title">{{ folder.name.toUpperCase().split(".")[folder.name.toUpperCase().split(".").length -1] }}</strong> </a>
+              <!-- <a title="Clic para ver" :href="folder.url" target="__blank"> <strong class="p-2 text-title">{{ folder.name.toUpperCase().split(".")[folder.name.toUpperCase().split(".").length -1] }}</strong> </a> -->
+              <a title="Clic para ver" :href="folder.url" target="__blank">
+                <pdf :src="folder.url"></pdf>
+              </a>
             </div>
 
           </div>
@@ -99,7 +102,7 @@ import ButtonPath from '../components/ButtonPath'
 import FolderIcon from '../components/icons/FolderIcon'
 import FolderList from './FolderList'
 import ButtonDropDown from '../components/ButtonDropDown.vue'
-
+import pdf from 'vue-pdf'
 import { mapGetters } from 'vuex'
 
 import vueFilePond from 'vue-filepond'
@@ -114,7 +117,8 @@ export default {
     FolderList,
     FolderIcon,
     FilePond,
-    ButtonDropDown
+    ButtonDropDown,
+    pdf
   },
   props: {
     folderId: String
