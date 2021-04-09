@@ -74,6 +74,30 @@ const actions = {
     })
   },
 
+  deleteFileFolder ({ commit, state, dispatch }, folder) {
+    return new Promise((resolve, reject) => {
+      FolderService.deleteFileFolder(folder).then((response) => {
+        commit('setfolders', response.data)
+        dispatch('notification/success', { title: 'Eliminado exitoso....', text: 'se ha eliminado correctamente.' }, { root: true })
+        resolve()
+      }).catch((err) => {
+        reject(err)
+        console.log(err)
+      })
+    })
+  },
+  deleteCourseFolder ({ commit, state, dispatch }, folder) {
+    return new Promise((resolve, reject) => {
+      FolderService.deleteCourseFolder(folder).then((response) => {
+        commit('setfolders', response.data)
+        dispatch('notification/success', { title: 'Eliminado exitoso....', text: 'se ha eliminado correctamente.' }, { root: true })
+        resolve()
+      }).catch((err) => {
+        reject(err)
+        console.log(err)
+      })
+    })
+  },
   updateFolder ({ state, commit, dispatch }, folder) {
     return new Promise((resolve, reject) => {
       const editFolder = {

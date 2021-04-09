@@ -110,9 +110,9 @@ export default {
 
   watch: {
     storeFolderCourse (data) {
-      if (data.length > 0) {
-        this.dataFolders = data
-      }
+      //if (data.length > 0) {
+      this.dataFolders = data
+      //}
     }
   },
 
