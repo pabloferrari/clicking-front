@@ -13,12 +13,17 @@ const service = axios.create({
 
 const getAuthToken = () => localStorage.getItem('token')
 
+const showSpinner = () => document.getElementById('loading-spinner').style.display = 'block';
+const hideSpinner = () => document.getElementById('loading-spinner').style.display = 'none';
+
 const authInterceptor = (config) => {
+  showSpinner()
   config.headers['Authorization'] = `Bearer ${getAuthToken()}`
   return config
 }
 
 const errorInterceptor = async (error) => {
+  hideSpinner()
   if (error.response) {
     switch (error.response.status) {
     case 400:
@@ -65,6 +70,7 @@ const errorInterceptor = async (error) => {
 }
 
 const responseInterceptor = (response) => {
+  hideSpinner()
   switch (response.status) {
   case 200:
     return response.data

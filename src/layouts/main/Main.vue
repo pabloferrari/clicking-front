@@ -96,6 +96,14 @@
             </transition>
 
             <div class="content-area__content">
+              
+              <div id="loading-spinner">
+                <div class="loading">
+                  <div class="effect-1 effects"></div>
+                  <div class="effect-2 effects"></div>
+                  <div class="effect-3 effects"></div>
+                </div>
+              </div>
 
               <back-to-top bottom="5%" :right="$vs.rtl ? 'calc(100% - 2.2rem - 38px)' : '30px'" visibleoffset="500" v-if="!hideScrollToTop">
                 <vs-button icon-pack="feather" icon="icon-arrow-up" class="shadow-lg btn-back-to-top" />
