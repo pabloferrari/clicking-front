@@ -98,20 +98,23 @@ export default {
     }, 
     openListener() {
       
-      const notifuser = `notification_${this.$store.state.auth.authUser.id}`;
-      const chatuser = `chat_${this.$store.state.auth.authUser.id}`;
-      
-      this.$socket.client.on(notifuser, payload => {
-          console.log(payload);
-          setTimeout(() => {
-            console.log(this);
-            this.$store.dispatch('customNotification/getNotifications')
-          }, 5000);
-      })
-      
-      this.$socket.client.on(chatuser, payload => {
-          console.log(payload);
-      })
+      if(this.$store.state.auth.authUser) {
+
+        const notifuser = `notification_${this.$store.state.auth.authUser.id}`;
+        const chatuser = `chat_${this.$store.state.auth.authUser.id}`;
+        
+        this.$socket.client.on(notifuser, payload => {
+            console.log(payload);
+            setTimeout(() => {
+              console.log(this);
+              this.$store.dispatch('customNotification/getNotifications')
+            }, 5000);
+        })
+        
+        this.$socket.client.on(chatuser, payload => {
+            console.log(payload);
+        })
+      }
 
     }
   },
