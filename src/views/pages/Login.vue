@@ -102,6 +102,7 @@ export default {
       this.typePassword = this.showPassword ? 'text' : 'password'
     },
     submitForm () {
+      // console.log('submitForm');
       if (!this.authLoading) {
         this.$validator.validateAll().then(result => {
           if (result) {

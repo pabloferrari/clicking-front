@@ -13,11 +13,22 @@ const service = axios.create({
 
 const getAuthToken = () => localStorage.getItem('token')
 
-const showSpinner = () => document.getElementById('loading-spinner').style.display = 'block';
-const hideSpinner = () => document.getElementById('loading-spinner').style.display = 'none';
+const showSpinner = () => { 
+  try {
+    document.getElementById('loading-spinner').style.display = 'block';
+  } catch (error) {
+  }
+}
+
+const hideSpinner = () => {
+  try {
+    document.getElementById('loading-spinner').style.display = 'none';
+  } catch (error) {
+  }
+}
 
 const authInterceptor = (config) => {
-  showSpinner()
+  showSpinner();
   config.headers['Authorization'] = `Bearer ${getAuthToken()}`
   return config
 }
