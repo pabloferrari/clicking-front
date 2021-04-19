@@ -95,6 +95,9 @@ export default {
 .img-news {
   border-radius: 15px;
   background:#C4C4C4;
+  width: 100%;
+  max-width: 900px;
+  margin-left: 20%;
 }
 
 .img-news img{

@@ -52,16 +52,25 @@
         <div class="vx-col w-full">
           <vs-input
             class="w-full"
-             v-if="this.isCreate"
+            v-if="this.isCreate"
             label-placeholder="Contraseña"
             v-model="form.password"
             name="contraseña"
             v-validate="'required|min:8'"
             :danger="errors.has('contraseña')"
           />
-          <span class="text-danger text-sm" v-show="errors.has('contraseña')">{{
-            errors.first("contraseña")
-          }}</span>
+
+          <vs-input
+            class="w-full"
+            v-if="!this.isCreate"
+            label-placeholder="Nueva contraseña"
+            v-model="form.password"
+            name="contraseña"
+            v-validate="'required|min:8'"
+            :danger="errors.has('contraseña')"
+          />
+          
+          <span class="text-danger text-sm" v-show="errors.has('contraseña')">{{ errors.first("contraseña") }}</span>
         </div>
       </div>
       <div class="vx-row mb-2">

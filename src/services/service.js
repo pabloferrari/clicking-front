@@ -85,6 +85,9 @@ const responseInterceptor = (response) => {
   switch (response.status) {
   case 200:
     return response.data
+  case 204:
+    store.dispatch('notification/success', {title: 'Exito!', text: 'Te enviamos un email con el nuevo acceso'})
+    return response
   default:
     return response
   }

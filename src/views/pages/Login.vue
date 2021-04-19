@@ -14,7 +14,7 @@
                             <div class="w-1/4"></div>
                         </div>
 
-                        <div class="p-10 mb-12 login-tabs-container">
+                        <div v-if="login" class="p-10 mb-12 login-tabs-container">
                             <div class="vx-card__title mb-12 sm:w-full">
                                 <p class="mb-4 text-primary title">Ingresá a la plataforma</p>
                             </div>
@@ -36,7 +36,7 @@
                                     <span class="text-danger text-sm" v-show="errors.has('password')">{{ errors.first('password') }}</span>
 
                                     <div class="flex flex-wrap justify-center my-5 mb-6 alt-text">
-                                        Olvidaste tu contraseña? &nbsp;<router-link to=""><b>Click aqui</b></router-link>
+                                        ¿Olvidaste tu contraseña? &nbsp;<a @click="forgot()"><b>Click aqui</b></a>
                                     </div>
                                 </div>
 
@@ -48,6 +48,31 @@
                             </form>
 
                         </div>
+
+                        <div v-if="forgotPassword" class="p-10 mb-12 login-tabs-container">
+                            <div class="vx-card__title mb-12 sm:w-full">
+                                <p class="mb-4 text-primary title">Reestablecé la contraseña</p>
+                            </div>
+
+                            <form>
+                                <div class="mb-12">
+                                    <vs-input name="email" icon-no-border icon="icon icon-user" icon-pack="feather" label-placeholder="Email" v-model="forgotEmail" class="w-full" v-validate="'required|email'" :danger="errors.has('email')" />
+                                    <span class="text-danger text-sm" v-show="errors.has('email')">{{ errors.first('email') }}</span>
+                                </div>
+
+                                <div class="flex flex-wrap justify-center my-5 mb-6 alt-text">
+                                        Volver &nbsp;<a @click="goToLogin()"><b>Click aqui</b></a>
+                                    </div>
+
+                                <div class="vx-row">
+                                    <div class="vx-col px-12 w-full ml-auto">
+                                        <vs-button class="w-full mr-3 mb-2 vs-con-loading__container" @click.prevent="refreshPassword" :disabled="loading" ref="loadableButton" id="button-with-loading" type="relief">Recuperar</vs-button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -62,8 +87,11 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
+      login: true,
+      forgotPassword: false,
       email: '',
       password: '',
+      forgotEmail: '',
       showPassword: false,
       typePassword: 'password',
       loading: false,
@@ -86,6 +114,16 @@ export default {
     }
   },
   methods: {
+    forgot() {
+      this.login = false
+      this.forgotPassword = true
+    },
+
+    goToLogin() {
+      this.login = true
+      this.forgotPassword = false
+    },
+
     openLoadingContained () {
       this.$vs.loading({
         background: this.backgroundLoading,
@@ -110,7 +148,12 @@ export default {
           }
         })
       }
+    },
+    refreshPassword() {
+      this.$store.dispatch('auth/refresh', {email: this.forgotEmail})
+      this.goToLogin()
     }
+
   }
 }
 </script>

@@ -2,7 +2,7 @@
   <div id="form-form" class="mt-4 mb-2">
     <form action="form" method="post">
       <div class="vx-row mb-4">
-        <div class="vx-col w-1/2">
+        <div class="vx-col w-1/4">
           <vs-input
             class="w-full"
             label-placeholder="Nombre"
@@ -11,11 +11,9 @@
             v-validate="'required'"
             :danger="errors.has('name')"
           />
-          <span class="text-danger text-sm" v-show="errors.has('name')">{{
-            errors.first("name")
-          }}</span>
+          <span class="text-danger text-sm" v-show="errors.has('name')">{{ errors.first("name") }}</span>
         </div>
-        <div class="vx-col w-1/2">
+        <div class="vx-col w-1/4">
           <vs-input
             class="w-full"
             label-placeholder="E-mail"
@@ -28,6 +26,27 @@
           <span class="text-danger text-sm" v-show="errors.has('email')">{{
             errors.first("email")
           }}</span>
+        </div>
+
+        <div class="vx-col w-1/4">
+          <vs-input
+            class="w-full"
+            label-placeholder="Linkedin"
+            v-model="form.linkedin"
+            name="linkedin"
+            :danger="errors.has('linkedin')"
+          />
+          <span class="text-danger text-sm" v-show="errors.has('linkedin')">{{ errors.first("linkedin") }}</span>
+        </div>
+        <div class="vx-col w-1/4">
+          <vs-input
+            class="w-full"
+            label-placeholder="CV"
+            v-model="form.cv"
+            name="cv"
+            :danger="errors.has('cv')"
+          />
+          <span class="text-danger text-sm" v-show="errors.has('cv')">{{ errors.first("cv") }}</span>
         </div>
       </div>
 
@@ -53,7 +72,9 @@ export default {
     return {
       form: {
         name: '',
-        email: ''
+        email: '',
+        linkedin: '',
+        cv: ''
       }
     }
   },
@@ -65,10 +86,14 @@ export default {
   mounted () {
     this.form.name = this.activeUserInfo.name
     this.form.email = this.activeUserInfo.email
+    this.form.linkedin = this.activeUserInfo.linkedin
+    this.form.cv = this.activeUserInfo.cv
   },
   methods: {
     save () {
-      this.$store.dispatch('profile/updateProfile', { name: this.form.name})
+      this.$store.dispatch('profile/updateProfile', { name: this.form.name, linkedin: this.form.linkedin, cv: this.form.cv })
+
+      this.$store.dispatch('auth/updateAuthUser')
     }
   }
 }

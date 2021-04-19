@@ -51,6 +51,22 @@ const actions = {
     } catch (error) {
       commit('setAuthLoading', false)
     }
+  },
+
+  async updateAuthUser({ commit }) {
+    const auth = await authService.getProfile()
+    localStorage.setItem('userAuth', JSON.stringify(auth.data))
+    commit('setAuthUser', auth.data)
+  },
+
+  async refresh({ commit }, credentials) {
+    try {
+      console.log(`Refresh -> ${JSON.stringify(credentials)}`);
+      const auth = await authService.refresh(credentials)
+      console.log(auth);
+    } catch (error) {
+      
+    }
   }
 }
 

@@ -321,6 +321,8 @@ export default {
           this.$store.dispatch('classroom/createClassroom', payload)
           this.closeModal()
           this.clearFields()
+
+          this.$emit('refresh-dashboard')
       //   } else {
       //     console.log('input empty')
       //     console.log(this.form)

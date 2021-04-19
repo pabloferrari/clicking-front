@@ -75,7 +75,8 @@ const actions = {
         id: student.id,
         name: student.name,
         email: student.email,
-        active: student.active
+        active: student.active,
+        password: student.password
       }
 
       const studentEdit = await StudentService.update(student.id, editstudent)

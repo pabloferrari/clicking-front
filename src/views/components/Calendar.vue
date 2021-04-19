@@ -25,7 +25,7 @@
             v-for="(event, index) in nextEvents"
             :key="index"
             :title="event.title"
-            :supratitle="event.start"
+            :supratitle="parseMoment(event.start, 'DD-MM-YYYY hh:mm')"
           >
           </vx-card-inverse>
           <div v-if="nextEvents.length === 0">
@@ -395,6 +395,7 @@ export default {
 
     clearFields () {
       this.form.title = this.form.notes = this.form.url = ''
+      this.getCalendarEvents()
       // this.id = 0
       // this.labelLocal = 0
     },

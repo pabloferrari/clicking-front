@@ -31,7 +31,7 @@
                 <div class="items-end">
                   <div class="flex space-x-4">
                     <vs-button
-                      v-if="!isLive(classes.id)"
+                      v-if="!isLive(classes.id) && isTeacher()"
                       icon-pack="feather"
                       icon="icon-play"
                       color="primary"
@@ -111,6 +111,7 @@
 
     <!-- Popup Link -->
     <vs-prompt
+      v-if="isTeacher()"
       @accept="saveLink"
       title="Cargar link de clase"
       accept-text="Guardar"
@@ -149,7 +150,7 @@ export default {
   },
   data () {
     return {
-      titleButton: 'Cargar link de clase',
+      titleButton: 'Cargar link de clase en vivo',
       liveMeeting: [],
       meetingId: null,
       meetingUrl: null,
@@ -204,7 +205,16 @@ export default {
     },
     getMeetingData () {
 
+    },
+    isTeacher() {
+      const { roles } = this.$store.state.auth.authUser; 
+      let isTeacher = false;
+      roles.forEach(r => {
+        if(r.slug == 'teacher') isTeacher = true;
+      })
+      return isTeacher;
     }
+    
   },
   watch: {
     '$store.state.bigBlueButton.users' (val) {
@@ -221,6 +231,7 @@ export default {
     }
   },
   mounted() {
+    this.isTeacher();
     this.liveMeeting = [];
     this.$props.classesList.map(cl => {
       this.liveMeeting.push({ id: cl.id, live: false });

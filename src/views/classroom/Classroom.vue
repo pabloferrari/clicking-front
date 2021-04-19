@@ -34,6 +34,7 @@
                 :studentsList="this.storeStudents"
                 :popupActive="this.popupActive"
                 @close-modal="popupActive = false"
+                @refresh-dashboard="getInstitutionCount()"
                 :cardData="this.classroom"
             ></ClassroomForm>
         </vs-popup>
@@ -203,6 +204,8 @@ export default {
       console.log(data)
     },
     storeInstitutionCount (data) {
+
+      console.log(data)
       this.countInstitution = {
         classrooms: data.classrooms,
         students: data.students,

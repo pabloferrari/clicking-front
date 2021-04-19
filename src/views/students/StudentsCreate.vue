@@ -45,6 +45,17 @@
             v-validate="'required|min:8'"
             :danger="errors.has('contraseña')"
           />
+
+          <vs-input
+            class="w-full"
+            v-if="!this.isCreate"
+            label-placeholder="Nueva contraseña"
+            v-model="form.password"
+            name="contraseña"
+            v-validate="'min:8'"
+            :danger="errors.has('contraseña')"
+          />
+
           <span class="text-danger text-sm" v-show="errors.has('contraseña')">{{
             errors.first("contraseña")
           }}</span>
@@ -118,7 +129,6 @@ export default {
       this.$validator.validateAll().then(result => {
         if (result) {
           const payload = this.form
-
           this.$store.dispatch('student/updateStudent', payload)
           this.$emit('close-modal')
         }

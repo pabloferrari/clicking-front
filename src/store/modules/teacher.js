@@ -73,7 +73,8 @@ const actions = {
         name: teacher.name,
         email: teacher.email,
         phone: teacher.phone,
-        active:teacher.active
+        active:teacher.active,
+        password:teacher.password
       }
       const teacherEdit = await TeacherService.update(teacher.id, editTeacher)
 
