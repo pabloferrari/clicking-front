@@ -4,16 +4,16 @@
       <div class="vx-row mb-4">
         <div class="vx-col w-1/3">
           <vx-input-group class="w-full mt-6 mb-2">
-              <vs-input 
-                :type="typePassword" 
-                name="password" 
-                icon-no-border 
-                icon="icon icon-lock" 
-                icon-pack="feather" 
-                label-placeholder="Password" 
-                v-model="form.password" 
-                v-validate="'required|min:8'" 
-                :danger="errors.has('password')" 
+              <vs-input
+                :type="typePassword"
+                name="password"
+                icon-no-border
+                icon="icon icon-lock"
+                icon-pack="feather"
+                label-placeholder="Password"
+                v-model="form.password"
+                v-validate="'required|min:8'"
+                :danger="errors.has('password')"
                 />
               <template slot="append">
                   <div class="append-text btn-addon" v-bind:class="{ 'pt-5': !errors.has('password'), 'pt-3': errors.has('password')}">
@@ -22,51 +22,54 @@
                   </div>
               </template>
           </vx-input-group>
+          <span class="danger-message">{{ errors.first('password') }}</span>
         </div>
 
         <div class="vx-col w-1/3">
           <vx-input-group class="w-full mt-6 mb-2">
-              <vs-input 
-                :type="typePassword" 
-                name="new_password" 
-                icon-no-border 
-                icon="icon icon-lock" 
-                icon-pack="feather" 
-                label-placeholder="Nueva Password" 
-                v-model="form.newPassword" 
-                v-validate="'required|min:8'" 
-                :danger="errors.has('NewPassword')" 
+              <vs-input
+                :type="typePassword"
+                name="new_password"
+                icon-no-border
+                icon="icon icon-lock"
+                icon-pack="feather"
+                label-placeholder="Nueva Password"
+                v-model="form.newPassword"
+                v-validate="'required|min:8'"
+                :danger="errors.has('new_password')"
                 />
 
               <template slot="append">
-                  <div class="append-text btn-addon" v-bind:class="{ 'pt-5': !errors.has('Nueva Password'), 'pt-3': errors.has('Nueva Password')}">
+                  <div class="append-text btn-addon" v-bind:class="{ 'pt-5': !errors.has('new_password'), 'pt-3': errors.has('new_password')}">
                       <vs-button v-if="!showPassword" color="primary" icon-pack="feather" icon="icon-eye-off" @click="changeTypePassword()"></vs-button>
                       <vs-button v-if="showPassword" color="primary" icon-pack="feather" icon="icon-eye" @click="changeTypePassword()"></vs-button>
                   </div>
               </template>
           </vx-input-group>
+          <span class="danger-message">{{ errors.first('new_password') }}</span>
         </div>
 
         <div class="vx-col w-1/3">
           <vx-input-group class="w-full mt-6 mb-2">
-              <vs-input 
-                :type="typePassword" 
-                name="password_confirm" 
-                icon-no-border 
-                icon="icon icon-lock" 
-                icon-pack="feather" 
-                label-placeholder="Confirmar Nueva Password" 
-                v-model="form.passwordConfirm" 
-                v-validate="'required|min:8'" 
-                :danger="errors.has('ConfNewPassword')" 
+              <vs-input
+                :type="typePassword"
+                name="password_confirm"
+                icon-no-border
+                icon="icon icon-lock"
+                icon-pack="feather"
+                label-placeholder="Confirmar Nueva Password"
+                v-model="form.passwordConfirm"
+                v-validate="'required|min:8'"
+                :danger="errors.has('password_confirm')"
                 />
               <template slot="append">
-                  <div class="append-text btn-addon" v-bind:class="{ 'pt-5': !errors.has('Confirmar Nueva Password'), 'pt-3': errors.has('Confirmar Nueva Password')}">
+                  <div class="append-text btn-addon" v-bind:class="{ 'pt-5': !errors.has('password_confirm'), 'pt-3': errors.has('password_confirm')}">
                       <vs-button v-if="!showPassword" color="primary" icon-pack="feather" icon="icon-eye-off" @click="changeTypePassword()"></vs-button>
                       <vs-button v-if="showPassword" color="primary" icon-pack="feather" icon="icon-eye" @click="changeTypePassword()"></vs-button>
                   </div>
               </template>
           </vx-input-group>
+          <span class="danger-message">{{ errors.first('password_confirm') }}</span>
         </div>
       </div>
 
@@ -121,3 +124,9 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.danger-message {
+  color: red;
+  font-size: 10pt;
+}
+</style>
