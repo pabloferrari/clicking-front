@@ -95,7 +95,6 @@ export default {
         newPassword: '',
         passwordConfirm: ''
       },
-      errors: {},
       typePassword: 'password',
       showPassword: false
     }
