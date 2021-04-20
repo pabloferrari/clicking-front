@@ -78,6 +78,8 @@
           :description="this.cardsDetail.description"
           :rol="this.cardsDetail.rol"
           :avatar="this.cardsDetail.avatar"
+          :email="this.cardsDetail.email"
+          :sn="this.cardsDetail.sn"
         />
       </div>
     </div>
@@ -131,10 +133,14 @@ export default {
       btnTitle: 'Agregar Alumno',
       cardsDetail: {
         name: 'Docente',
-        description:
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum ea dolore, voluptate modi optio repudiandae animi error? Praesentium quod harum, consequatur sequi expedita eveniet sunt libero doloremque debitis placeat ipsa.',
+        description: '',
         rol: 'Docente',
-        avatar: ''
+        email: '',
+        avatar: '',
+        sn: {
+          linkedin: '',
+          cv: ''
+        }
       }
     }
   },
@@ -182,25 +188,39 @@ export default {
       this.$store.dispatch('course/getCourseById', this.id)
     },
     getStudentNotInCourse () {
-      this.$store.dispatch('course/getStudentNotInCourseData', this.id)
+      if(this.getRole() == 'teacher') {
+        this.$store.dispatch('course/getStudentNotInCourseData', this.id)
+      }
     },
-
+    getRole () {
+      return this.$store.state.auth.authUser.roles[0].slug
+    },
     elementActiveDetail (data, rol) {
       const {
         name,
+        email,
         user: { image, description }
       } = data
+      const { socialnetworks } = data.user;
+      const sn = this.getSn(socialnetworks);
       this.cardsDetail = Object.assign(
         {},
         {
           name,
           description,
           avatar: image,
-          rol
+          rol,
+          email,
+          sn
         }
       )
+    },
+    getSn(socialnetworks) {
+      const cv = socialnetworks.find(sn => sn.name == 'cv');
+      const linkedin = socialnetworks.find(sn => sn.name == 'linkedin');
+      return { linkedin: linkedin ? linkedin.link : '', cv: cv ? cv.link : '' }
     }
-  },
+  },  
   mounted () {
     this.getCourses()
     this.getStudentNotInCourse()

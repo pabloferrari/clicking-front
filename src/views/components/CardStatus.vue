@@ -28,6 +28,7 @@
             <div class="rounded-full h-10 p-4" style="cursor: pointer;" @click="handleRouter(data.id)">
               
               <vs-chip class="bg-white" >
+                <p class="'text-center font-bold">CARGAR</p>
                 <feather-icon :icon="this.parseStatus(status)" :svgClasses="'h-5 w-8 '+this.classColor" ></feather-icon>
                 <p :class="'text-center  font-bold '+this.classColor"> {{ this.statusName(status) }} {{ this.getResumeTotals(data.totals, status) }} </p>
               </vs-chip>

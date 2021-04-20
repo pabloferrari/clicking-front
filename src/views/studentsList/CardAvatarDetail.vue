@@ -10,8 +10,12 @@
       {{rol}}
     </div>
 
-    <div class="student-list-card-detail-description">
-      {{description}}
+    <div class="student-list-card-detail-name-rol">
+      {{ email }}
+    </div>
+
+    <div v-if="sn.linkedin" class="student-list-card-detail-name-rol">
+      {{ sn.linkedin }}
     </div>
 
     <div class="student-list-card-detail-in">
@@ -38,7 +42,10 @@ export default {
     name: String,
     rol: String,
     description: String,
-    avatar: String
+    email: String,
+    avatar: String,
+    linkedin: String,
+    sn: Object
   }
 }
 </script>
