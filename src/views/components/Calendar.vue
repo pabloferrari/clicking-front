@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 <template>
   <div>
     <div class="vx-row">
@@ -16,6 +17,23 @@
       </div>
 
       <div class="vx-col w-1/3">
+        <vx-card class="title-card active-card my-1 mb-2" :title="'Resumen'">
+          <div v-permission="['student']">
+            <ul v-if="resumen.classes">
+              <li>Clases: {{ resumen.classes }}</li>
+              <li>Evaluaciones: {{ resumen.exams }}</li>
+              <li>Trabajos Practicos: {{ resumen.tps }}</li>
+              <li>Asistencias: {{ resumen.assistance }}</li>
+              <li>Ausencias: {{ resumen.absences }}</li>
+            </ul>
+            <div v-else>
+              No hay informacion disponible
+            </div>
+          </div>
+          <div v-permission="['institution', 'teacher', 'admin', 'root']">
+            No hay informacion disponible
+          </div>
+        </vx-card>
         <vx-card
           class="title-card active-card my-1"
           :title="'Proximos Eventos'"
@@ -197,7 +215,10 @@
         Creador:
         <span class="itemAlignRight">
           <vs-avatar
-            :src="currentEvent.creator.image || require('@/assets/images/portrait/small/incognito.png')"
+            :src="
+              currentEvent.creator.image ||
+                require('@/assets/images/portrait/small/incognito.png')
+            "
             size="30px"
             class="border-2 border-white border-solid -m-1"
           ></vs-avatar>
@@ -210,7 +231,10 @@
       <ul class="guestList">
         <li v-for="(user, index) in currentEvent.users" :key="index">
           <vs-avatar
-            :src="user.user.image || require('@/assets/images/portrait/small/incognito.png')"
+            :src="
+              user.user.image ||
+                require('@/assets/images/portrait/small/incognito.png')
+            "
             size="30px"
             class="border-2 border-white border-solid -m-1"
           ></vs-avatar>
@@ -258,6 +282,7 @@ export default {
     return {
       events: [],
       nextEvents: [],
+      resumen: [],
       config: {
         locale: 'es',
         slotMinTime: '07:00:00',
@@ -298,7 +323,8 @@ export default {
       storeEvents: 'calendar/getEvents',
       storeNextEvents: 'calendar/getNextEvents',
       storeEventTypes: 'calendar/getEventTypes',
-      storeUserList: 'calendar/getUsers'
+      storeUserList: 'calendar/getUsers',
+      storeResumen: 'dashboard/getResumen'
     }),
     validForm () {
       return (
@@ -470,6 +496,9 @@ export default {
 
     getCalendarEvents () {
       this.$store.dispatch('calendar/getEvents')
+    },
+    getResumen () {
+      this.$store.dispatch('dashboard/getResumenDashboard')
     }
   },
   created () {
@@ -544,11 +573,15 @@ export default {
         rows.push(row)
       })
       this.guestsList = rows
+    },
+    storeResumen (data) {
+      this.resumen = data
     }
   },
   mounted () {
     this.getCalendarTypes()
     this.getCalendarEvents()
+    this.getResumen()
   }
 }
 </script>

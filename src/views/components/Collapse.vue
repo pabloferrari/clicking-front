@@ -60,10 +60,10 @@
                       color="success"
                       type="border"
                       >
-                      <a 
+                      <a
                         v-if="isLive(classes.id)"
                         :href="meetingUrl"
-                        target="__blank"> 
+                        target="__blank">
                         <span class="font-semibold">Ingresar a la clase</span>
                       </a>
                     </vs-button>
@@ -169,11 +169,11 @@ export default {
     },
     showModalClass (object, event) {
       const classId = object.id
-      const assignmentId = event.id
+      // const assignmentId = event.id
       this.$emit('input', { classId, action: event.action })
     },
 
-    goToFolder(id) {
+    goToFolder (id) {
       this.$router.push(`/courses/folders/files/${id}`)
     },
 
@@ -183,21 +183,21 @@ export default {
       // this.collapseBodyProp = data;
     },
     startMeeting (classes) {
-      this.classId = classes.id;
-      this.activePromptLink = true;
+      this.classId = classes.id
+      this.activePromptLink = true
     },
     endMeeting () {
-      this.$store.dispatch('meeting/finish', { id:this.meetingId });
+      this.$store.dispatch('meeting/finish', { id:this.meetingId })
     },
 
-    isLive(id) {
-      const meet = this.liveMeeting.find(e => e.id == id);
-      if(!meet) return false;
-      return meet.live;
-    }, 
+    isLive (id) {
+      const meet = this.liveMeeting.find(e => e.id === id)
+      if (!meet) return false
+      return meet.live
+    },
 
     saveLink () {
-      this.$refs.LinkForm.saveLink();
+      this.$refs.LinkForm.saveLink()
       // const meeting = this.$store.state.meeting.meeting;
       // this.meetingId = meeting.id;
       // this.meetingUrl = meeting.link;
@@ -206,15 +206,15 @@ export default {
     getMeetingData () {
 
     },
-    isTeacher() {
-      const { roles } = this.$store.state.auth.authUser; 
-      let isTeacher = false;
+    isTeacher () {
+      const { roles } = this.$store.state.auth.authUser
+      let isTeacher = false
       roles.forEach(r => {
-        if(r.slug == 'teacher') isTeacher = true;
+        if (r.slug === 'teacher') isTeacher = true
       })
-      return isTeacher;
+      return isTeacher
     }
-    
+
   },
   watch: {
     '$store.state.bigBlueButton.users' (val) {
@@ -222,19 +222,19 @@ export default {
       this.buttonDisabled = false
     },
     '$store.state.meeting.meeting' (meeting) {
-      this.meetingId = meeting.id;
-      this.meetingUrl = meeting.link;
+      this.meetingId = meeting.id
+      this.meetingUrl = meeting.link
       this.liveMeeting.forEach(c => {
-        if(c.id == meeting.model_id) c.live = true;
-        else c.live = false;
-      });
+        if (c.id === meeting.model_id) c.live = true
+        else c.live = false
+      })
     }
   },
-  mounted() {
-    this.isTeacher();
-    this.liveMeeting = [];
+  mounted () {
+    this.isTeacher()
+    this.liveMeeting = []
     this.$props.classesList.map(cl => {
-      this.liveMeeting.push({ id: cl.id, live: false });
+      this.liveMeeting.push({ id: cl.id, live: false })
     })
   }
 }

@@ -51,6 +51,7 @@ import comment from './modules/comment'
 import library from './modules/library'
 import folder from './modules/folder'
 import profile from './modules/profile'
+import dashboard from './modules/dashboard'
 
 Vue.use(Vuex)
 
@@ -88,7 +89,8 @@ export default new Vuex.Store({
     calendar,
     notes,
     noteContents,
-    profile
+    profile,
+    dashboard
   },
   getters,
   mutations,

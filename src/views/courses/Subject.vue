@@ -89,6 +89,18 @@
       ></WorkPracticeForm>
     </vs-popup>
 
+    <!-- Modal -->
+    <vs-prompt
+      @accept="acceptDelete"
+      title="Elminar Clase"
+      text="esta seguro de eliminar?"
+      accept-text="Guardar"
+      cancel-text="Cancelar"
+      :active.sync="activePromptDelete"
+    >
+    </vs-prompt>
+    <!-- Modal -->
+
     <div class="mt-0">
       <vs-tabs v-model="tab.value">
         <vs-tab label="Muro" v-on="clickTag(tab.value)">
@@ -119,21 +131,21 @@
 </template>
 
 <script>
-import Wall from './Wall'
+import Wall from "./Wall";
 
-import Collapse from '../components/Collapse'
+import Collapse from "../components/Collapse";
 
-import CardCount from '../components/CardCount'
-import ButtonRight from '../components/ButtonRight'
-import ButtonPath from '../components/ButtonPath'
-import TaskForm from './TaskForm'
-import EvaluationForm from './EvaluationForm'
-import WorkPracticeForm from './WorkPracticeForm'
-import Classes from './Classes'
-import { mapGetters } from 'vuex'
+import CardCount from "../components/CardCount";
+import ButtonRight from "../components/ButtonRight";
+import ButtonPath from "../components/ButtonPath";
+import TaskForm from "./TaskForm";
+import EvaluationForm from "./EvaluationForm";
+import WorkPracticeForm from "./WorkPracticeForm";
+import Classes from "./Classes";
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'Subject',
+  name: "Subject",
   components: {
     Wall,
     Classes,
@@ -144,14 +156,13 @@ export default {
     TaskForm,
     EvaluationForm,
     WorkPracticeForm
-
   },
   props: {
     subject: String,
     subjectId: String
   },
 
-  data () {
+  data() {
     return {
       dropdown: true,
       activePrompt: false,
@@ -165,28 +176,36 @@ export default {
       itemThree: false,
       courseStudents: [],
       cardCount: [],
+      idDeleted: null,
 
-      path: `/courses/${this.subject
-        .split(' ')
-        .join('-')}/students-list/${this.subjectId}`,
-      pathFolders:`/courses/${this.subject
-        .split(' ')
-        .join('-')}/folders/${this.subjectId}`,
+      activePromptDelete: false,
+
+      path: `/courses/${this.subject.split(" ").join("-")}/students-list/${
+        this.subjectId
+      }`,
+      pathFolders: `/courses/${this.subject.split(" ").join("-")}/folders/${
+        this.subjectId
+      }`,
       DropDownList: [
         {
           id: 1,
-          title: 'Crear Tarea',
+          title: "Crear Tarea",
           action: this.tasksModal
         },
         {
           id: 2,
-          title: 'Crear Evaluación',
+          title: "Crear Evaluación",
           action: this.evaluationModal
         },
         {
           id: 3,
-          title: 'Crear Trabajo Practico',
+          title: "Crear Trabajo Practico",
           action: this.workPracticeModal
+        },
+        {
+          id: 4,
+          title: "Eliminar",
+          action: this.confirmModal
         }
       ],
 
@@ -195,157 +214,141 @@ export default {
       },
 
       classesList: []
-    }
+    };
   },
   computed: {
     ...mapGetters({
-      storeCoursesClass: 'courseClass/getCourseClasses',
-      storeCourseAssignments: 'assignment/getAssignments',
-      storeCourseById: 'course/getCourses',
-      storeCourseClassCount: 'courseClass/getCourseClassesCount'
+      storeCoursesClass: "courseClass/getCourseClasses",
+      storeCourseAssignments: "assignment/getAssignments",
+      storeCourseById: "course/getCourses",
+      storeCourseClassCount: "courseClass/getCourseClassesCount"
     })
   },
 
   methods: {
-    saveclass () {
-      this.activePromptClasses = true
-      this.$refs.Classes.save()
-
+    saveclass() {
+      this.activePromptClasses = true;
+      this.$refs.Classes.save();
     },
 
-    saveLink () {
-      console.log('saveLink');
-
+    saveLink() {
+      console.log("saveLink");
     },
 
-    closeModalClass (value) {
-      this.activePromptClasses = value
+    closeModalClass(value) {
+      this.activePromptClasses = value;
     },
 
-    closeModalLink (value) {
-      this.activePromptLink = value
+    closeModalLink(value) {
+      this.activePromptLink = value;
     },
 
-    tasksModal (e) {
-      this.itemOne = true
+    tasksModal(e) {
+      this.itemOne = true;
       const dataTasks = Object.assign(this.courseStudents, {
         class_: {
           assignmentTypeId: e.target.dataset.id,
           id: e.target.dataset.classid,
           title: e.target.dataset.classtitle
         }
-      })
+      });
 
-      this.$refs.TaskForm.getDataForm(dataTasks)
+      this.$refs.TaskForm.getDataForm(dataTasks);
     },
-    evaluationModal (e) {
-      this.itemTwo = true
+    evaluationModal(e) {
+      this.itemTwo = true;
       const dataEvaluation = Object.assign(this.courseStudents, {
         class_: {
           assignmentTypeId: e.target.dataset.id,
           id: e.target.dataset.classid,
           title: e.target.dataset.classtitle
         }
-      })
+      });
 
-      this.$refs.EvaluationForm.getDataForm(dataEvaluation)
+      this.$refs.EvaluationForm.getDataForm(dataEvaluation);
     },
-    workPracticeModal (e) {
-      this.itemThree = true
+    workPracticeModal(e) {
+      this.itemThree = true;
       const dataworkPractice = Object.assign(this.courseStudents, {
         class_: {
           assignmentTypeId: e.target.dataset.id,
           id: e.target.dataset.classid,
           title: e.target.dataset.classtitle
         }
-      })
+      });
 
-      this.$refs.WorkPracticeForm.getDataForm(dataworkPractice)
+      this.$refs.WorkPracticeForm.getDataForm(dataworkPractice);
     },
-    clickTag (e) {
-      this.dropdown = e !== 0
+    confirmModal (e) {
+      this.activePromptDelete = true
+      this.idDeleted = e.target.dataset.classid
     },
-    getCourseClass () {
+    acceptDelete () {
+      this.$store.dispatch('courseClass/deleteCourseClass', this.idDeleted)
+      this.idDeleted = null
+    },
+    clickTag(e) {
+      this.dropdown = e !== 0;
+    },
+    getCourseClass() {
       this.$store.dispatch(
-        'courseClass/getCourseClassesSubjectData',
+        "courseClass/getCourseClassesSubjectData",
         this.subjectId
-      )
+      );
     },
-    getAssignmentsByCourse () {
+    getAssignmentsByCourse() {
       this.$store.dispatch(
-        'assignment/getAssignmentsByCourseData',
+        "assignment/getAssignmentsByCourseData",
         this.subjectId
-      )
+      );
     },
-    getClassById (id) {
+    getClassById(id) {
       if (id) {
         this.class_ = Object.assign(
           {},
-          this.$store.state.courseClass.courseClasses.find(
-            x => x.id === id
-          )
-        )
+          this.$store.state.courseClass.courseClasses.find(x => x.id === id)
+        );
       }
     },
-    getCourseById () {
-      this.$store.dispatch('course/getCourseById', this.subjectId)
+    getCourseById() {
+      this.$store.dispatch("course/getCourseById", this.subjectId);
     },
-    getCourseClassesCount () {
+    getCourseClassesCount() {
       if (this.subjectId) {
         this.$store.dispatch(
-          'courseClass/getCourseClassesCountData',
+          "courseClass/getCourseClassesCountData",
           this.subjectId
-        )
+        );
       }
     },
 
-    cardCountCourseClass () {
+    cardCountCourseClass() {
       return [
         {
-          count: `${this.cardCount.assistance ? this.cardCount.assistance : 0 }%`,
-          title: 'Asistencia'
+          count: `${
+            this.cardCount.assistance ? this.cardCount.assistance : 0
+          }%`,
+          title: "Asistencia"
         },
         {
           count: this.cardCount.tasks ? this.cardCount.tasks : 0,
-          title: 'Tareas'
+          title: "Tareas"
         },
         {
-          count: this.cardCount.evaluations  ? this.cardCount.evaluations : 0,
-          title: 'Evaluaciones'
+          count: this.cardCount.evaluations ? this.cardCount.evaluations : 0,
+          title: "Evaluaciones"
         }
-      ]
+      ];
     },
 
-    accept () {
-      this.activePrompt = true
-    },
-
+    accept() {
+      this.activePrompt = true;
+    }
   },
 
   watch: {
-    storeCourseById (data) {
-      if (data) {
-        data.map(element => {
-          this.courseStudents = Object.assign(
-            {},
-            {
-              course: element.subject,
-              students: element.classroom.classroom_students
-            }
-          )
-        })
-      }
-    },
-    storeCourseClassCount (data) {
-      this.cardCount  = ''
-      if (data) {
-        this.cardCount = data
-      }
-    },
-
-    storeCourseAssignments (data) {
-      console.log(data)
-      const assignmentsData = []
+    storeCoursesClass(data) {
+      const assignmentsData = [];
       if (data && data.length > 0) {
         data.map(element => {
           assignmentsData.push({
@@ -354,20 +357,54 @@ export default {
             description: element.description,
             assignments: element.assignments,
             folder: element.folder
-          })
-
-        })
+          });
+        });
       }
-      this.classesList = assignmentsData
+      this.classesList = assignmentsData;
+    },
+    storeCourseById(data) {
+      if (data) {
+        data.map(element => {
+          this.courseStudents = Object.assign(
+            {},
+            {
+              course: element.subject,
+              students: element.classroom.classroom_students
+            }
+          );
+        });
+      }
+    },
+    storeCourseClassCount(data) {
+      this.cardCount = "";
+      if (data) {
+        this.cardCount = data;
+      }
+    },
+
+    storeCourseAssignments(data) {
+      const assignmentsData = [];
+      if (data && data.length > 0) {
+        data.map(element => {
+          assignmentsData.push({
+            id: element.id,
+            title: element.title,
+            description: element.description,
+            assignments: element.assignments,
+            folder: element.folder
+          });
+        });
+      }
+      this.classesList = assignmentsData;
     }
   },
 
-  mounted () {
-    this.getCourseById()
-    this.getAssignmentsByCourse()
-    this.getCourseClassesCount()
+  mounted() {
+    this.getCourseById();
+    this.getAssignmentsByCourse();
+    this.getCourseClassesCount();
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

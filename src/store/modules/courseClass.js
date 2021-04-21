@@ -89,18 +89,18 @@ const actions = {
   //   console.log(error)
   // }
   //},
-  //async deleteCourseClass ({ state, commit, dispatch }, id) {
-  // try {
-  //   await CommissionService.delete(id)
-  //   const index = state.commissions.findIndex(x => x.id === id)
-  //   const commission =  [... state.commissions]
-  //   commission.splice(index, 1)
-  //   commit('setCommissions', commission)
-  //   dispatch('notification/success', {title: 'Eliminado exitoso....', text: 'se ha eliminado correctamente.'}, { root: true })
-  // } catch (error) {
-  //   console.log(error)
-  // }
-  //},
+  async deleteCourseClass ({ state, commit, dispatch }, id) {
+    try {
+      await CourseClassService.delete(id)
+      const index = state.courseClasses.findIndex(x => x.id === id)
+      const courseClasses =  [... state.courseClasses]
+      courseClasses.splice(index, 1)
+      commit('setCourseClasses', courseClasses)
+      dispatch('notification/success', {title: 'Eliminado exitoso....', text: 'se ha eliminado correctamente.'}, { root: true })
+    } catch (error) {
+      console.log(error)
+    }
+  },
   async getCourseClassesSubjectData ({ commit }, id) {
     try {
       const courseClassData = await CourseClassService.get(id)
