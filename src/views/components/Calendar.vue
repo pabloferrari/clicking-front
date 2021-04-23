@@ -496,6 +496,7 @@ export default {
 
     getCalendarEvents () {
       this.$store.dispatch('calendar/getEvents')
+      this.$store.dispatch('calendar/getNextEvents')
     },
     getResumen () {
       this.$store.dispatch('dashboard/getResumenDashboard')
