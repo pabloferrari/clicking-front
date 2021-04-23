@@ -266,7 +266,7 @@ export default {
   font-size: 14px;
   line-height: 16px;
 }
-
+/*
 .fullscreen-bg {
     position: fixed;
     top: 0;
@@ -284,4 +284,5 @@ export default {
     width: 100%;
     height: 100%;
 }
+*/
 </style>
