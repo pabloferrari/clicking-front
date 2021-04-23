@@ -1,10 +1,11 @@
 <template>
-  <!-- <div class="h-screen flex w-full bg-img vx-row no-gutter items-center justify-center fullscreen-bg" id="page-login"> -->
+  <div class="h-screen flex w-full bg-img vx-row no-gutter items-center justify-center fullscreen-bg" id="page-login">
+  <!--
   <div class="h-screen flex w-full bg-img vx-row no-gutter items-center justify-center fullscreen-bg" id="page-login">
     <video loop muted autoplay poster="img/videoframe.jpg" class="fullscreen-bg__video">
       <source src="../../assets/images/pages/clicking-login-bg.mp4" type="video/mp4">      
     </video>
-
+  -->
     <div
       class="sm:w-0 md:w-0 lg:w-1/3 xl:w-2/3 bg-grid-color h-12 sm:m-0"
     ></div>
