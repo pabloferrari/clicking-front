@@ -129,7 +129,7 @@ export default {
     },
 
     getInstitutionCountTime () {
-      setTimeout(function(){ 
+      setTimeout(function(this){ 
         this.$store.dispatch('institution/getInstitutionCount', 2)
       }, 5000);
     },
