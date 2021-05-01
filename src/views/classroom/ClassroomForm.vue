@@ -42,12 +42,12 @@
           <div class="vx-col sm:w-1/3 w-full mb-2">
             <vs-select
               v-model="form.subject_id"
-              label="Curso"
+              label="Materia"
               class="mt-5 w-full"
               name="item-shift"
               v-validate="'required'"
             >
-              <vs-select-item key="" value="" selected text="seleccione curso" />
+              <vs-select-item key="" value="" selected text="seleccione materia" />
               <vs-select-item
                 :key="item.id"
                 :value="item.id"
