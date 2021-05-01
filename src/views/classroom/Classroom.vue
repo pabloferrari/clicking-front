@@ -175,6 +175,7 @@ export default {
       const classroomsData = []
       data.map((element) => {
         const count = element.courses_count ? element.courses_count : 0
+        console.log(`storeClassRooms -> ${JSON.stringify(element)}`);
         classroomsData.push({
           title: element.name,
           subtitle: `${count} Cursos - ${element.shift.name}`,
@@ -201,11 +202,11 @@ export default {
       this.teachers = data
     },
     storeStudents (data) {
-      console.log(data)
+      // console.log(data)
     },
     storeInstitutionCount (data) {
 
-      console.log(data)
+      // console.log(data)
       this.countInstitution = {
         classrooms: data.classrooms,
         students: data.students,
