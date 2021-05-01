@@ -34,7 +34,7 @@
                 :studentsList="this.storeStudents"
                 :popupActive="this.popupActive"
                 @close-modal="popupActive = false"
-                @refresh-dashboard="getInstitutionCount()"
+                @refresh-dashboard="getInstitutionCountTime()"
                 :cardData="this.classroom"
             ></ClassroomForm>
         </vs-popup>
@@ -126,6 +126,12 @@ export default {
 
     getInstitutionCount () {
       this.$store.dispatch('institution/getInstitutionCount', 2)
+    },
+
+    getInstitutionCountTime () {
+      setTimeout(function(){ 
+        this.$store.dispatch('institution/getInstitutionCount', 2)
+      }, 5000);
     },
 
     getClassrooms () {
