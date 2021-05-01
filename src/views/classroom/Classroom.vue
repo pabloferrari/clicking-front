@@ -129,9 +129,9 @@ export default {
     },
 
     getInstitutionCountTime () {
-      setTimeout(function(this){ 
+      setTimeout(() => { 
         this.$store.dispatch('institution/getInstitutionCount', 2)
-      }, 5000);
+      }, 3000);
     },
 
     getClassrooms () {
