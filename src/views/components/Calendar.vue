@@ -17,12 +17,15 @@
       </div>
 
       <div class="vx-col w-1/3">
-        <vx-card class="title-card active-card my-1 mb-2" :title="'Resumen'">
-          <div v-permission="['student']">
+
+        <vx-card class="title-card active-card my-1 mb-2" :title="'Resumen'" v-permission="['student', 'teacher']">
+          <!-- <div v-permission="['student']"> -->
+          <div v-if="resumen.classes">
             <ul v-if="resumen.classes">
               <li>Clases: {{ resumen.classes }}</li>
               <li>Evaluaciones: {{ resumen.exams }}</li>
               <li>Trabajos Practicos: {{ resumen.tps }}</li>
+              <li>Tareas: {{ resumen.tasks }}</li>
               <li>Asistencias: {{ resumen.assistance }}</li>
               <li>Ausencias: {{ resumen.absences }}</li>
             </ul>
@@ -30,9 +33,11 @@
               No hay informacion disponible
             </div>
           </div>
-          <div v-permission="['institution', 'teacher', 'admin', 'root']">
+          <!-- 
+          <div v-permission="['institution', 'admin', 'root']">
             No hay informacion disponible
           </div>
+          -->
         </vx-card>
         <vx-card
           class="title-card active-card my-1"

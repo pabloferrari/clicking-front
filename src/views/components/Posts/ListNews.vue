@@ -2,7 +2,7 @@
   <!-- <div class="vx-row"> -->
   <!-- <vx-card> -->
   <div class="w-full backgroud-internal mt-3 rounded-lg">
-    <div class="img-news">
+    <div class="img-news" style="text-align: center;">
         <img v-if="data.url != '#'" :src="data.url">
     </div>
     <div class="">
@@ -97,12 +97,12 @@ export default {
   background:#C4C4C4;
   width: 100%;
   max-width: 900px;
-  margin-left: 20%;
 }
 
 .img-news img{
   border-radius: 15px;
   width: 100%;
+  max-width: 500px;
 }
 
 </style>
