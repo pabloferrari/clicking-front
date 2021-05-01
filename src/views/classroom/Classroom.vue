@@ -175,10 +175,10 @@ export default {
       const classroomsData = []
       data.map((element) => {
         const count = element.courses_count ? element.courses_count : 0
-        console.log(`storeClassRooms -> ${JSON.stringify(element)}`);
+        const shift = element.shift ? element.shift.name : ''
         classroomsData.push({
           title: element.name,
-          subtitle: `${count} Cursos - ${element.shift.name}`,
+          subtitle: `${count} Cursos - ${shift}`,
           buttonTitle: 'Ir a salon',
           path: `/classrooms/${element.name.split(' ').join('-')}/${
             element.id
